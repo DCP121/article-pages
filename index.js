@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Example usage for the second image:
     // Use the imported image path 'comment-logo.png' as the second parameter,
     // and provide the container CSS class.
-    displayResponsiveImage(flexContainer, 'assets/comment-logo.png', containerClass);
+    displayResponsiveImage(flexContainer, 'https://ibb.co/fYYDQwH', containerClass);
 
     // Create an h1 tag with the content "Israel Today"
     const h1Element = document.createElement('h1');
