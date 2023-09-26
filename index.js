@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Create a div for the first image and add it to the main app container
     const firstImageContainer = document.createElement('div');
-    displayResponsiveImage(firstImageContainer, 'https://i.ibb.co/svvWtYq/image-6.png', containerClass);
+    displayResponsiveImage(firstImageContainer, 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-topbanner.jpg', containerClass);
     app.appendChild(firstImageContainer);
 
     // Create a div with the class "d-flex" for the second image and h1 tag
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Example usage for the second image:
     // Use the imported image path 'comment-logo.png' as the second parameter,
     // and provide the container CSS class.
-    displayResponsiveImage(flexContainer, 'assets/comment-logo.png', containerClass);
+    displayResponsiveImage(flexContainer, 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png', containerClass);
 
     // Create an h1 tag with the content "Israel Today"
     const h1Element = document.createElement('h1');
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Create the second child div (user image)
     let userImageDiv = document.createElement('div');
     let userImage = document.createElement('img');
-    userImage.src = 'assets/ei_user.png'; // Replace with the URL of the user's image
+    userImage.src = 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png'; // Replace with the URL of the user's image
     userImage.alt = 'User Image';
     userImage.style.width = '50px';
     userImage.style.height = '50px';
