@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Create a div for the first image and add it to the main app container
     const firstImageContainer = document.createElement('div');
-    displayResponsiveImage(firstImageContainer, 'assets/mainImg.png', containerClass);
+    displayResponsiveImage(firstImageContainer, 'https://i.ibb.co/svvWtYq/image-6.png', containerClass);
     app.appendChild(firstImageContainer);
 
     // Create a div with the class "d-flex" for the second image and h1 tag
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Example usage for the second image:
     // Use the imported image path 'comment-logo.png' as the second parameter,
     // and provide the container CSS class.
-    displayResponsiveImage(flexContainer, 'https://ibb.co/fYYDQwH', containerClass);
+    displayResponsiveImage(flexContainer, 'assets/comment-logo.png', containerClass);
 
     // Create an h1 tag with the content "Israel Today"
     const h1Element = document.createElement('h1');
