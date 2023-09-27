@@ -441,6 +441,7 @@ $loginForm.append($footerImage);
 
     // Append the image to the image div
     $imageDiv.append($image);
+    
 
     // Append the login form and image divs to the modal content
     $modalContent.append($loginForm);
