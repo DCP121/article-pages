@@ -265,6 +265,7 @@ $loginForm.append($loginHeader);
     // Create the email input field
     const $emailInput = $('<input>')
         .attr('type', 'email') // Set the input type to email
+         .attr('id', 'emailInput') // Add an ID here
         .addClass('custom-input')
         .css({
             'margin-top': '10px',
@@ -485,4 +486,62 @@ $loginForm.append($footerImage);
     $button1.click(function() {
         $modal.css('display', 'block');
     });
+    function showToast(message) {
+    // Create a div for the notification
+    const $toast = $('<div>').addClass('toast').text(message);
+    console.log('toast')
+    // Append the toast to the body
+    $('body').append($toast);   
+
+    // Automatically remove the toast after a few seconds (e.g., 5 seconds)
+    setTimeout(function() {
+        $toast.remove();
+    }, 5000); // 5000 milliseconds = 5 seconds
+}
+
+    
+    function handleLogin() {
+    // Move these lines inside the function
+    const email = $('#emailInput').val();
+    const password = $('#passwordField').val();
+console.log(email, password, "aaa")
+    // Validate email and password (you can add more validation here)
+    if (!email || !password) {
+        alert('Please enter both email and password.');
+        return;
+    }
+
+    // Prepare the payload
+    const payload = {
+        email,
+        password,
+        ip: '127.0.0.1',
+        device: 'web'
+    };
+
+    // Send a POST request to the login API
+    fetch('http://137.184.19.129:4002/api/v1/user/login-article-page', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the API response here
+        console.log(data); // You can replace this with your desired logic
+        // Close the modal if login is successful
+        $modal.css('display', 'none');
+        showToast("Login Successfully")
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during login.');
+    });
+}
+
+// Add a click event listener to the login button
+$loginButton.click(handleLogin);
 });
