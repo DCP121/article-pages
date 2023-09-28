@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    function processData(data) {
+    // Use the data in your jQuery code
+    console.log("Received data:", data);
+
+    // For example, you can update an element with the received data
+    $('#result').text(data);
+}
     // Create a div container with the id "app"
     const $app = $('#app');
 
