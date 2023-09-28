@@ -1,11 +1,4 @@
 $(document).ready(function() {
-    function processData(data) {
-    // Use the data in your jQuery code
-    console.log("Received data:", data);
-
-    // For example, you can update an element with the received data
-    $('#result').text(data);
-}
     // Create a div container with the id "app"
     const $app = $('#app');
 
@@ -144,22 +137,36 @@ $(document).ready(function() {
     });
 
     // Create buttons and add styles
-    const $button1 = $('<button>').text('Button 1').css({
+    const $Login = $('<button>').text('Login').css({
         'background-color': 'cornflowerblue',
         'padding': '10px',
         'margin-right': '10px',
         'margin-top': '10px',
         'border-radius': '10%',
-        'border': 'none'
+        'border': 'none',
+        "outline":"none",
+        "color" : "white"
     });
-
-    const $button2 = $('<button>').text('Button 2').css({
+$Login.hover(
+    function() {
+        // Mouse enter (hover in) - Change the background color to red
+        $(this).css({'background-color': '#457effs',
+        'box-shadow': '5px 5px 10px rgba(0, 0, 0, 0.2)'})
+    },
+    function() {
+        // Mouse leave (hover out) - Restore the original background color
+        $(this).css({'background-color': 'cornflowerblue','box-shadow': 'none', });
+    }
+);
+    const $Register = $('<button>').text('Register').css({
         'background-color': 'cornflowerblue',
         'padding': '10px',
         'margin-right': '10px',
         'margin-top': '10px',
         'border-radius': '10%',
-        'border': 'none'
+        'border': 'none',
+        "outline": "none",
+        "color": "white"
     });
 
     // Create the text name element
@@ -174,8 +181,8 @@ $(document).ready(function() {
     // Append the elements to the main div
     $mainDivForCommentSection.append($divider);
     $mainDivForCommentSection.append($buttonsDiv);
-    $buttonsDiv.append($button1);
-    $buttonsDiv.append($button2);
+    $buttonsDiv.append($Login);
+    $buttonsDiv.append($Register);
     $buttonsDiv.append($textName);
 
     // Create the first child div (comment section)
@@ -489,8 +496,8 @@ $loginForm.append($footerImage);
     // Append the modal to the body
     $('body').append($modal);
 
-    // Open the modal when Button 1 is clicked
-    $button1.click(function() {
+    // Open the modal when Login is clicked
+    $Login.click(function() {
         $modal.css('display', 'block');
     });
     function showToast(message) {
