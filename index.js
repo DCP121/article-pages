@@ -1,238 +1,453 @@
 $(document).ready(function () {
     // Create a div container with the id "app"
     const $app = $('#app');
-
-    // Define a CSS class for the container
-    const containerClass = 'image-container';
-
-    // Function to display a responsive image with a specific CSS class
+    const containerClass = "image-container";
+    //api for comment listing pages 
+    let commentlistingdata;
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2Mzk1NTAwLCJleHAiOjE2OTY0ODE5MDB9.4z9aNse8Mj7k4tHqFJ-Xknc6_bvgelomjrdzsR6Yn2o'
+    $.ajax({
+      url: 'http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
+      method: 'POST',
+      dataType: 'json',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": 'application/json'
+      },
+  
+      success: function(data) {
+        // The data variable now holds the fetched data
+        commentlistingdata = data;
+        console.log('Fetched Data:', commentlistingdata);
+  
+        // You can use the data in subsequent operations or functions
+        processData(commentlistingdata);
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  
+    function processData(xyz){
+      console.log(xyz)
+      console.log(commentlistingdata.data.pageData)
     function displayResponsiveImage($parent, imagePath, containerClass) {
-        // Create a container div for the image
-        const $imageContainer = $('<div>').addClass(containerClass).css('width', 'auto');
-
-        // Create an image element
-        const $imageElement = $('<img>').attr('src', imagePath);
-
-        // Append the image to the container
-        $imageContainer.append($imageElement);
-
-        // Append the container to the parent
-        $parent.append($imageContainer);
-
-        // Return the image container for further manipulation if needed
-        return $imageContainer;
+      // Create a container div for the image
+      const $imageContainer = $("<div>")
+        .addClass(containerClass)
+        .css("width", "auto");
+  
+      // Create an image element
+      const $imageElement = $("<img>").attr("src", imagePath);
+  
+      // Append the image to the container
+      $imageContainer.append($imageElement);
+  
+      // Append the container to the parent
+      $parent.append($imageContainer);
+  
+      // Return the image container for further manipulation if needed
+      return $imageContainer;
     }
-
+  
     // Create a div for the first image and add it to the main app container
-    const $firstImageContainer = $('<div>');
-    displayResponsiveImage($firstImageContainer, 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-topbanner.jpg', containerClass);
+    const $firstImageContainer = $("<div>");
+    console.log(commentlistingdata,"fdsfdsdfdf");
+    displayResponsiveImage(
+      $firstImageContainer,
+      `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+      containerClass
+    );
     $app.append($firstImageContainer);
-
+  
     // Create a div with the class "d-flex" for the second image and h1 tag
-    const $flexContainer = $('<div>').addClass('d-flex');
-
+    const $flexContainer = $("<div>").addClass("d-flex");
+  
     // Example usage for the second image:
     // Use the imported image path 'comment-logo.png' as the second parameter,
     // and provide the container CSS class.
-    displayResponsiveImage($flexContainer, 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png', containerClass);
-
+    displayResponsiveImage(
+      $flexContainer,
+      `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.logo_image}`,
+      containerClass
+    );
+  
     // Create an h1 tag with the content "Israel Today"
-    const $h1Element = $('<h1>').text('اهلا وسهلا').css({
-        'font-family': 'Open Sans',
-        'font-size': '86px',
-        'font-weight': '300',
-        'line-height': '117px',
-        'letter-spacing': '0em',
-        'text-align': 'right',
-        'color': '#EB5757'
+    const $h1Element = $("<h1>").text(commentlistingdata?.data?.pageData?.top_title).css({
+      "font-family": "Open Sans",
+      "font-size": "86px",
+      "font-weight": "300",
+      "line-height": "117px",
+      "letter-spacing": "0em",
+      "text-align": "right",
+      color: "#EB5757",
     });
-
+  
     // Append the h1 tag to the flex container
     $flexContainer.append($h1Element);
-
+  
     // Append the flex container to the main app container
     $app.append($flexContainer);
-
+  
     // Apply flex properties to the flex container
     $flexContainer.css({
-        'display': 'flex',
-        'flex-direction': 'row',
-        'justify-content': 'space-between'
+      display: "flex",
+      "flex-direction": "row",
+      "justify-content": "space-between",
     });
-
+  
     // Add margin to the main div horizontally
     $app.css({
-        'margin-left': '40px',
-        'margin-right': '40px'
+      "margin-left": "40px",
+      "margin-right": "40px",
     });
-
+  
     // Add margin to the second div vertically
     $flexContainer.css({
-        'margin-top': '30px',
-        'margin-bottom': '30px'
+      "margin-top": "30px",
+      "margin-bottom": "30px",
     });
-
+  
     // Responsive adjustments using media queries
+    // Adjust margins and flex direction for smaller screens
     function handleMediaQueryChange(e) {
-        if (e.matches) {
-            // For screens narrower than 768px
-            $app.css({
-                'margin-left': '20px',
-                'margin-right': '20px'
-            });
-            $flexContainer.css({
-                'margin-top': '20px',
-                'margin-bottom': '20px',
-                'flex-direction': 'column'
-            });
-            $firstImageContainer.find('img').css('max-width', '100%');
-            $flexContainer.find('img').css('max-width', '100%');
-        } else {
-            // Reset to the original styles for wider screens
-            $app.css({
-                'margin-left': '150px',
-                'margin-right': '150px'
-            });
-            $flexContainer.css({
-                'margin-top': '30px',
-                'margin-bottom': '30px',
-                'flex-direction': 'row'
-            });
-            $firstImageContainer.find('img').css('max-width', '100%');
-            $flexContainer.find('img').css('max-width', '100%');
-        }
+      if (e.matches) {
+        // For screens narrower than 768px
+        $app.css({
+          "margin-left": "20px",
+          "margin-right": "20px",
+        });
+        $flexContainer.css({
+          "margin-top": "20px",
+          "margin-bottom": "20px",
+          "flex-direction": "column",
+        });
+        $firstImageContainer.find("img").css("max-width", "100%");
+        $flexContainer.find("img").css("max-width", "100%");
+      } else {
+        // Reset to the original styles for wider screens
+        $app.css({
+          "margin-left": "150px",
+          "margin-right": "150px",
+        });
+        $flexContainer.css({
+          "margin-top": "30px",
+          "margin-bottom": "30px",
+          "flex-direction": "row",
+        });
+        $firstImageContainer.find("img").css("max-width", "100%");
+        $flexContainer.find("img").css("max-width", "100%");
+      }
     }
-
+  
     // Define the media query based on screen width
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+  
     // Initial check for the media query and add a listener for changes
     handleMediaQueryChange(mediaQuery);
-    mediaQuery.addEventListener('change', handleMediaQueryChange);
-
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+  
     // Create the div element for the comment section
-    const $mainDivForCommentSection = $('<div>').attr('id', 'comment-section').css({
-        'display': 'flex',
-        'flex-direction': 'column',
-        'align-items': 'flex-start',
-        'width': '75%',
-        'height': '100%',
-        'margin-left': '150px',
-        'margin-right': '150px'
-    });
-
+    const $mainDivForCommentSection = $("<div>")
+      .attr("id", "comment-section")
+      .css({
+        display: "flex",
+        "flex-direction": "column",
+        "align-items": "flex-start",
+        width: "75%",
+        height: "100%",
+        "margin-left": "150px",
+        "margin-right": "150px",
+      });
+  
     // Create the divider (horizontal line) div
-    const $divider = $('<div>').css({
-        'width': '100%',
-        'border-top': '1px solid #000',
-        'margin-top': '10px'
+    const $divider = $("<div>").css({
+      width: "100%",
+      "border-top": "1px solid #000",
+      "margin-top": "10px",
     });
-
+  
     // Create buttons div
-    const $buttonsDiv = $('<div>').css({
-        'display': 'flex',
-        'align-self': 'flex-start',
-        'width': '100%'
+    const $buttonsDiv = $("<div>").css({
+      display: "flex",
+      "align-self": "flex-start",
+      width: "100%",
     });
-
+  
     // Create buttons and add styles
-    const $Login = $('<button>').text('Login').css({
-        'background-color': 'cornflowerblue',
-        'padding': '10px',
-        'margin-right': '10px',
-        'margin-top': '10px',
-        'border-radius': '10%',
-        'border': 'none',
-        "outline": "none",
-        "color": "white"
+    var $Login = $("<button>").text("Login").css({
+      "background-color": "cornflowerblue",
+      padding: "10px",
+      "margin-right": "10px",
+      "margin-top": "10px",
+      "border-radius": "10%",
+      border: "none",
+      outline: "none",
+      color: "white",
     });
     $Login.hover(
-        function () {
-            $(this).css({
-                'background-color': '#457effs',
-                'box-shadow': '5px 5px 10px rgba(0, 0, 0, 0.2)'
-            })
-        },
-        function () {
-            $(this).css({ 'background-color': 'cornflowerblue', 'box-shadow': 'none', });
-        }
+      function () {
+        // Mouse enter (hover in) - Change the background color to red
+        $(this).css({
+          "background-color": "#457effs",
+          "box-shadow": "5px 5px 10px rgba(0, 0, 0, 0.2)",
+        });
+      },
+      function () {
+        // Mouse leave (hover out) - Restore the original background color
+        $(this).css({
+          "background-color": "cornflowerblue",
+          "box-shadow": "none",
+        });
+      }
     );
-    const $Register = $('<button>').text('Register').css({
-        'background-color': 'cornflowerblue',
-        'padding': '10px',
-        'margin-right': '10px',
-        'margin-top': '10px',
-        'border-radius': '10%',
-        'border': 'none',
-        "outline": "none",
-        "color": "white"
-    })
-
-    // Create the text name element
-    const $textName = $('<div>').text('John Doe').css({
-        'align-self': 'flex-end',
-        'margin-left': 'auto',
-        'font-weight': 'bold',
-        'font-size': '20px',
-        'line-height': '2'
+    const $Register = $("<button>").text("Register").css({
+      "background-color": "cornflowerblue",
+      padding: "10px",
+      "margin-right": "10px",
+      "margin-top": "10px",
+      "border-radius": "10%",
+      border: "none",
+      outline: "none",
+      color: "white",
     });
-
+  
+    // Create the text name element
+    const $textName = $("<div>").text("15 Comments").css({
+      "align-self": "flex-end",
+      "margin-left": "auto",
+      "font-weight": "bold",
+      "font-size": "20px",
+      "line-height": "2",
+    });
+  
     // Append the elements to the main div
     $mainDivForCommentSection.append($divider);
     $mainDivForCommentSection.append($buttonsDiv);
     $buttonsDiv.append($Login);
     $buttonsDiv.append($Register);
     $buttonsDiv.append($textName);
-
+  
     // Create the first child div (comment section)
-    const $commentSectionDiv = $('<div>').css({
-        'display': 'flex',
-        'flex-direction': 'row',
-        'width': '100%',
-        'padding-top': '15px'
+    const $commentSectionDiv = $("<div>").css({
+      display: "flex",
+      "flex-direction": "row",
+      width: "100%",
+      "padding-top": "15px",
+      "justify-content": "flex-end",
+      gap: "17px",
     });
-
+  
     // Create the input field and button
-    const $commentButton = $('<button>').text('Post').css({
-        'width': '200px',
-        'background-color': 'crimson',
-        'border': 'none'
+    const $commentButton = $("<button>").text("send").css({
+      width: "100px",
+      "background-color": "crimson",
+      border: "none",
     });
-
-    const $commentInput = $('<input>').attr({
-        'type': 'text',
-        'placeholder': 'Add a comment'
-    }).css('width', '60%');
-
+  
+    const $commentInput = $("<input>")
+      .attr({
+        type: "text",
+        placeholder: "Add a comment",
+      })
+      .css({
+        width: "80%",
+        direction: "rtl", // Add this line to set the text direction to RTL
+      });
+  
     // Create element under the logo
-    const $subHeader = $('<div>').text('حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك في الشرق الأوسط الجديد').css({
-        'font-size': '26px',
-        'font-weight': '300',
-        'line-height': '35px',
-        'letter-spacing': '0em',
-        'text-align': 'right',
-        'color': '#828282'
-    });
-
+    const $subHeader = $("<div>")
+      .text(commentlistingdata?.data?.pageData?.sub_title)
+      .css({
+        "font-size": "26px",
+        "font-weight": "300",
+        "line-height": "35px",
+        "letter-spacing": "0em",
+        "text-align": "right",
+        color: "#828282",
+      });
+  
     // Create the second child div (user image)
-    const $userImageDiv = $('<div>');
-    const $userImage = $('<img>').attr('src', 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png').attr('alt', 'User Image').css({
-        'width': '50px',
-        'height': '50px',
-        'margin-left': 'auto'
-    });
-
-    // Append the elements to their respective parent divs
+    const $userImageDiv = $("<div>");
+    const $userImage = $("<img>")
+      .attr(
+        "src",
+        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+      )
+      .attr("alt", "User Image")
+      .css({
+        width: "50px",
+        height: "50px",
+        "margin-left": "auto",
+      });
     $commentSectionDiv.append($commentButton);
     $commentSectionDiv.append($commentInput);
     $userImageDiv.append($userImage);
     $commentSectionDiv.append($userImageDiv);
     $app.append($subHeader);
     $mainDivForCommentSection.append($commentSectionDiv);
-
+    $("body").append($mainDivForCommentSection);
+    // $mainDivForCommentSection.append($containerCommentpart)
+    
+    //comment listing part
+   commentlistingdata.data.allCommentsData.forEach((dataItem) => {
+        console.log('mapdata',dataItem);
+  
+    
+    const $maincommentlistingcontainer = $("<div>").addClass("mt-3").css({
+      display: "flex",
+      "flex-direction": "column",
+      "align-items": "flex-start",
+      width: "75%",
+      height: "100%",
+      "margin-left": "150px",
+      "margin-right": "150px",
+    });
+    const $container = $("<div>")
+      .addClass("containar-fluid")
+      .css({ width: "100%" });
+    const $containerCommentpart = $("<div>")
+      .addClass("col-12 main-comment container-fluid ")
+      .css({});
+    
+  
+  
+    //comment header like user name and time 
+    const $commentheadermain = $("<div>").addClass(
+      "d-flex justify-content-between"
+    );
+    const $commenttime = $("<div>").text("8 min ago").css({});
+    const $commentuser = $("<div>").text("john").css({});
+  
+    $commentheadermain.append($commenttime, $commentuser);
+  
+    const $middelcomentpart = $("<div>")
+      .addClass("col-md-12 d-flex justify-content-end")
+      .css({});
+    const $commentuserImage = $("<img>")
+      .addClass("ml-3")
+      .attr(
+        "src",
+        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+      )
+      .attr("alt", "User Image")
+      .css({
+        width: "50px",
+        height: "50px",
+      });
+    const $paragraph = $("<p>").text("This is a sample paragraph text.").css({
+      "font-size": "14px",
+      "margin-top": "10px",
+      "text-align": "right",
+    });
+  
     // Append the div to the document body or another container
-    $('body').append($mainDivForCommentSection);
-
+    //   $sectiondiv.append($containerCommentpart)
+  
+    const $commentDiv = $("<div>").addClass("comment-div");
+  
+    $middelcomentpart.append($paragraph, $commentuserImage);
+    //like comment div
+    const $socialicon = $("<div>")
+      .css({})
+      .addClass("col-md-12 d-flex justify-content-end")
+      .text("comment like");
+   
+      const $likeIcon = $("<i>").addClass("bi bi-hand-thumbs-up")
+      const $commentIcon = $("<i>").addClass("bi bi-chat")
+      
+      // Create the "See Original Comment" button
+      const $seeOriginalCommentButton = $("<button>")
+        .text("See Original Comment")
+        .addClass("btn btn-primary");
+      
+      // Append the icons and button to the $socialicon
+      $socialicon.append($likeIcon, $commentIcon, $seeOriginalCommentButton);
+      //append comment section all div
+      $commentDiv.append($commentheadermain, $middelcomentpart, $socialicon);
+  
+       //relay comment display section
+       const $replaycommentdiv = $("<div>").css({}).addClass("replay-comment");
+       //middelepart pragraph and user image
+       const $middelepartreplaycommentsection=$("<div>").addClass('col-md-12 d-flex justify-content-end');
+       const $commentreplyuserImage = $("<img>")
+      .addClass("ml-3")
+      .attr(
+        "src",
+        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+      )
+      .attr("alt", "User Image")
+      .css({
+        width: "50px",
+        height: "50px",
+      });
+    const $commentreplayparagraph = $("<p>").text("This is a sample paragraph text.").css({
+      "font-size": "14px",
+      "margin-top": "10px",
+      "text-align": "right",
+    });
+    $middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
+    //social icon div
+    const $socialiconcommentreplay=$("<div>").addClass('col-md-12 d-flex justify-content-end')
+    const $likeIconreplaycomment = $("<i>").addClass("bi bi-hand-thumbs-up").text('like')
+      const $commentIconrelaycoment = $("<i>").addClass("bi bi-chat").text('comment')
+      $socialiconcommentreplay.append($likeIconreplaycomment,$commentIconrelaycoment)
+      $replaycommentdiv.append($middelepartreplaycommentsection,$socialiconcommentreplay);
+  
+  
+      //replay comment input div
+      const $replycommentinputsection=$("<div>").addClass('replaycoment-input');
+    
+  
+      const $replaycommentButton = $("<button>").text("send").css({
+        width: "100px",
+        "background-color": "crimson",
+        border: "none",
+      });
+      const $commentreplayInput = $("<input>")
+      .attr({
+        type: "text",
+        placeholder: "Add a comment",
+      })
+      .css({
+        width: "80%",
+        direction: "rtl", // Add this line to set the text direction to RTL
+      });
+      const $commentreplayuserImage = $("<img>")
+      .attr(
+        "src",
+        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+      )
+      .attr("alt", "User Image")
+      .css({
+        width: "50px",
+        height: "50px",
+        "margin-left": "auto",
+      });
+      $replycommentinputsection.append($replaycommentButton,$commentreplayInput,$commentreplayuserImage);
+  
+  
+  
+  
+   //Append the div to the document body or another container 
+   
+    $containerCommentpart.append($commentDiv, $replaycommentdiv,$replycommentinputsection);
+    $container.append($containerCommentpart);
+    $maincommentlistingcontainer.append($containerCommentpart);
+    $("body").append($maincommentlistingcontainer);
+  
+    })
+  
+    //show more comment button div
+  
+    const $showmorecommentdiv=$('<div>').css({})
+  
+    const $showmorecommentbutton = $("<button>").text("show more comment").css({
+      "background-color": "cornflowerblue",
+      color: "white",
+    });
+  
+    $showmorecommentdiv.append($showmorecommentbutton);
+    $("body").append($showmorecommentdiv)
     const $footerImage = $('<img>').attr('src', 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png').css({
         'width': '155.07px',
         'height': '20px',
@@ -1673,4 +1888,5 @@ console.log(ResetPassVal)
     }
 
     $registerButton.click(handleRegistration)
+  }
 });
