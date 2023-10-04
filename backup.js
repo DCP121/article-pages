@@ -1,7 +1,14 @@
-let emailFlag = false; // not checked validation
 $(document).ready(function () {
     // Create a div container with the id "app"
     const $app = $('#app');
+
+    $imageDisplay = "none";
+    if ($ (window).width () >= 1024) {
+        $imageDisplay = "block";
+        alert(1)
+    } else {
+        alert(0)
+    }
 
     // Define a CSS class for the container
     const containerClass = 'image-container';
@@ -486,7 +493,7 @@ $(document).ready(function () {
     // Create an image element
     const $image = $('<img>').attr('src', 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/authentication-image.jpg').css({
         'width': '100%',
-        'height': '100%'
+        'height': '100%',
     });
 
     $imageDiv.append($image);
@@ -554,7 +561,7 @@ $(document).ready(function () {
     $loginButton.click(handleLogin);
 
     // Create a registration modal
-    const $registerModal = $('<div>').addClass('modal').css({
+    const $registerModal = $('<div>').addClass('modal ').css({
         'display': 'none',
         'position': 'fixed',
         'top': '0',
@@ -565,7 +572,7 @@ $(document).ready(function () {
         'z-index': '1'
     });
 
-    const $registerModalContent = $('<div>').addClass('modal-content row').css({
+    const $registerModalContent = $('<div>').addClass('modal-content ').css({
         'background-color': '#fff',
         'margin': 'auto',
         'width': '50%',
@@ -689,14 +696,13 @@ $(document).ready(function () {
                 $registerModalContent.append($ResetPassForm);
                 // $registerModalContent.append($footerImageResetPass);
                 $ResetPassForm.css({
-                    'display': 'block', 
+                    'display': 'block',
                     'flex': '1', // Allow the OTP form to grow within the flex container
                     'padding': '20px 60px', // Add padding for spacing
                 });
 
                 $ForgotPassForm.css('display', 'none');
 
-                alert('sent')
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -1020,6 +1026,7 @@ $(document).ready(function () {
         'display': 'flex', // Add display flex to arrange the form and image side by side
         'flex-direction': 'column', // Arrange them horizontally
         'align-items': 'center', // Center the image horizontally
+        "display" : $imageDisplay
     });
 
     // Create an image element
@@ -1035,7 +1042,7 @@ $(document).ready(function () {
 
     // Append the image div to the registration modal content
     $registerModalContent.append($imageDivReg);
-    function ErrorCleaner(){
+    function ErrorCleaner() {
         $errorElementForgot.css('display', 'none')
         $errorElementLogin.css('display', 'none')
         $errorElementReg.css('display', 'none')
@@ -1157,7 +1164,7 @@ $(document).ready(function () {
             'margin-top': '10px',
             'margin-bottom': '10px',
         })
-        .attr('placeholder', 'Enter Otp')
+        .attr('placeholder', 'Enter OTP')
         .on('focus', function () {
             $(this).css('color', '#333');
         })
@@ -1307,6 +1314,22 @@ $(document).ready(function () {
 
         })
         .text('Please enter OTP');
+    const $emptyFieldErrorResetNewPass = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter new password');
+    const $emptyFieldErrorResetConfirmPass = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please confirm password');
     const errorTextResetPass = 'Please enter a valid OTP';
     const $errorElementResetPass = $('<div>').css({
         'color': 'red',
@@ -1334,7 +1357,7 @@ $(document).ready(function () {
             'margin-top': '10px',
             'margin-bottom': '10px',
         })
-        .attr('placeholder', 'Enter Otp')
+        .attr('placeholder', 'Enter OTP')
         .on('focus', function () {
             $(this).css('color', '#333');
         })
@@ -1361,7 +1384,7 @@ $(document).ready(function () {
                 $emptyFieldErrorResetPass.css('display', 'none');
             }
         })
- // Create the password input field
+    // Create the password input field
     const $ResetPassInput = $('<input>')
         .attr('type', 'password') // Set the input type to password
         .addClass('custom-input')
@@ -1394,16 +1417,15 @@ $(document).ready(function () {
         })
         .on('input', function () {
             const password = $(this).val();
-            console.log(password,)
             if (password.trim() === '') {
-                $emptyFieldErrorLoginPass.css('display', 'block')
+                $emptyFieldErrorResetNewPass.css('display', 'block')
             }
             else {
-                $emptyFieldErrorLoginPass.css('display', 'none')
+                $emptyFieldErrorResetNewPass.css('display', 'none')
             }
         });
 
-         // Create the password input field
+    // Create the password input field
     const $ResetPassReInput = $('<input>')
         .attr('type', 'password') // Set the input type to password
         .addClass('custom-input')
@@ -1436,12 +1458,11 @@ $(document).ready(function () {
         })
         .on('input', function () {
             const password = $(this).val();
-            console.log(password,)
             if (password.trim() === '') {
-                $emptyFieldErrorLoginPass.css('display', 'block')
+                $emptyFieldErrorResetConfirmPass.css('display', 'block')
             }
             else {
-                $emptyFieldErrorLoginPass.css('display', 'none')
+                $emptyFieldErrorResetConfirmPass.css('display', 'none')
             }
         });
 
@@ -1456,7 +1477,7 @@ $(document).ready(function () {
         'color': 'white',
         'margin-top': '10px',
         'margin-bottom': '10px',
-    }).click(handleOTPConfirmation);
+    }).click(handleResetSubmit);
     // Create the horizontal rule for the section
     const $ResetPassHorizontalRule = $('<hr>').css({
         'border': 'none',
@@ -1488,7 +1509,9 @@ $(document).ready(function () {
     $ResetPassForm.append($emptyFieldErrorResetPass)
     $ResetPassForm.append($errorElementResetPass)
     $ResetPassForm.append($ResetPassInput)
+    $ResetPassForm.append($emptyFieldErrorResetNewPass)
     $ResetPassForm.append($ResetPassReInput)
+    $ResetPassForm.append($emptyFieldErrorResetConfirmPass)
     $ResetPassForm.append($ResetPassButton);
     $ResetPassForm.append($ResetPassHorizontalRule)
     $ResetPassForm.append($BackToLoginResetPass)
@@ -1497,32 +1520,64 @@ $(document).ready(function () {
     $('body').append($ResetPassForm);
 
     // Function to handle OTP confirmation
-    function handleOTPConfirmation() {
+    function handleResetSubmit() {
         const enteredOTP = $ResetInput.val().trim();
         const otpRegex = /^\d{6}$/;
+        const newPass = $ResetPassInput.val().trim()
+        const confirmPass = $ResetPassReInput.val().trim()
+        console.log(newPass, confirmPass, 'asas')
         if (enteredOTP === '') {
             $emptyFieldErrorResetPass.css('display', 'block')
+            if (newPass === '') {
+                $emptyFieldErrorResetNewPass.css('display', 'block')
+                if (confirmPass === '') {
+                    $emptyFieldErrorResetConfirmPass.css('display', 'block')
+                    return;
+                }
+                return;
+            }
+            if (confirmPass === '') {
+                $emptyFieldErrorResetConfirmPass.css('display', 'block')
+                return;
+            }
+            return;
+        }
+        if (newPass === '') {
+            $emptyFieldErrorResetNewPass.css('display', 'block')
+            if (confirmPass === '') {
+                $emptyFieldErrorResetConfirmPass.css('display', 'block')
+                return;
+            }
+            return;
+        }
+        if (confirmPass === '') {
+            $emptyFieldErrorResetConfirmPass.css('display', 'block')
             return;
         }
         if (!otpRegex.test(enteredOTP)) {
             $errorElementResetPass.css('display', 'block')
             return
         }
-        const email = $registerEmailInput.val();
-        // Prepare the payload for OTP confirmation
-        const otpConfirmationPayload = {
-            email: email,
+        if(newPass !== confirmPass){
+            alert('Password must be same')
+            return
+        }
+        const emailValue = $ForgotPassEmailInput.val();
+        
+        const ResetPassVal = {
+            email: emailValue,
             otp: parseInt(enteredOTP),
+            password: newPass
             // Include any other necessary data for OTP confirmation
         };
-
+console.log(ResetPassVal)
         // Send a POST request to the OTP confirmation API
-        fetch('http://172.16.0.220:3001/api/v1/user/verify-otp-for-article', {
+        fetch('http://172.16.0.220:3001/api/v1/user/reset-password-article-page', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(otpConfirmationPayload),
+            body: JSON.stringify(ResetPassVal),
         })
             .then(response => response.json())
             .then(data => {
