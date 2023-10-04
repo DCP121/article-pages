@@ -1,3 +1,4 @@
+let emailFlag = false; // not checked validation
 $(document).ready(function () {
     // Create a div container with the id "app"
     const $app = $('#app');
@@ -257,7 +258,22 @@ $(document).ready(function () {
 
     // Append the login header and red text elements to the login form
     $loginForm.append($loginHeader);
+    const $emptyFieldErrorLogin = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
 
+        })
+        .text('Please enter your email address');
+    const $emptyFieldErrorLoginPass = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter your Password');
     // Create the email input field
     const $emailInput = $('<input>')
         .attr('type', 'email') // Set the input type to email
@@ -284,16 +300,27 @@ $(document).ready(function () {
             // Change the placeholder text color when input is focused
             $(this).css('color', '#333');
         })
-        .on('blur', function () {
-            // Restore the placeholder text color when input is blurred
-            if ($(this).val() === '') {
-                $(this).css('color', '#999');
+        .on('input', function () {
+            const email = $(this).val();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Check if the email is valid
+            if (!emailRegex.test(email)) {
+                $errorElementLogin.css('display', 'block');
+                $emptyFieldErrorLogin.css('display', 'none');
+
+            } else {
+                $errorElementLogin.css('display', 'none');
+            }
+            if (email.trim() === "") {
+                $emptyFieldErrorLogin.css('display', 'block')
+                $errorElementLogin.css('display', 'none');
+            } else {
+                $emptyFieldErrorLogin.css('display', 'none');
             }
         });
 
     // Create a container div for the password input and show/hide toggle button
     const $passwordContainer = $('<div>').css({
-        'display': 'flex',
         'align-items': 'center',
         'margin-top': '10px',
     });
@@ -327,6 +354,16 @@ $(document).ready(function () {
             // Restore the placeholder text color when input is blurred
             if ($(this).val() === '') {
                 $(this).css('color', '#999');
+            }
+        })
+        .on('input', function () {
+            const password = $(this).val();
+            console.log(password,)
+            if (password.trim() === '') {
+                $emptyFieldErrorLoginPass.css('display', 'block')
+            }
+            else {
+                $emptyFieldErrorLoginPass.css('display', 'none')
             }
         });
 
@@ -376,12 +413,20 @@ $(document).ready(function () {
         "margin-top": "10px",
         "margin-bottom": "10px",
     });
-
+    const errorTextEmailLogin = 'Please enter a valid email';
+    const $errorElementLogin = $('<div>').css({
+        'color': 'red',
+        'text-align': 'right',
+        'display': 'none'
+    }).text(errorTextEmailLogin);
     // Append login form elements to the login form div
     $loginForm.append($loginHeader);
     $loginForm.append($redText);
     $loginForm.append($emailInput); // Append email input
+    $loginForm.append($errorElementLogin);
+    $loginForm.append($emptyFieldErrorLogin)
     $passwordContainer.append($passwordInput); // Append password input to the container
+    $passwordContainer.append($emptyFieldErrorLoginPass)
     $passwordContainer.append($showPasswordToggle); // Append show/hide password icon to the container
     $loginForm.append($passwordContainer); // Append the container to the login form
     $loginForm.append($loginButton);
@@ -398,7 +443,11 @@ $(document).ready(function () {
         "margin-top": "10px",
         "margin-bottom": "10px",
     }).click(function () {
-        // Add functionality to handle "Forgot password?" click here
+        // Add functionality to handle "Forgot password?" click here  $loginForm.css('display', 'none');
+        $loginForm.css('display', 'none')
+        $ForgotPassForm.css('display', 'block');
+        $emptyFieldErrorLoginPass.css('display', 'none')
+        $emptyFieldErrorForgot.css('display', 'none')
     });
     $loginForm.append($forgotPasswordLink)
     const $registerLink = $('<p>').css({
@@ -416,6 +465,7 @@ $(document).ready(function () {
         // Add functionality to handle "Register" click here
         $loginForm.css('display', 'none');
         $registrationForm.css('display', 'block');
+        FormCleaner()
     });
 
     // Append the "Register" text to the existing paragraph
@@ -441,25 +491,6 @@ $(document).ready(function () {
 
     $imageDiv.append($image);
 
-    // const $modalClose = $('<span>').html('&times;').addClass('modal-close').click(function () {
-    //     $LoginModal.css('display', 'none');
-    //     $registrationForm.css("display", 'none')
-    //     $loginForm.css('display', 'none');
-    //     $otpForm.css('display', 'none')
-    // });
-    // $modalClose.css({
-    //     'color': '#aaa',
-    //     'position': 'absolute',
-    //     'top': '10px',
-    //     'right': '10px',
-    //     'font-size': '28px',
-    //     'font-weight': 'bold',
-    //     'cursor': 'pointer',
-    //     'background-color': '#fff',
-    //     'padding': '0px 10px',
-    //     'border-radius': '0%'
-    // });
-
     // Open the modal when Login is clicked
     $Login.click(function () {
         $registerModal.css('display', 'block');
@@ -471,8 +502,22 @@ $(document).ready(function () {
         const password = $('#passwordField').val();
         console.log(email, password, "aaa")
         // Validate email and password (you can add more validation here)
-        if (!email || !password) {
-            alert('Please enter both email and password.');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email.trim() === "") {
+            $emptyFieldErrorLogin.css('display', 'block');
+            if (password.trim() === "") {
+                $emptyFieldErrorLoginPass.css('display', 'block');
+                return;
+            }
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            $errorElementLogin.css('display', 'block');
+            return
+        }
+        if (password.trim() === "") {
+            $emptyFieldErrorLoginPass.css('display', 'block');
             return;
         }
 
@@ -498,7 +543,8 @@ $(document).ready(function () {
                 console.log(data); // You can replace this with your desired logic
                 // Close the modal if login is successful
                 $registerModal.css('display', 'none');
-
+                onClosed()
+                FormCleaner()
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -506,6 +552,7 @@ $(document).ready(function () {
     }
     // Add a click event listener to the login button
     $loginButton.click(handleLogin);
+
     // Create a registration modal
     const $registerModal = $('<div>').addClass('modal').css({
         'display': 'none',
@@ -532,7 +579,175 @@ $(document).ready(function () {
     $registerModalContent.css({
         'position': 'relative'
     });
+    const $ForgotPassForm = $('<div>').css({
+        "flex": "1", 'padding': '20px 60px',
+        'display': 'none'
+    })
+    const $ForgotPassHeader = $('<h2>').text('Forgot password');
+    const $redTextForgotPass = $('<p>').text("Enter your email address And we will send you an email to reset").css({
+        'color': 'black',
+        'margin-top': '5px', // Adjust margin if needed
+    });
+    const errorTextEmailForgot = 'Please enter a valid email';
+    const $errorElementForgot = $('<div>').css({
+        'color': 'red',
+        'text-align': 'right',
+        'display': 'none'
+    }).text(errorTextEmailForgot);
+    const $emptyFieldErrorForgot = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
 
+        })
+        .text('Please enter your email address');
+    // Create the email input field
+    const $ForgotPassEmailInput = $('<input>')
+        .attr('type', 'email')
+        .addClass('custom-input')
+        .attr('id', 'registerEmailInput')
+        .css({
+            'margin-top': '10px',
+            'width': '100%',
+            'height': '40px',
+            'background-color': '#F6F5F5',
+            'position': 'relative',
+            'border': 'none',
+            'padding-right': '10px',
+            'text-align': 'right',
+            'margin-top': '15px',
+            'margin-bottom': '10px',
+        })
+        .attr('placeholder', 'Email')
+        .on('focus', function () {
+            $(this).css('color', '#333');
+        })
+        .keydown(function (event) {
+            if (event.keyCode == 32) {
+                event.preventDefault();
+            }
+        })
+        .on('input', function () {
+            const email = $(this).val();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Check if the email is valid
+            if (!emailRegex.test(email)) {
+                $emptyFieldErrorForgot.css('display', 'none');
+                $errorElementForgot.css('display', 'block');
+            } else {
+                $errorElementForgot.css('display', 'none');
+            }
+            if (email.trim() === "") {
+                $emptyFieldErrorForgot.css('display', 'block')
+                $errorElementForgot.css('display', 'none');
+            } else {
+                $emptyFieldErrorForgot.css('display', 'none');
+            }
+        });
+
+
+    // Create the registration button
+    const $ForgotPassSubmit = $('<button>').text('Submit').css({
+        'margin-top': '10px',
+        'width': '100%',
+        'padding': '5px 10px',
+        'background': '#E8505B',
+        'border': 'none',
+        'outline': 'none',
+        'color': 'white',
+        'margin-top': '10px',
+        'margin-bottom': '10px',
+    }).click(function () {
+        const emailValue = $ForgotPassEmailInput.val();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check if the email input is empty
+        if (emailValue.trim() === '') {
+            $emptyFieldErrorForgot.css('display', 'block');
+            $errorElementForgot.css('display', 'none')
+            return
+        }
+        if (!emailRegex.test(emailValue)) {
+            $errorElementForgot.css('display', 'block')
+            return
+        }
+        const otpConfirmationPayload = {
+            email: emailValue,
+        };
+
+        // Send a POST request to the OTP confirmation API
+        fetch('http://172.16.0.220:3001/api/v1/user/forgot-password-article-page', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(otpConfirmationPayload),
+        })
+            .then(response => response.json())
+            .then(data => {
+                $registerModalContent.append($ResetPassForm);
+                // $registerModalContent.append($footerImageResetPass);
+                $ResetPassForm.css({
+                    'display': 'block', 
+                    'flex': '1', // Allow the OTP form to grow within the flex container
+                    'padding': '20px 60px', // Add padding for spacing
+                });
+
+                $ForgotPassForm.css('display', 'none');
+
+                alert('sent')
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during OTP confirmation.');
+            });
+    })
+    // Append the "Login" text to the existing paragraph
+    const $BackToLoginForgot = $('<p>').text('Back to Login').css({
+        'color': 'red',
+        'margin-top': '5px',
+        'cursor': 'pointer',
+
+    }).click(function () {
+        // Add functionality to handle "Login" click here
+        // For example, you can show the login modal or trigger an action.
+        $ForgotPassForm.css('display', 'none');
+        $registrationForm.css('display', 'none');
+        $loginForm.css('display', 'block'); // Show the login modal
+        $otpForm.css("display", 'none')
+        ErrorCleaner()
+    });
+    const $registerLinkForgot = $('<p>').css({
+        "margin-top": "10px",
+        "margin-bottom": "10px",
+        'text-align': 'center',
+    });
+
+    // Create the "Don’t have an account?" text and make it black
+    $registerLinkForgot.append("Don’t have an account? ");
+    const $registerForgotSpan = $('<span>').text('Register').css({
+        'color': 'red',
+        'cursor': 'pointer'
+    }).click(function () {
+        // Add functionality to handle "Register" click here
+        $loginForm.css('display', 'none');
+        $ForgotPassForm.css('display', 'none')
+        $registrationForm.css('display', 'block');
+        ErrorCleaner()
+    });
+    $registerLinkForgot.append($registerForgotSpan)
+    // Append the name input field to the registration form
+    $ForgotPassForm.append($ForgotPassHeader)
+    $ForgotPassForm.append($redTextForgotPass);
+    $ForgotPassForm.append($ForgotPassEmailInput);
+    $ForgotPassForm.append($errorElementForgot);
+    $ForgotPassForm.append($emptyFieldErrorForgot);
+    $ForgotPassForm.append($ForgotPassSubmit);
+    // $ForgotPassForm.append($registerOtherOptionsSection);
+    $ForgotPassForm.append($BackToLoginForgot)
+    $ForgotPassForm.append($registerLinkForgot)
+    $ForgotPassForm.append('<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">')
     // Create the child div for the registration form
     const $registrationForm = $('<div>').css({
         'flex': '1',
@@ -545,6 +760,30 @@ $(document).ready(function () {
         'color': 'red',
         'margin-top': '5px', // Adjust margin if needed
     });
+    const $emptyFieldErrorRegisterEmail = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter your email address');
+    const $emptyFieldErrorRegisterPass = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter your password');
+    const $emptyFieldErrorRegisterName = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter your name');
     const $registerNameInput = $('<input>')
         .attr('type', 'text')
         .addClass('custom-input')
@@ -572,6 +811,15 @@ $(document).ready(function () {
         .on('blur', function () {
             if ($(this).val() === '') {
                 $(this).css('color', '#999');
+            }
+        }).on('input', function () {
+            const name = $(this).val();
+            // Check if the email is valid
+            if (name.trim() !== "") {
+                $emptyFieldErrorRegisterName.css('display', 'none')
+
+            } else {
+                $emptyFieldErrorRegisterName.css('display', 'block');
             }
         });
 
@@ -601,9 +849,20 @@ $(document).ready(function () {
                 event.preventDefault();
             }
         })
-        .on('blur', function () {
-            if ($(this).val() === '') {
-                $(this).css('color', '#999');
+        .on('input', function () {
+            const email = $(this).val();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Check if the email is valid
+            if (!emailRegex.test(email)) {
+                $errorElementReg.css('display', 'block');
+            } else {
+                $errorElementReg.css('display', 'none');
+            }
+            if (email.trim() === "") {
+                $emptyFieldErrorRegisterEmail.css('display', 'block')
+                $errorElementReg.css('display', 'none');
+            } else {
+                $emptyFieldErrorRegisterEmail.css('display', 'none');
             }
         });
 
@@ -636,7 +895,15 @@ $(document).ready(function () {
             if ($(this).val() === '') {
                 $(this).css('color', '#999');
             }
-        });
+        }).on('input', function () {
+            const password = $(this).val();
+
+            if (password.trim() === "") {
+                $emptyFieldErrorRegisterPass.css('display', 'block')
+            } else {
+                $emptyFieldErrorRegisterPass.css('display', 'none');
+            }
+        })
 
     // Create the registration button
     const $registerButton = $('<button>').text('Register').css({
@@ -700,7 +967,6 @@ $(document).ready(function () {
         'margin-bottom': '10px',
     });
 
-    //
     // Append the "Login" text to the existing paragraph
     const $registerLoginSpan = $('<span>').text('Login').css({
         'color': 'red',
@@ -710,8 +976,15 @@ $(document).ready(function () {
         // Add functionality to handle "Login" click here
         $loginForm.css('display', 'block');
         $registrationForm.css('display', 'none');
+        FormCleaner()
+        ErrorCleaner()
     });
-
+    const errorTextEmailReg = 'Please enter a valid email';
+    const $errorElementReg = $('<div>').css({
+        'color': 'red',
+        'text-align': 'right',
+        'display': 'none'
+    }).text(errorTextEmailReg);
     // Append the "Login" text to the existing paragraph
     $registerLoginLinkRed.append($registerLoginSpan);
     $registerLoginLink.append($registerLoginLinkRed)
@@ -721,8 +994,14 @@ $(document).ready(function () {
 
     // Append the name input field to the registration form
     $registrationForm.append($registerNameInput);
+    $registrationForm.append($emptyFieldErrorRegisterName)
     $registrationForm.append($registerEmailInput)
+    $registrationForm.append($errorElementReg);
+    $registrationForm.append($emptyFieldErrorRegisterEmail)
+
     $registrationForm.append($registerPasswordField);
+    $registrationForm.append($emptyFieldErrorRegisterPass);
+
     $registrationForm.append($registerButton);
     $registrationForm.append($registerOtherOptionsSection);
     $registrationForm.append($footerImage)
@@ -732,7 +1011,7 @@ $(document).ready(function () {
     // Append the registration form div to the registration modal content
     $registerModalContent.append($registrationForm);
     $registerModalContent.append($loginForm);
-
+    $registerModalContent.append($ForgotPassForm);
     // Create a div for the image
     const $imageDivReg = $('<div>').css({
         'flex': '1',
@@ -756,6 +1035,22 @@ $(document).ready(function () {
 
     // Append the image div to the registration modal content
     $registerModalContent.append($imageDivReg);
+    function ErrorCleaner(){
+        $errorElementForgot.css('display', 'none')
+        $errorElementLogin.css('display', 'none')
+        $errorElementReg.css('display', 'none')
+        $errorElementOtp.css('display', 'none')
+        $errorElementResetPass.css('display', 'none')
+        $emptyFieldErrorForgot.css('display', 'none');
+        $emptyFieldErrorLogin.css('display', 'none');
+        $emptyFieldErrorLoginPass.css('display', 'none');
+        $emptyFieldErrorRegisterName.css('display', 'none')
+        $emptyFieldErrorRegisterEmail.css('display', 'none')
+        $emptyFieldErrorRegisterPass.css('display', 'none')
+        $emptyFieldErrorOtp.css('display', 'none')
+        $emptyFieldErrorResetPass.css('display', 'none')
+
+    }
     function FormCleaner() {
         $emailInput.val("")
         $passwordInput.val("")
@@ -763,13 +1058,21 @@ $(document).ready(function () {
         $registerEmailInput.val('')
         $registerNameInput.val("")
         $registerPasswordField.val('')
+        $ForgotPassEmailInput.val('')
+        $ResetInput.val('')
     }
-    // Create a close button for the registration modal
-    const $registerModalClose = $('<span>').html('&times;').addClass('modal-close').click(function () {
+    function onClosed() {
         $registerModal.css('display', 'none');
         $registrationForm.css("display", 'none')
         $loginForm.css('display', 'none');
         $otpForm.css('display', 'none')
+        $ResetPassForm.css('display', 'none')
+        $ForgotPassForm.css('display', 'none')
+        ErrorCleaner()
+    }
+    // Create a close button for the registration modal
+    const $registerModalClose = $('<span>').html('&times;').addClass('modal-close').click(function () {
+        onClosed()
         FormCleaner()
     });
 
@@ -819,6 +1122,20 @@ $(document).ready(function () {
         'color': 'red',
         'margin-top': '5px', // Adjust margin if needed
     });
+    const $emptyFieldErrorOtp = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter OTP');
+    const errorTextOtp = 'Please enter a valid OTP';
+    const $errorElementOtp = $('<div>').css({
+        'color': 'red',
+        'text-align': 'right',
+        'display': 'none'
+    }).text(errorTextOtp);
     // Create an input field for OTP
     const $otpInput = $('<input>')
         .attr('type', 'text')
@@ -848,7 +1165,25 @@ $(document).ready(function () {
             if ($(this).val() === '') {
                 $(this).css('color', '#999');
             }
-        });
+        }).on('input', function () {
+            const otpRegex = /^\d{6}$/;
+
+            const otpInput = $(this).val()
+            if (!otpRegex.test(otpInput)) {
+                $errorElementOtp.css('display', 'block');
+                $emptyFieldErrorOtp.css('display', 'none');
+
+            } else {
+                $errorElementOtp.css('display', 'none');
+            }
+            if (otpInput.trim() === "") {
+                console.log(123)
+                $emptyFieldErrorOtp.css('display', 'block')
+                $errorElementOtp.css('display', 'none');
+            } else {
+                $emptyFieldErrorOtp.css('display', 'none');
+            }
+        })
 
     // Create a button for OTP confirmation
     const $otpConfirmButton = $('<button>').text('Submit OTP').css({
@@ -881,6 +1216,8 @@ $(document).ready(function () {
         $registrationForm.css('display', 'none');
         $loginForm.css('display', 'block'); // Show the login modal
         $otpForm.css("display", 'none')
+        $ForgotPassForm.css('display', 'none');
+        FormCleaner()
     });
     // Create the footer image for the OTP form
     const $footerImageOtp = $('<img>').attr('src', 'https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png').css({
@@ -893,21 +1230,26 @@ $(document).ready(function () {
     $otpForm.append($otpHeader);
     $otpForm.append($redTextOtp);
     $otpForm.append($otpInput);
+    $otpForm.append($emptyFieldErrorOtp)
+    $otpForm.append($errorElementOtp)
     $otpForm.append($otpConfirmButton);
     $otpForm.append($OtpHorizontalRule)
     $otpForm.append($BackToLogin)
     $otpForm.append($footerImageOtp);
-
     // Append the OTP form to the document body or another container
     $('body').append($otpForm);
 
     // Function to handle OTP confirmation
     function handleOTPConfirmation() {
         const enteredOTP = $otpInput.val().trim();
-
-        if (!enteredOTP) {
-            alert('Please enter the OTP sent to your email.');
+        const otpRegex = /^\d{6}$/;
+        if (enteredOTP === '') {
+            $emptyFieldErrorOtp.css('display', 'block')
             return;
+        }
+        if (!otpRegex.test(enteredOTP)) {
+            $errorElementOtp.css('display', 'block')
+            return
         }
         const email = $registerEmailInput.val();
         // Prepare the payload for OTP confirmation
@@ -929,22 +1271,310 @@ $(document).ready(function () {
             .then(data => {
                 // Handle the API response here
                 console.log(data); // You can replace this with your desired logic
+                $registerModal.css('display', 'none');
+                onClosed()
+                FormCleaner()
+                alert('User Verified successfully. Please Login.')
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred during OTP confirmation.');
             });
     }
+
+    // Create a div for the OTP form
+    const $ResetPassForm = $('<div>').css({
+        'display': 'none', // Initially hide the OTP form
+        'flex': '1', // Allow the OTP form to grow within the flex container
+        'padding': '20px 60px', // Add padding for spacing
+    });
+
+    // Create an h2 header for the OTP form
+    const $ResetPassHeader = $('<h2>').text('Reset password').css({
+        // Add your styling for the OTP form header
+    });
+
+    // Create the red text "Enter OTP for verification"
+    const $RedTextResetPass = $('<p>').text('Enter OTP & new password').css({
+        'color': 'red',
+        'margin-top': '5px', // Adjust margin if needed
+    });
+    const $emptyFieldErrorResetPass = $('<div>')
+        .css({
+            'color': 'red',
+            'text-align': 'right',
+            'display': 'none',
+
+        })
+        .text('Please enter OTP');
+    const errorTextResetPass = 'Please enter a valid OTP';
+    const $errorElementResetPass = $('<div>').css({
+        'color': 'red',
+        'text-align': 'right',
+        'display': 'none'
+    }).text(errorTextResetPass);
+    // Create an input field for OTP
+    const $ResetInput = $('<input>')
+        .attr('type', 'text')
+        .addClass('custom-input')
+        .attr('id', 'ResetInput')
+        .keydown(function (event) {
+            if (event.keyCode == 32) {
+                event.preventDefault();
+            }
+        })
+        .css({
+            'width': '100%',
+            'height': '40px',
+            'background-color': '#F6F5F5',
+            'position': 'relative',
+            'border': 'none',
+            'padding-right': '10px',
+            'text-align': 'right',
+            'margin-top': '10px',
+            'margin-bottom': '10px',
+        })
+        .attr('placeholder', 'Enter Otp')
+        .on('focus', function () {
+            $(this).css('color', '#333');
+        })
+        .on('blur', function () {
+            if ($(this).val() === '') {
+                $(this).css('color', '#999');
+            }
+        }).on('input', function () {
+            const otpRegex = /^\d{6}$/;
+
+            const ResetInput = $(this).val()
+            if (!otpRegex.test(ResetInput)) {
+                $errorElementResetPass.css('display', 'block');
+                $emptyFieldErrorResetPass.css('display', 'none');
+
+            } else {
+                $errorElementResetPass.css('display', 'none');
+            }
+            if (ResetInput.trim() === "") {
+                console.log(123)
+                $emptyFieldErrorResetPass.css('display', 'block')
+                $errorElementResetPass.css('display', 'none');
+            } else {
+                $emptyFieldErrorResetPass.css('display', 'none');
+            }
+        })
+ // Create the password input field
+    const $ResetPassInput = $('<input>')
+        .attr('type', 'password') // Set the input type to password
+        .addClass('custom-input')
+        .attr('id', 'passwordField')
+        .css({
+            'width': '100%', // Adjust input width
+            'height': '40px',
+            'background-color': '#F6F5F5',
+            'position': 'relative',
+            'border': 'none',
+            'padding-right': '10px', // Adjust right padding for the input
+            'text-align': 'right', // Align text to the right
+            "margin-top": "10px",
+            "margin-bottom": "10px",
+        }).keydown(function (event) {
+            if (event.keyCode == 32) {
+                event.preventDefault();
+            }
+        })
+        .attr('placeholder', 'New password')
+        .on('focus', function () {
+            // Change the placeholder text color when input is focused
+            $(this).css('color', '#333');
+        })
+        .on('blur', function () {
+            // Restore the placeholder text color when input is blurred
+            if ($(this).val() === '') {
+                $(this).css('color', '#999');
+            }
+        })
+        .on('input', function () {
+            const password = $(this).val();
+            console.log(password,)
+            if (password.trim() === '') {
+                $emptyFieldErrorLoginPass.css('display', 'block')
+            }
+            else {
+                $emptyFieldErrorLoginPass.css('display', 'none')
+            }
+        });
+
+         // Create the password input field
+    const $ResetPassReInput = $('<input>')
+        .attr('type', 'password') // Set the input type to password
+        .addClass('custom-input')
+        .attr('id', 'passwordField')
+        .css({
+            'width': '100%', // Adjust input width
+            'height': '40px',
+            'background-color': '#F6F5F5',
+            'position': 'relative',
+            'border': 'none',
+            'padding-right': '10px', // Adjust right padding for the input
+            'text-align': 'right', // Align text to the right
+            "margin-top": "10px",
+            "margin-bottom": "10px",
+        }).keydown(function (event) {
+            if (event.keyCode == 32) {
+                event.preventDefault();
+            }
+        })
+        .attr('placeholder', 'Confirm password')
+        .on('focus', function () {
+            // Change the placeholder text color when input is focused
+            $(this).css('color', '#333');
+        })
+        .on('blur', function () {
+            // Restore the placeholder text color when input is blurred
+            if ($(this).val() === '') {
+                $(this).css('color', '#999');
+            }
+        })
+        .on('input', function () {
+            const password = $(this).val();
+            console.log(password,)
+            if (password.trim() === '') {
+                $emptyFieldErrorLoginPass.css('display', 'block')
+            }
+            else {
+                $emptyFieldErrorLoginPass.css('display', 'none')
+            }
+        });
+
+    // Create a button for OTP confirmation
+    const $ResetPassButton = $('<button>').text('Reset password').css({
+        'margin-top': '10px',
+        'width': '100%',
+        'padding': '5px 10px',
+        'background': '#E8505B',
+        'border': 'none',
+        'outline': 'none',
+        'color': 'white',
+        'margin-top': '10px',
+        'margin-bottom': '10px',
+    }).click(handleOTPConfirmation);
+    // Create the horizontal rule for the section
+    const $ResetPassHorizontalRule = $('<hr>').css({
+        'border': 'none',
+        'border-top': '1px solid #999',
+        'margin': '10px 0px',
+    });
+
+    // Append the "Login" text to the existing paragraph
+    const $BackToLoginResetPass = $('<p>').text('Back to Login').css({
+        'color': 'red',
+        'margin-top': '5px',
+        'cursor': 'pointer',
+
+    }).click(function () {
+        // Add functionality to handle "Login" click here
+        // For example, you can show the login modal or trigger an action.
+        $registrationForm.css('display', 'none');
+        $loginForm.css('display', 'block'); // Show the login modal
+        $ResetPassForm.css("display", 'none')
+        $ForgotPassForm.css('display', 'none');
+        FormCleaner()
+        ErrorCleaner()
+    });
+
+    // Append OTP form elements to the OTP form container
+    $ResetPassForm.append($ResetPassHeader);
+    $ResetPassForm.append($RedTextResetPass);
+    $ResetPassForm.append($ResetInput);
+    $ResetPassForm.append($emptyFieldErrorResetPass)
+    $ResetPassForm.append($errorElementResetPass)
+    $ResetPassForm.append($ResetPassInput)
+    $ResetPassForm.append($ResetPassReInput)
+    $ResetPassForm.append($ResetPassButton);
+    $ResetPassForm.append($ResetPassHorizontalRule)
+    $ResetPassForm.append($BackToLoginResetPass)
+    $ResetPassForm.append('<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">');
+    // Append the OTP form to the document body or another container
+    $('body').append($ResetPassForm);
+
+    // Function to handle OTP confirmation
+    function handleOTPConfirmation() {
+        const enteredOTP = $ResetInput.val().trim();
+        const otpRegex = /^\d{6}$/;
+        if (enteredOTP === '') {
+            $emptyFieldErrorResetPass.css('display', 'block')
+            return;
+        }
+        if (!otpRegex.test(enteredOTP)) {
+            $errorElementResetPass.css('display', 'block')
+            return
+        }
+        const email = $registerEmailInput.val();
+        // Prepare the payload for OTP confirmation
+        const otpConfirmationPayload = {
+            email: email,
+            otp: parseInt(enteredOTP),
+            // Include any other necessary data for OTP confirmation
+        };
+
+        // Send a POST request to the OTP confirmation API
+        fetch('http://172.16.0.220:3001/api/v1/user/verify-otp-for-article', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(otpConfirmationPayload),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the API response here
+                console.log(data); // You can replace this with your desired logic
+                $registerModal.css('display', 'none');
+                onClosed()
+                FormCleaner()
+                alert('User Verified successfully. Please Login.')
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during OTP confirmation.');
+            });
+    }
+
     async function handleRegistration() {
 
         const name = $registerNameInput.val().trim();
         const email = $registerEmailInput.val();
         const password = $registerPasswordField.val();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!name || !email || !password) {
-            alert('Please fill in all fields.');
+        if (name.trim() === '') {
+            $emptyFieldErrorRegisterName.css('display', 'block')
+            if (email.trim() === "") {
+                $emptyFieldErrorRegisterEmail.css('display', 'block');
+                if (password.trim() === "") {
+                    $emptyFieldErrorRegisterPass.css('display', 'block');
+                    return;
+                }
+                return;
+            }
             return;
         }
+        if (email.trim() === "") {
+            $emptyFieldErrorRegisterEmail.css('display', 'block');
+            if (password.trim() === "") {
+                $emptyFieldErrorRegisterPass.css('display', 'block');
+                return;
+            }
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            $errorElementReg.css('display', 'block');
+            return
+        }
+        if (password.trim() === "") {
+            $emptyFieldErrorRegisterPass.css('display', 'block');
+            return;
+        }
+
         // Log the form input values to the console
         console.log('Name:', name);
         console.log('Email:', email);
