@@ -96,7 +96,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 console.log(commentlistingdata, "fdsfdsdfdf");
                 displayResponsiveImage(
                   $firstImageContainer,
-                  `https://a28e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+                  `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
                   bannerClass
                 );
                 $app.append($firstImageContainer);
@@ -117,7 +117,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $flexContainer.append($h1Element);
                 displayResponsiveImage(
                   $flexContainer,
-                  `https://a28e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
+                  `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-logo.png`,
                   containerClass
                 );
 
@@ -193,7 +193,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
-                  .text("15 Comments");
+                  .text(`${commentlistingdata?.data?.totalComment}Comments`);
+                  
                 const isLogin = localStorage.getItem('token')
                 if (!isLogin) {
                   $Logout.css({ 'display': 'none' })
@@ -321,14 +322,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $likeicondiv = $("<div>").addClass("like-counter");
                   const $likeIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/like.svg");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
                   const $likeicontext = $("<span>").text("15");
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
                   const $commenticontext = $("<span>").text("15");
                   const $commentIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/comment.svg");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
 
                   $likeicondiv.append($likeicontext, $likeIcon);
                   $commenticondiv.append($commenticontext, $commentIcon);
@@ -358,7 +359,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .css({});
                   const $commentuserreplay = $("<div>")
                     .addClass("user-name")
-                    .text("john")
+                    .text(dataItem?.name && dataItem.name !==''? dataItem.name:'Anonymous user')
                     .css({});
 
                   $commentreplayheder.append(
@@ -395,14 +396,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $("<div>").addClass("like-counter");
                   const $likeIconreplay = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/like.svg");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
                   const $likeicontextreplay = $("<span>").text("15");
                   const $commenticondivreplay =
                     $("<div>").addClass("comment-counter");
                   const $commenticontextreplay = $("<span>").text("15");
                   const $commentIconreplay = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/comment.svg");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
 
                   $likeicondivreplay.append(
                     $likeicontextreplay,
@@ -517,19 +518,21 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
 
-                // fetch('http://ip-api.com/json', {      //https://geolocation-db.com/json/
+                                fetch('https://api.ipify.org?format=json'
+                // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
                 //   method: 'GET',
                 //   headers: {
                 //     'Content-Type': 'application/json'
                 //   },
-                // })
-                //   .then(response => response.json())
-                //   .then(data => {
-                //     localStorage.setItem('ip', data?.query)
-                //   })
-                //   .catch(error => {
-                //     console.error('Error:', error);
-                //   });
+                // }
+                )
+                  .then(response => response.json())
+                  .then(data => {
+                    localStorage.setItem('ip', data?.ip)
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                  });
                 const site = 'israel-today'  //document.getElementsByName('page_id')[0].attributes.for.value
                 let device;
                 window.addEventListener('resize', handleResize);
@@ -602,8 +605,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 window.handleCredentialResponse = (response) => {
                   if (response.credential) {
                     console.log(response.credential, "response.credential");
-                    // const ip = localStorage.getItem('ip')
-                    const ip= "123.0.9.123"
+                    const ip = localStorage.getItem('ip')
+                    // const ip= "123.0.9.123"
                     const payload = {
                       googleAuthToken: response.credential,
                       site,
