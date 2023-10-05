@@ -20,7 +20,7 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@09029c64bfdb04605e19cc87212407ac6e5e77fc/index.css');
+loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@529968fe509f737b51b2cc554b48329b3e74b6c0/index.css');
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
