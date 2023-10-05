@@ -37,7 +37,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     let commentlistingdata;
                     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY'
                     $.ajax({
-                        url: 'https://2291-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
+                        url: 'https://fa7e-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
                         method: 'POST',
                         dataType: 'json',
                         headers: {
@@ -85,7 +85,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         console.log(commentlistingdata, "fdsfdsdfdf");
                         displayResponsiveImage(
                             $firstImageContainer,
-                            `https://2291-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+                            `https://fa7e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
                             containerClass
                         );
                         $app.append($firstImageContainer);
@@ -98,7 +98,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         // and provide the container CSS class.
                         displayResponsiveImage(
                             $flexContainer,
-                            `https://2291-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
+                            `https://fa7e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
                             containerClass
                         );
 
@@ -911,7 +911,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             };
 
                             try {
-                                const response = await axios.post('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
+                                const response = await axios.post('https://fa7e-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
@@ -1513,7 +1513,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             };
 
                             // Send a POST request to the OTP confirmation API
-                            fetch('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article', {
+                            fetch('https://fa7e-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -1870,7 +1870,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             console.log(ResetPassVal)
                             // Send a POST request to the OTP confirmation API
                             try {
-                                const response = await axios('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page', {
+                                const response = await axios('https://fa7e-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -1949,7 +1949,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             }
 
                             try {
-                                const response = await fetch('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page', {
+                                const response = await fetch('https://fa7e-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
