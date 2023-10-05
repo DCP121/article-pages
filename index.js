@@ -46,7 +46,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               const token =
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
               $.ajax({
-                url: "http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae", // Replace with your API endpoint
+                url: "https://a28e-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae", // Replace with your API endpoint
                 method: "POST",
                 dataType: "json",
                 headers: {
@@ -96,7 +96,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 console.log(commentlistingdata, "fdsfdsdfdf");
                 displayResponsiveImage(
                   $firstImageContainer,
-                  `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+                  `https://a28e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
                   bannerClass
                 );
                 $app.append($firstImageContainer);
@@ -117,7 +117,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $flexContainer.append($h1Element);
                 displayResponsiveImage(
                   $flexContainer,
-                  `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.logo_image}`,
+                  `https://a28e-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
                   containerClass
                 );
 
@@ -610,7 +610,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch('http://137.184.19.129:4002/api/v1/user/google-sign-in', {
+                    fetch('https://a28e-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -972,7 +972,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Send a POST request to the login API
                   try {
                     const response = await axios(
-                      "http://137.184.19.129:4002/api/v1/user/login-article-page",
+                      "https://a28e-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       {
                         method: "POST",
                         headers: {
