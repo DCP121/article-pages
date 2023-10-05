@@ -85,7 +85,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         console.log(commentlistingdata, "fdsfdsdfdf");
                         displayResponsiveImage(
                             $firstImageContainer,
-                            `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+                            `https://2291-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
                             containerClass
                         );
                         $app.append($firstImageContainer);
@@ -98,7 +98,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         // and provide the container CSS class.
                         displayResponsiveImage(
                             $flexContainer,
-                            `http://137.184.19.129:4002/${commentlistingdata?.data?.pageData?.logo_image}`,
+                            `https://2291-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
                             containerClass
                         );
 
@@ -911,7 +911,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             };
 
                             try {
-                                const response = await axios.post('http://172.16.0.220:3001/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
+                                const response = await axios.post('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
@@ -1513,7 +1513,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             };
 
                             // Send a POST request to the OTP confirmation API
-                            fetch('http://172.16.0.220:3001/api/v1/user/verify-otp-for-article', {
+                            fetch('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -1870,7 +1870,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             console.log(ResetPassVal)
                             // Send a POST request to the OTP confirmation API
                             try {
-                                const response = await axios('http://172.16.0.220:3001/api/v1/user/reset-password-article-page', {
+                                const response = await axios('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -1949,7 +1949,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             }
 
                             try {
-                                const response = await fetch('http://172.16.0.220:3001/api/v1/user/register-article-page', {
+                                const response = await fetch('https://2291-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
