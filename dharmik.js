@@ -1,3 +1,30 @@
+
+var linkElement1 = document.createElement('link');
+linkElement1.rel = 'stylesheet'; 
+linkElement1.href = 'https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css';
+document.head.appendChild(linkElement1);
+
+var linkElement2 = document.createElement('link');
+linkElement2.rel = 'stylesheet'; 
+linkElement2.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+document.head.appendChild(linkElement2);
+
+var scriptElement1 = document.createElement('script');
+scriptElement1.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+document.head.appendChild(scriptElement1);
+
+var scriptElement2 = document.createElement('script');
+scriptElement2.src = 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
+document.head.appendChild(scriptElement2);
+
+var scriptElement3 = document.createElement('script');
+scriptElement3.src = 'https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js';
+document.head.appendChild(scriptElement3);
+
+var scriptElement4 = document.createElement('script');
+scriptElement4.src = 'https://apis.google.com/js/api.js';
+document.head.appendChild(scriptElement4);
+
 $(document).ready(function () {
     
     // Create a div container with the id "app"
@@ -5,9 +32,9 @@ $(document).ready(function () {
     const containerClass = "image-container";
     //api for comment listing pages 
     let commentlistingdata;
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2Mzk1NTAwLCJleHAiOjE2OTY0ODE5MDB9.4z9aNse8Mj7k4tHqFJ-Xknc6_bvgelomjrdzsR6Yn2o'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY'
     $.ajax({
-        url: 'http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
+        url: 'http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
         method: 'POST',
         dataType: 'json',
         headers: {
