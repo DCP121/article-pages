@@ -232,7 +232,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $comenttitle,
                   $buttonandinputdiv
                 );
-
+console.log(document.getElementsByName('page_id')[0].attributes.for.value, "abcdefg")
                 // Create element under the logo
                 const $subHeader = $("<div>")
                   .addClass("sub-title")
@@ -242,7 +242,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $userImageDiv = $("<div>").addClass("right");
                 const $logoiconforuserimage = $("<img>")
                   .addClass("comment-logo")
-                  .attr("src", "./assets/logo-one.png");
+                  .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
                 const $userImage = $("<img>")
                   .attr(
                     "src",
@@ -301,7 +301,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   const $commentuserimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/logo-one.png");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
 
                   const $paragraph = $("<div>")
                     .addClass("user-comments")
@@ -383,7 +383,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   const $commentuserreplayimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/logo-one.png");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
 
                   const $commentreplayparagraph = $("<div>")
                     .addClass("user-comments")
@@ -469,7 +469,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   );
                   const $commentuserreplyimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "./assets/logo-one.png");
+                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
                   $leftcommenntinputsection.append(
                     $comenttitlereplay,
                     $replaycommentinputandbuttondiv
