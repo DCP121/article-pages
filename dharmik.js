@@ -1,11 +1,11 @@
 
 var linkElement1 = document.createElement('link');
-linkElement1.rel = 'stylesheet'; 
+linkElement1.rel = 'stylesheet';
 linkElement1.href = 'https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css';
 document.head.appendChild(linkElement1);
 
 var linkElement2 = document.createElement('link');
-linkElement2.rel = 'stylesheet'; 
+linkElement2.rel = 'stylesheet';
 linkElement2.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
 document.head.appendChild(linkElement2);
 
@@ -26,7 +26,7 @@ scriptElement4.src = 'https://apis.google.com/js/api.js';
 document.head.appendChild(scriptElement4);
 
 $(document).ready(function () {
-    
+
     // Create a div container with the id "app"
     const $app = $('#app');
     const containerClass = "image-container";
@@ -199,7 +199,22 @@ $(document).ready(function () {
             outline: "none",
             color: "white",
         });
+        const $Logout = $("<button>").text("Logout").css({
+            "background-color": "cornflowerblue",
+            padding: "10px",
+            "margin-right": "10px",
+            "margin-top": "10px",
+            "border-radius": "10%",
+            border: "none",
+            outline: "none",
+            color: "white",
+        }).click(function () {
 
+            localStorage.clear()
+            $Login.css({ 'display': 'block' })
+            $Register.css({ 'display': 'block' })
+            $Logout.css({ 'display': 'none' })
+        })
         // Create the text name element
         const $textName = $("<div>").text("15 Comments").css({
             "align-self": "flex-end",
@@ -208,12 +223,19 @@ $(document).ready(function () {
             "font-size": "20px",
             "line-height": "2",
         });
-
+        const isLogin = localStorage.getItem('token')
+        if (!isLogin) {
+            $Logout.css({ 'display': 'none' })
+        } else {
+            $Login.css({ 'display': 'none' })
+            $Register.css({ 'display': 'none' })
+        }
         // Append the elements to the main div
         $mainDivForCommentSection.append($divider);
         $mainDivForCommentSection.append($buttonsDiv);
         $buttonsDiv.append($Login);
         $buttonsDiv.append($Register);
+        $buttonsDiv.append($Logout);
         $buttonsDiv.append($textName);
 
         // Create the first child div (comment section)
@@ -443,7 +465,128 @@ $(document).ready(function () {
             'margin-top': '20px', // Adjust margin as needed
         });
 
+        fetch('http://ip-api.com/json', {      //https://geolocation-db.com/json/
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('ip', data?.query)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        const site = 'israel-today'  //document.getElementsByName('page_id')[0].attributes.for.value
+        let device;
+        window.addEventListener('resize', handleResize);
+        function handleResize() {
+            const width = window.innerWidth;
 
+            if (width < 768) {
+                device = 'mobile';
+            } else if (width >= 768 && width < 1024) {
+                device = 'tablet';
+            } else {
+                device = 'desktop';
+            }
+        }
+
+        handleResize(); // Initial check
+
+
+        // Create a script element for loading the Google Sign-In API
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://accounts.google.com/gsi/client';
+        scriptElement.async = true;
+        $("head").append(scriptElement);
+        scriptElement.onload = function () {
+            gapi.load('auth2', function () {
+                gapi.auth2.init();
+            });
+        };
+
+        // Create a div element for g_id_onload configuration
+        var gIdOnloadDiv = document.createElement('div');
+        gIdOnloadDiv.id = 'g_id_onload';
+        gIdOnloadDiv.setAttribute('data-client_id', '854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com');
+        gIdOnloadDiv.setAttribute('data-context', 'signin');
+        gIdOnloadDiv.setAttribute('data-ux_mode', 'popup');
+        gIdOnloadDiv.setAttribute('data-callback', 'handleCredentialResponse');
+        gIdOnloadDiv.setAttribute('data-auto_prompt', 'false');
+
+        // Create a div element for g_id_signin configuration
+        var gIdSigninDiv = document.createElement('div');
+        gIdSigninDiv.className = 'g_id_signin';
+        gIdSigninDiv.setAttribute('data-type', 'statndard');
+        gIdSigninDiv.setAttribute('data-shape', 'rectangular');
+        gIdSigninDiv.setAttribute('data-theme', 'outline');
+        gIdSigninDiv.setAttribute('data-text', 'signin_with');
+        gIdSigninDiv.setAttribute('data-size', 'medium');
+        gIdSigninDiv.setAttribute('data-logo_alignment', 'left');
+
+        // Create a div element for g_id_onload configuration
+        var gIdOnloadDiv1 = document.createElement('div');
+        gIdOnloadDiv1.id = 'g_id_onload1';
+        gIdOnloadDiv1.setAttribute('data-client_id', '854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com');
+        gIdOnloadDiv1.setAttribute('data-context', 'signin');
+        gIdOnloadDiv1.setAttribute('data-ux_mode', 'popup');
+        gIdOnloadDiv1.setAttribute('callback', 'handleCredentialResponse');
+        gIdOnloadDiv1.setAttribute('data-auto_prompt', 'false');
+
+
+        // Create a div element for g_id_signin configuration
+        var gIdSigninDiv1 = document.createElement('div');
+        gIdSigninDiv1.className = 'g_id_signin';
+        gIdSigninDiv1.setAttribute('data-type', 'statndard');
+        gIdSigninDiv1.setAttribute('data-shape', 'rectangular');
+        gIdSigninDiv1.setAttribute('data-theme', 'outline');
+        gIdSigninDiv1.setAttribute('data-text', 'signin_with');
+        gIdSigninDiv1.setAttribute('data-size', 'medium');
+        gIdSigninDiv1.setAttribute('data-logo_alignment', 'left');
+
+        // Define the handleCredentialResponse function using jQuery
+        window.handleCredentialResponse = (response) => {
+            if (response.credential) {
+                console.log(response.credential, "response.credential");
+                const ip = localStorage.getItem('ip')
+                const payload = {
+                    googleAuthToken: response.credential,
+                    site,
+                    ip,
+                    device
+                }
+                // Send a POST request to the login API
+                fetch('http://137.184.19.129:4002/api/v1/user/google-sign-in', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle the API response here
+                        console.log(data); // You can replace this with your desired logic
+                        // Close the modal if login is successful
+                        localStorage.setItem('token', data?.data?.token)
+                        localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+                        $Login.css({ 'display': 'none' })
+                        $Register.css({ 'display': 'none' })
+                        $Logout.css({ 'display': 'block' })
+                        onClosed()
+                        FormCleaner()
+                        $registerModal.css('display', 'none');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                // User is not signed in or declined to sign in.
+                console.log("User is not signed in.");
+            }
+        }
         // Create the child div for the login form
         const $loginForm = $('<div>').css({
             'flex': '1',
@@ -665,7 +808,8 @@ $(document).ready(function () {
             "margin-bottom": "10px",
             'text-align': 'center',
         });
-
+        $loginForm.append(gIdOnloadDiv);
+        $loginForm.append(gIdSigninDiv);
         // Create the "Don’t have an account?" text and make it black
         $registerLink.append("Don’t have an account? ");
         const $registerSpan = $('<span>').text('Register').css({
@@ -870,47 +1014,47 @@ $(document).ready(function () {
             'margin-top': '10px',
             'margin-bottom': '10px',
         }).click(async function sendForgotPasswordRequest() {
-    const emailValue = $ForgotPassEmailInput.val();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailValue = $ForgotPassEmailInput.val();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Check if the email input is empty
-    if (emailValue.trim() === '') {
-        $emptyFieldErrorForgot.css('display', 'block');
-        $errorElementForgot.css('display', 'none');
-        return;
-    }
-    if (!emailRegex.test(emailValue)) {
-        $errorElementForgot.css('display', 'block');
-        return;
-    }
+            // Check if the email input is empty
+            if (emailValue.trim() === '') {
+                $emptyFieldErrorForgot.css('display', 'block');
+                $errorElementForgot.css('display', 'none');
+                return;
+            }
+            if (!emailRegex.test(emailValue)) {
+                $errorElementForgot.css('display', 'block');
+                return;
+            }
 
-    const otpConfirmationPayload = {
-        email: emailValue,
-    };
+            const otpConfirmationPayload = {
+                email: emailValue,
+            };
 
-    try {
-        const response = await axios.post('http://172.16.0.220:3001/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        console.log(response, 'response')
-        if (response.status === 200) {
-            $registerModalContent.append($ResetPassForm);
-            $registerModalContent.append($imageDivReg);
-            $ForgotPassForm.css('display', 'none');
-            $ResetPassForm.css({
-                'display': 'block',
-                'flex': '1',
-                'padding': '20px 60px',
-            });
-        }
-    } catch (error) {
-        console.error('Error:', error.response.data.message);
-     
-        alert('An error occurred during OTP confirmation.');
-    }
-})
+            try {
+                const response = await axios.post('http://172.16.0.220:3001/api/v1/user/forgot-password-article-page', otpConfirmationPayload, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                console.log(response, 'response')
+                if (response.status === 200) {
+                    $registerModalContent.append($ResetPassForm);
+                    $registerModalContent.append($imageDivReg);
+                    $ForgotPassForm.css('display', 'none');
+                    $ResetPassForm.css({
+                        'display': 'block',
+                        'flex': '1',
+                        'padding': '20px 60px',
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error.response.data.message);
+
+                alert('An error occurred during OTP confirmation.');
+            }
+        })
 
         // Append the "Login" text to the existing paragraph
         const $BackToLoginForgot = $('<p>').text('Back to Login').css({
@@ -1225,6 +1369,8 @@ $(document).ready(function () {
         $registrationForm.append($registerOtherOptionsSection);
         $registrationForm.append($footerImage)
         $registerOtherOptionsSection.append($registerHorizontalRule);
+        $registerOtherOptionsSection.append(gIdOnloadDiv1);
+        $registerOtherOptionsSection.append(gIdSigninDiv1);
         $registerOtherOptionsSection.append($registerLoginLink);
 
         // Append the registration form div to the registration modal content
