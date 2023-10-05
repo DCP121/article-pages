@@ -232,6 +232,46 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $comenttitle,
                   $buttonandinputdiv
                 );
+                $commentButton.on("click", function () {
+                    // Get the value of the input field
+                    const originalComment = $commentInput.val();
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+  
+                    // Define additional options for the request
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      },
+                      body: JSON.stringify({
+                        originalComment: originalComment,
+                        site: "israel-today",
+                      }), // Convert the data object to JSON string
+                    };
+  
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
+  
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        alert(data.message)
+                        console.log(data);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
+                  });
 
                 // Create element under the logo
                 const $subHeader = $("<div>")
@@ -283,7 +323,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .css({});
                   const $commentuser = $("<div>")
                     .addClass("user-name")
-                    .text("john")
+                    .text(dataItem?.name && dataItem.name !==''? dataItem.name:'Anonymous user')
                     .css({});
 
                   $commentheadermain.append($commentuser, $commenttime);
@@ -305,7 +345,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   const $paragraph = $("<div>")
                     .addClass("user-comments")
-                    .text("This is a sample paragraph text.");
+                    .text(dataItem?.originalComment);
 
                   // Append the div to the document body or another container
 
