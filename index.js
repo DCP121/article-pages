@@ -37,7 +37,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     let commentlistingdata;
                     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY'
                     $.ajax({
-                        url: 'http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
+                        url: ' http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae', // Replace with your API endpoint
                         method: 'POST',
                         dataType: 'json',
                         headers: {
