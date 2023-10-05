@@ -517,19 +517,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
 
-                fetch('http://ip-api.com/json', {      //https://geolocation-db.com/json/
-                  method: 'GET',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                    localStorage.setItem('ip', data?.query)
-                  })
-                  .catch(error => {
-                    console.error('Error:', error);
-                  });
+                // fetch('http://ip-api.com/json', {      //https://geolocation-db.com/json/
+                //   method: 'GET',
+                //   headers: {
+                //     'Content-Type': 'application/json'
+                //   },
+                // })
+                //   .then(response => response.json())
+                //   .then(data => {
+                //     localStorage.setItem('ip', data?.query)
+                //   })
+                //   .catch(error => {
+                //     console.error('Error:', error);
+                //   });
                 const site = 'israel-today'  //document.getElementsByName('page_id')[0].attributes.for.value
                 let device;
                 window.addEventListener('resize', handleResize);
@@ -602,7 +602,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 window.handleCredentialResponse = (response) => {
                   if (response.credential) {
                     console.log(response.credential, "response.credential");
-                    const ip = localStorage.getItem('ip')
+                    // const ip = localStorage.getItem('ip')
+                    const ip= "123.0.9.123"
                     const payload = {
                       googleAuthToken: response.credential,
                       site,
