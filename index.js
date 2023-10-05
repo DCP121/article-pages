@@ -232,7 +232,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $comenttitle,
                   $buttonandinputdiv
                 );
-console.log(document.getElementsByName('page_id')[0].attributes.for.value, "abcdefg")
+
                 // Create element under the logo
                 const $subHeader = $("<div>")
                   .addClass("sub-title")
