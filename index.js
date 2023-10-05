@@ -37,6 +37,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
             // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
             $(document).ready(function () {
               // Create a div container with the id "app"
+              const $container=$('<div>').addClass('container')
               const $app = $("#app");
               const containerClass = "image-container";
               const bannerClass = "top-banner";
@@ -493,6 +494,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     "margin-top": "20px", // Adjust margin as needed
                   });
 
+
+                
+
                 // Create the child div for the login form
                 const $loginForm = $("<div>").css({
                   flex: "1",
@@ -656,7 +660,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to show
                   }
                 });
-
+        
                 const $loginButton = $("<button>").text("Login").css({
                   "margin-top": "10px",
                   width: "100%",
@@ -2148,10 +2152,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 function handleMediaQueryChange(e) {
                   if (e.matches) {
                     // For screens narrower than 768px
-                    $app.css({
-                      "margin-left": "20px",
-                      "margin-right": "20px",
-                    });
+                    // $app.css({
+                    //   "margin-left": "20px",
+                    //   "margin-right": "20px",
+                    // });
                     $flexContainer.css({
                       "margin-top": "20px",
                       "margin-bottom": "20px",
@@ -2162,10 +2166,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $registerModalContent.css("width", "75%");
                   } else {
                     // Reset to the original styles for wider screens
-                    $app.css({
-                      "margin-left": "150px",
-                      "margin-right": "150px",
-                    });
                     $flexContainer.css({
                       "margin-top": "30px",
                       "margin-bottom": "30px",
