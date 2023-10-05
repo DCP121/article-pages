@@ -85,7 +85,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         console.log(commentlistingdata, "fdsfdsdfdf");
                         displayResponsiveImage(
                             $firstImageContainer,
-                            `https://3902-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.top_banner_image}`,
+                            `https://raw.githubusercontent.com/DCP121/article-pages/2e2abd0cac1bc0c521acf7ed466278cfee40c6e6/assets/comment-topbanner.jpg`,
                             containerClass
                         );
                         $app.append($firstImageContainer);
@@ -98,7 +98,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         // and provide the container CSS class.
                         displayResponsiveImage(
                             $flexContainer,
-                            `https://3902-137-184-19-129.ngrok-free.app/${commentlistingdata?.data?.pageData?.logo_image}`,
+                            `https://raw.githubusercontent.com/DCP121/article-pages/2e2abd0cac1bc0c521acf7ed466278cfee40c6e6/assets/comment-logo.png`,
                             containerClass
                         );
 
