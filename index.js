@@ -789,7 +789,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch(' https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch(' https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -993,6 +993,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   color: "white",
                   "margin-top": "10px",
                   "margin-bottom": "10px",
+                  position: "relative",
                 });
                 // Create a section for other options
                 const $otherOptionsSection = $("<div>").css({
@@ -1147,10 +1148,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ip: "127.0.0.1",
                     device: "web",
                   };
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($loginButton);
+
+                  $loginButton.prop("disabled", true);
 
                   try {
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1174,6 +1181,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorLogin.css("display", "block");
 
                     // Handle errors here if necessary
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $loginButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
                 // Add a click event listener to the login button
@@ -1316,14 +1327,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       return;
                     }
 
-                    const otpConfirmationPayload = {
+                    const ForgotPassPayload = {
                       email: emailValue,
                     };
+                    const $spinner = $("<div>")
+                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                      .attr("role", "status")
+                      .appendTo($ForgotPassSubmit);
 
+                    $ForgotPassSubmit.prop("disabled", true)
                     try {
                       const response = await axios.post(
-                        " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
-                        otpConfirmationPayload,
+                        " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        ForgotPassPayload,
                         {
                           headers: {
                             "Content-Type": "application/json",
@@ -1348,6 +1364,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $("<p>").text(error.response.data.message)
                       );
                       $ApierrorforgotPass.css("display", "block");
+                    } finally {
+                      // Enable button and remove spinner after API call is complete
+                      $ForgotPassSubmit.prop("disabled", false);
+                      $spinner.remove();
                     }
                   });
 
@@ -1755,6 +1775,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $registerPasswordField.val("");
                   $ForgotPassEmailInput.val("");
                   $ResetInput.val("");
+                  $ResetPassInput.val("");
+                  $ResetPassReInput.val("");
                 }
                 function onClosed() {
                   $registerModal.css("display", "none");
@@ -1972,11 +1994,17 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     otp: parseInt(enteredOTP),
                     // Include any other necessary data for OTP confirmation
                   };
+                  const $spinner = $("<div>")
+                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                      .attr("role", "status")
+                      .appendTo($otpConfirmButton);
+
+                    $otpConfirmButton.prop("disabled", true)
                   // Prepare the payload for OTP confirmation
                   try {
 
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -1997,7 +2025,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorOTP.append($("<p>").text(error.response.data.message));
                     $ApierrorOTP.css("display", "block");
                     // Handle errors here if necessary
-                  }
+                  }finally {
+                      // Enable button and remove spinner after API call is complete
+                      $otpConfirmButtons.prop("disabled", false);
+                      $spinner.remove();
+                    }
                 }
 
                 // Create a div for the OTP form
@@ -2361,16 +2393,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Include any other necessary data for OTP confirmation
                   };
                   console.log(ResetPassVal);
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($ResetPassButton);
+
+                  $ResetPassButton.prop("disabled", true)
                   // Send a POST request to the OTP confirmation API
                   try {
-                    const response = await axios(
-                      " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                    const response = await axios.post(
+                      " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      ResetPassVal,
                       {
-                        method: "POST",
                         headers: {
                           "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(ResetPassVal),
+                       
                       }
                     );
 
@@ -2387,6 +2425,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $("<p>").text(error.response.data.message)
                     );
                     $ApierrorResetPass.css("display", "block");
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $ResetPassButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
 
@@ -2434,7 +2476,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log("Name:", name);
                   console.log("Email:", email);
                   console.log("Password:", password);
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($registerButton);
 
+                  $registerButton.prop("disabled", true)
                   // Prepare the payload
                   const payload = {
                     name: name,
@@ -2447,7 +2494,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log(payload, "111111111111")
                   try {
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
@@ -2479,6 +2526,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorRegistration.append($("<p>").text(error.response.data.message));
                     $ApierrorRegistration.css("display", "block");
                     // Handle errors here if necessary
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $registerButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
 
