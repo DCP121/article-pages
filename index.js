@@ -39,7 +39,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
             // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
             $(document).ready(function () {
               // Create a div container with the id "app"
-              const $container = $('<div>').addClass('container')
               const $app = $("#app");
               const containerClass = "image-container";
               const bannerClass = "top-banner";
@@ -47,9 +46,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               var commentlistingdata;
               var showmorcomment = 10;
               var token =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NTcxMTEzLCJleHAiOjE2OTY2NTc1MTN9.yPvmsOYdcUzfzMwQDKmJ06j4J5OXPWp7rf0cYEHwvcc";
               function commentlistapi() {
-                console.log(showmorcomment, 'show')
+                console.log(showmorcomment, "show");
                 $.ajax({
                   url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
                   method: "POST",
@@ -58,7 +57,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     "Content-Type": "application/json",
                   },
                   data: JSON.stringify({
-                    'itemsPerPage': showmorcomment
+                    itemsPerPage: showmorcomment,
                   }),
 
                   success: function (data) {
@@ -75,8 +74,28 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
               }
               commentlistapi();
+              function timeAgo(isoDateString) {
+                const now = new Date();
+                const commentTime = new Date(isoDateString);
+                const timeDifference = now - commentTime;
+                const minutes = Math.floor(timeDifference / (1000 * 60));
+
+                if (minutes < 1) {
+                  return "Just now";
+                } else if (minutes === 1) {
+                  return "1 minute ago";
+                } else if (minutes < 60) {
+                  return minutes + " minutes ago";
+                } else if (minutes < 1440) {
+                  const hours = Math.floor(minutes / 60);
+                  return hours + (hours === 1 ? " hour ago" : " hours ago");
+                } else {
+                  const days = Math.floor(minutes / 1440);
+                  return days + (days === 1 ? " day ago" : " days ago");
+                }
+              }
               function processData(xyz) {
-                $app.empty()
+                $app.empty();
                 console.log(xyz);
                 console.log(commentlistingdata.data.pageData);
                 function displayResponsiveImage(
@@ -183,33 +202,35 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                const $Logout = $("<button>").text("Logout").css({
-                  "background-color": "cornflowerblue",
-                  padding: "10px",
-                  "margin-right": "10px",
-                  "margin-top": "10px",
-                  "border-radius": "10%",
-                  border: "none",
-                  outline: "none",
-                  color: "white",
-                }).click(function () {
-
-                  localStorage.clear()
-                  $Login.css({ 'display': 'block' })
-                  $Register.css({ 'display': 'block' })
-                  $Logout.css({ 'display': 'none' })
-                })
+                const $Logout = $("<button>")
+                  .text("Logout")
+                  .css({
+                    "background-color": "cornflowerblue",
+                    padding: "10px",
+                    "margin-right": "10px",
+                    "margin-top": "10px",
+                    "border-radius": "10%",
+                    border: "none",
+                    outline: "none",
+                    color: "white",
+                  })
+                  .click(function () {
+                    localStorage.clear();
+                    $Login.css({ display: "block" });
+                    $Register.css({ display: "block" });
+                    $Logout.css({ display: "none" });
+                  });
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
                   .text(`${commentlistingdata?.data?.totalComment}Comments`);
 
-                const isLogin = localStorage.getItem('token')
+                const isLogin = localStorage.getItem("token");
                 if (!isLogin) {
-                  $Logout.css({ 'display': 'none' })
+                  $Logout.css({ display: "none" });
                 } else {
-                  $Login.css({ 'display': 'none' })
-                  $Register.css({ 'display': 'none' })
+                  $Login.css({ display: "none" });
+                  $Register.css({ display: "none" });
                 }
                 // Append the elements to the main div
                 $mainDivForCommentSection.append($divider);
@@ -236,51 +257,64 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     type: "text",
                     placeholder: "Add a comment",
                   });
+                const $errorMessagecomment = $("<div>")
+                  .css({ display: "flex", color: "red" })
+                  .hide();
+
                 $buttonandinputdiv.append($commentInput, $commentButton);
                 $commentbuttonandinputdiv.append(
                   $comenttitle,
-                  $buttonandinputdiv
+                  $buttonandinputdiv,
+                  $errorMessagecomment
                 );
                 $commentButton.on("click", function () {
                   // Get the value of the input field
-                  console.log('value')
-                  const originalComment = $commentInput.val();
-                  const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                  console.log("value");
 
-                  // Define additional options for the request
-                  const requestOptions = {
-                    method: "POST", // HTTP method
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json", // Specify the content type as JSON
-                    },
-                    body: JSON.stringify({
-                      originalComment: originalComment,
-                      site: "israel-today",
-                    }), // Convert the data object to JSON string
-                  };
+                  const originalComment = $commentInput.val().trim();
+                  if (originalComment === "") {
+                    $errorMessagecomment
+                      .text("Comment cannot be empty.")
+                      .show();
+                  } else {
+                    $errorMessagecomment.hide();
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
-                  fetch(apiUrl, requestOptions)
-                    .then((response) => {
-                      // Check if the response status is OK (201 Created)
-                      if (!response.ok) {
-                        throw new Error(
-                          `HTTP error! Status: ${response.status}`
-                        );
-                      }
+                    // Define additional options for the request
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      },
+                      body: JSON.stringify({
+                        originalComment: originalComment,
+                        site: "israel-today",
+                      }), // Convert the data object to JSON string
+                    };
 
-                      // Parse the response body as JSON
-                      return response.json();
-                    })
-                    .then((data) => {
-                      // Handle the response data
-                      alert(data.message)
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
 
-                    })
-                    .catch((error) => {
-                      // Handle any errors that occurred during the fetch
-                      console.error("Fetch error:", error);
-                    });
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        commentlistapi();
+                        alert(data.message);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
+                  }
                 });
 
                 // Create element under the logo
@@ -292,7 +326,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $userImageDiv = $("<div>").addClass("right");
                 const $logoiconforuserimage = $("<img>")
                   .addClass("comment-logo")
-                  .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                  .attr(
+                    "src",
+                    "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                  );
                 const $userImage = $("<img>")
                   .attr(
                     "src",
@@ -327,13 +364,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   //comment header like user name and time
                   const $commentheadermain =
                     $("<div>").addClass("user-name-wrap");
+                  let time = timeAgo(dataItem.createdAt);
                   const $commenttime = $("<div>")
                     .addClass("post-time")
-                    .text("8 min ago")
+                    .text(`Posted ${time}`)
                     .css({});
                   const $commentuser = $("<div>")
                     .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
+                    .text(
+                      dataItem?.name && dataItem.name !== ""
+                        ? dataItem.name
+                        : "Anonymous user"
+                    )
                     .css({});
 
                   $commentheadermain.append($commentuser, $commenttime);
@@ -351,11 +393,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   const $commentuserimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                    );
 
                   const $paragraph = $("<div>")
                     .addClass("user-comments")
-                    .text(dataItem?.originalComment);
+                    .text(dataItem?.updatedComment);
 
                   // Append the div to the document body or another container
 
@@ -372,14 +417,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $likeicondiv = $("<div>").addClass("like-counter");
                   const $likeIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                    );
                   const $likeicontext = $("<span>").text(dataItem?.like);
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
-                  const $commenticontext = $("<span>").text(dataItem?.totalReplay);
+                  const $commenticontext = $("<span>").text(
+                    dataItem?.totalReplay
+                  );
                   const $commentIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                    );
 
                   $likeicondiv.append($likeicontext, $likeIcon);
                   $commenticondiv.append($commenticontext, $commentIcon);
@@ -388,11 +441,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .text("See Original Comment")
                     .addClass("outline-blue-btn");
 
+                  $seeOriginalCommentButton.on("click", function () {
+                    // Replace the original comment text with the updated comment text
+                    $paragraph.text(dataItem?.originalComment);
+                  });
+
                   // Append the icons and button to the $socialicon
                   $socialicon.append(
                     $likeicondiv,
                     $commenticondiv,
-                    $seeOriginalCommentButton
+                    dataItem.updatedComment && dataItem.updatedComment !== ""
+                      ? $seeOriginalCommentButton
+                      : ""
                   );
                   $righdiv.append($commentuserImage, $commentuserimagelogo);
                   $leftdiv.append($commentheadermain, $paragraph, $socialicon);
@@ -400,90 +460,108 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $commentDiv.append($righdiv, $leftdiv);
 
                   //relay comment display section
-                  const $commentreplayheder =
-                    $("<div>").addClass("user-name-wrap");
+                  const replayCommentDivs = [];
+                  dataItem?.replyComments?.forEach((item) => {
+                    const $commentreplayheder =
+                      $("<div>").addClass("user-name-wrap");
 
-                  const $commenttimereplay = $("<div>")
-                    .addClass("post-time")
-                    .text("8 min ago")
-                    .css({});
-                  const $commentuserreplay = $("<div>")
-                    .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
-                    .css({});
+                    const $commenttimereplay = $("<div>")
+                      .addClass("post-time")
+                      .text("8 min ago")
+                      .css({});
+                    const $commentuserreplay = $("<div>")
+                      .addClass("user-name")
+                      .text(
+                        dataItem?.name && dataItem.name !== ""
+                          ? dataItem.name
+                          : "Anonymous user"
+                      )
+                      .css({});
 
-                  $commentreplayheder.append(
-                    $commentuserreplay,
-                    $commenttimereplay
-                  );
+                    $commentreplayheder.append(
+                      $commentuserreplay,
+                      $commenttimereplay
+                    );
+                    var $replaycommentdiv = $("<div>")
+                      .css({})
+                      .addClass("comments-wrap sub-comment-wrap");
 
-                  const $replaycommentdiv = $("<div>")
-                    .css({})
-                    .addClass("comments-wrap sub-comment-wrap");
-                  const $leftsidecommentreplaydiv = $("<div>").addClass("left");
-                  const $rightsidecommetreplaydiv =
-                    $("<div>").addClass("right");
-                  //middelepart pragraph and user image
-                  const $commentreplyuserImage = $("<img>")
-                    .addClass("ml-3")
-                    .attr(
-                      "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
-                    )
-                    .attr("alt", "User Image");
-                  const $commentuserreplayimagelogo = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    const $leftsidecommentreplaydiv =
+                      $("<div>").addClass("left");
+                    const $rightsidecommetreplaydiv =
+                      $("<div>").addClass("right");
+                    //middelepart pragraph and user image
+                    const $commentreplyuserImage = $("<img>")
+                      .addClass("ml-3")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                      )
+                      .attr("alt", "User Image");
+                    const $commentuserreplayimagelogo = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                      );
 
-                  const $commentreplayparagraph = $("<div>")
-                    .addClass("user-comments")
-                    .text("This is a sample paragraph text.");
+                    const $commentreplayparagraph = $("<div>")
+                      .addClass("user-comments")
+                      .text(item?.commentReplay);
 
-                  //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
-                  //social icon div
+                    //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
+                    //social icon div
 
-                  const $likeicondivreplay =
-                    $("<div>").addClass("like-counter");
-                  const $likeIconreplay = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
-                  const $likeicontextreplay = $("<span>").text("15");
-                  const $commenticondivreplay =
-                    $("<div>").addClass("comment-counter");
-                  const $commenticontextreplay = $("<span>").text("15");
-                  const $commentIconreplay = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
+                    const $likeicondivreplay =
+                      $("<div>").addClass("like-counter");
+                    const $likeIconreplay = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                      );
+                    const $likeicontextreplay = $("<span>").text(item?.like);
+                    const $commenticondivreplay =
+                      $("<div>").addClass("comment-counter");
+                    const $commenticontextreplay = $("<span>").text("15");
+                    const $commentIconreplay = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                      );
 
-                  $likeicondivreplay.append(
-                    $likeicontextreplay,
-                    $likeIconreplay
-                  );
-                  $commenticondivreplay.append(
-                    $commenticontextreplay,
-                    $commentIconreplay
-                  );
+                    $likeicondivreplay.append(
+                      $likeicontextreplay,
+                      $likeIconreplay
+                    );
+                    $commenticondivreplay.append(
+                      $commenticontextreplay,
+                      $commentIconreplay
+                    );
 
-                  const $socialiconcommentreplay =
-                    $("<div>").addClass("comment-bottom");
-                  $socialiconcommentreplay.append(
-                    $likeicondivreplay,
-                    $commenticondivreplay
-                  );
+                    const $socialiconcommentreplay =
+                      $("<div>").addClass("comment-bottom");
+                    $socialiconcommentreplay.append(
+                      $likeicondivreplay
+                      // $commenticondivreplay
+                    );
 
-                  $leftsidecommentreplaydiv.append(
-                    $commentreplayheder,
-                    $commentreplayparagraph,
-                    $socialiconcommentreplay
-                  );
-                  $rightsidecommetreplaydiv.append(
-                    $commentreplyuserImage,
-                    $commentuserreplayimagelogo
-                  );
-                  $replaycommentdiv.append(
-                    $rightsidecommetreplaydiv,
-                    $leftsidecommentreplaydiv
-                  );
+                    $leftsidecommentreplaydiv.append(
+                      $commentreplayheder,
+                      $commentreplayparagraph,
+                      $socialiconcommentreplay
+                    );
+                    $rightsidecommetreplaydiv.append(
+                      $commentreplyuserImage,
+                      $commentuserreplayimagelogo
+                    );
+                    $replaycommentdiv.append(
+                      $rightsidecommetreplaydiv,
+                      $leftsidecommentreplaydiv
+                    );
+                    replayCommentDivs.push($replaycommentdiv);
+                  });
 
                   //replay comment input div
 
@@ -519,7 +597,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   );
                   const $commentuserreplyimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                    );
                   $leftcommenntinputsection.append(
                     $comenttitlereplay,
                     $replaycommentinputandbuttondiv
@@ -534,11 +615,52 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $leftcommenntinputsection
                   );
 
+                  $replaycommentButton.on("click", function () {
+                    console.log("value");
+                    const commentReplay = $commentreplayInput.val();
+                    console.log(commentReplay);
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+
+                    // Define additional options for the request
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      },
+                      body: JSON.stringify({
+                        commentReplay: commentReplay,
+                      }), // Convert the data object to JSON string
+                    };
+
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
+
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        commentlistapi();
+                        alert(data.message);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
+                  });
+
                   //Append the div to the document body or another container
 
                   $containerCommentpart.append(
                     $commentDiv,
-                    $replaycommentdiv,
+                    replayCommentDivs,
                     $replycommentinputsection
                   );
                   $container.append($containerCommentpart);
@@ -566,12 +688,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
-                  console.log('counter')
-                })
+                  console.log("counter");
+                });
                 fetch('https://api.ipify.org?format=json'
                   // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
                   //   method: 'GET',
