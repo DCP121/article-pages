@@ -5,7 +5,6 @@ function loadCSS(url) {
   link.href = url;
   document.head.appendChild(link);
 }
-
 // Function to load scripts dynamically
 function loadScript(url, callback) {
   var script = document.createElement("script");
@@ -14,6 +13,9 @@ function loadScript(url, callback) {
   script.onload = callback;
   document.head.appendChild(script);
 }
+// console.log(document.getElementsByName('page_id')[0]?.attributes?.for?.value)
+console.log(document.getElementsByName('page_id')[0].id)
+
 
 // Load CSS stylesheets
 loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
@@ -42,15 +44,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               const containerClass = "image-container";
               const bannerClass = "top-banner";
               //api for comment listing pages
-              let commentlistingdata;
-              const token =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
+              var commentlistingdata;
+              var token =
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
+              function commentlistapi(){
               $.ajax({
-                url: "https://6a07-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=650be9d87b17d73c9b2c94ae", // Replace with your API endpoint
+                url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
                 method: "POST",
                 dataType: "json",
                 headers: {
-                  Authorization: `Bearer ${token}`,
                   "Content-Type": "application/json",
                 },
 
@@ -66,7 +68,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.error("Error fetching data:", error);
                 },
               });
-
+              }
+    commentlistapi();
               function processData(xyz) {
                 console.log(xyz);
                 console.log(commentlistingdata.data.pageData);
@@ -234,6 +237,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 );
                 $commentButton.on("click", function () {
                     // Get the value of the input field
+                    console.log('value')
                     const originalComment = $commentInput.val();
                     const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
   
@@ -265,7 +269,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       .then((data) => {
                         // Handle the response data
                         alert(data.message)
-                        console.log(data);
+                      
                       })
                       .catch((error) => {
                         // Handle any errors that occurred during the fetch
@@ -363,10 +367,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $likeIcon = $("<img>")
                     .addClass("comment-logo")
                     .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
-                  const $likeicontext = $("<span>").text("15");
+                  const $likeicontext = $("<span>").text(dataItem?.like);
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
-                  const $commenticontext = $("<span>").text("15");
+                  const $commenticontext = $("<span>").text(dataItem?.totalReplay);
                   const $commentIcon = $("<img>")
                     .addClass("comment-logo")
                     .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
