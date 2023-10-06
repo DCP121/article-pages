@@ -22,7 +22,7 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@529968fe509f737b51b2cc554b48329b3e74b6c0/index.css');
+loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@f227dc41edd9ddc409e15b8582a1da1dca2e2cb8/index.css');
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -39,26 +39,32 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
             // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
             $(document).ready(function () {
               // Create a div container with the id "app"
-              const $container = $('<div>').addClass('container')
               const $app = $("#app");
               const containerClass = "image-container";
               const bannerClass = "top-banner";
               //api for comment listing pages
               var commentlistingdata;
               var showmorcomment = 10;
-              var token =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
               function commentlistapi() {
-                console.log(showmorcomment, 'show')
+                const token = localStorage.getItem("token");
+                const userData = JSON.parse(localStorage.getItem("userData"));
+                const userId = userData && userData._id;
+                console.log(userId);
+                const headers = {
+                  "Content-Type": "application/json", // Specify the content type as JSON
+                };
+
+                if (token) {
+                  headers["Authorization"] = `Bearer ${token}`;
+                }
+                console.log(showmorcomment, "show");
                 $.ajax({
-                  url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
+                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
+                  headers:headers,
                   data: JSON.stringify({
-                    'itemsPerPage': showmorcomment
+                    itemsPerPage: showmorcomment,
                   }),
 
                   success: function (data) {
@@ -75,8 +81,28 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
               }
               commentlistapi();
+              function timeAgo(isoDateString) {
+                const now = new Date();
+                const commentTime = new Date(isoDateString);
+                const timeDifference = now - commentTime;
+                const minutes = Math.floor(timeDifference / (1000 * 60));
+
+                if (minutes < 1) {
+                  return "Just now";
+                } else if (minutes === 1) {
+                  return "1 minute ago";
+                } else if (minutes < 60) {
+                  return minutes + " minutes ago";
+                } else if (minutes < 1440) {
+                  const hours = Math.floor(minutes / 60);
+                  return hours + (hours === 1 ? " hour ago" : " hours ago");
+                } else {
+                  const days = Math.floor(minutes / 1440);
+                  return days + (days === 1 ? " day ago" : " days ago");
+                }
+              }
               function processData(xyz) {
-                $app.empty()
+                $app.empty();
                 console.log(xyz);
                 console.log(commentlistingdata.data.pageData);
                 function displayResponsiveImage(
@@ -183,33 +209,23 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                const $Logout = $("<button>").text("Logout").css({
-                  "background-color": "cornflowerblue",
-                  padding: "10px",
-                  "margin-right": "10px",
-                  "margin-top": "10px",
-                  "border-radius": "10%",
-                  border: "none",
-                  outline: "none",
-                  color: "white",
-                }).click(function () {
-
-                  localStorage.clear()
-                  $Login.css({ 'display': 'block' })
-                  $Register.css({ 'display': 'block' })
-                  $Logout.css({ 'display': 'none' })
-                })
+                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
+                    localStorage.clear();
+                    $Login.css({ display: "block" });
+                    $Register.css({ display: "block" });
+                    $Logout.css({ display: "none" });
+                  });
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
                   .text(`${commentlistingdata?.data?.totalComment}Comments`);
 
-                const isLogin = localStorage.getItem('token')
+                const isLogin = localStorage.getItem("token");
                 if (!isLogin) {
-                  $Logout.css({ 'display': 'none' })
+                  $Logout.css({ display: "none" });
                 } else {
-                  $Login.css({ 'display': 'none' })
-                  $Register.css({ 'display': 'none' })
+                  $Login.css({ display: "none" });
+                  $Register.css({ display: "none" });
                 }
                 // Append the elements to the main div
                 $mainDivForCommentSection.append($divider);
@@ -221,10 +237,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $commentSectionDiv = $("<div>").addClass("comments-wrap");
 
                 // Create the input field and button
+                const userData = JSON.parse(localStorage.getItem("userData"));
                 const $commentbuttonandinputdiv = $("<div>").addClass("left");
                 const $comenttitle = $("<div>")
                   .addClass("user-name")
-                  .text("Anonymous user");
+                  .text(
+                    userData && userData !== ""
+                      ? userData?.name
+                      : "Anonymous user"
+                  );
                 const $buttonandinputdiv = $("<div>").addClass("add-comment");
                 const $commentButton = $("<button>")
                   .addClass("red-button")
@@ -236,51 +257,69 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     type: "text",
                     placeholder: "Add a comment",
                   });
+                const $errorMessagecomment = $("<div>")
+                  .css({ display: "flex", color: "red" })
+                  .hide();
+
                 $buttonandinputdiv.append($commentInput, $commentButton);
                 $commentbuttonandinputdiv.append(
                   $comenttitle,
-                  $buttonandinputdiv
+                  $buttonandinputdiv,
+                  $errorMessagecomment
                 );
                 $commentButton.on("click", function () {
                   // Get the value of the input field
-                  console.log('value')
-                  const originalComment = $commentInput.val();
-                  const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                  console.log("value");
 
-                  // Define additional options for the request
-                  const requestOptions = {
-                    method: "POST", // HTTP method
-                    headers: {
-                      Authorization: `Bearer ${token}`,
+                  const originalComment = $commentInput.val().trim();
+                  if (originalComment === "") {
+                    $errorMessagecomment
+                      .text("Comment cannot be empty.")
+                      .show();
+                  } else {
+                    $errorMessagecomment.hide();
+                    const token = localStorage.getItem("token");
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+
+                    // Define additional options for the request
+                    const headers = {
                       "Content-Type": "application/json", // Specify the content type as JSON
-                    },
-                    body: JSON.stringify({
-                      originalComment: originalComment,
-                      site: "israel-today",
-                    }), // Convert the data object to JSON string
-                  };
+                    };
 
-                  fetch(apiUrl, requestOptions)
-                    .then((response) => {
-                      // Check if the response status is OK (201 Created)
-                      if (!response.ok) {
-                        throw new Error(
-                          `HTTP error! Status: ${response.status}`
-                        );
-                      }
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers: headers,
+                      body: JSON.stringify({
+                        originalComment: originalComment,
+                        site: "israel-today",
+                      }), // Convert the data object to JSON string
+                    };
 
-                      // Parse the response body as JSON
-                      return response.json();
-                    })
-                    .then((data) => {
-                      // Handle the response data
-                      alert(data.message)
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
 
-                    })
-                    .catch((error) => {
-                      // Handle any errors that occurred during the fetch
-                      console.error("Fetch error:", error);
-                    });
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        commentlistapi();
+                        alert(data.message);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
+                  }
                 });
 
                 // Create element under the logo
@@ -292,7 +331,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $userImageDiv = $("<div>").addClass("right");
                 const $logoiconforuserimage = $("<img>")
                   .addClass("comment-logo")
-                  .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                  .attr(
+                    "src",
+                    "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                  );
                 const $userImage = $("<img>")
                   .attr(
                     "src",
@@ -327,13 +369,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   //comment header like user name and time
                   const $commentheadermain =
                     $("<div>").addClass("user-name-wrap");
+                  let time = timeAgo(dataItem.createdAt);
                   const $commenttime = $("<div>")
                     .addClass("post-time")
-                    .text("8 min ago")
+                    .text(`Posted ${time}`)
                     .css({});
                   const $commentuser = $("<div>")
                     .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
+                    .text(
+                      dataItem?.name && dataItem.name !== ""
+                        ? dataItem.name
+                        : "Anonymous user"
+                    )
                     .css({});
 
                   $commentheadermain.append($commentuser, $commenttime);
@@ -351,11 +398,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   const $commentuserimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                    );
 
                   const $paragraph = $("<div>")
                     .addClass("user-comments")
-                    .text(dataItem?.originalComment);
+                    .text(dataItem?.updatedComment);
 
                   // Append the div to the document body or another container
 
@@ -372,14 +422,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $likeicondiv = $("<div>").addClass("like-counter");
                   const $likeIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                    );
                   const $likeicontext = $("<span>").text(dataItem?.like);
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
-                  const $commenticontext = $("<span>").text(dataItem?.totalReplay);
+                  const $commenticontext = $("<span>").text(
+                    dataItem?.totalReplay
+                  );
                   const $commentIcon = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                    );
 
                   $likeicondiv.append($likeicontext, $likeIcon);
                   $commenticondiv.append($commenticontext, $commentIcon);
@@ -388,11 +446,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .text("See Original Comment")
                     .addClass("outline-blue-btn");
 
+                  $seeOriginalCommentButton.on("click", function () {
+                    // Replace the original comment text with the updated comment text
+                    $paragraph.text(dataItem?.originalComment);
+                  });
+
                   // Append the icons and button to the $socialicon
                   $socialicon.append(
                     $likeicondiv,
                     $commenticondiv,
-                    $seeOriginalCommentButton
+                    dataItem.updatedComment && dataItem.updatedComment !== ""
+                      ? $seeOriginalCommentButton
+                      : ""
                   );
                   $righdiv.append($commentuserImage, $commentuserimagelogo);
                   $leftdiv.append($commentheadermain, $paragraph, $socialicon);
@@ -400,90 +465,109 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $commentDiv.append($righdiv, $leftdiv);
 
                   //relay comment display section
-                  const $commentreplayheder =
-                    $("<div>").addClass("user-name-wrap");
+                  const replayCommentDivs = [];
+                  dataItem?.replyComments?.forEach((item) => {
+                    let time = timeAgo(item.createdAt);
+                    const $commentreplayheder =
+                      $("<div>").addClass("user-name-wrap");
 
-                  const $commenttimereplay = $("<div>")
-                    .addClass("post-time")
-                    .text("8 min ago")
-                    .css({});
-                  const $commentuserreplay = $("<div>")
-                    .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
-                    .css({});
+                    const $commenttimereplay = $("<div>")
+                      .addClass("post-time")
+                      .text(`Posted ${time}`)
+                      .css({});
+                    const $commentuserreplay = $("<div>")
+                      .addClass("user-name")
+                      .text(
+                        dataItem?.name && dataItem.name !== ""
+                          ? dataItem.name
+                          : "Anonymous user"
+                      )
+                      .css({});
 
-                  $commentreplayheder.append(
-                    $commentuserreplay,
-                    $commenttimereplay
-                  );
+                    $commentreplayheder.append(
+                      $commentuserreplay,
+                      $commenttimereplay
+                    );
+                    var $replaycommentdiv = $("<div>")
+                      .css({})
+                      .addClass("comments-wrap sub-comment-wrap");
 
-                  const $replaycommentdiv = $("<div>")
-                    .css({})
-                    .addClass("comments-wrap sub-comment-wrap");
-                  const $leftsidecommentreplaydiv = $("<div>").addClass("left");
-                  const $rightsidecommetreplaydiv =
-                    $("<div>").addClass("right");
-                  //middelepart pragraph and user image
-                  const $commentreplyuserImage = $("<img>")
-                    .addClass("ml-3")
-                    .attr(
-                      "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
-                    )
-                    .attr("alt", "User Image");
-                  const $commentuserreplayimagelogo = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    const $leftsidecommentreplaydiv =
+                      $("<div>").addClass("left");
+                    const $rightsidecommetreplaydiv =
+                      $("<div>").addClass("right");
+                    //middelepart pragraph and user image
+                    const $commentreplyuserImage = $("<img>")
+                      .addClass("ml-3")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                      )
+                      .attr("alt", "User Image");
+                    const $commentuserreplayimagelogo = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                      );
 
-                  const $commentreplayparagraph = $("<div>")
-                    .addClass("user-comments")
-                    .text("This is a sample paragraph text.");
+                    const $commentreplayparagraph = $("<div>")
+                      .addClass("user-comments")
+                      .text(item?.commentReplay);
 
-                  //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
-                  //social icon div
+                    //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
+                    //social icon div
 
-                  const $likeicondivreplay =
-                    $("<div>").addClass("like-counter");
-                  const $likeIconreplay = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg");
-                  const $likeicontextreplay = $("<span>").text("15");
-                  const $commenticondivreplay =
-                    $("<div>").addClass("comment-counter");
-                  const $commenticontextreplay = $("<span>").text("15");
-                  const $commentIconreplay = $("<img>")
-                    .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg");
+                    const $likeicondivreplay =
+                      $("<div>").addClass("like-counter");
+                    const $likeIconreplay = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                      );
+                    const $likeicontextreplay = $("<span>").text(item?.like);
+                    const $commenticondivreplay =
+                      $("<div>").addClass("comment-counter");
+                    const $commenticontextreplay = $("<span>").text("15");
+                    const $commentIconreplay = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                      );
 
-                  $likeicondivreplay.append(
-                    $likeicontextreplay,
-                    $likeIconreplay
-                  );
-                  $commenticondivreplay.append(
-                    $commenticontextreplay,
-                    $commentIconreplay
-                  );
+                    $likeicondivreplay.append(
+                      $likeicontextreplay,
+                      $likeIconreplay
+                    );
+                    $commenticondivreplay.append(
+                      $commenticontextreplay,
+                      $commentIconreplay
+                    );
 
-                  const $socialiconcommentreplay =
-                    $("<div>").addClass("comment-bottom");
-                  $socialiconcommentreplay.append(
-                    $likeicondivreplay,
-                    $commenticondivreplay
-                  );
+                    const $socialiconcommentreplay =
+                      $("<div>").addClass("comment-bottom");
+                    $socialiconcommentreplay.append(
+                      $likeicondivreplay
+                      // $commenticondivreplay
+                    );
 
-                  $leftsidecommentreplaydiv.append(
-                    $commentreplayheder,
-                    $commentreplayparagraph,
-                    $socialiconcommentreplay
-                  );
-                  $rightsidecommetreplaydiv.append(
-                    $commentreplyuserImage,
-                    $commentuserreplayimagelogo
-                  );
-                  $replaycommentdiv.append(
-                    $rightsidecommetreplaydiv,
-                    $leftsidecommentreplaydiv
-                  );
+                    $leftsidecommentreplaydiv.append(
+                      $commentreplayheder,
+                      $commentreplayparagraph,
+                      $socialiconcommentreplay
+                    );
+                    $rightsidecommetreplaydiv.append(
+                      $commentreplyuserImage,
+                      $commentuserreplayimagelogo
+                    );
+                    $replaycommentdiv.append(
+                      $rightsidecommetreplaydiv,
+                      $leftsidecommentreplaydiv
+                    );
+                    replayCommentDivs.push($replaycommentdiv);
+                  });
 
                   //replay comment input div
 
@@ -507,6 +591,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       type: "text",
                       placeholder: "Add a comment",
                     });
+                    const $errorMessagecomment = $("<div>")
+                    .css({ display: "flex", color: "red" })
+                    .hide();
                   const $commentreplayuserImage = $("<img>")
                     .attr(
                       "src",
@@ -515,14 +602,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   $replaycommentinputandbuttondiv.append(
                     $commentreplayInput,
-                    $replaycommentButton
+                    $replaycommentButton,
                   );
                   const $commentuserreplyimagelogo = $("<img>")
                     .addClass("comment-logo")
-                    .attr("src", "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png");
+                    .attr(
+                      "src",
+                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                    );
                   $leftcommenntinputsection.append(
                     $comenttitlereplay,
-                    $replaycommentinputandbuttondiv
+                    $replaycommentinputandbuttondiv,
+                    $errorMessagecomment
                   );
                   $rightcommenntinputsection.append(
                     $commentreplayuserImage,
@@ -534,11 +625,61 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $leftcommenntinputsection
                   );
 
+                  $replaycommentButton.on("click", function () {
+                    const commentReplay = $commentreplayInput.val().trim();
+                    if (commentReplay === "") {
+                      $errorMessagecomment
+                        .text("Comment cannot be empty.")
+                        .show();
+                    } else{
+                    const token = localStorage.getItem("token");
+                    const headers = {
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    };
+    
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+
+                    // Define additional options for the request
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers:headers,
+                      body: JSON.stringify({
+                        commentReplay: commentReplay,
+                      }), // Convert the data object to JSON string
+                    };
+
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
+
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        commentlistapi();
+                        alert(data.message);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
+                    }
+                  });
+
                   //Append the div to the document body or another container
 
                   $containerCommentpart.append(
                     $commentDiv,
-                    $replaycommentdiv,
+                    replayCommentDivs,
                     $replycommentinputsection
                   );
                   $container.append($containerCommentpart);
@@ -554,7 +695,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("red-button-big")
                   .text("show more comment");
 
-                $showmorecommentdiv.append($showmorecommentbutton);
+                  if (showmorcomment<=commentlistingdata?.data?.totalComment) {$showmorecommentdiv.append($showmorecommentbutton);}
+               
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
                   .attr(
@@ -566,12 +708,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-
+                
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
-                  console.log('counter')
-                })
+                  console.log("counter");
+                });
                 fetch('https://api.ipify.org?format=json'
                   // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
                   //   method: 'GET',
@@ -668,7 +810,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch(' https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch(' https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -872,6 +1014,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   color: "white",
                   "margin-top": "10px",
                   "margin-bottom": "10px",
+                  position: "relative",
                 });
                 // Create a section for other options
                 const $otherOptionsSection = $("<div>").css({
@@ -1026,10 +1169,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ip: "127.0.0.1",
                     device: "web",
                   };
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($loginButton);
+
+                  $loginButton.prop("disabled", true);
 
                   try {
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1053,6 +1202,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorLogin.css("display", "block");
 
                     // Handle errors here if necessary
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $loginButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
                 // Add a click event listener to the login button
@@ -1195,14 +1348,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       return;
                     }
 
-                    const otpConfirmationPayload = {
+                    const ForgotPassPayload = {
                       email: emailValue,
                     };
+                    const $spinner = $("<div>")
+                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                      .attr("role", "status")
+                      .appendTo($ForgotPassSubmit);
 
+                    $ForgotPassSubmit.prop("disabled", true)
                     try {
                       const response = await axios.post(
-                        " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
-                        otpConfirmationPayload,
+                        " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        ForgotPassPayload,
                         {
                           headers: {
                             "Content-Type": "application/json",
@@ -1227,6 +1385,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $("<p>").text(error.response.data.message)
                       );
                       $ApierrorforgotPass.css("display", "block");
+                    } finally {
+                      // Enable button and remove spinner after API call is complete
+                      $ForgotPassSubmit.prop("disabled", false);
+                      $spinner.remove();
                     }
                   });
 
@@ -1634,6 +1796,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $registerPasswordField.val("");
                   $ForgotPassEmailInput.val("");
                   $ResetInput.val("");
+                  $ResetPassInput.val("");
+                  $ResetPassReInput.val("");
                 }
                 function onClosed() {
                   $registerModal.css("display", "none");
@@ -1851,11 +2015,17 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     otp: parseInt(enteredOTP),
                     // Include any other necessary data for OTP confirmation
                   };
+                  const $spinner = $("<div>")
+                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                      .attr("role", "status")
+                      .appendTo($otpConfirmButton);
+
+                    $otpConfirmButton.prop("disabled", true)
                   // Prepare the payload for OTP confirmation
                   try {
 
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -1876,7 +2046,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorOTP.append($("<p>").text(error.response.data.message));
                     $ApierrorOTP.css("display", "block");
                     // Handle errors here if necessary
-                  }
+                  }finally {
+                      // Enable button and remove spinner after API call is complete
+                      $otpConfirmButtons.prop("disabled", false);
+                      $spinner.remove();
+                    }
                 }
 
                 // Create a div for the OTP form
@@ -1934,7 +2108,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     "font-size": "14px",
                   })
                   .text("Repeat password is required");
-                const errorTextResetPass = "Please enter a valid OTP";
+                const errorTextResetPass = "Enter a valid OTP";
                 const $errorElementResetPass = $("<div>")
                   .css({
                     color: "red",
@@ -1966,7 +2140,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the password input field
                 // Create an input field for OTP
                 const $ResetInput = $("<input>")
-                  .attr("type", "text")
+                  .attr("type", "number")
                   .addClass("custom-input")
                   .attr("id", "ResetInput")
                   .keydown(function (event) {
@@ -2240,16 +2414,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Include any other necessary data for OTP confirmation
                   };
                   console.log(ResetPassVal);
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($ResetPassButton);
+
+                  $ResetPassButton.prop("disabled", true)
                   // Send a POST request to the OTP confirmation API
                   try {
-                    const response = await axios(
-                      " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                    const response = await axios.post(
+                      " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      ResetPassVal,
                       {
-                        method: "POST",
                         headers: {
                           "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(ResetPassVal),
+                       
                       }
                     );
 
@@ -2266,6 +2446,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $("<p>").text(error.response.data.message)
                     );
                     $ApierrorResetPass.css("display", "block");
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $ResetPassButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
 
@@ -2313,7 +2497,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log("Name:", name);
                   console.log("Email:", email);
                   console.log("Password:", password);
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($registerButton);
 
+                  $registerButton.prop("disabled", true)
                   // Prepare the payload
                   const payload = {
                     name: name,
@@ -2326,7 +2515,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log(payload, "111111111111")
                   try {
                     const response = await axios.post(
-                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
@@ -2358,6 +2547,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorRegistration.append($("<p>").text(error.response.data.message));
                     $ApierrorRegistration.css("display", "block");
                     // Handle errors here if necessary
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $registerButton.prop("disabled", false);
+                    $spinner.remove();
                   }
                 }
 
