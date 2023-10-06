@@ -67,7 +67,7 @@
 .blue-button {
     border-radius: 3px !important;
     background: #0DAAE6 !important;
-    display: flex !important;
+    display: flex;
     height: 50px !important;
     padding: 0px 20px !important;
     justify-content: center !important;
