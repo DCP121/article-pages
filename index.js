@@ -202,19 +202,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                const $Logout = $("<button>")
-                  .text("Logout")
-                  .css({
-                    "background-color": "cornflowerblue",
-                    padding: "10px",
-                    "margin-right": "10px",
-                    "margin-top": "10px",
-                    "border-radius": "10%",
-                    border: "none",
-                    outline: "none",
-                    color: "white",
-                  })
-                  .click(function () {
+                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
+
                     localStorage.clear();
                     $Login.css({ display: "block" });
                     $Register.css({ display: "block" });
