@@ -45,17 +45,24 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               //api for comment listing pages
               var commentlistingdata;
               var showmorcomment = 10;
-              var token =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NTcxMTEzLCJleHAiOjE2OTY2NTc1MTN9.yPvmsOYdcUzfzMwQDKmJ06j4J5OXPWp7rf0cYEHwvcc";
               function commentlistapi() {
+                const token = localStorage.getItem("token");
+                const userData = JSON.parse(localStorage.getItem("userData"));
+                const userId = userData && userData._id;
+                console.log(userId);
+                const headers = {
+                  "Content-Type": "application/json", // Specify the content type as JSON
+                };
+
+                if (token) {
+                  headers["Authorization"] = `Bearer ${token}`;
+                }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
+                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
+                  headers:headers,
                   data: JSON.stringify({
                     itemsPerPage: showmorcomment,
                   }),
@@ -202,8 +209,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
-
+                const $Logout = $("<button>")
+                  .text("Logout")
+                  .css({
+                    "background-color": "cornflowerblue",
+                    padding: "10px",
+                    "margin-right": "10px",
+                    "margin-top": "10px",
+                    "border-radius": "10%",
+                    border: "none",
+                    outline: "none",
+                    color: "white",
+                  })
+                  .click(function () {
                     localStorage.clear();
                     $Login.css({ display: "block" });
                     $Register.css({ display: "block" });
@@ -231,10 +249,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $commentSectionDiv = $("<div>").addClass("comments-wrap");
 
                 // Create the input field and button
+                const userData = JSON.parse(localStorage.getItem("userData"));
                 const $commentbuttonandinputdiv = $("<div>").addClass("left");
                 const $comenttitle = $("<div>")
                   .addClass("user-name")
-                  .text("Anonymous user");
+                  .text(
+                    userData && userData !== ""
+                      ? userData?.name
+                      : "Anonymous user"
+                  );
                 const $buttonandinputdiv = $("<div>").addClass("add-comment");
                 const $commentButton = $("<button>")
                   .addClass("red-button")
@@ -267,15 +290,20 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       .show();
                   } else {
                     $errorMessagecomment.hide();
+                    const token = localStorage.getItem("token");
                     const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                     // Define additional options for the request
+                    const headers = {
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    };
+
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
                     const requestOptions = {
                       method: "POST", // HTTP method
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json", // Specify the content type as JSON
-                      },
+                      headers: headers,
                       body: JSON.stringify({
                         originalComment: originalComment,
                         site: "israel-today",
@@ -451,12 +479,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   //relay comment display section
                   const replayCommentDivs = [];
                   dataItem?.replyComments?.forEach((item) => {
+                    let time = timeAgo(item.createdAt);
                     const $commentreplayheder =
                       $("<div>").addClass("user-name-wrap");
 
                     const $commenttimereplay = $("<div>")
                       .addClass("post-time")
-                      .text("8 min ago")
+                      .text(`Posted ${time}`)
                       .css({});
                     const $commentuserreplay = $("<div>")
                       .addClass("user-name")
@@ -574,6 +603,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       type: "text",
                       placeholder: "Add a comment",
                     });
+                    const $errorMessagecomment = $("<div>")
+                    .css({ display: "flex", color: "red" })
+                    .hide();
                   const $commentreplayuserImage = $("<img>")
                     .attr(
                       "src",
@@ -582,7 +614,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr("alt", "User Image");
                   $replaycommentinputandbuttondiv.append(
                     $commentreplayInput,
-                    $replaycommentButton
+                    $replaycommentButton,
                   );
                   const $commentuserreplyimagelogo = $("<img>")
                     .addClass("comment-logo")
@@ -592,7 +624,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     );
                   $leftcommenntinputsection.append(
                     $comenttitlereplay,
-                    $replaycommentinputandbuttondiv
+                    $replaycommentinputandbuttondiv,
+                    $errorMessagecomment
                   );
                   $rightcommenntinputsection.append(
                     $commentreplayuserImage,
@@ -605,18 +638,26 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   );
 
                   $replaycommentButton.on("click", function () {
-                    console.log("value");
-                    const commentReplay = $commentreplayInput.val();
-                    console.log(commentReplay);
+                    const commentReplay = $commentreplayInput.val().trim();
+                    if (commentReplay === "") {
+                      $errorMessagecomment
+                        .text("Comment cannot be empty.")
+                        .show();
+                    } else{
+                    const token = localStorage.getItem("token");
+                    const headers = {
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    };
+    
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
                     const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                     // Define additional options for the request
                     const requestOptions = {
                       method: "POST", // HTTP method
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json", // Specify the content type as JSON
-                      },
+                      headers:headers,
                       body: JSON.stringify({
                         commentReplay: commentReplay,
                       }), // Convert the data object to JSON string
@@ -643,6 +684,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         // Handle any errors that occurred during the fetch
                         console.error("Fetch error:", error);
                       });
+                    }
                   });
 
                   //Append the div to the document body or another container
@@ -665,7 +707,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("red-button-big")
                   .text("show more comment");
 
-                $showmorecommentdiv.append($showmorecommentbutton);
+                  if (showmorcomment<=commentlistingdata?.data?.totalComment) {$showmorecommentdiv.append($showmorecommentbutton);}
+               
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
                   .attr(
@@ -677,6 +720,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
+                
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
