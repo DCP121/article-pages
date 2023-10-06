@@ -728,7 +728,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your email address");
+                  .text("Email is required");
                 const $emptyFieldErrorLoginPass = $("<div>")
                   .css({
                     color: "red",
@@ -736,7 +736,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your Password");
+                  .text("Password is required");
                 // Create the email input field
                 const $emailInput = $("<input>")
                   .attr("type", "email") // Set the input type to email
@@ -894,7 +894,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   "margin-top": "10px",
                   "margin-bottom": "10px",
                 });
-                const errorTextEmailLogin = "Please enter a valid email";
+                const errorTextEmailLogin = "Invalid email address";
                 const $errorElementLogin = $("<div>")
                   .css({
                     color: "red",
@@ -1105,7 +1105,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   "margin-top": "5px",
                 });
 
-                const errorTextEmailForgot = "Please enter a valid email";
+                const errorTextEmailForgot = "Invalid email address";
                 const $errorElementForgot = $("<div>")
                   .css({
                     color: "red",
@@ -1121,7 +1121,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your email address");
+                  .text("Email is required");
                 // Create the email input field
                 const $ForgotPassEmailInput = $("<input>")
                   .attr("type", "email")
@@ -1311,7 +1311,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your email address");
+                  .text("Email is required");
                 const $emptyFieldErrorRegisterPass = $("<div>")
                   .css({
                     color: "red",
@@ -1319,7 +1319,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your password");
+                  .text("Password is required");
                 const $emptyFieldErrorRegisterName = $("<div>")
                   .css({
                     color: "red",
@@ -1327,7 +1327,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter your name");
+                  .text("Name is required");
                 const $registerNameInput = $("<input>")
                   .attr("type", "text")
                   .addClass("custom-input")
@@ -1535,7 +1535,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     FormCleaner();
                     ErrorCleaner();
                   });
-                const errorTextEmailReg = "Please enter a valid email";
+                const errorTextEmailReg = "Invalid email address";
                 const $errorElementReg = $("<div>")
                   .css({
                     color: "red",
@@ -1710,8 +1710,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter OTP");
-                const errorTextOtp = "Please enter a valid OTP";
+                  .text("OTP is required");
+                const errorTextOtp = "Enter a valid OTP";
                 const $errorElementOtp = $("<div>")
                   .css({
                     color: "red",
@@ -1721,7 +1721,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .text(errorTextOtp);
                 // Create an input field for OTP
                 const $otpInput = $("<input>")
-                  .attr("type", "text")
+                  .attr("type", "number")
                   .addClass("custom-input")
                   .attr("id", "otpInput")
                   .keydown(function (event) {
@@ -1917,7 +1917,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter OTP");
+                  .text("OTP is required");
                 const $emptyFieldErrorResetNewPass = $("<div>")
                   .css({
                     color: "red",
@@ -1925,7 +1925,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please enter new password");
+                  .text("New password is required");
                 const $emptyFieldErrorResetConfirmPass = $("<div>")
                   .css({
                     color: "red",
@@ -1933,8 +1933,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     display: "none",
                     "font-size": "14px",
                   })
-                  .text("Please confirm password");
-                const errorTextResetPass = "Please enter a valid OTP";
+                  .text("Repeat password is required");
+                const errorTextResetPass = "Enter a valid OTP";
                 const $errorElementResetPass = $("<div>")
                   .css({
                     color: "red",
@@ -1966,7 +1966,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the password input field
                 // Create an input field for OTP
                 const $ResetInput = $("<input>")
-                  .attr("type", "text")
+                  .attr("type", "number")
                   .addClass("custom-input")
                   .attr("id", "ResetInput")
                   .keydown(function (event) {
