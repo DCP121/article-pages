@@ -45,36 +45,36 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               const bannerClass = "top-banner";
               //api for comment listing pages
               var commentlistingdata;
-              var showmorcomment=10;
+              var showmorcomment = 10;
               var token =
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NTcxMTEzLCJleHAiOjE2OTY2NTc1MTN9.yPvmsOYdcUzfzMwQDKmJ06j4J5OXPWp7rf0cYEHwvcc";
-              function commentlistapi(){
-                console.log(showmorcomment,'show')
-              $.ajax({
-                url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
-                method: "POST",
-                dataType: "json",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                data: JSON.stringify({
-                  'itemsPerPage': showmorcomment
-              }),
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
+              function commentlistapi() {
+                console.log(showmorcomment, 'show')
+                $.ajax({
+                  url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
+                  method: "POST",
+                  dataType: "json",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  data: JSON.stringify({
+                    'itemsPerPage': showmorcomment
+                  }),
 
-                success: function (data) {
-                  // The data variable now holds the fetched data
-                  commentlistingdata = data;
-                  console.log("Fetched Data:", commentlistingdata);
+                  success: function (data) {
+                    // The data variable now holds the fetched data
+                    commentlistingdata = data;
+                    console.log("Fetched Data:", commentlistingdata);
 
-                  // You can use the data in subsequent operations or functions
-                  processData(commentlistingdata);
-                },
-                error: function (xhr, status, error) {
-                  console.error("Error fetching data:", error);
-                },
-              });
+                    // You can use the data in subsequent operations or functions
+                    processData(commentlistingdata);
+                  },
+                  error: function (xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                  },
+                });
               }
-    commentlistapi();
+              commentlistapi();
               function processData(xyz) {
                 $app.empty()
                 console.log(xyz);
@@ -203,7 +203,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $textName = $("<div>")
                   .addClass("total-comments")
                   .text(`${commentlistingdata?.data?.totalComment}Comments`);
-                  
+
                 const isLogin = localStorage.getItem('token')
                 if (!isLogin) {
                   $Logout.css({ 'display': 'none' })
@@ -242,47 +242,46 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $buttonandinputdiv
                 );
                 $commentButton.on("click", function () {
-                    // Get the value of the input field
-                    console.log('value')
-                    const originalComment = $commentInput.val();
-                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
-  
-                    // Define additional options for the request
-                    const requestOptions = {
-                      method: "POST", // HTTP method
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json", // Specify the content type as JSON
-                      },
-                      body: JSON.stringify({
-                        originalComment: originalComment,
-                        site: "israel-today",
-                      }), // Convert the data object to JSON string
-                    };
-  
-                    fetch(apiUrl, requestOptions)
-                      .then((response) => {
-                        // Check if the response status is OK (201 Created)
-                        if (!response.ok) {
-                          throw new Error(
-                            `HTTP error! Status: ${response.status}`
-                          );
-                        }
-  
-                        // Parse the response body as JSON
-                        return response.json();
-                      })
-                      .then((data) => {
-                        // Handle the response data
-                        commentlistapi()
-                        alert(data.message)
-                      
-                      })
-                      .catch((error) => {
-                        // Handle any errors that occurred during the fetch
-                        console.error("Fetch error:", error);
-                      });
-                  });
+                  // Get the value of the input field
+                  console.log('value')
+                  const originalComment = $commentInput.val();
+                  const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+
+                  // Define additional options for the request
+                  const requestOptions = {
+                    method: "POST", // HTTP method
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    },
+                    body: JSON.stringify({
+                      originalComment: originalComment,
+                      site: "israel-today",
+                    }), // Convert the data object to JSON string
+                  };
+
+                  fetch(apiUrl, requestOptions)
+                    .then((response) => {
+                      // Check if the response status is OK (201 Created)
+                      if (!response.ok) {
+                        throw new Error(
+                          `HTTP error! Status: ${response.status}`
+                        );
+                      }
+
+                      // Parse the response body as JSON
+                      return response.json();
+                    })
+                    .then((data) => {
+                      // Handle the response data
+                      alert(data.message)
+
+                    })
+                    .catch((error) => {
+                      // Handle any errors that occurred during the fetch
+                      console.error("Fetch error:", error);
+                    });
+                });
 
                 // Create element under the logo
                 const $subHeader = $("<div>")
@@ -334,7 +333,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .css({});
                   const $commentuser = $("<div>")
                     .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !==''? dataItem.name:'Anonymous user')
+                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
                     .css({});
 
                   $commentheadermain.append($commentuser, $commenttime);
@@ -410,7 +409,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .css({});
                   const $commentuserreplay = $("<div>")
                     .addClass("user-name")
-                    .text(dataItem?.name && dataItem.name !==''? dataItem.name:'Anonymous user')
+                    .text(dataItem?.name && dataItem.name !== '' ? dataItem.name : 'Anonymous user')
                     .css({});
 
                   $commentreplayheder.append(
@@ -567,20 +566,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-                  $showmorecommentbutton.on("click", function () {
-                        showmorcomment+=10;
-                        commentlistapi();
-                       console.log('counter')
-                  })
 
-
-                                fetch('https://api.ipify.org?format=json'
-                // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
-                //   method: 'GET',
-                //   headers: {
-                //     'Content-Type': 'application/json'
-                //   },
-                // }
+                $showmorecommentbutton.on("click", function () {
+                  showmorcomment += 10;
+                  commentlistapi();
+                  console.log('counter')
+                })
+                fetch('https://api.ipify.org?format=json'
+                  // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
+                  //   method: 'GET',
+                  //   headers: {
+                  //     'Content-Type': 'application/json'
+                  //   },
+                  // }
                 )
                   .then(response => response.json())
                   .then(data => {
@@ -670,7 +668,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch('https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch(' https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -1023,26 +1021,25 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   // Prepare the payload
                   const payload = {
-                    email,
-                    password,
+                    email: email,
+                    password: password,
                     ip: "127.0.0.1",
                     device: "web",
                   };
 
-                  // Send a POST request to the login API
                   try {
-                    const response = await axios(
-                      "https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                    const response = await axios.post(
+                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      payload,
                       {
-                        method: "POST",
                         headers: {
                           "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(payload),
                       }
                     );
 
                     console.log(response); // You can replace this with your desired logic
+
                     if (response.status === 200) {
                       // Close the modal if login is successful
                       $registerModal.css("display", "none");
@@ -1052,9 +1049,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   } catch (error) {
                     console.error("Error:", error.response.data.message);
                     $ApierrorLogin.empty();
-                    $ApierrorLogin.append(
-                      $("<p>").text(error.response.data.message)
-                    );
+                    $ApierrorLogin.append($("<p>").text(error.response.data.message));
                     $ApierrorLogin.css("display", "block");
 
                     // Handle errors here if necessary
@@ -1206,7 +1201,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                     try {
                       const response = await axios.post(
-                        "https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                         otpConfirmationPayload,
                         {
                           headers: {
@@ -1304,6 +1299,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     color: "red",
                     "margin-top": "5px", // Adjust margin if needed
                   });
+                const $ApierrorRegistration = $("<div>").css({
+                  display: "none",
+                  color: "red",
+                  "margin-top": "5px",
+                });
                 const $emptyFieldErrorRegisterEmail = $("<div>")
                   .css({
                     color: "red",
@@ -1550,7 +1550,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append registration form elements to the registration form div
                 $registrationForm.append($registerHeader);
                 $registrationForm.append($redTextreg);
-
+                $registrationForm.append($ApierrorRegistration)
                 // Append the name input field to the registration form
                 $registrationForm.append($registerNameInput);
                 $registrationForm.append($emptyFieldErrorRegisterName);
@@ -1620,7 +1620,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $errorElementPass.css("display", "none");
                   $ApierrorforgotPass.css("display", "none");
                   $ApierrorLogin.css("display", "none");
+                  $ApierrorRegistration.css("display", "none");
                   $ApierrorResetPass.css("display", "none");
+                  $ApierrorOTP.css("display", "none");
+
                 }
                 function FormCleaner() {
                   $emailInput.val("");
@@ -1695,6 +1698,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     color: "red",
                     "margin-top": "5px", // Adjust margin if needed
                   });
+                const $ApierrorOTP = $("<div>").css({
+                  display: "none",
+                  color: "red",
+                  "margin-top": "5px",
+                });
                 const $emptyFieldErrorOtp = $("<div>")
                   .css({
                     color: "red",
@@ -1814,6 +1822,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append OTP form elements to the OTP form container
                 $otpForm.append($otpHeader);
                 $otpForm.append($redTextOtp);
+                $otpForm.append($ApierrorOTP)
                 $otpForm.append($otpInput);
                 $otpForm.append($emptyFieldErrorOtp);
                 $otpForm.append($errorElementOtp);
@@ -1825,7 +1834,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $("body").append($otpForm);
 
                 // Function to handle OTP confirmation
-                function handleOTPConfirmation() {
+                async function handleOTPConfirmation() {
                   const enteredOTP = $otpInput.val().trim();
                   const otpRegex = /^\d{6}$/;
                   if (enteredOTP === "") {
@@ -1837,37 +1846,37 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     return;
                   }
                   const email = $registerEmailInput.val();
-                  // Prepare the payload for OTP confirmation
                   const otpConfirmationPayload = {
                     email: email,
                     otp: parseInt(enteredOTP),
                     // Include any other necessary data for OTP confirmation
                   };
+                  // Prepare the payload for OTP confirmation
+                  try {
 
-                  // Send a POST request to the OTP confirmation API
-                  fetch(
-                    "https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(otpConfirmationPayload),
-                    }
-                  )
-                    .then((response) => response.json())
-                    .then((data) => {
-                      // Handle the API response here
-                      console.log(data); // You can replace this with your desired logic
-                      $registerModal.css("display", "none");
-                      onClosed();
-                      FormCleaner();
-                      alert("User Verified successfully. Please Login.");
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
-                      alert("An error occurred during OTP confirmation.");
-                    });
+                    const response = await axios.post(
+                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      otpConfirmationPayload,
+                      {
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }
+                    );
+
+                    // Handle the API response here
+                    console.log(response.data); // You can replace this with your desired logic
+                    $registerModal.css("display", "none");
+                    onClosed();
+                    FormCleaner();
+                    alert("User Verified successfully. Please Login.");
+                  } catch (error) {
+                    console.error("Error:", error);
+                    $ApierrorOTP.empty();
+                    $ApierrorOTP.append($("<p>").text(error.response.data.message));
+                    $ApierrorOTP.css("display", "block");
+                    // Handle errors here if necessary
+                  }
                 }
 
                 // Create a div for the OTP form
@@ -2234,7 +2243,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Send a POST request to the OTP confirmation API
                   try {
                     const response = await axios(
-                      "https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      " https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                       {
                         method: "POST",
                         headers: {
@@ -2314,40 +2323,41 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ip: "172.16.2.52",
                     device: "web",
                   };
-
+                  console.log(payload, "111111111111")
                   try {
-                    const response = await fetch(
-                      "https://6a07-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                    const response = await axios.post(
+                      "https://2e89-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      payload,
                       {
-                        method: "POST",
                         headers: {
                           "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(payload),
                       }
                     );
 
-                    if (!response.ok) {
+                    if (response.status === 200) {
+                      // Handle the API response here
+                      console.log(response.data); // You can replace this with your desired logic
+
+                      // Close the registration form and show the OTP confirmation form if registration is successful
+                      $registerModalContent.append($otpForm);
+                      $registerModalContent.append($imageDivReg);
+
+                      $registrationForm.css("display", "none");
+                      $otpForm.css({
+                        display: "block",
+                        flex: "1", // Allow the OTP form to grow within the flex container
+                        padding: "20px 60px", // Add padding for spacing
+                      });
+                    } else {
                       throw new Error("Network response was not ok");
                     }
-                    console.log(response, "response");
-                    const data = await response.json();
-
-                    // Handle the API response here
-                    console.log(data); // You can replace this with your desired logic
-                    // Close the registration form and show the OTP confirmation form if registration is successful
-                    $registerModalContent.append($otpForm);
-                    $registerModalContent.append($imageDivReg);
-
-                    $registrationForm.css("display", "none");
-                    $otpForm.css({
-                      display: "block",
-                      flex: "1", // Allow the OTP form to grow within the flex container
-                      padding: "20px 60px", // Add padding for spacing
-                    });
                   } catch (error) {
-                    console.error("Error:", error);
-                    // alert('An error occurred during registration.');
+                    console.error("Error:", error.response.data.message);
+                    $ApierrorRegistration.empty();
+                    $ApierrorRegistration.append($("<p>").text(error.response.data.message));
+                    $ApierrorRegistration.css("display", "block");
+                    // Handle errors here if necessary
                   }
                 }
 
