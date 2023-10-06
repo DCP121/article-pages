@@ -22,7 +22,7 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@f227dc41edd9ddc409e15b8582a1da1dca2e2cb8/index.css');
+loadCSS('/index.css');
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -39,6 +39,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
             // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
             $(document).ready(function () {
               // Create a div container with the id "app"
+              const $container = $('<div>').addClass('container')
               const $app = $("#app");
               const containerClass = "image-container";
               const bannerClass = "top-banner";
@@ -841,11 +842,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
 
                 // Create the child div for the login form
-                const $loginForm = $("<div>").css({
-                  flex: "1",
-                  padding: "20px 60px",
-                  display: "none",
-                });
+                const $loginForm = $("<div>").addClass("left-content").css({'display': 'none'});
                 const $ApierrorLogin = $("<div>").css({
                   display: "none",
                   color: "red",
@@ -854,12 +851,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $loginHeader = $("<h2>").text("Login Form");
 
                 // Create a new element for the red text line
-                const $redText = $("<p>")
+                const $redText = $("<h4>")
                   .text("To comment you need to login")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px", // Adjust margin if needed
-                  });
 
                 // Append the login header and red text elements to the login form
                 $loginForm.append($loginHeader);
@@ -884,18 +877,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "email") // Set the input type to email
                   .attr("id", "emailInput") // Add an ID here
                   .addClass("custom-input")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px", // Adjust right padding for the input
-                    "text-align": "right", // Align text to the right
-                    "margin-top": "15px",
-                    "margin-bottom": "10px",
-                  })
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -923,12 +904,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $emptyFieldErrorLogin.css("display", "none");
                     }
                   });
+                  const $emailContainer = $("<div>")
 
                 // Create a container div for the password input and show/hide toggle button
-                const $passwordContainer = $("<div>").css({
-                  "align-items": "center",
-                  "margin-top": "10px",
-                });
+                const $passwordContainer = $("<div>");
                 var errorTextPass =
                   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character";
                 var $errorElementPass = $("<div>")
@@ -944,17 +923,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "password") // Set the input type to password
                   .addClass("custom-input")
                   .attr("id", "passwordField")
-                  .css({
-                    width: "100%", // Adjust input width
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px", // Adjust right padding for the input
-                    "text-align": "right", // Align text to the right
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -1004,24 +972,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   }
                 });
 
-                const $loginButton = $("<button>").text("Login").css({
-                  "margin-top": "10px",
-                  width: "100%",
-                  padding: "5px 10px",
-                  background: "#E8505B",
-                  border: "none",
-                  outline: "none",
-                  color: "white",
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                  position: "relative",
-                });
+                const $loginButton = $("<button>").addClass("red-button").text("Login");
                 // Create a section for other options
-                const $otherOptionsSection = $("<div>").css({
-                  width: "100%",
-                  "text-align": "center",
-                  "margin-top": "10px",
-                });
+                const $otherOptionsSection = $("<div>");
 
                 // Create the horizontal rule for the section
                 const $horizontalRule = $("<hr>").css({
@@ -1031,12 +984,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Create the text for the section
-                const $otherOptionsText = $("<p>").text("Other options").css({
-                  "background-color": "#F6F5F5",
-                  padding: "0 10px",
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                });
+                const $otherOptionsText = $("<div>").addClass("other-options")
+                const $otherOptionsTextSpan = $("<span>").text("Other options");
                 const errorTextEmailLogin = "Invalid email address";
                 const $errorElementLogin = $("<div>")
                   .css({
@@ -1050,28 +999,28 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $loginForm.append($loginHeader);
                 $loginForm.append($redText);
                 $loginForm.append($ApierrorLogin);
-                $loginForm.append($emailInput); // Append email input
-                $loginForm.append($errorElementLogin);
-                $loginForm.append($emptyFieldErrorLogin);
+                $emailContainer.append($emailInput)
+                $emailContainer.append($errorElementLogin)
+                $emailContainer.append($emptyFieldErrorLogin)
+
+                $loginForm.append($emailContainer)
+                // $loginForm.append($emailInput); // Append email input
+                // $loginForm.append($errorElementLogin);
+                // $loginForm.append($emptyFieldErrorLogin);
                 $passwordContainer.append($passwordInput); // Append password input to the container
                 $passwordContainer.append($emptyFieldErrorLoginPass);
-                $passwordContainer.append($showPasswordToggle); // Append show/hide password icon to the container
+                // $passwordContainer.append($showPasswordToggle); // Append show/hide password icon to the container
                 $loginForm.append($passwordContainer); // Append the container to the login form
                 $loginForm.append($loginButton);
                 $loginForm.append($otherOptionsSection);
-                $otherOptionsSection.append($horizontalRule);
+                // $otherOptionsSection.append($horizontalRule);
                 $otherOptionsSection.append($otherOptionsText);
+                $otherOptionsText.append($otherOptionsTextSpan);
 
                 // Create the "Forgot password?" link with red text
-                const $forgotPasswordLink = $("<p>")
+                const $forgotPasswordLink = $("<p>").addClass("auth-link")
                   .text("Forgot password?")
-                  .css({
-                    color: "red",
-                    "text-align": "center",
-                    cursor: "pointer",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .click(function () {
                     // Add functionality to handle "Forgot password?" click here  $loginForm.css('display', 'none');
                     $loginForm.css("display", "none");
@@ -1080,21 +1029,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $emptyFieldErrorForgot.css("display", "none");
                   });
                 $loginForm.append($forgotPasswordLink);
-                const $registerLink = $("<p>").css({
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                  "text-align": "center",
-                });
+                const $registerLink = $("<p>").addClass("have-accoung");
                 $loginForm.append(gIdOnloadDiv);
                 $loginForm.append(gIdSigninDiv);
                 // Create the "Don’t have an account?" text and make it black
+                const $registerLinkDiv = $("<div>").addClass("bottom-wrap");
+                
                 $registerLink.append("Don’t have an account? ");
                 const $registerSpan = $("<span>")
                   .text("Register")
-                  .css({
-                    color: "red",
-                    cursor: "pointer",
-                  })
+                  
                   .click(function () {
                     // Add functionality to handle "Register" click here
                     $loginForm.css("display", "none");
@@ -1105,12 +1049,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append the "Register" text to the existing paragraph
                 $registerLink.append($registerSpan);
                 // Append the footer image to the modal content
-
-                $loginForm.append($registerLink);
-                $loginForm.append(
+                  $loginForm.append($registerLinkDiv)
+                $registerLinkDiv.append($registerLink);
+                $registerLinkDiv.append(
                   '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                 );
-                $loginForm.append($footerImage);
+                $registerLinkDiv.append($footerImage);
 
                 // Create the child div for the image
                 const $imageDiv = $("<div>").css({
@@ -1224,25 +1168,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 const $registerModalContent = $("<div>")
-                  .addClass("modal-content row")
-                  .css({
-                    "background-color": "#fff",
-                    margin: "auto",
-                    width: "60%",
-                    "text-align": "center",
-                    "margin-top": "100px",
-                    display: "flex",
-                    "flex-direction": "row", // Change to row to arrange form and image side by side
-                  });
-
+                  .addClass("modal-content")
+                  
                 $registerModalContent.css({
                   position: "relative",
                 });
-                const $ForgotPassForm = $("<div>").css({
-                  flex: "1",
-                  padding: "20px 60px",
-                  display: "none",
-                });
+                const $ForgotPassForm = $("<div>").addClass("left-content").css({'display': 'none'});
                 const $ForgotPassHeader = $("<h2>").text("Forgot password");
                 const $redTextForgotPass = $("<p>")
                   .text(
@@ -1276,22 +1207,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   })
                   .text("Email is required");
                 // Create the email input field
+                const $ForgotPassEmailInputDiv = $("<div>")
                 const $ForgotPassEmailInput = $("<input>")
                   .attr("type", "email")
                   .addClass("custom-input")
                   .attr("id", "registerEmailInput")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "15px",
-                    "margin-bottom": "10px",
-                  })
+
                   .attr("placeholder", "Email")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1320,19 +1241,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create the registration button
-                const $ForgotPassSubmit = $("<button>")
+                const $ForgotPassSubmit = $("<button>").addClass("red-button")
                   .text("Submit")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    padding: "5px 10px",
-                    background: "#E8505B",
-                    border: "none",
-                    outline: "none",
-                    color: "white",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .click(async function sendForgotPasswordRequest() {
                     const emailValue = $ForgotPassEmailInput.val();
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1393,13 +1304,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Append the "Login" text to the existing paragraph
-                const $BackToLoginForgot = $("<p>")
+                const $BackToLoginForgot = $("<p>").addClass("auth-link")
                   .text("Back to Login")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px",
-                    cursor: "pointer",
-                  })
+                  
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     // For example, you can show the login modal or trigger an action.
@@ -1410,20 +1317,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ErrorCleaner();
                     FormCleaner();
                   });
-                const $registerLinkForgot = $("<p>").css({
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                  "text-align": "center",
-                });
+                const $registerLinkForgotDiv = $("<div>").addClass("bottom-wrap")
+                const $registerLinkForgot = $("<p>").addClass("have-accoung")
 
                 // Create the "Don’t have an account?" text and make it black
                 $registerLinkForgot.append("Don’t have an account? ");
                 const $registerForgotSpan = $("<span>")
                   .text("Register")
-                  .css({
-                    color: "red",
-                    cursor: "pointer",
-                  })
+                  
                   .click(function () {
                     // Add functionality to handle "Register" click here
                     $loginForm.css("display", "none");
@@ -1437,35 +1338,33 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $ForgotPassForm.append($ForgotPassHeader);
                 $ForgotPassForm.append($redTextForgotPass);
                 $ForgotPassForm.append($ApierrorforgotPass);
-                $ForgotPassForm.append($ForgotPassEmailInput);
-                $ForgotPassForm.append($errorElementForgot);
-                $ForgotPassForm.append($emptyFieldErrorForgot);
+                $ForgotPassEmailInputDiv.append($ForgotPassEmailInput)
+                $ForgotPassEmailInputDiv.append($errorElementForgot)
+                $ForgotPassEmailInputDiv.append($emptyFieldErrorForgot)
+                $ForgotPassForm.append($ForgotPassEmailInputDiv);
+
+                // $ForgotPassForm.append($ForgotPassEmailInput);
+                // $ForgotPassForm.append($errorElementForgot);
+                // $ForgotPassForm.append($emptyFieldErrorForgot);
                 $ForgotPassForm.append($ForgotPassSubmit);
                 // $ForgotPassForm.append($registerOtherOptionsSection);
                 $ForgotPassForm.append($BackToLoginForgot);
-                $ForgotPassForm.append($registerLinkForgot);
-                $ForgotPassForm.append(
+                $ForgotPassForm.append($registerLinkForgotDiv);
+                $registerLinkForgotDiv.append($registerLinkForgot);
+                $registerLinkForgotDiv.append(
                   '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                 );
                 // Create the child div for the registration form
-                const $registrationForm = $("<div>").css({
-                  flex: "1",
-                  padding: "20px 60px",
-                  display: "none",
-                });
+                const $registrationForm = $("<div>").addClass("left-content").css({'display': 'none'});
 
                 const $registerHeader = $("<h2>").text("Register");
-                const $redTextreg = $("<p>")
+                const $redTextreg = $("<h4>")
                   .text("To comment you need to register")
-                  .css({
+                  const $ApierrorRegistration = $("<div>").css({
+                    display: "none",
                     color: "red",
-                    "margin-top": "5px", // Adjust margin if needed
+                    "margin-top": "5px",
                   });
-                const $ApierrorRegistration = $("<div>").css({
-                  display: "none",
-                  color: "red",
-                  "margin-top": "5px",
-                });
                 const $emptyFieldErrorRegisterEmail = $("<div>")
                   .css({
                     color: "red",
@@ -1490,21 +1389,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     "font-size": "14px",
                   })
                   .text("Name is required");
+                 const $nameDiv = $("<div>")
                 const $registerNameInput = $("<input>")
                   .attr("type", "text")
                   .addClass("custom-input")
                   .attr("id", "registerNameInput")
-                  .css({
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .attr("placeholder", "Name")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1530,22 +1420,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create the email input field
+                const $registerEmailInputDiv = $("<div>")
                 const $registerEmailInput = $("<input>")
                   .attr("type", "email")
                   .addClass("custom-input")
                   .attr("id", "registerEmailInput")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "15px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .attr("placeholder", "Email")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1573,21 +1453,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create the password input field
+                const $registerPasswordFieldDiv = $("<div>")
                 const $registerPasswordField = $("<input>")
                   .attr("type", "password")
                   .addClass("custom-input")
                   .attr("id", "registerPasswordField")
-                  .css({
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .attr("placeholder", "Password")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1620,24 +1491,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create the registration button
-                const $registerButton = $("<button>").text("Register").css({
-                  "margin-top": "10px",
-                  width: "100%",
-                  padding: "5px 10px",
-                  background: "#E8505B",
-                  border: "none",
-                  outline: "none",
-                  color: "white",
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                });
+                const $registerButton = $("<button>").addClass("red-button").text("Register");
 
                 // Create a section for other options
-                const $registerOtherOptionsSection = $("<div>").css({
-                  width: "100%",
-                  "text-align": "center",
-                  "margin-top": "10px",
-                });
+                const $registerOtherOptionsSection = $("<div>");
 
                 // Create the horizontal rule for the section
                 const $registerHorizontalRule = $("<hr>").css({
@@ -1646,18 +1503,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   margin: "0",
                 });
 
+                const $registerOtherOptionsText = $("<div>").addClass("other-options")
+                const $registerOtherOptionsTextSpan = $("<span>").text("Other options");
+
                 // Create the "Already have an account?" text and make it black
-                const $registerLoginLink = $("<p>").text("").css({
-                  color: "black",
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                });
+                // const $registerLoginLink = $("<p>").text("").css({
+                //   color: "black",
+                //   "margin-top": "10px",
+                //   "margin-bottom": "10px",
+                // });
                 // Create the "I accept the terms and conditions" text with a clickable link
-                const $registerTermsLink = $("<p>").css({
-                  color: "black",
-                  "margin-top": "10px",
-                  "margin-bottom": "10px",
-                });
+                const $registerTermsLinkDiv = $("<div>").addClass("bottom-wrap");
+
+                const $registerTermsLink = $("<p>").addClass("t-and-c");
 
                 // Create the actual link element
                 const $termsLink = $("<a>")
@@ -1673,23 +1531,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $registerTermsLink.append($termsLink);
 
                 // Append the "I accept the terms and conditions" text to the existing paragraph
-                $registerLoginLink.append($registerTermsLink);
 
-                const $registerLoginLinkRed = $("<p>")
+                const $registerLoginLinkRed = $("<p>").addClass("have-accoung")
                   .text("Do you have an account ? ")
-                  .css({
-                    color: "black",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  });
 
                 // Append the "Login" text to the existing paragraph
                 const $registerLoginSpan = $("<span>")
                   .text("Login")
-                  .css({
-                    color: "red",
-                    cursor: "pointer",
-                  })
+                  
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     $loginForm.css("display", "block");
@@ -1708,44 +1557,56 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .text(errorTextEmailReg);
                 // Append the "Login" text to the existing paragraph
                 $registerLoginLinkRed.append($registerLoginSpan);
-                $registerLoginLink.append($registerLoginLinkRed);
                 // Append registration form elements to the registration form div
                 $registrationForm.append($registerHeader);
                 $registrationForm.append($redTextreg);
-                $registrationForm.append($ApierrorRegistration)
-                // Append the name input field to the registration form
-                $registrationForm.append($registerNameInput);
-                $registrationForm.append($emptyFieldErrorRegisterName);
-                $registrationForm.append($registerEmailInput);
-                $registrationForm.append($errorElementReg);
-                $registrationForm.append($emptyFieldErrorRegisterEmail);
 
-                $registrationForm.append($registerPasswordField);
-                $registrationForm.append($emptyFieldErrorRegisterPass);
+                // Append the name input field to the registration form
+                $nameDiv.append($registerNameInput)
+                $nameDiv.append($emptyFieldErrorRegisterName)
+                $registrationForm.append($nameDiv)
+                // $registrationForm.append($registerNameInput);
+                // $registrationForm.append($emptyFieldErrorRegisterName);
+                $registerEmailInputDiv.append($registerEmailInput)
+                $registerEmailInputDiv.append($errorElementReg)
+                $registerEmailInputDiv.append($emptyFieldErrorRegisterEmail)
+                $registrationForm.append($registerEmailInputDiv)
+
+                // $registrationForm.append($registerEmailInput);
+                // $registrationForm.append($errorElementReg);
+                // $registrationForm.append($emptyFieldErrorRegisterEmail);
+                $registerPasswordFieldDiv.append($registerPasswordField)
+                $registerPasswordFieldDiv.append($emptyFieldErrorRegisterPass)
+                $registrationForm.append($registerPasswordFieldDiv)
+                
+                // $registrationForm.append($registerPasswordField);
+                // $registrationForm.append($emptyFieldErrorRegisterPass);
                 $registrationForm.append($errorElementPass);
                 $registrationForm.append($registerButton);
                 $registrationForm.append($registerOtherOptionsSection);
-                $registrationForm.append($footerImage);
-                $registerOtherOptionsSection.append($registerHorizontalRule);
+                $registrationForm.append($registerTermsLinkDiv);
+
+                // $registerOtherOptionsSection.append($registerHorizontalRule);
+                // $registrationForm.append($registerOtherOptionsSection);
+                // $otherOptionsSection.append($horizontalRule);
+                $registerOtherOptionsSection.append($registerOtherOptionsText);
+                $registerOtherOptionsText.append($registerOtherOptionsTextSpan);
+
                 $registerOtherOptionsSection.append(gIdOnloadDiv1);
                 $registerOtherOptionsSection.append(gIdSigninDiv1);
-                $registerOtherOptionsSection.append($registerLoginLink);
+                $registerTermsLinkDiv.append($registerTermsLink);
+
+                $registerTermsLinkDiv.append($registerLoginLinkRed);
+                $registerTermsLinkDiv.append($footerImage);
+
+                // $registerOtherOptionsSection.append($registerLoginLink);
 
                 // Append the registration form div to the registration modal content
                 $registerModalContent.append($registrationForm);
                 $registerModalContent.append($loginForm);
                 $registerModalContent.append($ForgotPassForm);
                 // Create a div for the image
-                const $imageDivReg = $("<div>")
-                  .css({
-                    flex: "1",
-                    width: "100%",
-                    "max-width": "400px",
-                    display: "flex", // Add display flex to arrange the form and image side by side
-                    "flex-direction": "column", // Arrange them horizontally
-                    "align-items": "center", // Center the image horizontally
-                  })
-                  .addClass("d-none d-xl-block");
+                const $imageDivReg = $("<div>").addClass("right-content");
                 // }).addClass("d-none d-lg-block d-xl-block");
 
                 // Create an image element
@@ -1844,10 +1705,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $registrationForm.css("display", "block");
                 });
                 // Create a div for the OTP form
-                const $otpForm = $("<div>").css({
+                const $otpForm = $("<div>").addClass("left-content").css({
                   display: "none", // Initially hide the OTP form
-                  // 'flex': '1', // Allow the OTP form to grow within the flex container
-                  padding: "20px 60px", // Add padding for spacing
                 });
 
                 // Create an h2 header for the OTP form
@@ -1856,17 +1715,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Create the red text "Enter OTP for verification"
-                const $redTextOtp = $("<p>")
+                const $redTextOtp = $("<h4>")
                   .text("Enter OTP for verification")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px", // Adjust margin if needed
-                  });
-                const $ApierrorOTP = $("<div>").css({
-                  display: "none",
-                  color: "red",
-                  "margin-top": "5px",
-                });
                 const $emptyFieldErrorOtp = $("<div>")
                   .css({
                     color: "red",
@@ -1884,8 +1734,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   })
                   .text(errorTextOtp);
                 // Create an input field for OTP
+                const $otpInputDiv = $("<div>")
                 const $otpInput = $("<input>")
-                  .attr("type", "number")
+                  .attr("type", "text")
                   .addClass("custom-input")
                   .attr("id", "otpInput")
                   .keydown(function (event) {
@@ -1893,17 +1744,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       event.preventDefault();
                     }
                   })
-                  .css({
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .attr("placeholder", "Enter OTP")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1933,19 +1774,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create a button for OTP confirmation
-                const $otpConfirmButton = $("<button>")
+                const $otpConfirmButton = $("<button>").addClass("red-button")
                   .text("Submit OTP")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    padding: "5px 10px",
-                    background: "#E8505B",
-                    border: "none",
-                    outline: "none",
-                    color: "white",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
                   .click(handleOTPConfirmation);
                 // Create the horizontal rule for the section
                 const $OtpHorizontalRule = $("<hr>").css({
@@ -1955,13 +1785,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Append the "Login" text to the existing paragraph
-                const $BackToLogin = $("<p>")
+                const $BackToLogin = $("<p>").addClass("auth-link")
                   .text("Back to Login")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px",
-                    cursor: "pointer",
-                  })
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     // For example, you can show the login modal or trigger an action.
@@ -1972,6 +1797,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     FormCleaner();
                   });
                 // Create the footer image for the OTP form
+                const $footerImageOtpDiv = $("<div>").addClass('bottom-wrap')
                 const $footerImageOtp = $("<img>")
                   .attr(
                     "src",
@@ -1986,14 +1812,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append OTP form elements to the OTP form container
                 $otpForm.append($otpHeader);
                 $otpForm.append($redTextOtp);
-                $otpForm.append($ApierrorOTP)
-                $otpForm.append($otpInput);
-                $otpForm.append($emptyFieldErrorOtp);
-                $otpForm.append($errorElementOtp);
+                $otpForm.append($otpInputDiv);
+                $otpInputDiv.append($otpInput);
+                $otpInputDiv.append($emptyFieldErrorOtp);
+                $otpInputDiv.append($errorElementOtp);
                 $otpForm.append($otpConfirmButton);
-                $otpForm.append($OtpHorizontalRule);
+                // $otpForm.append($OtpHorizontalRule);
                 $otpForm.append($BackToLogin);
-                $otpForm.append($footerImageOtp);
+                $otpForm.append($footerImageOtpDiv);
+
+                $footerImageOtpDiv.append($footerImageOtp);
                 // Append the OTP form to the document body or another container
                 $("body").append($otpForm);
 
@@ -2054,10 +1882,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
 
                 // Create a div for the OTP form
-                const $ResetPassForm = $("<div>").css({
+                const $ResetPassForm = $("<div>").addClass("left-content").css({
                   display: "none", // Initially hide the OTP form
                   // 'flex': '1', // Allow the OTP form to grow within the flex container
-                  padding: "20px 60px", // Add padding for spacing
                 });
 
                 // Create an h2 header for the OTP form
@@ -2066,12 +1893,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Create the red text "Enter OTP for verification"
-                const $RedTextResetPass = $("<p>")
+                const $RedTextResetPass = $("<h4>")
                   .text("Enter OTP & new password")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px", // Adjust margin if needed
-                  });
                 const $ApierrorResetPass = $("<div>").css({
                   display: "none",
                   color: "red",
@@ -2139,6 +1962,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .text(errorTextPassResetConfirm);
                 // Create the password input field
                 // Create an input field for OTP
+                const $ResetInputDiv = $("<div>")
+
                 const $ResetInput = $("<input>")
                   .attr("type", "number")
                   .addClass("custom-input")
@@ -2148,17 +1973,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       event.preventDefault();
                     }
                   })
-                  .css({
-                    width: "100%",
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px",
-                    "text-align": "right",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .attr("placeholder", "Enter OTP")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -2187,21 +2002,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     }
                   });
                 // Create the password input field
+                const $ResetPassInputDiv = $("<div>")
                 const $ResetPassInput = $("<input>")
                   .attr("type", "password") // Set the input type to password
                   .addClass("custom-input")
                   .attr("id", "passwordField")
-                  .css({
-                    width: "100%", // Adjust input width
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px", // Adjust right padding for the input
-                    "text-align": "right", // Align text to the right
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -2236,21 +2042,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create the password input field
+                const $ResetPassReInputdiv = $("<div>")
                 const $ResetPassReInput = $("<input>")
                   .attr("type", "password") // Set the input type to password
                   .addClass("custom-input")
                   .attr("id", "passwordField")
-                  .css({
-                    width: "100%", // Adjust input width
-                    height: "40px",
-                    "background-color": "#F6F5F5",
-                    position: "relative",
-                    border: "none",
-                    "padding-right": "10px", // Adjust right padding for the input
-                    "text-align": "right", // Align text to the right
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -2285,19 +2082,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   });
 
                 // Create a button for OTP confirmation
-                const $ResetPassButton = $("<button>")
+                const $ResetPassButton = $("<button>").addClass("red-button")
                   .text("Reset password")
-                  .css({
-                    "margin-top": "10px",
-                    width: "100%",
-                    padding: "5px 10px",
-                    background: "#E8505B",
-                    border: "none",
-                    outline: "none",
-                    color: "white",
-                    "margin-top": "10px",
-                    "margin-bottom": "10px",
-                  })
+                  
                   .click(handleResetSubmit);
                 // Create the horizontal rule for the section
                 const $ResetPassHorizontalRule = $("<hr>").css({
@@ -2307,13 +2094,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Append the "Login" text to the existing paragraph
-                const $BackToLoginResetPass = $("<p>")
+                const $BackToLoginResetPass = $("<p>").addClass("auth-link")
                   .text("Back to Login")
-                  .css({
-                    color: "red",
-                    "margin-top": "5px",
-                    cursor: "pointer",
-                  })
+
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     // For example, you can show the login modal or trigger an action.
@@ -2325,26 +2108,37 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ErrorCleaner();
                   });
 
+                  const $ResetPassBottpmImg = $("<div>").addClass("bottom-wrap")
+                  $ResetPassBottpmImg.append(
+                    '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
+                  );
+
                 // Append OTP form elements to the OTP form container
                 $ResetPassForm.append($ResetPassHeader);
                 $ResetPassForm.append($RedTextResetPass);
+                $ResetPassForm.append($ApierrorResetPass)
                 $ResetPassForm.append($PasswordNotSame);
-                $ResetPassForm.append($ResetInput);
-                $ResetPassForm.append($emptyFieldErrorResetPass);
-                $ResetPassForm.append($errorElementResetPass);
-                $ResetPassForm.append($ResetPassInput);
-                $ResetPassForm.append($emptyFieldErrorResetNewPass);
-                $ResetPassForm.append($errorElementPassReset);
-                $ResetPassForm.append($ResetPassReInput);
-                $ResetPassForm.append($emptyFieldErrorResetConfirmPass);
-                $ResetPassForm.append($errorElementPassResetConfirm);
+                $ResetPassForm.append($ResetInputDiv);
+                $ResetInputDiv.append($ResetInput);
+                $ResetInputDiv.append($emptyFieldErrorResetPass);
+                $ResetInputDiv.append($errorElementResetPass);
+
+                $ResetPassForm.append($ResetPassInputDiv);
+                $ResetPassInputDiv.append($ResetPassInput);
+                $ResetPassInputDiv.append($emptyFieldErrorResetNewPass);
+                $ResetPassInputDiv.append($errorElementPassReset);
+
+                $ResetPassForm.append($ResetPassReInputdiv);
+                $ResetPassReInputdiv.append($ResetPassReInput);
+                $ResetPassReInputdiv.append($emptyFieldErrorResetConfirmPass);
+                $ResetPassReInputdiv.append($errorElementPassResetConfirm);
 
                 $ResetPassForm.append($ResetPassButton);
-                $ResetPassForm.append($ResetPassHorizontalRule);
+                // $ResetPassForm.append($ResetPassHorizontalRule);
                 $ResetPassForm.append($BackToLoginResetPass);
-                $ResetPassForm.append(
-                  '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
-                );
+                $ResetPassForm.append($ResetPassBottpmImg);
+                
+
                 // Append the OTP form to the document body or another container
                 $("body").append($ResetPassForm);
 
@@ -2512,7 +2306,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ip: "172.16.2.52",
                     device: "web",
                   };
-                  console.log(payload, "111111111111")
+
                   try {
                     const response = await axios.post(
                       "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
@@ -2565,24 +2359,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     //   "margin-left": "20px",
                     //   "margin-right": "20px",
                     // });
-                    $flexContainer.css({
-                      "margin-top": "20px",
-                      "margin-bottom": "20px",
-                      "flex-direction": "column",
-                    });
                     $firstImageContainer.find("img").css("max-width", "100%");
                     $flexContainer.find("img").css("max-width", "100%");
                     $registerModalContent.css("width", "75%");
                   } else {
                     // Reset to the original styles for wider screens
-                    $flexContainer.css({
-                      "margin-top": "30px",
-                      "margin-bottom": "30px",
-                      "flex-direction": "row",
-                    });
                     $firstImageContainer.find("img").css("max-width", "100%");
                     $flexContainer.find("img").css("max-width", "100%");
-                    $registerModalContent.css("width", "50%");
+
                   }
                 }
 
