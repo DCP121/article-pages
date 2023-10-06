@@ -45,9 +45,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               const bannerClass = "top-banner";
               //api for comment listing pages
               var commentlistingdata;
+              var showmorcomment=10;
               var token =
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDFjNDE1Yzk2MTZkMTM1YmEzOTZmMSIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NDgyMTg5LCJleHAiOjE2OTY1Njg1ODl9.cxKYnLi7tJIZjIMrr6ZRAnY_wdj8rzkj6ZhMP8OSPbY";
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGIwNmY3MzAzNjE3ZWZhN2EzZjMxNiIsInNpdGUiOiJpc3JhZWxCYWNrT2ZmaWNlIiwiaWF0IjoxNjk2NTcxMTEzLCJleHAiOjE2OTY2NTc1MTN9.yPvmsOYdcUzfzMwQDKmJ06j4J5OXPWp7rf0cYEHwvcc";
               function commentlistapi(){
+                console.log(showmorcomment,'show')
               $.ajax({
                 url: "http://172.16.1.237:3001/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&site=israelBackOffice", // Replace with your API endpoint
                 method: "POST",
@@ -55,6 +57,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                data: JSON.stringify({
+                  'itemsPerPage': showmorcomment
+              }),
 
                 success: function (data) {
                   // The data variable now holds the fetched data
@@ -71,6 +76,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               }
     commentlistapi();
               function processData(xyz) {
+                $app.empty()
                 console.log(xyz);
                 console.log(commentlistingdata.data.pageData);
                 function displayResponsiveImage(
@@ -268,6 +274,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       })
                       .then((data) => {
                         // Handle the response data
+                        commentlistapi()
                         alert(data.message)
                       
                       })
@@ -560,6 +567,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
+                  $showmorecommentbutton.on("click", function () {
+                        showmorcomment+=10;
+                        commentlistapi();
+                       console.log('counter')
+                  })
 
 
                                 fetch('https://api.ipify.org?format=json'
