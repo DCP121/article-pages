@@ -22,7 +22,7 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@f227dc41edd9ddc409e15b8582a1da1dca2e2cb8/index.css');
+loadCSS('index.css');
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -59,7 +59,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ''}&site=israelBackOffice`, // Replace with your API endpoint
+                  url: ` https://6927-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
                   headers: headers,
@@ -279,7 +279,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   } else {
                     $errorMessagecomment.hide();
                     const token = localStorage.getItem("token");
-                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                    const apiUrl = ` https://6927-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                     // Define additional options for the request
                     const headers = {
@@ -640,7 +640,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       if (token) {
                         headers["Authorization"] = `Bearer ${token}`;
                       }
-                      const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                      const apiUrl = ` https://6927-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                       // Define additional options for the request
                       const requestOptions = {
@@ -810,7 +810,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch(' https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch('https://6927-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -839,28 +839,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     console.log("User is not signed in.");
                   }
                 }
-                
-                const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content text-center">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
+
+                const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
+      <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
+        <div class="modal-content thank-you-pop-modal text-center">
           <div class="modal-body">
             <div class="thank-you-pop">
-              <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
-              <h1>Thank You!</h1>
-              <p>Your submission is received and we will contact you soon</p>
-              <h3 class="cupon-pop">Your Id: <span>12345</span></h3>
+            <img src="https://img.icons8.com/color/144/ok--v1.png" alt=""/>
+              <h1>Success!</h1>
+              <p id="msgtag"></p>
             </div>
           </div>
         </div>
       </div>
     </div>
   `;
-  $(`body`).append($modalContentSuccess)
+                $(`body`).append($modalContentSuccess)
                 // Create the child div for the login form
                 const $loginForm = $("<div>").css({
                   flex: "1",
@@ -1199,7 +1193,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      " https://6927-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1217,6 +1211,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       FormCleaner();
                       $("#ignismyModal").css("display", "block")
                       $("#ignismyModal").addClass("modal fade show");
+                      $("#msgtag").html("login successfully!!")
+                      setTimeout(() => {
+                        $("#ignismyModal").css("display", "none")
+                        $("#msgtag").html("")
+                      }, 2000);
                     }
                   } catch (error) {
                     console.error("Error:", error);
@@ -1382,7 +1381,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ForgotPassSubmit.prop("disabled", true)
                     try {
                       const response = await axios.post(
-                        " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        "https://6927-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                         ForgotPassPayload,
                         {
                           headers: {
@@ -1808,7 +1807,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $ApierrorRegistration.css("display", "none");
                   $ApierrorResetPass.css("display", "none");
                   $ApierrorOTP.css("display", "none");
-
                 }
                 function FormCleaner() {
                   $emailInput.val("");
@@ -1987,6 +1985,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   })
                   .click(function () {
                     // Add functionality to handle "Login" click here
+                    ErrorCleaner()
                     // For example, you can show the login modal or trigger an action.
                     $registrationForm.css("display", "none");
                     $loginForm.css("display", "block"); // Show the login modal
@@ -2048,7 +2047,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   try {
 
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      " https://6927-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -2062,7 +2061,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $registerModal.css("display", "none");
                     onClosed();
                     FormCleaner();
-                    alert("User Verified successfully. Please Login.");
+                    $("#ignismyModal").css("display", "block")
+                    $("#ignismyModal").addClass("modal fade show");
+                    $("#msgtag").html("your account has been created successfully!!")
+                    setTimeout(() => {
+                      $("#ignismyModal").css("display", "none")
+                      $("#msgtag").html("")
+                    }, 2000);
                   } catch (error) {
                     console.error("Error:", error);
                     $ApierrorOTP.empty();
@@ -2071,7 +2076,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Handle errors here if necessary
                   } finally {
                     // Enable button and remove spinner after API call is complete
-                    $otpConfirmButtons.prop("disabled", false);
+                    console.log("testing otp")
+                    $otpConfirmButton.prop("disabled", false);
                     $spinner.remove();
                   }
                 }
@@ -2339,18 +2345,19 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   })
                   .click(function () {
                     // Add functionality to handle "Login" click here
+                    ErrorCleaner();
                     // For example, you can show the login modal or trigger an action.
                     $registrationForm.css("display", "none");
                     $loginForm.css("display", "block"); // Show the login modal
                     $ResetPassForm.css("display", "none");
                     $ForgotPassForm.css("display", "none");
                     FormCleaner();
-                    ErrorCleaner();
                   });
 
                 // Append OTP form elements to the OTP form container
                 $ResetPassForm.append($ResetPassHeader);
                 $ResetPassForm.append($RedTextResetPass);
+                $ResetPassForm.append($ApierrorResetPass)
                 $ResetPassForm.append($PasswordNotSame);
                 $ResetPassForm.append($ResetInput);
                 $ResetPassForm.append($emptyFieldErrorResetPass);
@@ -2446,7 +2453,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Send a POST request to the OTP confirmation API
                   try {
                     const response = await axios.post(
-                      " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      "https://6927-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                       ResetPassVal,
                       {
                         headers: {
@@ -2461,6 +2468,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $registerModal.css("display", "none");
                       onClosed();
                       FormCleaner();
+                      $("#ignismyModal").css("display", "block")
+                      $("#ignismyModal").addClass("modal fade show");
+                      $("#msgtag").html("your password has been updated successfully!!")
+                      setTimeout(() => {
+                        $("#ignismyModal").css("display", "none")
+                        $("#msgtag").html("")
+                      }, 2000);
                     }
                   } catch (error) {
                     console.error("Error:", error.response.data.message);
@@ -2538,7 +2552,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log(payload, "111111111111")
                   try {
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      " https://6927-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
@@ -2550,7 +2564,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     if (response.status === 200) {
                       // Handle the API response here
                       console.log(response.data); // You can replace this with your desired logic
-
                       // Close the registration form and show the OTP confirmation form if registration is successful
                       $registerModalContent.append($otpForm);
                       $registerModalContent.append($imageDivReg);
@@ -2561,6 +2574,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         flex: "1", // Allow the OTP form to grow within the flex container
                         padding: "20px 60px", // Add padding for spacing
                       });
+
                     } else {
                       throw new Error("Network response was not ok");
                     }
@@ -2571,6 +2585,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorRegistration.css("display", "block");
                     // Handle errors here if necessary
                   } finally {
+                    console.log("testing")
                     // Enable button and remove spinner after API call is complete
                     $registerButton.prop("disabled", false);
                     $spinner.remove();

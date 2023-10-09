@@ -258,6 +258,38 @@
     font-weight: 400 !important;
     line-height: normal !important; 
 }
+/* Thank you popup */
+.thank-you-pop-modal-dialog {
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.thank-you-pop-modal {
+    min-height: initial !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+}
+.thank-you-pop {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.thank-you-pop h1 {
+    font-size: 42px;
+    color: #4CAF50;
+    margin: 25px 0;
+}
+.thank-you-pop p {
+    font-size: 20px;
+    line-height: normal;
+    color: #757575;
+}
+
 
 @media screen and (max-width:767px) {
     .sub-header {

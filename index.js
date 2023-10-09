@@ -22,7 +22,7 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('/index.css');
+loadCSS('index.css');
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -60,7 +60,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
+                  url: ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
                   headers:headers,
@@ -280,7 +280,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   } else {
                     $errorMessagecomment.hide();
                     const token = localStorage.getItem("token");
-                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                    const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                     // Define additional options for the request
                     const headers = {
@@ -641,7 +641,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     if (token) {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
-                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                    const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                     // Define additional options for the request
                     const requestOptions = {
@@ -811,7 +811,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch(' https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch(' https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -841,6 +841,21 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   }
                 }
 
+                const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
+      <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
+        <div class="modal-content thank-you-pop-modal text-center">
+          <div class="modal-body">
+            <div class="thank-you-pop">
+            <img src="https://img.icons8.com/color/144/ok--v1.png" alt=""/>
+              <h1>Success!</h1>
+              <p id="msgtag"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+                $(`body`).append($modalContentSuccess)
                 // Create the child div for the login form
                 const $loginForm = $("<div>").addClass("left-content").css({'display': 'none'});
                 const $ApierrorLogin = $("<div>").css({
@@ -1122,7 +1137,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1138,9 +1153,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $registerModal.css("display", "none");
                       onClosed();
                       FormCleaner();
+                      $("#ignismyModal").css("display", "block")
+                      $("#ignismyModal").addClass("modal fade show");
+                      $("#msgtag").html("login successfully!!")
+                      setTimeout(() => {
+                        $("#ignismyModal").css("display", "none")
+                        $("#msgtag").html("")
+                      }, 2000);
                     }
                   } catch (error) {
-                    console.error("Error:", error.response.data.message);
+                    console.error("Error:", error);
                     $ApierrorLogin.empty();
                     $ApierrorLogin.append($("<p>").text(error.response.data.message));
                     $ApierrorLogin.css("display", "block");
@@ -1270,7 +1292,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ForgotPassSubmit.prop("disabled", true)
                     try {
                       const response = await axios.post(
-                        " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        " https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                         ForgotPassPayload,
                         {
                           headers: {
@@ -1365,6 +1387,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     color: "red",
                     "margin-top": "5px",
                   });
+                
                 const $emptyFieldErrorRegisterEmail = $("<div>")
                   .css({
                     color: "red",
@@ -1560,7 +1583,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append registration form elements to the registration form div
                 $registrationForm.append($registerHeader);
                 $registrationForm.append($redTextreg);
-
+                $registrationForm.append($ApierrorRegistration)
                 // Append the name input field to the registration form
                 $nameDiv.append($registerNameInput)
                 $nameDiv.append($emptyFieldErrorRegisterName)
@@ -1717,6 +1740,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the red text "Enter OTP for verification"
                 const $redTextOtp = $("<h4>")
                   .text("Enter OTP for verification")
+                  .css({
+                    color: "red",
+                    "margin-top": "5px", // Adjust margin if needed
+                  });
+                const $ApierrorOTP = $("<div>").css({
+                  display: "none",
+                  color: "red",
+                  "margin-top": "5px",
+                });
                 const $emptyFieldErrorOtp = $("<div>")
                   .css({
                     color: "red",
@@ -1812,6 +1844,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append OTP form elements to the OTP form container
                 $otpForm.append($otpHeader);
                 $otpForm.append($redTextOtp);
+                $otpForm.append($ApierrorOTP)
                 $otpForm.append($otpInputDiv);
                 $otpInputDiv.append($otpInput);
                 $otpInputDiv.append($emptyFieldErrorOtp);
@@ -1853,7 +1886,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   try {
 
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -1867,8 +1900,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $registerModal.css("display", "none");
                     onClosed();
                     FormCleaner();
-                    alert("User Verified successfully. Please Login.");
-                  } catch (error) {
+                    $("#ignismyModal").css("display", "block")
+                    $("#ignismyModal").addClass("modal fade show");
+                    $("#msgtag").html("your account has been created successfully!!")
+                    setTimeout(() => {
+                      $("#ignismyModal").css("display", "none")
+                      $("#msgtag").html("")
+                    }, 2000);
+                 } catch (error) {
                     console.error("Error:", error);
                     $ApierrorOTP.empty();
                     $ApierrorOTP.append($("<p>").text(error.response.data.message));
@@ -1876,7 +1915,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Handle errors here if necessary
                   }finally {
                       // Enable button and remove spinner after API call is complete
-                      $otpConfirmButtons.prop("disabled", false);
+                      $otpConfirmButton.prop("disabled", false);
                       $spinner.remove();
                     }
                 }
@@ -2217,7 +2256,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Send a POST request to the OTP confirmation API
                   try {
                     const response = await axios.post(
-                      " https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      " https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                       ResetPassVal,
                       {
                         headers: {
@@ -2232,6 +2271,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $registerModal.css("display", "none");
                       onClosed();
                       FormCleaner();
+                      $("#ignismyModal").css("display", "block")
+                      $("#ignismyModal").addClass("modal fade show");
+                      $("#msgtag").html("your password has been updated successfully!!")
+                      setTimeout(() => {
+                        $("#ignismyModal").css("display", "none")
+                        $("#msgtag").html("")
+                      }, 2000);
                     }
                   } catch (error) {
                     console.error("Error:", error.response.data.message);
@@ -2309,7 +2355,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://68b6-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
