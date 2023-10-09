@@ -22,7 +22,8 @@ loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
   "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 );
-loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
+//loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
+loadCSS('./index.css')
 
 // Load JavaScript libraries
 loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -60,10 +61,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ''}&site=israelBackOffice`, // Replace with your API endpoint
+                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
-                  headers: headers,
+                  headers:headers,
                   data: JSON.stringify({
                     itemsPerPage: showmorcomment,
                   }),
@@ -210,12 +211,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
-                  localStorage.clear();
-                  $Login.css({ display: "block" });
-                  $Register.css({ display: "block" });
-                  $Logout.css({ display: "none" });
-                });
+                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userData");
+                    commentlistapi();
+
+                    $Login.css({ display: "block" });
+                    $Register.css({ display: "block" });
+                    $Logout.css({ display: "none" });
+                  });
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
@@ -267,7 +271,23 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $comenttitle,
                   $buttonandinputdiv,
                   $errorMessagecomment
-                );
+                ); 
+                $commentInput.on("input", function() {
+                  const originalComment = $commentInput.val().trim();
+                
+                  if (originalComment === "") {
+                    console.log('if input')
+                    $errorMessagecomment
+                      .text("Comment cannot be empty.")
+                      .show();
+                  }
+                  else {
+                    console.log('input')
+                    $errorMessagecomment
+                      .text("")
+                      .show();
+                  }
+                });
                 $commentButton.on("click", function () {
                   // Get the value of the input field
                   console.log("value");
@@ -280,7 +300,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   } else {
                     $errorMessagecomment.hide();
                     const token = localStorage.getItem("token");
-                    const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                     // Define additional options for the request
                     const headers = {
@@ -334,17 +354,33 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("comment-logo")
                   .attr(
                     "src",
-                    "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                     userData && userData !=='' && userData.site=='israel-today'? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png":"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                   );
+                // default Avtart 
                 const $userImage = $("<img>")
                   .attr(
                     "src",
                     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
                   )
                   .attr("alt", "User Image");
+
+                 //after login user image 
+                 const $userImages=$("<img>")
+                 .attr(
+                   "src",
+                  userData?.image
+                 )
+                 .attr("alt", "User Image");
+                 console.log('userimage', userData?.image);
+                 //after login user first letter
+                 const $userfirstletterdiv=$("<div>").addClass("user-text").text(userData && userData.name && userData.name.charAt(0))
+
                 // $commentSectionDiv.append($commentButton);
                 // $commentSectionDiv.append($commentInput);
-                $userImageDiv.append($userImage, $logoiconforuserimage);
+
+                //condition after login user image
+
+                $userImageDiv.append(userData && userData !=='' ? userData.image && userData.image !=='' ? $userImages:$userfirstletterdiv:$userImage, $logoiconforuserimage);
                 $commentSectionDiv.append(
                   $userImageDiv,
                   $commentbuttonandinputdiv
@@ -397,16 +433,28 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
                     )
                     .attr("alt", "User Image");
+
+                 //after login user image 
+                 const $commentuserImages=$("<img>")
+                 .attr(
+                   "src",
+                   "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
+                 )
+                 .attr("alt", "User Image");
+                 //after login user first letter
+                 const $commentuserfirstletterdiv=$("<div>").addClass("user-text").text(dataItem && dataItem.name && dataItem.name.charAt(0))
+
                   const $commentuserimagelogo = $("<img>")
                     .addClass("comment-logo")
                     .attr(
                       "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                      dataItem && dataItem !=='' && dataItem.site=='israel-today'? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png":"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                      //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                     );
 
                   const $paragraph = $("<div>")
                     .addClass("user-comments")
-                    .text(dataItem?.updatedComment);
+                    .text(dataItem && !dataItem.updatedComment ? dataItem.originalComment : dataItem.updatedComment);
 
                   // Append the div to the document body or another container
 
@@ -446,10 +494,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $seeOriginalCommentButton = $("<button>")
                     .text("See Original Comment")
                     .addClass("outline-blue-btn");
-
+                    //toggle between orignale comment and updated comment
+                    let isOriginalComment = true;
                   $seeOriginalCommentButton.on("click", function () {
                     // Replace the original comment text with the updated comment text
-                    $paragraph.text(dataItem?.originalComment);
+                    if (isOriginalComment) {
+                      // Show the original comment
+                      $paragraph.text(dataItem?.originalComment);
+                      $seeOriginalCommentButton.text("See Updated Comment");
+                    } else {
+                      // Show the updated comment
+                      $paragraph.text(dataItem?.updatedComment);
+                      $seeOriginalCommentButton.text("See Original Comment");
+                    }
+                  
+                    // Toggle the state
+                    isOriginalComment = !isOriginalComment;
                   });
 
                   // Append the icons and button to the $socialicon
@@ -460,7 +520,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       ? $seeOriginalCommentButton
                       : ""
                   );
-                  $righdiv.append($commentuserImage, $commentuserimagelogo);
+                  $righdiv.append(
+                    (dataItem && dataItem !== '' && dataItem.name)
+                      ? (dataItem.image && dataItem.image !== '') ? $commentuserImages : $commentuserfirstletterdiv
+                      : $commentuserImage,
+                    $commentuserimagelogo
+                  );
+                 
+
                   $leftdiv.append($commentheadermain, $paragraph, $socialicon);
                   //append comment section all div
                   $commentDiv.append($righdiv, $leftdiv);
@@ -479,8 +546,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const $commentuserreplay = $("<div>")
                       .addClass("user-name")
                       .text(
-                        dataItem?.name && dataItem.name !== ""
-                          ? dataItem.name
+                        item?.name && item.name !== ""
+                          ? item.name
                           : "Anonymous user"
                       )
                       .css({});
@@ -505,11 +572,24 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
                       )
                       .attr("alt", "User Image");
+
+                      const $userimages=$("<img>")
+                      .attr(
+                        "src",
+                       item?.image
+                      )
+                      .attr("alt", "User Image");
+                      console.log('userimage', userData?.image);
+                      //after login user first letter
+                      const $userfirstletterdiv=$("<div>").addClass("user-text").text(item && item.name && item.name.charAt(0))
+     
+                      //comment replay after user successfuly login
+
                     const $commentuserreplayimagelogo = $("<img>")
                       .addClass("comment-logo")
                       .attr(
                         "src",
-                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                        item && item !=='' && item.site=='israel-today'? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png":"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                       );
 
                     const $commentreplayparagraph = $("<div>")
@@ -560,7 +640,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $socialiconcommentreplay
                     );
                     $rightsidecommetreplaydiv.append(
-                      $commentreplyuserImage,
+                      (item && item !== '' && item.name)
+                      ? (item.image && item.image !== '') ? $userimages : $userfirstletterdiv
+                      : $commentreplyuserImage,
+                    // $commentuserimagelogo
+                    //   $commentreplyuserImage,
                       $commentuserreplayimagelogo
                     );
                     $replaycommentdiv.append(
@@ -579,7 +663,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $("<div>").addClass("add-comment");
                   const $comenttitlereplay = $("<div>")
                     .addClass("user-name")
-                    .text("Anonymous user");
+                    .text(  userData && userData !== ""
+                    ? userData?.name
+                    : "Anonymous user");
                   const $leftcommenntinputsection = $("<div>").addClass("left");
                   const $rightcommenntinputsection =
                     $("<div>").addClass("right");
@@ -592,7 +678,23 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       type: "text",
                       placeholder: "Add a comment",
                     });
-                  const $errorMessagecomment = $("<div>")
+                    $commentreplayInput.on("input", function() {
+                      const originalComment = $commentreplayInput.val().trim();
+                    
+                      if (originalComment === "") {
+                        console.log('if input')
+                        $errorMessagecomment
+                          .text("Comment cannot be empty.")
+                          .show();
+                      }
+                      else {
+                        console.log('input')
+                        $errorMessagecomment
+                          .text("")
+                          .show();
+                      }
+                    });
+                    const $errorMessagecomment = $("<div>")
                     .css({ display: "flex", color: "red" })
                     .hide();
                   const $commentreplayuserImage = $("<img>")
@@ -601,6 +703,14 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
                     )
                     .attr("alt", "User Image");
+                    const $userImages=$("<img>")
+                    .attr(
+                      "src",
+                      "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
+                    )
+                    .attr("alt", "User Image");
+                    //after login user first letter
+                    const $userfirstletterdiv=$("<div>").addClass("user-text").text(userData && userData.name && userData.name.charAt(0))
                   $replaycommentinputandbuttondiv.append(
                     $commentreplayInput,
                     $replaycommentButton,
@@ -617,7 +727,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $errorMessagecomment
                   );
                   $rightcommenntinputsection.append(
-                    $commentreplayuserImage,
+                    userData && userData !=='' ? userData.image && userData.image !=='' ? $userImages:$userfirstletterdiv:$commentreplayuserImage,
+                    //$commentreplayuserImage,
                     $commentuserreplyimagelogo
                   );
 
@@ -632,47 +743,48 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $errorMessagecomment
                         .text("Comment cannot be empty.")
                         .show();
-                    } else {
-                      const token = localStorage.getItem("token");
-                      const headers = {
-                        "Content-Type": "application/json", // Specify the content type as JSON
-                      };
+                    } else{
+                    const token = localStorage.getItem("token");
+                    const headers = {
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    };
+    
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
+                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
-                      if (token) {
-                        headers["Authorization"] = `Bearer ${token}`;
-                      }
-                      const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                    // Define additional options for the request
+                    const requestOptions = {
+                      method: "POST", // HTTP method
+                      headers:headers,
+                      body: JSON.stringify({
+                        commentReplay: commentReplay,
+                        site: "israel-today"
+                      }), // Convert the data object to JSON string
+                    };
 
-                      // Define additional options for the request
-                      const requestOptions = {
-                        method: "POST", // HTTP method
-                        headers: headers,
-                        body: JSON.stringify({
-                          commentReplay: commentReplay,
-                        }), // Convert the data object to JSON string
-                      };
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => {
+                        // Check if the response status is OK (201 Created)
+                        if (!response.ok) {
+                          throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                          );
+                        }
 
-                      fetch(apiUrl, requestOptions)
-                        .then((response) => {
-                          // Check if the response status is OK (201 Created)
-                          if (!response.ok) {
-                            throw new Error(
-                              `HTTP error! Status: ${response.status}`
-                            );
-                          }
-
-                          // Parse the response body as JSON
-                          return response.json();
-                        })
-                        .then((data) => {
-                          // Handle the response data
-                          commentlistapi();
-                          alert(data.message);
-                        })
-                        .catch((error) => {
-                          // Handle any errors that occurred during the fetch
-                          console.error("Fetch error:", error);
-                        });
+                        // Parse the response body as JSON
+                        return response.json();
+                      })
+                      .then((data) => {
+                        // Handle the response data
+                        commentlistapi();
+                        alert(data.message);
+                      })
+                      .catch((error) => {
+                        // Handle any errors that occurred during the fetch
+                        console.error("Fetch error:", error);
+                      });
                     }
                   });
 
@@ -696,8 +808,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("red-button-big")
                   .text("show more comment");
 
-                if (showmorcomment <= commentlistingdata?.data?.totalComment) { $showmorecommentdiv.append($showmorecommentbutton); }
-
+                  if (showmorcomment<=commentlistingdata?.data?.totalComment) {$showmorecommentdiv.append($showmorecommentbutton);}
+               
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
                   .attr(
@@ -709,12 +821,30 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-
+                
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
                   console.log("counter");
                 });
+
+                $app.append($showmorecommentdiv);
+                // const $footerImage = $("<img>")
+                //   .attr(
+                //     "src",
+                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                //   )
+                //   .css({
+                //     width: "155.07px",
+                //     height: "20px",
+                //     "margin-top": "20px", // Adjust margin as needed
+                //   });
+
+                // $showmorecommentbutton.on("click", function () {
+                //   showmorcomment += 10;
+                //   commentlistapi();
+                //   console.log("counter");
+                // });
                 fetch('https://api.ipify.org?format=json'
                   // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
                   //   method: 'GET',
@@ -825,6 +955,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         // Close the modal if login is successful
                         localStorage.setItem('token', data?.data?.token)
                         localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+                        commentlistapi()
                         $Login.css({ 'display': 'none' })
                         $Register.css({ 'display': 'none' })
                         $Logout.css({ 'display': 'block' })
@@ -1110,7 +1241,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   console.log(email, password, "aaa");
                   // Validate email and password (you can add more validation here)
                   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+console.log(email, password, 'testinggggggggggggg')
                   if (email.trim() === "") {
                     $emptyFieldErrorLogin.css("display", "block");
                     if (password.trim() === "") {
@@ -1159,6 +1290,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       // Close the modal if login is successful
                       localStorage.setItem('token', response?.data?.data?.token)
                       localStorage.setItem('userData', JSON.stringify(response?.data?.data?.user))
+                      commentlistapi();
                       $Login.css({ 'display': 'none' })
                       $Register.css({ 'display': 'none' })
                       $Logout.css({ 'display': 'block' })
@@ -1636,10 +1768,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 // $registerOtherOptionsSection.append($registerLoginLink);
 
-                // Append the registration form div to the registration modal content
-                $registerModalContent.append($registrationForm);
-                $registerModalContent.append($loginForm);
-                $registerModalContent.append($ForgotPassForm);
+                
                 // Create a div for the image
                 const $imageDivReg = $("<div>").addClass("right-content");
                 // }).addClass("d-none d-lg-block d-xl-block");
@@ -1659,8 +1788,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append the image to the image div
                 $imageDivReg.append($registrationImage);
 
-                // Append the image div to the registration modal content
-                $registerModalContent.append($imageDivReg);
+                
                 function ErrorCleaner() {
                   $errorElementForgot.css("display", "none");
                   $errorElementLogin.css("display", "none");
@@ -1726,7 +1854,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 // Append the close button to the registration modal content
-                $registerModalContent.append($registerModalClose);
+                
 
                 // Append the registration modal content to the registration modal
                 $registerModal.append($registerModalContent);
@@ -1868,7 +1996,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 $footerImageOtpDiv.append($footerImageOtp);
                 // Append the OTP form to the document body or another container
-                $("body").append($otpForm);
 
                 // Function to handle OTP confirmation
                 async function handleOTPConfirmation() {
@@ -2191,7 +2318,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
 
                 // Append the OTP form to the document body or another container
-                $("body").append($ResetPassForm);
 
                 // Function to handle OTP confirmation
                 async function handleResetSubmit() {
@@ -2428,6 +2554,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   }
                 }
 
+                // Append the registration form div to the registration modal content
+                $registerModalContent.append($registrationForm);
+                $registerModalContent.append($loginForm);
+                $registerModalContent.append($ForgotPassForm);
+                $registerModalContent.append($otpForm);
+                $registerModalContent.append($ResetPassForm);
+// Append the image div to the registration modal content
+                $registerModalContent.append($imageDivReg);
+                $registerModalContent.append($registerModalClose);
                 // Define the media query based on screen width
                 const mediaQuery = window.matchMedia("(max-width: 768px)");
 
