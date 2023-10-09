@@ -470,6 +470,7 @@ body {
     line-height: normal;
     text-decoration-line: underline; 
     margin-bottom: 25px;
+    cursor: pointer;
 }
 .modal-content .left-content .g_id_signin {
     margin-bottom: 65px;
