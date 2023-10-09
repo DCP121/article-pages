@@ -78,7 +78,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ""
+                  url: `https://27b4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ""
                     }&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
@@ -336,7 +336,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $errorMessagecomment.hide();
                         // Rest of your comment submission logic here
                         const token = localStorage.getItem("token");
-                        const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                        const apiUrl = `https://27b4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                         // Define additional options for the request
                         const headers = {
@@ -861,7 +861,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           if (token) {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
-                          const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                          const apiUrl = `https://27b4-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                           // Define additional options for the request
                           const requestOptions = {
@@ -1100,7 +1100,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch(' https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch('https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -1435,7 +1435,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1591,7 +1591,7 @@ async function sendForgotPasswordRequest() {
                     $ForgotPassSubmit.prop("disabled", true)
                     try {
                       const response = await axios.post(
-                        " https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                        "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                         ForgotPassPayload,
                         {
                           headers: {
@@ -2188,7 +2188,7 @@ async function sendForgotPasswordRequest() {
                   try {
 
                     const response = await axios.post(
-                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -2557,7 +2557,7 @@ async function sendForgotPasswordRequest() {
                   // Send a POST request to the OTP confirmation API
                   try {
                     const response = await axios.post(
-                      " https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                       ResetPassVal,
                       {
                         headers: {
@@ -2656,7 +2656,7 @@ async function sendForgotPasswordRequest() {
 
                   try {
                     const response = await axios.post(
-                      "https://dc0a-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
