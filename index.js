@@ -78,9 +78,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${
-                    userId && userId !== null ? userId : ""
-                  }&site=israelBackOffice`, // Replace with your API endpoint
+                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ""
+                    }&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
                   headers: headers,
@@ -947,10 +946,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 if (showmorcomment <= commentlistingdata?.data?.totalComment) {
                   $showmorecommentdiv.append($showmorecommentbutton);
                 }
-  //               const $spinnerviewmore = $("<div>")
-  // .addClass("spinner-border spinner-border-sm mx-3 text-light")
-  // .attr("role", "status")
-  // .hide();
+                //               const $spinnerviewmore = $("<div>")
+                // .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                // .attr("role", "status")
+                // .hide();
 
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
@@ -1481,17 +1480,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 // Add a click event listener to the login button
                 $loginButton.click(handleLogin);
-                $(document).on('keyup', function(event) {
-                  console.log("key 13 out")
-                  // Check if the Enter key (key code 13) was pressed
-                  if (event.keyCode === 13) {
-                    // Prevent the default behavior of the Enter key (e.g., form submission)
-                    event.preventDefault();
-                    console.log('key 13 in')
-                    // Trigger the handleLogin function when Enter key is pressed
-                    handleLogin();
-                  }
-                });
+
                 // Create a registration modal
                 const $registerModal = $("<div>").addClass("modal ").css({
                   display: "none",
@@ -1576,12 +1565,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $emptyFieldErrorForgot.css("display", "none");
                     }
                   });
-
-                // Create the registration button
-                const $ForgotPassSubmit = $("<button>").addClass("red-button")
-                  .text("Submit")
-
-                  .click(async function sendForgotPasswordRequest() {
+async function sendForgotPasswordRequest() {
                     const emailValue = $ForgotPassEmailInput.val();
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -1638,7 +1622,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $ForgotPassSubmit.prop("disabled", false);
                       $spinner.remove();
                     }
-                  });
+                  }
+                // Create the registration button
+                const $ForgotPassSubmit = $("<button>").addClass("red-button")
+                  .text("Submit")
+
+                  .click(sendForgotPasswordRequest);
 
                 // Append the "Login" text to the existing paragraph
                 const $BackToLoginForgot = $("<p>").addClass("auth-link")
@@ -1974,6 +1963,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $emptyFieldErrorRegisterPass.css("display", "none");
                   $emptyFieldErrorOtp.css("display", "none");
                   $emptyFieldErrorResetPass.css("display", "none");
+                  $emptyFieldErrorResetNewPass.css("display", "none")
+                  $emptyFieldErrorResetConfirmPass.css("display", "none")
                   $errorElementPass.css("display", "none");
                   $ApierrorforgotPass.css("display", "none");
                   $ApierrorLogin.css("display", "none");
@@ -2705,7 +2696,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
 
                 $registerButton.click(handleRegistration);
-
                 // Responsive adjustments using media queries
                 // Adjust margins and flex direction for smaller screens
                 function handleMediaQueryChange(e) {
@@ -2725,7 +2715,63 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   }
                 }
-
+                // $(document).on('keyup', function (event) {
+                  $registrationForm.on('keyup', function (event) {
+                    console.log("key 13 out")
+                    // Check if the Enter key (key code 13) was pressed
+                    if (event.keyCode === 13) {
+                      // Prevent the default behavior of the Enter key (e.g., form submission)
+                      event.preventDefault();
+                      console.log('key 13 in')
+                      // Trigger the handleLogin function when Enter key is pressed
+                      handleRegistration();
+                    }
+                  });
+                  $loginForm.on('keyup', function (event) {
+                    console.log("key 13 out")
+                    // Check if the Enter key (key code 13) was pressed
+                    if (event.keyCode === 13) {
+                      // Prevent the default behavior of the Enter key (e.g., form submission)
+                      event.preventDefault();
+                      console.log('key 13 in')
+                      // Trigger the handleLogin function when Enter key is pressed
+                      handleLogin();
+                    }
+                  });
+                  $otpForm.on('keyup', function (event) {
+                    console.log("key 13 out")
+                    // Check if the Enter key (key code 13) was pressed
+                    if (event.keyCode === 13) {
+                      // Prevent the default behavior of the Enter key (e.g., form submission)
+                      event.preventDefault();
+                      console.log('key 13 in')
+                      // Trigger the handleLogin function when Enter key is pressed
+                      handleOTPConfirmation();
+                    }
+                  });
+                  $ForgotPassForm.on('keyup', function (event) {
+                    console.log("key 13 out")
+                    // Check if the Enter key (key code 13) was pressed
+                    if (event.keyCode === 13) {
+                      // Prevent the default behavior of the Enter key (e.g., form submission)
+                      event.preventDefault();
+                      console.log('key 13 in')
+                      // Trigger the handleLogin function when Enter key is pressed
+                      sendForgotPasswordRequest();
+                    }
+                  });
+                  $ResetPassForm.on('keyup', function (event) {
+                    console.log("key 13 out")
+                    // Check if the Enter key (key code 13) was pressed
+                    if (event.keyCode === 13) {
+                      // Prevent the default behavior of the Enter key (e.g., form submission)
+                      event.preventDefault();
+                      console.log('key 13 in')
+                      // Trigger the handleLogin function when Enter key is pressed
+                      handleResetSubmit();
+                    }
+                  });
+                // });
                 // Append the registration form div to the registration modal content
                 $registerModalContent.append($registrationForm);
                 $registerModalContent.append($loginForm);
