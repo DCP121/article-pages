@@ -831,6 +831,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         onClosed()
                         FormCleaner()
                         $registerModal.css('display', 'none');
+                        $("#ignismyModal").css("display", "block")
+                        $("#ignismyModal").addClass("modal fade show");
+                        $("#msgtag").html("login successfully!!")
+                        setTimeout(() => {
+                          $("#ignismyModal").css("display", "none")
+                          $("#msgtag").html("")
+                        }, 2000);
                       })
                       .catch(error => {
                         console.error('Error:', error);
