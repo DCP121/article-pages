@@ -59,10 +59,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
+                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
-                  headers:headers,
+                  headers: headers,
                   data: JSON.stringify({
                     itemsPerPage: showmorcomment,
                   }),
@@ -209,12 +209,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
-                    localStorage.clear();
-                    $Login.css({ display: "block" });
-                    $Register.css({ display: "block" });
-                    $Logout.css({ display: "none" });
-                  });
+                const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
+                  localStorage.clear();
+                  $Login.css({ display: "block" });
+                  $Register.css({ display: "block" });
+                  $Logout.css({ display: "none" });
+                });
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
@@ -591,7 +591,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       type: "text",
                       placeholder: "Add a comment",
                     });
-                    const $errorMessagecomment = $("<div>")
+                  const $errorMessagecomment = $("<div>")
                     .css({ display: "flex", color: "red" })
                     .hide();
                   const $commentreplayuserImage = $("<img>")
@@ -631,47 +631,47 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $errorMessagecomment
                         .text("Comment cannot be empty.")
                         .show();
-                    } else{
-                    const token = localStorage.getItem("token");
-                    const headers = {
-                      "Content-Type": "application/json", // Specify the content type as JSON
-                    };
-    
-                    if (token) {
-                      headers["Authorization"] = `Bearer ${token}`;
-                    }
-                    const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                    } else {
+                      const token = localStorage.getItem("token");
+                      const headers = {
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      };
 
-                    // Define additional options for the request
-                    const requestOptions = {
-                      method: "POST", // HTTP method
-                      headers:headers,
-                      body: JSON.stringify({
-                        commentReplay: commentReplay,
-                      }), // Convert the data object to JSON string
-                    };
+                      if (token) {
+                        headers["Authorization"] = `Bearer ${token}`;
+                      }
+                      const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
-                    fetch(apiUrl, requestOptions)
-                      .then((response) => {
-                        // Check if the response status is OK (201 Created)
-                        if (!response.ok) {
-                          throw new Error(
-                            `HTTP error! Status: ${response.status}`
-                          );
-                        }
+                      // Define additional options for the request
+                      const requestOptions = {
+                        method: "POST", // HTTP method
+                        headers: headers,
+                        body: JSON.stringify({
+                          commentReplay: commentReplay,
+                        }), // Convert the data object to JSON string
+                      };
 
-                        // Parse the response body as JSON
-                        return response.json();
-                      })
-                      .then((data) => {
-                        // Handle the response data
-                        commentlistapi();
-                        alert(data.message);
-                      })
-                      .catch((error) => {
-                        // Handle any errors that occurred during the fetch
-                        console.error("Fetch error:", error);
-                      });
+                      fetch(apiUrl, requestOptions)
+                        .then((response) => {
+                          // Check if the response status is OK (201 Created)
+                          if (!response.ok) {
+                            throw new Error(
+                              `HTTP error! Status: ${response.status}`
+                            );
+                          }
+
+                          // Parse the response body as JSON
+                          return response.json();
+                        })
+                        .then((data) => {
+                          // Handle the response data
+                          commentlistapi();
+                          alert(data.message);
+                        })
+                        .catch((error) => {
+                          // Handle any errors that occurred during the fetch
+                          console.error("Fetch error:", error);
+                        });
                     }
                   });
 
@@ -695,8 +695,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("red-button-big")
                   .text("show more comment");
 
-                  if (showmorcomment<=commentlistingdata?.data?.totalComment) {$showmorecommentdiv.append($showmorecommentbutton);}
-               
+                if (showmorcomment <= commentlistingdata?.data?.totalComment) { $showmorecommentdiv.append($showmorecommentbutton); }
+
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
                   .attr(
@@ -708,7 +708,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-                
+
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
@@ -839,7 +839,28 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     console.log("User is not signed in.");
                   }
                 }
-
+                
+                const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content text-center">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="thank-you-pop">
+              <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+              <h1>Thank You!</h1>
+              <p>Your submission is received and we will contact you soon</p>
+              <h3 class="cupon-pop">Your Id: <span>12345</span></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  $(`body`).append($modalContentSuccess)
                 // Create the child div for the login form
                 const $loginForm = $("<div>").css({
                   flex: "1",
@@ -1194,9 +1215,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $registerModal.css("display", "none");
                       onClosed();
                       FormCleaner();
+                      $("#ignismyModal").css("display", "block")
+                      $("#ignismyModal").addClass("modal fade show");
                     }
                   } catch (error) {
-                    console.error("Error:", error.response.data.message);
+                    console.error("Error:", error);
                     $ApierrorLogin.empty();
                     $ApierrorLogin.append($("<p>").text(error.response.data.message));
                     $ApierrorLogin.css("display", "block");
@@ -2016,11 +2039,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Include any other necessary data for OTP confirmation
                   };
                   const $spinner = $("<div>")
-                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
-                      .attr("role", "status")
-                      .appendTo($otpConfirmButton);
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($otpConfirmButton);
 
-                    $otpConfirmButton.prop("disabled", true)
+                  $otpConfirmButton.prop("disabled", true)
                   // Prepare the payload for OTP confirmation
                   try {
 
@@ -2046,11 +2069,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $ApierrorOTP.append($("<p>").text(error.response.data.message));
                     $ApierrorOTP.css("display", "block");
                     // Handle errors here if necessary
-                  }finally {
-                      // Enable button and remove spinner after API call is complete
-                      $otpConfirmButtons.prop("disabled", false);
-                      $spinner.remove();
-                    }
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $otpConfirmButtons.prop("disabled", false);
+                    $spinner.remove();
+                  }
                 }
 
                 // Create a div for the OTP form
@@ -2429,7 +2452,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         headers: {
                           "Content-Type": "application/json",
                         },
-                       
+
                       }
                     );
 
