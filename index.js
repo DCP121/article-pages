@@ -546,8 +546,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const $commentuserreplay = $("<div>")
                       .addClass("user-name")
                       .text(
-                        dataItem?.name && dataItem.name !== ""
-                          ? dataItem.name
+                        item?.name && item.name !== ""
+                          ? item.name
                           : "Anonymous user"
                       )
                       .css({});
