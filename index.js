@@ -236,7 +236,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     localStorage.removeItem("token");
                     localStorage.removeItem("userData");
                     commentlistapi();
-
+                    $("#ignismyModal").css("display", "block")
+                    $("#ignismyModal").addClass("modal fade show");
+                    $("#msgtag").html("Logout successfully!!")
+                    setTimeout(() => {
+                      $("#ignismyModal").css("display", "none")
+                      $("#msgtag").html("")
+                    }, 2000);
                     $Login.css({ display: "block" });
                     $Register.css({ display: "block" });
                     $Logout.css({ display: "none" });
@@ -1565,64 +1571,64 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $emptyFieldErrorForgot.css("display", "none");
                     }
                   });
-async function sendForgotPasswordRequest() {
-                    const emailValue = $ForgotPassEmailInput.val();
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                async function sendForgotPasswordRequest() {
+                  const emailValue = $ForgotPassEmailInput.val();
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                    // Check if the email input is empty
-                    if (emailValue.trim() === "") {
-                      $emptyFieldErrorForgot.css("display", "block");
-                      $errorElementForgot.css("display", "none");
-                      return;
-                    }
-                    if (!emailRegex.test(emailValue)) {
-                      $errorElementForgot.css("display", "block");
-                      return;
-                    }
-
-                    const ForgotPassPayload = {
-                      email: emailValue,
-                    };
-                    const $spinner = $("<div>")
-                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
-                      .attr("role", "status")
-                      .appendTo($ForgotPassSubmit);
-
-                    $ForgotPassSubmit.prop("disabled", true)
-                    try {
-                      const response = await axios.post(
-                        "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
-                        ForgotPassPayload,
-                        {
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                        }
-                      );
-                      console.log(response, "response");
-                      if (response.status === 200) {
-                        $registerModalContent.append($ResetPassForm);
-                        $registerModalContent.append($imageDivReg);
-                        $ForgotPassForm.css("display", "none");
-                        $ResetPassForm.css({
-                          display: "block",
-                          flex: "1",
-                          padding: "20px 60px",
-                        });
-                      }
-                    } catch (error) {
-                      console.error("Error:", error.response.data.message);
-                      $ApierrorforgotPass.empty();
-                      $ApierrorforgotPass.append(
-                        $("<p>").text(error.response.data.message)
-                      );
-                      $ApierrorforgotPass.css("display", "block");
-                    } finally {
-                      // Enable button and remove spinner after API call is complete
-                      $ForgotPassSubmit.prop("disabled", false);
-                      $spinner.remove();
-                    }
+                  // Check if the email input is empty
+                  if (emailValue.trim() === "") {
+                    $emptyFieldErrorForgot.css("display", "block");
+                    $errorElementForgot.css("display", "none");
+                    return;
                   }
+                  if (!emailRegex.test(emailValue)) {
+                    $errorElementForgot.css("display", "block");
+                    return;
+                  }
+
+                  const ForgotPassPayload = {
+                    email: emailValue,
+                  };
+                  const $spinner = $("<div>")
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($ForgotPassSubmit);
+
+                  $ForgotPassSubmit.prop("disabled", true)
+                  try {
+                    const response = await axios.post(
+                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                      ForgotPassPayload,
+                      {
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }
+                    );
+                    console.log(response, "response");
+                    if (response.status === 200) {
+                      $registerModalContent.append($ResetPassForm);
+                      $registerModalContent.append($imageDivReg);
+                      $ForgotPassForm.css("display", "none");
+                      $ResetPassForm.css({
+                        display: "block",
+                        flex: "1",
+                        padding: "20px 60px",
+                      });
+                    }
+                  } catch (error) {
+                    console.error("Error:", error.response.data.message);
+                    $ApierrorforgotPass.empty();
+                    $ApierrorforgotPass.append(
+                      $("<p>").text(error.response.data.message)
+                    );
+                    $ApierrorforgotPass.css("display", "block");
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $ForgotPassSubmit.prop("disabled", false);
+                    $spinner.remove();
+                  }
+                }
                 // Create the registration button
                 const $ForgotPassSubmit = $("<button>").addClass("red-button")
                   .text("Submit")
@@ -2716,61 +2722,61 @@ async function sendForgotPasswordRequest() {
                   }
                 }
                 // $(document).on('keyup', function (event) {
-                  $registrationForm.on('keyup', function (event) {
-                    console.log("key 13 out")
-                    // Check if the Enter key (key code 13) was pressed
-                    if (event.keyCode === 13) {
-                      // Prevent the default behavior of the Enter key (e.g., form submission)
-                      event.preventDefault();
-                      console.log('key 13 in')
-                      // Trigger the handleLogin function when Enter key is pressed
-                      handleRegistration();
-                    }
-                  });
-                  $loginForm.on('keyup', function (event) {
-                    console.log("key 13 out")
-                    // Check if the Enter key (key code 13) was pressed
-                    if (event.keyCode === 13) {
-                      // Prevent the default behavior of the Enter key (e.g., form submission)
-                      event.preventDefault();
-                      console.log('key 13 in')
-                      // Trigger the handleLogin function when Enter key is pressed
-                      handleLogin();
-                    }
-                  });
-                  $otpForm.on('keyup', function (event) {
-                    console.log("key 13 out")
-                    // Check if the Enter key (key code 13) was pressed
-                    if (event.keyCode === 13) {
-                      // Prevent the default behavior of the Enter key (e.g., form submission)
-                      event.preventDefault();
-                      console.log('key 13 in')
-                      // Trigger the handleLogin function when Enter key is pressed
-                      handleOTPConfirmation();
-                    }
-                  });
-                  $ForgotPassForm.on('keyup', function (event) {
-                    console.log("key 13 out")
-                    // Check if the Enter key (key code 13) was pressed
-                    if (event.keyCode === 13) {
-                      // Prevent the default behavior of the Enter key (e.g., form submission)
-                      event.preventDefault();
-                      console.log('key 13 in')
-                      // Trigger the handleLogin function when Enter key is pressed
-                      sendForgotPasswordRequest();
-                    }
-                  });
-                  $ResetPassForm.on('keyup', function (event) {
-                    console.log("key 13 out")
-                    // Check if the Enter key (key code 13) was pressed
-                    if (event.keyCode === 13) {
-                      // Prevent the default behavior of the Enter key (e.g., form submission)
-                      event.preventDefault();
-                      console.log('key 13 in')
-                      // Trigger the handleLogin function when Enter key is pressed
-                      handleResetSubmit();
-                    }
-                  });
+                $registrationForm.on('keyup', function (event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    handleRegistration();
+                  }
+                });
+                $loginForm.on('keyup', function (event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    handleLogin();
+                  }
+                });
+                $otpForm.on('keyup', function (event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    handleOTPConfirmation();
+                  }
+                });
+                $ForgotPassForm.on('keyup', function (event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    sendForgotPasswordRequest();
+                  }
+                });
+                $ResetPassForm.on('keyup', function (event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    handleResetSubmit();
+                  }
+                });
                 // });
                 // Append the registration form div to the registration modal content
                 $registerModalContent.append($registrationForm);
