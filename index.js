@@ -964,7 +964,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $registerModal.css('display', 'none');
                         $("#ignismyModal").css("display", "block")
                         $("#ignismyModal").addClass("modal fade show");
-                        $("#msgtag").html("login successfully!!")
+                        $("#msgtag").html("Login successfully!!")
                         setTimeout(() => {
                           $("#ignismyModal").css("display", "none")
                           $("#msgtag").html("")
@@ -1299,7 +1299,7 @@ console.log(email, password, 'testinggggggggggggg')
                       FormCleaner();
                       $("#ignismyModal").css("display", "block")
                       $("#ignismyModal").addClass("modal fade show");
-                      $("#msgtag").html("login successfully!!")
+                      $("#msgtag").html("Login successfully!!")
                       setTimeout(() => {
                         $("#ignismyModal").css("display", "none")
                         $("#msgtag").html("")
