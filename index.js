@@ -60,10 +60,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId &&userId!==null?userId:''}&site=israelBackOffice`, // Replace with your API endpoint
+                  url: ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ''}&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
-                  headers:headers,
+                  headers: headers,
                   data: JSON.stringify({
                     itemsPerPage: showmorcomment,
                   }),
@@ -210,12 +210,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $Register = $("<button>")
                   .addClass("blue-button")
                   .text("Register");
-                  const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
-                    localStorage.clear();
-                    $Login.css({ display: "block" });
-                    $Register.css({ display: "block" });
-                    $Logout.css({ display: "none" });
-                  });
+                const $Logout = $("<button>").text("Logout").addClass("blue-button").click(function () {
+                  localStorage.clear();
+                  $Login.css({ display: "block" });
+                  $Register.css({ display: "block" });
+                  $Logout.css({ display: "none" });
+                });
                 // Create the text name element
                 const $textName = $("<div>")
                   .addClass("total-comments")
@@ -592,7 +592,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       type: "text",
                       placeholder: "Add a comment",
                     });
-                    const $errorMessagecomment = $("<div>")
+                  const $errorMessagecomment = $("<div>")
                     .css({ display: "flex", color: "red" })
                     .hide();
                   const $commentreplayuserImage = $("<img>")
@@ -632,47 +632,47 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $errorMessagecomment
                         .text("Comment cannot be empty.")
                         .show();
-                    } else{
-                    const token = localStorage.getItem("token");
-                    const headers = {
-                      "Content-Type": "application/json", // Specify the content type as JSON
-                    };
-    
-                    if (token) {
-                      headers["Authorization"] = `Bearer ${token}`;
-                    }
-                    const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                    } else {
+                      const token = localStorage.getItem("token");
+                      const headers = {
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      };
 
-                    // Define additional options for the request
-                    const requestOptions = {
-                      method: "POST", // HTTP method
-                      headers:headers,
-                      body: JSON.stringify({
-                        commentReplay: commentReplay,
-                      }), // Convert the data object to JSON string
-                    };
+                      if (token) {
+                        headers["Authorization"] = `Bearer ${token}`;
+                      }
+                      const apiUrl = ` https://dc0a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
-                    fetch(apiUrl, requestOptions)
-                      .then((response) => {
-                        // Check if the response status is OK (201 Created)
-                        if (!response.ok) {
-                          throw new Error(
-                            `HTTP error! Status: ${response.status}`
-                          );
-                        }
+                      // Define additional options for the request
+                      const requestOptions = {
+                        method: "POST", // HTTP method
+                        headers: headers,
+                        body: JSON.stringify({
+                          commentReplay: commentReplay,
+                        }), // Convert the data object to JSON string
+                      };
 
-                        // Parse the response body as JSON
-                        return response.json();
-                      })
-                      .then((data) => {
-                        // Handle the response data
-                        commentlistapi();
-                        alert(data.message);
-                      })
-                      .catch((error) => {
-                        // Handle any errors that occurred during the fetch
-                        console.error("Fetch error:", error);
-                      });
+                      fetch(apiUrl, requestOptions)
+                        .then((response) => {
+                          // Check if the response status is OK (201 Created)
+                          if (!response.ok) {
+                            throw new Error(
+                              `HTTP error! Status: ${response.status}`
+                            );
+                          }
+
+                          // Parse the response body as JSON
+                          return response.json();
+                        })
+                        .then((data) => {
+                          // Handle the response data
+                          commentlistapi();
+                          alert(data.message);
+                        })
+                        .catch((error) => {
+                          // Handle any errors that occurred during the fetch
+                          console.error("Fetch error:", error);
+                        });
                     }
                   });
 
@@ -696,8 +696,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .addClass("red-button-big")
                   .text("show more comment");
 
-                  if (showmorcomment<=commentlistingdata?.data?.totalComment) {$showmorecommentdiv.append($showmorecommentbutton);}
-               
+                if (showmorcomment <= commentlistingdata?.data?.totalComment) { $showmorecommentdiv.append($showmorecommentbutton); }
+
                 $app.append($showmorecommentdiv);
                 const $footerImage = $("<img>")
                   .attr(
@@ -709,7 +709,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     height: "20px",
                     "margin-top": "20px", // Adjust margin as needed
                   });
-                
+
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
@@ -857,7 +857,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
   `;
                 $(`body`).append($modalContentSuccess)
                 // Create the child div for the login form
-                const $loginForm = $("<div>").addClass("left-content").css({'display': 'none'});
+                const $loginForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
                 const $ApierrorLogin = $("<div>").css({
                   display: "none",
                   color: "red",
@@ -919,7 +919,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $emptyFieldErrorLogin.css("display", "none");
                     }
                   });
-                  const $emailContainer = $("<div>")
+                const $emailContainer = $("<div>")
 
                 // Create a container div for the password input and show/hide toggle button
                 const $passwordContainer = $("<div>");
@@ -1035,7 +1035,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the "Forgot password?" link with red text
                 const $forgotPasswordLink = $("<p>").addClass("auth-link")
                   .text("Forgot password?")
-                  
+
                   .click(function () {
                     // Add functionality to handle "Forgot password?" click here  $loginForm.css('display', 'none');
                     $loginForm.css("display", "none");
@@ -1049,11 +1049,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $loginForm.append(gIdSigninDiv);
                 // Create the "Don’t have an account?" text and make it black
                 const $registerLinkDiv = $("<div>").addClass("bottom-wrap");
-                
+
                 $registerLink.append("Don’t have an account? ");
                 const $registerSpan = $("<span>")
                   .text("Register")
-                  
+
                   .click(function () {
                     // Add functionality to handle "Register" click here
                     $loginForm.css("display", "none");
@@ -1064,7 +1064,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append the "Register" text to the existing paragraph
                 $registerLink.append($registerSpan);
                 // Append the footer image to the modal content
-                  $loginForm.append($registerLinkDiv)
+                $loginForm.append($registerLinkDiv)
                 $registerLinkDiv.append($registerLink);
                 $registerLinkDiv.append(
                   '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
@@ -1150,6 +1150,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                     if (response.status === 200) {
                       // Close the modal if login is successful
+                      localStorage.setItem('token', data?.data?.token)
+                      localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+                      $Login.css({ 'display': 'none' })
+                      $Register.css({ 'display': 'none' })
+                      $Logout.css({ 'display': 'block' })
                       $registerModal.css("display", "none");
                       onClosed();
                       FormCleaner();
@@ -1191,11 +1196,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 const $registerModalContent = $("<div>")
                   .addClass("modal-content")
-                  
+
                 $registerModalContent.css({
                   position: "relative",
                 });
-                const $ForgotPassForm = $("<div>").addClass("left-content").css({'display': 'none'});
+                const $ForgotPassForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
                 const $ForgotPassHeader = $("<h2>").text("Forgot password");
                 const $redTextForgotPass = $("<p>")
                   .text(
@@ -1265,7 +1270,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create the registration button
                 const $ForgotPassSubmit = $("<button>").addClass("red-button")
                   .text("Submit")
-                  
+
                   .click(async function sendForgotPasswordRequest() {
                     const emailValue = $ForgotPassEmailInput.val();
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1328,7 +1333,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append the "Login" text to the existing paragraph
                 const $BackToLoginForgot = $("<p>").addClass("auth-link")
                   .text("Back to Login")
-                  
+
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     // For example, you can show the login modal or trigger an action.
@@ -1346,7 +1351,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $registerLinkForgot.append("Don’t have an account? ");
                 const $registerForgotSpan = $("<span>")
                   .text("Register")
-                  
+
                   .click(function () {
                     // Add functionality to handle "Register" click here
                     $loginForm.css("display", "none");
@@ -1377,17 +1382,17 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                 );
                 // Create the child div for the registration form
-                const $registrationForm = $("<div>").addClass("left-content").css({'display': 'none'});
+                const $registrationForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
 
                 const $registerHeader = $("<h2>").text("Register");
                 const $redTextreg = $("<h4>")
                   .text("To comment you need to register")
-                  const $ApierrorRegistration = $("<div>").css({
-                    display: "none",
-                    color: "red",
-                    "margin-top": "5px",
-                  });
-                
+                const $ApierrorRegistration = $("<div>").css({
+                  display: "none",
+                  color: "red",
+                  "margin-top": "5px",
+                });
+
                 const $emptyFieldErrorRegisterEmail = $("<div>")
                   .css({
                     color: "red",
@@ -1412,12 +1417,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     "font-size": "14px",
                   })
                   .text("Name is required");
-                 const $nameDiv = $("<div>")
+                const $nameDiv = $("<div>")
                 const $registerNameInput = $("<input>")
                   .attr("type", "text")
                   .addClass("custom-input")
                   .attr("id", "registerNameInput")
-                  
+
                   .attr("placeholder", "Name")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1448,7 +1453,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "email")
                   .addClass("custom-input")
                   .attr("id", "registerEmailInput")
-                  
+
                   .attr("placeholder", "Email")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1481,7 +1486,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "password")
                   .addClass("custom-input")
                   .attr("id", "registerPasswordField")
-                  
+
                   .attr("placeholder", "Password")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1561,7 +1566,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Append the "Login" text to the existing paragraph
                 const $registerLoginSpan = $("<span>")
                   .text("Login")
-                  
+
                   .click(function () {
                     // Add functionality to handle "Login" click here
                     $loginForm.css("display", "block");
@@ -1601,7 +1606,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $registerPasswordFieldDiv.append($registerPasswordField)
                 $registerPasswordFieldDiv.append($emptyFieldErrorRegisterPass)
                 $registrationForm.append($registerPasswordFieldDiv)
-                
+
                 // $registrationForm.append($registerPasswordField);
                 // $registrationForm.append($emptyFieldErrorRegisterPass);
                 $registrationForm.append($errorElementPass);
@@ -1776,7 +1781,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       event.preventDefault();
                     }
                   })
-                  
+
                   .attr("placeholder", "Enter OTP")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -1877,11 +1882,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     // Include any other necessary data for OTP confirmation
                   };
                   const $spinner = $("<div>")
-                      .addClass("spinner-border spinner-border-sm mx-3 text-light")
-                      .attr("role", "status")
-                      .appendTo($otpConfirmButton);
+                    .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                    .attr("role", "status")
+                    .appendTo($otpConfirmButton);
 
-                    $otpConfirmButton.prop("disabled", true)
+                  $otpConfirmButton.prop("disabled", true)
                   // Prepare the payload for OTP confirmation
                   try {
 
@@ -1907,17 +1912,17 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $("#ignismyModal").css("display", "none")
                       $("#msgtag").html("")
                     }, 2000);
-                 } catch (error) {
+                  } catch (error) {
                     console.error("Error:", error);
                     $ApierrorOTP.empty();
                     $ApierrorOTP.append($("<p>").text(error.response.data.message));
                     $ApierrorOTP.css("display", "block");
                     // Handle errors here if necessary
-                  }finally {
-                      // Enable button and remove spinner after API call is complete
-                      $otpConfirmButton.prop("disabled", false);
-                      $spinner.remove();
-                    }
+                  } finally {
+                    // Enable button and remove spinner after API call is complete
+                    $otpConfirmButton.prop("disabled", false);
+                    $spinner.remove();
+                  }
                 }
 
                 // Create a div for the OTP form
@@ -2012,7 +2017,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       event.preventDefault();
                     }
                   })
-                  
+
                   .attr("placeholder", "Enter OTP")
                   .on("focus", function () {
                     $(this).css("color", "#333");
@@ -2046,7 +2051,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "password") // Set the input type to password
                   .addClass("custom-input")
                   .attr("id", "passwordField")
-                  
+
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -2086,7 +2091,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   .attr("type", "password") // Set the input type to password
                   .addClass("custom-input")
                   .attr("id", "passwordField")
-                  
+
                   .keydown(function (event) {
                     if (event.keyCode == 32) {
                       event.preventDefault();
@@ -2123,7 +2128,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Create a button for OTP confirmation
                 const $ResetPassButton = $("<button>").addClass("red-button")
                   .text("Reset password")
-                  
+
                   .click(handleResetSubmit);
                 // Create the horizontal rule for the section
                 const $ResetPassHorizontalRule = $("<hr>").css({
@@ -2147,10 +2152,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     ErrorCleaner();
                   });
 
-                  const $ResetPassBottpmImg = $("<div>").addClass("bottom-wrap")
-                  $ResetPassBottpmImg.append(
-                    '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
-                  );
+                const $ResetPassBottpmImg = $("<div>").addClass("bottom-wrap")
+                $ResetPassBottpmImg.append(
+                  '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
+                );
 
                 // Append OTP form elements to the OTP form container
                 $ResetPassForm.append($ResetPassHeader);
@@ -2176,7 +2181,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // $ResetPassForm.append($ResetPassHorizontalRule);
                 $ResetPassForm.append($BackToLoginResetPass);
                 $ResetPassForm.append($ResetPassBottpmImg);
-                
+
 
                 // Append the OTP form to the document body or another container
                 $("body").append($ResetPassForm);
@@ -2262,7 +2267,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         headers: {
                           "Content-Type": "application/json",
                         },
-                       
+
                       }
                     );
 
