@@ -1240,6 +1240,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $registerModal.css("display", "block");
                   $loginForm.css("display", "block");
                 });
+
                 async function handleLogin() {
                   // Move these lines inside the function
                   const email = $("#emailInput").val();
@@ -1326,7 +1327,17 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 // Add a click event listener to the login button
                 $loginButton.click(handleLogin);
-
+                $(document).on('keyup', function(event) {
+                  console.log("key 13 out")
+                  // Check if the Enter key (key code 13) was pressed
+                  if (event.keyCode === 13) {
+                    // Prevent the default behavior of the Enter key (e.g., form submission)
+                    event.preventDefault();
+                    console.log('key 13 in')
+                    // Trigger the handleLogin function when Enter key is pressed
+                    handleLogin();
+                  }
+                });
                 // Create a registration modal
                 const $registerModal = $("<div>").addClass("modal ").css({
                   display: "none",
@@ -1857,6 +1868,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   cursor: "pointer",
                   "background-color": "#fff",
                   padding: "0px 10px",
+                  zIndex: "2000",
                 });
 
                 // Append the close button to the registration modal content
