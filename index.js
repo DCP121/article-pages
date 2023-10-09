@@ -1150,8 +1150,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                     if (response.status === 200) {
                       // Close the modal if login is successful
-                      localStorage.setItem('token', data?.data?.token)
-                      localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+                      localStorage.setItem('token', response?.data?.data?.token)
+                      localStorage.setItem('userData', JSON.stringify(response?.data?.data?.user))
                       $Login.css({ 'display': 'none' })
                       $Register.css({ 'display': 'none' })
                       $Logout.css({ 'display': 'block' })
