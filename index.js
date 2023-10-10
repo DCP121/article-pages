@@ -19,11 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var divElement = document.querySelector("div[name='page_id']");
   var keyValue = divElement.getAttribute("page_url");
   var url = window.location.href
-  console.log(keyValue, url, "page_url")
   if (url !== keyValue) {
     return;
   } else {
-
     // Load CSS stylesheets
     loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
     loadCSS(
