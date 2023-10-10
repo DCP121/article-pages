@@ -20,9 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var keyValue = divElement.getAttribute("page_url");
     var url = window.location.href
     console.log(keyValue, url,"page_url")
-   
-});
-
+   if(keyValue === url){
 // Load CSS stylesheets
 loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
 loadCSS(
@@ -3073,3 +3071,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
     }
   );
 });
+
+   }else{
+    alert('testing successfully !!')
+   }
+});
+
