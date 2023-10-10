@@ -626,11 +626,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("comment-logo")
                         .attr(
                           "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                             dataItem?.like
+                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                         ).css("cursor", "pointer");
                       const $likeicontext = $("<span>").text(dataItem?.likeCount);
 
-                      let isLiked = false; // Initialize the state as not liked
+                      let isLiked = dataItem?.like; // Initialize the state as not liked
 
                       $likeIcon.click( async function () {
                         const ipAddress = await getIp();
@@ -638,7 +640,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $(this).attr(
                           "src",
                           isLiked
-                            ? " https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
                             : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                         );
                         const token = localStorage.getItem("token");
@@ -669,6 +671,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           })
                           .then((data) => {
                             $likeicontext.text(data?.data?.likeCount);
+                            isLiked=data?.data?.like
                           });
                       });
 
@@ -802,10 +805,13 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("comment-logo")
                           .attr(
                             "src",
-                            "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                            item?.like
+                              ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                              : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                          
                           ).css("cursor", "pointer");
                         const $likeicontextreplay = $("<span>").text(item?.likeCount);
-                        let isLiked = false
+                        let isLiked = item?.like
 
                         $likeIconreplay.click(async function () {
                           const ipAddress = await getIp();
@@ -845,6 +851,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             })
                             .then((data) => {
                               $likeicontextreplay.text(data?.data?.likeCount);
+                              isLiked=data.data.like
                             });
                         });
 
