@@ -13,13 +13,11 @@ function loadScript(url, callback) {
   script.onload = callback;
   document.head.appendChild(script);
 }
-// console.log(document.getElementsByName('page_id')[0]?.attributes?.for?.value)
 console.log(document.getElementsByName('page_id')[0].id)
 
 document.addEventListener("DOMContentLoaded", function() {
     var divElement = document.querySelector("div[name='page_id']");
     var keyValue = divElement.getAttribute("key");
-    console.log(keyValue ,divElement, 'url checking');
 });
 
 // Load CSS stylesheets
@@ -55,7 +53,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   })
                   .then((data) => {
                     const userIP = data.ip;
-                    console.log(`Your IP address is: ${userIP}`);
                   })
                   .catch((error) => {
                     console.error("Fetch error:", error);
@@ -73,7 +70,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const token = localStorage.getItem("token");
                 const userData = JSON.parse(localStorage.getItem("userData"));
                 const userId = userData && userData._id;
-                console.log(userId);
                 const headers = {
                   "Content-Type": "application/json", // Specify the content type as JSON
                 };
@@ -81,7 +77,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 if (token) {
                   headers["Authorization"] = `Bearer ${token}`;
                 }
-                console.log(showmorcomment, "show");
                 $.ajax({
                   url: `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName('page_id')[0].id}&userId=${userId && userId !== null ? userId : ""
                     }&site=israelBackOffice`, // Replace with your API endpoint
@@ -95,7 +90,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   success: function (data) {
                     // The data variable now holds the fetched data
                     commentlistingdata = data;
-                    console.log("Fetched Data:", commentlistingdata);
 
                     // You can use the data in subsequent operations or functions
                     processData(commentlistingdata);
@@ -128,8 +122,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               }
               function processData(xyz) {
                 $app.empty();
-                console.log(xyz);
-                console.log(commentlistingdata.data.pageData);
+             
                 function displayResponsiveImage(
                   $parent,
                   imagePath,
@@ -153,7 +146,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 // Create a div for the first image and add it to the main app container
                 const $firstImageContainer = $("<div>");
-                console.log(commentlistingdata, "fdsfdsdfdf");
                 displayResponsiveImage(
                   $firstImageContainer,
                   `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
@@ -509,7 +501,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $userImages = $("<img>")
                   .attr("src", userData?.image)
                   .attr("alt", "User Image");
-                console.log("userimage", userData?.image);
                 //after login user first letter
                 const $userfirstletterdiv = $("<div>")
                   .addClass("user-text")
@@ -539,7 +530,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 //comment listing part
                 commentlistingdata.data.allCommentsData.forEach((dataItem) => {
-                  console.log("mapdata", dataItem);
 
                   const $maincommentlistingcontainer =
                     $("<div>").addClass("comments-group");
@@ -664,7 +654,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         return response.json();
                       })
                       .then((data) => {
-                        console.log(data);
                         $likeicontext.text(data?.data?.likeCount);
                       });
                   });
@@ -770,7 +759,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const $userimages = $("<img>")
                       .attr("src", item?.image)
                       .attr("alt", "User Image");
-                    console.log("userimage", userData?.image);
                     //after login user first letter
                     const $userfirstletterdiv = $("<div>")
                       .addClass("user-text")
@@ -834,7 +822,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             return response.json();
                           })
                           .then((data) => {
-                            console.log(data);
                             $likeicontextreplay.text(data?.data?.likeCount);
                           });
                       });
@@ -972,12 +959,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const originalComment = $commentreplayInput.val().trim();
 
                     if (originalComment === "") {
-                      console.log("if input");
                       $errorMessagecomment
                         .text("Comment cannot be empty.")
                         .show();
                     } else {
-                      console.log("input");
                       $errorMessagecomment.text("").show();
                     }
                   });
@@ -1125,51 +1110,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
-                  console.log("counter");
                 });
 
                 $app.append($showmorecommentdiv);
-                // const $footerImage = $("<img>")
-                //   .attr(
-                //     "src",
-                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
-                //   )
-                //   .css({
-                //     width: "155.07px",
-                //     height: "20px",
-                //     "margin-top": "20px", // Adjust margin as needed
-                //   });
-
-                // $showmorecommentbutton.on("click", function () {
-                //   showmorcomment += 10;
-                //   commentlistapi();
-                //   console.log("counter");
-                // });
-
-                // $app.append($showmorecommentdiv);
-                // const $footerImage = $("<img>")
-                //   .attr(
-                //     "src",
-                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
-                //   )
-                //   .css({
-                //     width: "155.07px",
-                //     height: "20px",
-                //     "margin-top": "20px", // Adjust margin as needed
-                //   });
-
-                // $showmorecommentbutton.on("click", function () {
-                //   showmorcomment += 10;
-                //   commentlistapi();
-                //   console.log("counter");
-                // });
                 fetch('https://api.ipify.org?format=json'
-                  // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
-                  //   method: 'GET',
-                  //   headers: {
-                  //     'Content-Type': 'application/json'
-                  //   },
-                  // }
                 )
                   .then(response => response.json())
                   .then(data => {
@@ -1249,7 +1193,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // Define the handleCredentialResponse function using jQuery
                 window.handleCredentialResponse = (response) => {
                   if (response.credential) {
-                    console.log(response.credential, "response.credential");
                     const ip = localStorage.getItem('ip')
                     // const ip= "123.0.9.123"
                     const payload = {
@@ -1268,8 +1211,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     })
                       .then(response => response.json())
                       .then(data => {
-                        // Handle the API response here
-                        console.log(data); // You can replace this with your desired logic
                         // Close the modal if login is successful
                         localStorage.setItem('token', data?.data?.token)
                         localStorage.setItem('userData', JSON.stringify(data?.data?.user))
@@ -1293,7 +1234,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       });
                   } else {
                     // User is not signed in or declined to sign in.
-                    console.log("User is not signed in.");
                   }
                 }
 
@@ -1557,10 +1497,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Move these lines inside the function
                   const email = $("#emailInput").val();
                   const password = $("#passwordField").val();
-                  console.log(email, password, "aaa");
-                  // Validate email and password (you can add more validation here)
                   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                  console.log(email, password, 'testinggggggggggggg')
                   if (email.trim() === "") {
                     $emptyFieldErrorLogin.css("display", "block");
                     if (password.trim() === "") {
@@ -1603,7 +1540,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       }
                     );
 
-                    console.log(response); // You can replace this with your desired logic
 
                     if (response.status === 200) {
                       // Close the modal if login is successful
@@ -1758,7 +1694,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         },
                       }
                     );
-                    console.log(response, "response");
                     if (response.status === 200) {
                       $registerModalContent.append($ResetPassForm);
                       $registerModalContent.append($imageDivReg);
@@ -1963,7 +1898,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const password = $(this).val();
                     const passwordRegex =
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-                    console.log(!passwordRegex.test(password), "testing pass");
                     if (!passwordRegex.test(password)) {
                       $errorElementPass.css("display", "block");
                       $emptyFieldErrorRegisterPass.css("display", "none");
@@ -2259,7 +2193,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $errorElementOtp.css("display", "none");
                     }
                     if (otpInput.trim() === "") {
-                      console.log(123);
                       $emptyFieldErrorOtp.css("display", "block");
                       $errorElementOtp.css("display", "none");
                     } else {
@@ -2357,7 +2290,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     );
 
                     // Handle the API response here
-                    console.log(response.data); // You can replace this with your desired logic
                     $registerModal.css("display", "none");
                     onClosed();
                     FormCleaner();
@@ -2494,7 +2426,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $errorElementResetPass.css("display", "none");
                     }
                     if (ResetInput.trim() === "") {
-                      console.log(123);
                       $emptyFieldErrorResetPass.css("display", "block");
                       $errorElementResetPass.css("display", "none");
                     } else {
@@ -2647,7 +2578,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const otpRegex = /^\d{6}$/;
                   const newPass = $ResetPassInput.val().trim();
                   const confirmPass = $ResetPassReInput.val().trim();
-                  console.log(newPass, confirmPass, "asas");
                   if (enteredOTP === "") {
                     $emptyFieldErrorResetPass.css("display", "block");
                     if (newPass === "") {
@@ -2706,7 +2636,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     password: newPass,
                     // Include any other necessary data for OTP confirmation
                   };
-                  console.log(ResetPassVal);
                   const $spinner = $("<div>")
                     .addClass("spinner-border spinner-border-sm mx-3 text-light")
                     .attr("role", "status")
@@ -2793,10 +2722,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $errorElementPass.css("display", "block");
                     return;
                   }
-                  // Log the form input values to the console
-                  console.log("Name:", name);
-                  console.log("Email:", email);
-                  console.log("Password:", password);
+                 
                   const $spinner = $("<div>")
                     .addClass("spinner-border spinner-border-sm mx-3 text-light")
                     .attr("role", "status")
@@ -2826,7 +2752,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                     if (response.status === 200) {
                       // Handle the API response here
-                      console.log(response.data); // You can replace this with your desired logic
 
                       // Close the registration form and show the OTP confirmation form if registration is successful
                       $registerModalContent.append($otpForm);
@@ -2876,56 +2801,46 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 // $(document).on('keyup', function (event) {
                 $registrationForm.on('keyup', function (event) {
-                  console.log("key 13 out")
                   // Check if the Enter key (key code 13) was pressed
                   if (event.keyCode === 13) {
                     // Prevent the default behavior of the Enter key (e.g., form submission)
                     event.preventDefault();
-                    console.log('key 13 in')
                     // Trigger the handleLogin function when Enter key is pressed
                     handleRegistration();
                   }
                 });
                 $loginForm.on('keyup', function (event) {
-                  console.log("key 13 out")
                   // Check if the Enter key (key code 13) was pressed
                   if (event.keyCode === 13) {
                     // Prevent the default behavior of the Enter key (e.g., form submission)
                     event.preventDefault();
-                    console.log('key 13 in')
                     // Trigger the handleLogin function when Enter key is pressed
                     handleLogin();
                   }
                 });
                 $otpForm.on('keyup', function (event) {
-                  console.log("key 13 out")
                   // Check if the Enter key (key code 13) was pressed
                   if (event.keyCode === 13) {
                     // Prevent the default behavior of the Enter key (e.g., form submission)
                     event.preventDefault();
-                    console.log('key 13 in')
                     // Trigger the handleLogin function when Enter key is pressed
                     handleOTPConfirmation();
                   }
                 });
                 $ForgotPassForm.on('keyup', function (event) {
-                  console.log("key 13 out")
                   // Check if the Enter key (key code 13) was pressed
                   if (event.keyCode === 13) {
                     // Prevent the default behavior of the Enter key (e.g., form submission)
                     event.preventDefault();
-                    console.log('key 13 in')
                     // Trigger the handleLogin function when Enter key is pressed
                     sendForgotPasswordRequest();
                   }
                 });
                 $ResetPassForm.on('keyup', function (event) {
-                  console.log("key 13 out")
                   // Check if the Enter key (key code 13) was pressed
                   if (event.keyCode === 13) {
                     // Prevent the default behavior of the Enter key (e.g., form submission)
                     event.preventDefault();
-                    console.log('key 13 in')
                     // Trigger the handleLogin function when Enter key is pressed
                     handleResetSubmit();
                   }
