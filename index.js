@@ -504,6 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     //after login user image
                     const $userImages = $("<img>")
                       .attr("src", userData?.image)
+                      .addClass("user-text")
                       .attr("alt", "User Image");
                     //after login user first letter
                     const $userfirstletterdiv = $("<div>")
@@ -581,7 +582,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           "src",
                           "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
                         )
-                        .attr("alt", "User Image");
+                        .attr("alt", "User Image")
+                        .addClass("user-text");
                       //after login user first letter
                       const $commentuserfirstletterdiv = $("<div>")
                         .addClass("user-text")
@@ -626,7 +628,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           "src",
                           "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                         ).css("cursor", "pointer");
-                      const $likeicontext = $("<span>").text(dataItem?.like);
+                      const $likeicontext = $("<span>").text(dataItem?.likeCount);
 
                       let isLiked = false; // Initialize the state as not liked
 
@@ -802,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             "src",
                             "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                           ).css("cursor", "pointer");
-                        const $likeicontextreplay = $("<span>").text(item?.like);
+                        const $likeicontextreplay = $("<span>").text(item?.likeCount);
                         let isLiked = false
 
                         $likeIconreplay.click(async function () {
