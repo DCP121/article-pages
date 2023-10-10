@@ -280,7 +280,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   );
                 const $buttonandinputdiv = $("<div>").addClass("add-comment");
                 const $commentButton = $("<button>")
-                  .addClass("red-button")
+                  .addClass("red-button").css({
+                    direction: 'ltr'
+                  })
                   .text("send");
 
                 const $commentInput = $("<input>")
@@ -352,6 +354,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         if (token) {
                           headers["Authorization"] = `Bearer ${token}`;
                         }
+                        $commentButton.prop("disabled", true);
+                        
                         const $spinner = $("<div>")
                           .addClass(
                             "spinner-border spinner-border-sm mx-3 text-light"
@@ -359,7 +363,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           .attr("role", "status")
                           .appendTo($commentButton);
 
-                        $commentButton.prop("disabled", true);
+                       
                         const requestOptions = {
                           method: "POST", // HTTP method
                           headers: headers,
@@ -394,6 +398,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             }, 2000);
                           })
                           .catch((error) => {
+                            $commentButton.prop("disabled", false);
+                            $spinner.remove();
                             // Handle any errors that occurred during the fetch
                             console.error("Fetch error:", error);
                           });
@@ -558,6 +564,42 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                     );
                   const $likeicontext = $("<span>").text(dataItem?.like);
+
+                  let isLiked = false; // Initialize the state as not liked
+
+                  $likeIcon.click(function () {
+                    isLiked = !isLiked; // Toggle the state on each click
+                    $(this).attr(
+                      "src",
+                      isLiked
+                        ?" https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                        : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                    ); 
+
+                    fetch(
+                      `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          like: isLiked, // Send the current state as like
+                        }),
+                      }
+                    )
+                      .then((response) => {
+                        if (!response.ok) {
+                          throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                      })
+                      .then((data) => {
+                        console.log(data);
+                        $likeicontext.text(data?.data?.likeCount);
+                      });
+                  });
+
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
                   const $commenticontext = $("<span>").text(
@@ -691,7 +733,47 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         "src",
                         "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                       );
-                    const $likeicontextreplay = $("<span>").text(item?.like);
+                      const $likeicontextreplay = $("<span>").text(item?.like);
+                      let isLiked = false
+                       
+                      $likeIconreplay.click(function () {
+                        isLiked = !isLiked; // Toggle the state on each click
+                        $(this).attr(
+                          "src",
+                          isLiked
+                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                        ); 
+     // Change the fill color based on the state
+    
+                        fetch(
+                          `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${item?.id}`,
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              like: isLiked, // Send the current state as like
+                            }),
+                          }
+                        )
+                          .then((response) => {
+                            if (!response.ok) {
+                              throw new Error("Network response was not ok");
+                            }
+                            return response.json();
+                          })
+                          .then((data) => {
+                            console.log(data);
+                            $likeicontextreplay.text(data?.data?.likeCount);
+                          });
+                      });
+    
+
+
+
+                   
                     const $commenticondivreplay =
                       $("<div>").addClass("comment-counter");
                     const $commenticontextreplay = $("<span>").text("15");
@@ -758,7 +840,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $rightcommenntinputsection =
                     $("<div>").addClass("right");
                   const $replaycommentButton = $("<button>")
-                    .addClass("red-button")
+                    .addClass("red-button").css({
+                      direction: 'ltr'
+                    })
                     .text("send");
                   const $commentreplayInput = $("<input>")
                     .addClass("form-control-input")
