@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the text name element
                     const $textName = $("<div>")
                       .addClass("total-comments")
-                      .text(`${commentlistingdata?.data?.totalComment}Comments`);
+                      .text(`${commentlistingdata?.data?.totalComment} Comments`);
 
                     const isLogin = localStorage.getItem("token");
                     if (!isLogin) {
@@ -630,7 +630,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       let isLiked = false; // Initialize the state as not liked
 
-                      $likeIcon.click(function () {
+                      $likeIcon.click( async function () {
+                        const ipAddress = await getIp();
                         isLiked = !isLiked; // Toggle the state on each click
                         $(this).attr(
                           "src",
@@ -638,16 +639,23 @@ document.addEventListener("DOMContentLoaded", function () {
                             ? " https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
                             : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                         );
+                        const token = localStorage.getItem("token");
+
+                        const headers = {
+                          "Content-Type": "application/json", // Specify the content type as JSON
+                        };
+                        if (token) {
+                          headers["Authorization"] = `Bearer ${token}`;
+                        }
 
                         fetch(
-                          `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                          `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                           {
                             method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
+                            headers:headers,
                             body: JSON.stringify({
                               like: isLiked, // Send the current state as like
+                              ip:ipAddress
                             }),
                           }
                         )
@@ -797,7 +805,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $likeicontextreplay = $("<span>").text(item?.like);
                         let isLiked = false
 
-                        $likeIconreplay.click(function () {
+                        $likeIconreplay.click(async function () {
+                          const ipAddress = await getIp();
                           isLiked = !isLiked; // Toggle the state on each click
                           $(this).attr(
                             "src",
@@ -806,16 +815,23 @@ document.addEventListener("DOMContentLoaded", function () {
                               : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                           );
                           // Change the fill color based on the state
+                          const token = localStorage.getItem("token");
+
+                          const headers = {
+                            "Content-Type": "application/json", // Specify the content type as JSON
+                          };
+                          if (token) {
+                            headers["Authorization"] = `Bearer ${token}`;
+                          }
 
                           fetch(
-                            `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${item?.id}`,
+                            `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
                             {
                               method: "POST",
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
+                              headers:headers,
                               body: JSON.stringify({
                                 like: isLiked, // Send the current state as like
+                                ip:ipAddress
                               }),
                             }
                           )
@@ -964,7 +980,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty.")
+                            .text("Comment cannot be empty")
                             .show();
                         } else {
                           $errorMessagecomment.text("").show();
@@ -999,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             const commentReplay = $commentreplayInput.val().trim();
                             if (commentReplay === "") {
                               $errorMessagecomment
-                                .text("Comment cannot be empty.")
+                                .text("Comment cannot be empty")
                                 .show();
                             } else {
                               $errorMessagecomment.hide();
