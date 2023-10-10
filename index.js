@@ -78,9 +78,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${
-                    userId && userId !== null ? userId : ""
-                  }&site=israelBackOffice`, // Replace with your API endpoint
+                  url: `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ""
+                    }&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
                   headers: headers,
@@ -237,7 +236,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     localStorage.removeItem("token");
                     localStorage.removeItem("userData");
                     commentlistapi();
-
+                    $("#ignismyModal").css("display", "block")
+                    $("#ignismyModal").addClass("modal fade show");
+                    $("#msgtag").html("Logout successfully!!")
+                    setTimeout(() => {
+                      $("#ignismyModal").css("display", "none")
+                      $("#msgtag").html("")
+                    }, 2000);
                     $Login.css({ display: "block" });
                     $Register.css({ display: "block" });
                     $Logout.css({ display: "none" });
@@ -337,7 +342,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $errorMessagecomment.hide();
                         // Rest of your comment submission logic here
                         const token = localStorage.getItem("token");
-                        const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                        const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                         // Define additional options for the request
                         const headers = {
@@ -544,46 +549,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $socialicon = $("<div>")
                     .css({})
                     .addClass("comment-bottom");
+
                   const $likeicondiv = $("<div>").addClass("like-counter");
-                  const $likeicontext = $("<span>").text(dataItem?.like);
                   const $likeIcon = $("<img>")
                     .addClass("comment-logo")
-                    .css("cursor", "pointer")
                     .attr(
                       "src",
                       "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                     );
-
-                  let isLiked = false; // Initialize the state as not liked
-
-                  $likeIcon.click(function () {
-                    isLiked = !isLiked; // Toggle the state on each click
-                    $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
-
-                    fetch(
-                      `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${dataItem._id}`,
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          like: isLiked, // Send the current state as like
-                        }),
-                      }
-                    )
-                      .then((response) => {
-                        if (!response.ok) {
-                          throw new Error("Network response was not ok");
-                        }
-                        return response.json();
-                      })
-                      .then((data) => {
-                        console.log(data);
-                        $likeicontext.text(data?.data?.likeCount);
-                      });
-                  });
-
+                  const $likeicontext = $("<span>").text(dataItem?.like);
                   const $commenticondiv =
                     $("<div>").addClass("comment-counter");
                   const $commenticontext = $("<span>").text(
@@ -713,46 +687,11 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       $("<div>").addClass("like-counter");
                     const $likeIconreplay = $("<img>")
                       .addClass("comment-logo")
-                      .css("cursor", "pointer")
                       .attr(
                         "src",
                         "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                       );
-                      const $likeicontextreplay = $("<span>").text(item?.like);
-                      let isLiked = false
-                       
-                      $likeIconreplay.click(function () {
-                        isLiked = !isLiked; // Toggle the state on each click
-                        $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
-    
-                        fetch(
-                          `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${item?.id}`,
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              like: isLiked, // Send the current state as like
-                            }),
-                          }
-                        )
-                          .then((response) => {
-                            if (!response.ok) {
-                              throw new Error("Network response was not ok");
-                            }
-                            return response.json();
-                          })
-                          .then((data) => {
-                            console.log(data);
-                            $likeicontextreplay.text(data?.data?.likeCount);
-                          });
-                      });
-    
-
-
-
-                   
+                    const $likeicontextreplay = $("<span>").text(item?.like);
                     const $commenticondivreplay =
                       $("<div>").addClass("comment-counter");
                     const $commenticontextreplay = $("<span>").text("15");
@@ -928,7 +867,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           if (token) {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
-                          const apiUrl = `http://137.184.19.129:4002/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                          const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                           // Define additional options for the request
                           const requestOptions = {
@@ -1019,9 +958,6 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // .hide();
 
                 $app.append($showmorecommentdiv);
-
-
-                
                 const $footerImage = $("<img>")
                   .attr(
                     "src",
@@ -1040,7 +976,40 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 });
 
                 $app.append($showmorecommentdiv);
-               
+                // const $footerImage = $("<img>")
+                //   .attr(
+                //     "src",
+                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                //   )
+                //   .css({
+                //     width: "155.07px",
+                //     height: "20px",
+                //     "margin-top": "20px", // Adjust margin as needed
+                //   });
+
+                // $showmorecommentbutton.on("click", function () {
+                //   showmorcomment += 10;
+                //   commentlistapi();
+                //   console.log("counter");
+                // });
+
+                // $app.append($showmorecommentdiv);
+                // const $footerImage = $("<img>")
+                //   .attr(
+                //     "src",
+                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                //   )
+                //   .css({
+                //     width: "155.07px",
+                //     height: "20px",
+                //     "margin-top": "20px", // Adjust margin as needed
+                //   });
+
+                // $showmorecommentbutton.on("click", function () {
+                //   showmorcomment += 10;
+                //   commentlistapi();
+                //   console.log("counter");
+                // });
                 fetch('https://api.ipify.org?format=json'
                   // , {      //https://geolocation-db.com/json/ //http://ip-api.com/json
                   //   method: 'GET',
@@ -1137,7 +1106,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       device
                     }
                     // Send a POST request to the login API
-                    fetch('https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
+                    fetch('https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -1472,7 +1441,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                      "https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                       payload,
                       {
                         headers: {
@@ -1628,7 +1597,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   $ForgotPassSubmit.prop("disabled", true)
                   try {
                     const response = await axios.post(
-                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                      "https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                       ForgotPassPayload,
                       {
                         headers: {
@@ -2225,7 +2194,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   try {
 
                     const response = await axios.post(
-                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                      "https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                       otpConfirmationPayload,
                       {
                         headers: {
@@ -2594,7 +2563,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   // Send a POST request to the OTP confirmation API
                   try {
                     const response = await axios.post(
-                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                      "https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                       ResetPassVal,
                       {
                         headers: {
@@ -2693,7 +2662,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   try {
                     const response = await axios.post(
-                      "https://27b4-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                      "https://d4d3-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                       payload,
                       {
                         headers: {
