@@ -3,6 +3,8 @@
     max-width: 1224px;
     margin: 0 auto;
     direction: rtl;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .loader {
     display: none;
@@ -303,6 +305,7 @@
 
 
 @media screen and (max-width:767px) {
+    
     .sub-header {
         margin-top: 15px !important;
         gap: 15px !important; 
@@ -336,6 +339,10 @@
     }
     .comments-wrap .right > img {
         max-width: 60px !important;
+    }
+    .comments-wrap .right .user-text {
+        width: 60px !important;
+        height: 60px !important;
     }
     .comments-wrap .right .comment-logo {
         max-width: auto !important;
