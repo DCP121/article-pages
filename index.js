@@ -3075,8 +3075,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     });
 
-  } else {
-    alert('testing successfully !!')
-  }
+  } 
 });
 
