@@ -16,6 +16,11 @@ function loadScript(url, callback) {
 // console.log(document.getElementsByName('page_id')[0]?.attributes?.for?.value)
 console.log(document.getElementsByName('page_id')[0].id)
 
+document.addEventListener("DOMContentLoaded", function() {
+    var divElement = document.querySelector("div[name='page_id']");
+    var keyValue = divElement.getAttribute("key");
+    console.log(keyValue ,divElement, 'url checking');
+});
 
 // Load CSS stylesheets
 loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
