@@ -275,7 +275,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   );
                 const $buttonandinputdiv = $("<div>").addClass("add-comment");
                 const $commentButton = $("<button>")
-                  .addClass("red-button")
+                  .addClass("red-button").css({
+                    direction: 'ltr'
+                  })
                   .text("send");
 
                 const $commentInput = $("<input>")
@@ -347,6 +349,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         if (token) {
                           headers["Authorization"] = `Bearer ${token}`;
                         }
+                        $commentButton.prop("disabled", true);
+                        
                         const $spinner = $("<div>")
                           .addClass(
                             "spinner-border spinner-border-sm mx-3 text-light"
@@ -354,7 +358,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           .attr("role", "status")
                           .appendTo($commentButton);
 
-                        $commentButton.prop("disabled", true);
+                       
                         const requestOptions = {
                           method: "POST", // HTTP method
                           headers: headers,
@@ -389,6 +393,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             }, 2000);
                           })
                           .catch((error) => {
+                            $commentButton.prop("disabled", false);
+                            $spinner.remove();
                             // Handle any errors that occurred during the fetch
                             console.error("Fetch error:", error);
                           });
@@ -561,7 +567,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
 
                     fetch(
-                      `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                      `http://172.16.1.237:3001/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                       {
                         method: "POST",
                         headers: {
@@ -726,7 +732,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
     
                         fetch(
-                          `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${item?.id}`,
+                          `http://172.16.1.237:3001/api/v1/comments/updateLike?commentId=${item?.id}`,
                           {
                             method: "POST",
                             headers: {
@@ -819,7 +825,9 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   const $rightcommenntinputsection =
                     $("<div>").addClass("right");
                   const $replaycommentButton = $("<button>")
-                    .addClass("red-button")
+                    .addClass("red-button").css({
+                      direction: 'ltr'
+                    })
                     .text("send");
                   const $commentreplayInput = $("<input>")
                     .addClass("form-control-input")
