@@ -46,22 +46,18 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
             // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
             $(document).ready(function () {
               // Create a div container with the id "app"
+              var ipadress;
               const getIp = async () => {
-                await fetch(`https://api64.ipify.org/?format=json`)
-                  .then((response) => {
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then((data) => {
-                    const userIP = data.ip;
-                  })
-                  .catch((error) => {
-                    console.error("Fetch error:", error);
-                  });
+              const response= await fetch(`https://api64.ipify.org/?format=json`)
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              const data = await response.json();
+              const ipAddress = data.ip;
+              console.log(`Your IP address is: ${ipAddress}`);
+              return ipAddress;
               };
-              getIp();
+              console.log(ipadress,'ip')
               const $container = $("<div>").addClass("container");
               const $app = $("#app");
               const containerClass = "image-container";
@@ -69,10 +65,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               //api for comment listing pages
               var commentlistingdata;
               var showmorcomment = 10;
-              function commentlistapi() {
+              const commentlistapi=async()=> {
+                const ipAddress = await getIp()
+                console.log('ipaddress',ipAddress)
                 const token = localStorage.getItem("token");
                 const userData = JSON.parse(localStorage.getItem("userData"));
                 const userId = userData && userData._id;
+                console.log(userId);
                 const headers = {
                   "Content-Type": "application/json", // Specify the content type as JSON
                 };
@@ -80,6 +79,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 if (token) {
                   headers["Authorization"] = `Bearer ${token}`;
                 }
+                console.log(showmorcomment, "show");
                 $.ajax({
                   url: `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName('page_id')[0].id}&userId=${userId && userId !== null ? userId : ""
                     }&site=israelBackOffice`, // Replace with your API endpoint
@@ -88,11 +88,13 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   headers: headers,
                   data: JSON.stringify({
                     itemsPerPage: showmorcomment,
+                    ip:ipAddress
                   }),
 
                   success: function (data) {
                     // The data variable now holds the fetched data
                     commentlistingdata = data;
+                    console.log("Fetched Data:", commentlistingdata);
 
                     // You can use the data in subsequent operations or functions
                     processData(commentlistingdata);
@@ -125,7 +127,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
               }
               function processData(xyz) {
                 $app.empty();
-             
+                console.log(xyz);
+                console.log(commentlistingdata.data.pageData);
                 function displayResponsiveImage(
                   $parent,
                   imagePath,
@@ -149,6 +152,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 // Create a div for the first image and add it to the main app container
                 const $firstImageContainer = $("<div>");
+                console.log(commentlistingdata, "fdsfdsdfdf");
                 displayResponsiveImage(
                   $firstImageContainer,
                   `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
@@ -328,7 +332,8 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                   submitComment();
                 });
 
-                function submitComment() {
+                const submitComment=async()=>{
+                  const ipAddress = await getIp()
                   if (commentlistingdata?.data?.pageData?.mustLogin) {
                     const token = localStorage.getItem("token");
                   
@@ -358,7 +363,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         const headers = {
                           "Content-Type": "application/json", // Specify the content type as JSON
                         };
-                  
+                        const token = localStorage.getItem("token");
                         if (token) {
                           headers["Authorization"] = `Bearer ${token}`;
                         }
@@ -369,6 +374,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           body: JSON.stringify({
                             originalComment: originalComment,
                             site: "israel-today",
+                            ip:ipAddress
                           }), // Convert the data object to JSON string
                         };
                   
@@ -426,15 +432,22 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
                 
                       // Define headers for the request
+                      
+                      const token = localStorage.getItem("token");
+                     
                       const headers = {
                         "Content-Type": "application/json", // Specify the content type as JSON
                       };
+                      if (token) {
+                        headers["Authorization"] = `Bearer ${token}`;
+                      }
                       const requestOptions = {
                         method: "POST", // HTTP method
                         headers: headers,
                         body: JSON.stringify({
                           originalComment: originalComment,
                           site: "israel-today",
+                          ip:ipAddress
                         }), // Convert the data object to JSON string
                       };
                       fetch(apiUrl, requestOptions)
@@ -470,7 +483,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             $spinner.remove();
                             // Handle any errors that occurred during the fetch
                             console.error("Fetch error:", error);
-                          });
+                        });
                     }
                   }
                 }
@@ -504,6 +517,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 const $userImages = $("<img>")
                   .attr("src", userData?.image)
                   .attr("alt", "User Image");
+                console.log("userimage", userData?.image);
                 //after login user first letter
                 const $userfirstletterdiv = $("<div>")
                   .addClass("user-text")
@@ -533,6 +547,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                 //comment listing part
                 commentlistingdata.data.allCommentsData.forEach((dataItem) => {
+                  console.log("mapdata", dataItem);
 
                   const $maincommentlistingcontainer =
                     $("<div>").addClass("comments-group");
@@ -624,7 +639,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     .attr(
                       "src",
                       "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                    );
+                    ).css("cursor", "pointer");
                   const $likeicontext = $("<span>").text(dataItem?.like);
 
                   let isLiked = false; // Initialize the state as not liked
@@ -657,6 +672,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                         return response.json();
                       })
                       .then((data) => {
+                        console.log(data);
                         $likeicontext.text(data?.data?.likeCount);
                       });
                   });
@@ -762,6 +778,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const $userimages = $("<img>")
                       .attr("src", item?.image)
                       .attr("alt", "User Image");
+                    console.log("userimage", userData?.image);
                     //after login user first letter
                     const $userfirstletterdiv = $("<div>")
                       .addClass("user-text")
@@ -792,7 +809,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       .attr(
                         "src",
                         "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                      );
+                      ).css("cursor", "pointer");
                       const $likeicontextreplay = $("<span>").text(item?.like);
                       let isLiked = false
                        
@@ -825,6 +842,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             return response.json();
                           })
                           .then((data) => {
+                            console.log(data);
                             $likeicontextreplay.text(data?.data?.likeCount);
                           });
                       });
@@ -962,10 +980,12 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     const originalComment = $commentreplayInput.val().trim();
 
                     if (originalComment === "") {
+                      console.log("if input");
                       $errorMessagecomment
                         .text("Comment cannot be empty.")
                         .show();
                     } else {
+                      console.log("input");
                       $errorMessagecomment.text("").show();
                     }
                   });
@@ -985,13 +1005,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                     submitReplyComment();
                   });
 
-                  function submitReplyComment() {
+                  const submitReplyComment=async()=> {
+                    const ipAddress = await getIp()
                     if (commentlistingdata?.data?.pageData?.mustLogin) {
                       const token = localStorage.getItem("token");
                       if (!token) {
+                        // Display registration and login modal when mustLogin is true and no token is present.
                         $registerModal.css("display", "block");
                         $loginForm.css("display", "block");
-                      } else {
+                      } 
+                      else{
                         const commentReplay = $commentreplayInput.val().trim();
                         if (commentReplay === "") {
                           $errorMessagecomment
@@ -1017,6 +1040,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             body: JSON.stringify({
                               commentReplay: commentReplay,
                               site: "israel-today",
+                              ip:ipAddress
                             }), // Convert the data object to JSON string
                           };
                           const $spinner = $("<div>")
@@ -1064,11 +1088,167 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                           // }
                         }
                       }
-                    } else {
-                      $registerModal.css("display", "block");
-                      $loginForm.css("display", "block");
+                    }else{
+                      const commentReplay = $commentreplayInput.val().trim();
+                      if (commentReplay === "") {
+                        $errorMessagecomment
+                          .text("Comment cannot be empty.")
+                          .show();
+                      } else {
+                        $errorMessagecomment.hide();
+                        // Rest of your reply comment submission logic here
+                        const token = localStorage.getItem("token");
+                        const headers = {
+                          "Content-Type": "application/json", // Specify the content type as JSON
+                        };
+
+                        if (token) {
+                          headers["Authorization"] = `Bearer ${token}`;
+                        }
+                        const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+
+                        // Define additional options for the request
+                        const requestOptions = {
+                          method: "POST", // HTTP method
+                          headers: headers,
+                          body: JSON.stringify({
+                            commentReplay: commentReplay,
+                            site: "israel-today",
+                            ip:ipAddress
+                          }), // Convert the data object to JSON string
+                        };
+                        const $spinner = $("<div>")
+                          .addClass(
+                            "spinner-border spinner-border-sm mx-3 text-light"
+                          )
+                          .attr("role", "status")
+                          .appendTo($replaycommentButton);
+
+                        $replaycommentButton.prop("disabled", true);
+
+                        fetch(apiUrl, requestOptions)
+                          .then((response) => {
+                            // Check if the response status is OK (201 Created)
+                            if (!response.ok) {
+                              throw new Error(
+                                `HTTP error! Status: ${response.status}`
+                              );
+                            }
+
+                            // Parse the response body as JSON
+                            return response.json();
+                          })
+                          .then((data) => {
+                            // Handle the response data
+                            $spinner.remove();
+                            commentlistapi();
+                            $("#ignismyModal").css("display", "block");
+                            $("#ignismyModal").addClass("modal fade show");
+                            $("#msgtag").html("comment replay succesfuly!!");
+                            setTimeout(() => {
+                              $("#ignismyModal").css("display", "none");
+                              $("#msgtag").html("");
+                            }, 2000);
+                            //alert(data.message);
+                          })
+                          .catch((error) => {
+                            // Handle any errors that occurred during the fetch
+                            console.error("Fetch error:", error);
+                          });
+                        // finally {
+                        //   // Enable button and remove spinner after API call is complete
+                        //   $replaycommentButton.prop("disabled", false);
+                        //   $spinner.remove();
+                        // }
+                      }
                     }
-                  }
+
+
+
+
+                  //   if (commentlistingdata?.data?.pageData?.mustLogin) {
+                  //     const token = localStorage.getItem("token");
+                  //     if (!token) {
+                  //       $registerModal.css("display", "block");
+                  //       $loginForm.css("display", "block");
+                  //     } else {
+                  //       const commentReplay = $commentreplayInput.val().trim();
+                  //       if (commentReplay === "") {
+                  //         $errorMessagecomment
+                  //           .text("Comment cannot be empty.")
+                  //           .show();
+                  //       } else {
+                  //         $errorMessagecomment.hide();
+                  //         // Rest of your reply comment submission logic here
+                  //         const token = localStorage.getItem("token");
+                  //         const headers = {
+                  //           "Content-Type": "application/json", // Specify the content type as JSON
+                  //         };
+
+                  //         if (token) {
+                  //           headers["Authorization"] = `Bearer ${token}`;
+                  //         }
+                  //         const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+
+                  //         // Define additional options for the request
+                  //         const requestOptions = {
+                  //           method: "POST", // HTTP method
+                  //           headers: headers,
+                  //           body: JSON.stringify({
+                  //             commentReplay: commentReplay,
+                  //             site: "israel-today",
+                  //           }), // Convert the data object to JSON string
+                  //         };
+                  //         const $spinner = $("<div>")
+                  //           .addClass(
+                  //             "spinner-border spinner-border-sm mx-3 text-light"
+                  //           )
+                  //           .attr("role", "status")
+                  //           .appendTo($replaycommentButton);
+
+                  //         $replaycommentButton.prop("disabled", true);
+
+                  //         fetch(apiUrl, requestOptions)
+                  //           .then((response) => {
+                  //             // Check if the response status is OK (201 Created)
+                  //             if (!response.ok) {
+                  //               throw new Error(
+                  //                 `HTTP error! Status: ${response.status}`
+                  //               );
+                  //             }
+
+                  //             // Parse the response body as JSON
+                  //             return response.json();
+                  //           })
+                  //           .then((data) => {
+                  //             // Handle the response data
+                  //             $spinner.remove();
+                  //             commentlistapi();
+                  //             $("#ignismyModal").css("display", "block");
+                  //             $("#ignismyModal").addClass("modal fade show");
+                  //             $("#msgtag").html("comment replay succesfuly!!");
+                  //             setTimeout(() => {
+                  //               $("#ignismyModal").css("display", "none");
+                  //               $("#msgtag").html("");
+                  //             }, 2000);
+                  //             //alert(data.message);
+                  //           })
+                  //           .catch((error) => {
+                  //             // Handle any errors that occurred during the fetch
+                  //             console.error("Fetch error:", error);
+                  //           });
+                  //         // finally {
+                  //         //   // Enable button and remove spinner after API call is complete
+                  //         //   $replaycommentButton.prop("disabled", false);
+                  //         //   $spinner.remove();
+                  //         // }
+                  //       }
+                  //     }
+                  //   } else {
+                  //     $registerModal.css("display", "block");
+                  //     $loginForm.css("display", "block");
+                  //   }
+                   }
 
                   //Append the div to the document body or another container
 
@@ -1098,7 +1278,10 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 // .attr("role", "status")
                 // .hide();
 
-                $app.append($showmorecommentdiv);
+               // $app.append($showmorecommentdiv);
+
+
+                
                 const $footerImage = $("<img>")
                   .attr(
                     "src",
@@ -1113,9 +1296,27 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 $showmorecommentbutton.on("click", function () {
                   showmorcomment += 10;
                   commentlistapi();
+                  console.log("counter");
                 });
 
                 $app.append($showmorecommentdiv);
+                // const $footerImage = $("<img>")
+                //   .attr(
+                //     "src",
+                //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                //   )
+                //   .css({
+                //     width: "155.07px",
+                //     height: "20px",
+                //     "margin-top": "20px", // Adjust margin as needed
+                //   });
+
+                // $showmorecommentbutton.on("click", function () {
+                //   showmorcomment += 10;
+                //   commentlistapi();
+                // });
+
+                // $app.append($showmorecommentdiv);
                 fetch('https://api.ipify.org?format=json'
                 )
                   .then(response => response.json())
