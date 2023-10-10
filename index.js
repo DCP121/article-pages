@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       if (originalComment === "") {
                         $errorMessagecomment
-                          .text("Comment cannot be empty.")
+                          .text("Comment cannot be empty")
                           .show();
                       } else {
                         $errorMessagecomment.hide();
@@ -407,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty.")
+                            .text("Comment cannot be empty")
                             .show();
                         } else {
                           $commentButton.prop("disabled", true);
