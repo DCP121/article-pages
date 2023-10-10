@@ -551,8 +551,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       let time = timeAgo(dataItem.createdAt);
                       const $commenttime = $("<div>")
                         .addClass("post-time")
-                        .text(`Posted ${time}`)
-                        .css({});
+                        .text(`${time}`)
+                        .css({ direction: 'ltr'});
                       const $commentuser = $("<div>")
                         .addClass("user-name")
                         .text(
@@ -741,8 +741,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         const $commenttimereplay = $("<div>")
                           .addClass("post-time")
-                          .text(`Posted ${time}`)
-                          .css({});
+                          .text(`${time}`)
+                          .css({direction: 'ltr'});
                         const $commentuserreplay = $("<div>")
                           .addClass("user-name")
                           .text(
