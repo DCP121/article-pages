@@ -564,10 +564,15 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
 
                   $likeIcon.click(function () {
                     isLiked = !isLiked; // Toggle the state on each click
-                    $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
+                    $(this).attr(
+                      "src",
+                      isLiked
+                        ?" https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like-select.svg" // Change to select SVG when isLiked is true
+                        : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                    ); 
 
                     fetch(
-                      `http://172.16.1.237:3001/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                      `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                       {
                         method: "POST",
                         headers: {
@@ -729,10 +734,16 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                        
                       $likeIconreplay.click(function () {
                         isLiked = !isLiked; // Toggle the state on each click
-                        $(this).css("fill", isLiked ? "red" : "black"); // Change the fill color based on the state
+                        $(this).attr(
+                          "src",
+                          isLiked
+                            ? "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like-select.svg" // Change to select SVG when isLiked is true
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                        ); 
+     // Change the fill color based on the state
     
                         fetch(
-                          `http://172.16.1.237:3001/api/v1/comments/updateLike?commentId=${item?.id}`,
+                          `http://137.184.19.129:4002/api/v1/comments/updateLike?commentId=${item?.id}`,
                           {
                             method: "POST",
                             headers: {
