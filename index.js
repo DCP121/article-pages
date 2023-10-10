@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
     //loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@244508a13bcfd13e969f984ced09cb078f247f3d/index.css')
+    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       if (originalComment === "") {
                         $errorMessagecomment
-                          .text("Comment cannot be empty")
+                          .text("Comment cannot be empty.")
                           .show();
                       } else {
                         $errorMessagecomment.hide();
@@ -407,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty")
+                            .text("Comment cannot be empty.")
                             .show();
                         } else {
                           $commentButton.prop("disabled", true);
@@ -2369,7 +2369,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create an input field for OTP
                     const $otpInputDiv = $("<div>")
                     const $otpInput = $("<input>")
-                      .attr("type", "text")
+                      .attr("type", "number")
                       .addClass("custom-input")
                       .attr("id", "otpInput")
                       .keydown(function (event) {
