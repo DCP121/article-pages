@@ -83,7 +83,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 }
                 console.log(showmorcomment, "show");
                 $.ajax({
-                  url: `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=65098ac7dfc16014091b766f&userId=${userId && userId !== null ? userId : ""
+                  url: `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName('page_id')[0].id}&userId=${userId && userId !== null ? userId : ""
                     }&site=israelBackOffice`, // Replace with your API endpoint
                   method: "POST",
                   dataType: "json",
@@ -336,39 +336,38 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                 function submitComment() {
                   if (commentlistingdata?.data?.pageData?.mustLogin) {
                     const token = localStorage.getItem("token");
+                  
                     if (!token) {
+                      // Display registration and login modal when mustLogin is true and no token is present.
                       $registerModal.css("display", "block");
                       $loginForm.css("display", "block");
                     } else {
                       const originalComment = $commentInput.val().trim();
+                  
                       if (originalComment === "") {
                         $errorMessagecomment
                           .text("Comment cannot be empty.")
                           .show();
                       } else {
-                        $errorMessagecomment.hide();
-                        // Rest of your comment submission logic here
-                        const token = localStorage.getItem("token");
-                        const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
-
-                        // Define additional options for the request
-                        const headers = {
-                          "Content-Type": "application/json", // Specify the content type as JSON
-                        };
-
-                        if (token) {
-                          headers["Authorization"] = `Bearer ${token}`;
-                        }
+                        // Disable the comment button during the API call
                         $commentButton.prop("disabled", true);
                         
                         const $spinner = $("<div>")
-                          .addClass(
-                            "spinner-border spinner-border-sm mx-3 text-light"
-                          )
+                          .addClass("spinner-border spinner-border-sm mx-3 text-light")
                           .attr("role", "status")
                           .appendTo($commentButton);
-
-                       
+                  
+                        const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName('page_id')[0].id}`; // Example URL
+                  
+                        // Define headers for the request
+                        const headers = {
+                          "Content-Type": "application/json", // Specify the content type as JSON
+                        };
+                  
+                        if (token) {
+                          headers["Authorization"] = `Bearer ${token}`;
+                        }
+                  
                         const requestOptions = {
                           method: "POST", // HTTP method
                           headers: headers,
@@ -377,7 +376,7 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                             site: "israel-today",
                           }), // Convert the data object to JSON string
                         };
-
+                  
                         fetch(apiUrl, requestOptions)
                           .then((response) => {
                             // Check if the response status is OK (201 Created)
@@ -386,23 +385,27 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                                 `HTTP error! Status: ${response.status}`
                               );
                             }
-
+                  
                             // Parse the response body as JSON
                             return response.json();
                           })
                           .then((data) => {
-                            $spinner.remove();
                             // Handle the response data
+                            $spinner.remove();
                             commentlistapi();
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html("comment add succesfuly!!");
+                            $("#msgtag").html("Comment added successfully!!");
                             setTimeout(() => {
                               $("#ignismyModal").css("display", "none");
                               $("#msgtag").html("");
                             }, 2000);
+                  
+                            // Re-enable the comment button after successful API call
+                            $commentButton.prop("disabled", false);
                           })
                           .catch((error) => {
+                            // Re-enable the comment button in case of an error
                             $commentButton.prop("disabled", false);
                             $spinner.remove();
                             // Handle any errors that occurred during the fetch
@@ -411,8 +414,69 @@ loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
                       }
                     }
                   } else {
-                    $registerModal.css("display", "block");
-                    $loginForm.css("display", "block");
+                    const originalComment = $commentInput.val().trim();
+                  
+                    if (originalComment === "") {
+                      $errorMessagecomment
+                        .text("Comment cannot be empty.")
+                        .show();
+                    } else {
+                      $commentButton.prop("disabled", true);
+                        
+                      const $spinner = $("<div>")
+                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .attr("role", "status")
+                        .appendTo($commentButton);
+                
+                      const apiUrl = `https://d4d3-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                
+                      // Define headers for the request
+                      const headers = {
+                        "Content-Type": "application/json", // Specify the content type as JSON
+                      };
+                      const requestOptions = {
+                        method: "POST", // HTTP method
+                        headers: headers,
+                        body: JSON.stringify({
+                          originalComment: originalComment,
+                          site: "israel-today",
+                        }), // Convert the data object to JSON string
+                      };
+                      fetch(apiUrl, requestOptions)
+                          .then((response) => {
+                            // Check if the response status is OK (201 Created)
+                            if (!response.ok) {
+                              throw new Error(
+                                `HTTP error! Status: ${response.status}`
+                              );
+                            }
+                  
+                            // Parse the response body as JSON
+                            return response.json();
+                          })
+                          .then((data) => {
+                            // Handle the response data
+                            $spinner.remove();
+                            commentlistapi();
+                            $("#ignismyModal").css("display", "block");
+                            $("#ignismyModal").addClass("modal fade show");
+                            $("#msgtag").html("Comment added successfully!!");
+                            setTimeout(() => {
+                              $("#ignismyModal").css("display", "none");
+                              $("#msgtag").html("");
+                            }, 2000);
+                  
+                            // Re-enable the comment button after successful API call
+                            $commentButton.prop("disabled", false);
+                          })
+                          .catch((error) => {
+                            // Re-enable the comment button in case of an error
+                            $commentButton.prop("disabled", false);
+                            $spinner.remove();
+                            // Handle any errors that occurred during the fetch
+                            console.error("Fetch error:", error);
+                          });
+                    }
                   }
                 }
 
