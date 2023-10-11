@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
                     $.ajax({
-                      url: `https://8472-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
+                      url: `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
                         document.getElementsByName("page_id")[0].id
                       }&userId=${
                         userId && userId !== null ? userId : ""
@@ -416,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           if (originalComment === "") {
                             $errorMessagecomment
-                              .text("Comment cannot be empty.")
+                              .text("Comment cannot be empty")
                               .show();
                           } else if (
                             originalComment.length > maxCommentLength
@@ -443,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${
+                            const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${
                               document.getElementsByName("page_id")[0].id
                             }`; // Example URL
 
@@ -509,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty.")
+                            .text("Comment cannot be empty")
                             .show();
                         } else if (
                           originalComment.length > maxCommentLength
@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                          const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
 
                           // Define headers for the request
 
@@ -784,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           }
 
                           fetch(
-                            `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                            `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                             {
                               method: "POST",
                               headers: headers,
@@ -975,7 +975,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                              `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1140,7 +1140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             if (originalComment === "") {
                               $errorMessagecomment
-                                .text("Comment cannot be empty.")
+                                .text("Comment cannot be empty")
                                 .show();
                             } else if (
                               originalComment.length > maxCommentLength
@@ -1197,7 +1197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               
                             if (commentReplay === "") {
                               $errorMessagecomment
-                                .text("Comment cannot be empty.")
+                                .text("Comment cannot be empty")
                                 .show();
                             } else if (
                               commentReplay.length > maxCommentLength
@@ -1224,7 +1224,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1285,15 +1285,35 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // }
                               }
                             }
-                          } else {
+                          } else  {
                             const commentReplay = $commentreplayInput
                               .val()
                               .trim();
-                            if (commentReplay === "") {
-                              $errorMessagecomment
-                                .text("Comment cannot be empty.")
-                                .show();
-                            } else {
+
+                              const maxCommentLength = 200;
+                          const htmlPattern = /<[^>]*>/g;
+                          const cssPattern = /<style[^>]*>.*<\/style>/g;
+                          const linkPattern = /<a[^>]*>.*<\/a>/g;
+                            
+                          if (commentReplay === "") {
+                            $errorMessagecomment
+                              .text("Comment cannot be empty")
+                              .show();
+                          } else if (
+                            commentReplay.length > maxCommentLength
+                          ) {
+                            $errorMessagecomment
+                              .text("Comment exceeds the maximum length")
+                              .show();
+                          } else if (
+                            htmlPattern.test(commentReplay) ||
+                            cssPattern.test(commentReplay) ||
+                            linkPattern.test(commentReplay)
+                          ) {
+                            $errorMessagecomment
+                              .text("Invalid content in the comment")
+                              .show();
+                          }else {
                               $errorMessagecomment.hide();
                               // Rest of your reply comment submission logic here
                               const token = localStorage.getItem("token");
@@ -1304,7 +1324,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1632,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
                           {
                             method: "POST",
                             headers: {
@@ -1976,7 +1996,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -2142,7 +2162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2291,8 +2311,20 @@ document.addEventListener("DOMContentLoaded", function () {
                       .on("input", function () {
                         const name = $(this).val();
                         // Check if the email is valid
+                        const maxCommentLength = 60;
                         if (name.trim() !== "") {
-                          $emptyFieldErrorRegisterName.css("display", "none");
+                          // $emptyFieldErrorRegisterName.css("display", "none");
+                           if (name.trim().length > maxCommentLength) {
+                            $emptyFieldErrorRegisterName
+                              .text("maximum length is 60")
+                              .css("display", "block");
+                            }
+                            else{
+                              $emptyFieldErrorRegisterName.css("display", "none");
+                              $emptyFieldErrorRegisterName.empty()
+                              $emptyFieldErrorRegisterName.text("Name is required")
+                            }
+
                         } else {
                           $emptyFieldErrorRegisterName.css("display", "block");
                         }
@@ -2752,7 +2784,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3147,7 +3179,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
@@ -3249,7 +3281,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "https://bfdf-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
