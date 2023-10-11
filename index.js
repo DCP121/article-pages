@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const site =
                     document.getElementsByName("page_id")[0].attributes.for
                       .value;
+                  var siteName = site == "israel" ? "israel-today" : "ittihad-today"
                   // An mqtt variable will be initialized globally
                   const url = 'wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt' //add the ip address with port that we got from the docker run
                   const options = {
@@ -116,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $.ajax({
                       url: `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
-                        }&site=israelBackOffice`, // Replace with your API endpoint
+                        }&site=${site=='israel'?"israelBackOffice":"ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -465,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               headers: headers,
                               body: JSON.stringify({
                                 originalComment: originalComment,
-                                site: "israel-today",
+                                site:siteName,
                                 ip: ipAddress,
                               }), // Convert the data object to JSON string
                             };
@@ -510,6 +511,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       } else {
                         const originalComment = $commentInput.val().trim();
+                        const maxCommentLength = 200;
+                          const htmlPattern = /<[^>]*>/g;
+                          const cssPattern = /<style[^>]*>.*<\/style>/g;
+                          const linkPattern = /<a[^>]*>.*<\/a>/g;
 
                         if (originalComment === "") {
                           $errorMessagecomment
@@ -556,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers: headers,
                             body: JSON.stringify({
                               originalComment: originalComment,
-                              site: "israel-today",
+                              site:siteName,
                               ip: ipAddress,
                             }), // Convert the data object to JSON string
                           };
@@ -625,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("comment-logo")
                         .attr(
                           "src",
-                          site == "israelBackOffice"
+                          siteName == "israel-today"
                             ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                             : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                         );
@@ -1253,7 +1258,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   headers: headers,
                                   body: JSON.stringify({
                                     commentReplay: commentReplay,
-                                    site: "israel-today",
+                                    site: siteName,
                                     ip: ipAddress,
                                   }), // Convert the data object to JSON string
                                 };
@@ -1353,7 +1358,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 headers: headers,
                                 body: JSON.stringify({
                                   commentReplay: commentReplay,
-                                  site: "israel-today",
+                                  site:siteName,
                                   ip: ipAddress,
                                 }), // Convert the data object to JSON string
                               };
@@ -1591,7 +1596,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .catch((error) => {
                         console.error("Error:", error);
                       });
-                    const site = "israel-today"; //document.getElementsByName('page_id')[0].attributes.for.value
+                    //const site = "israel-today"; //document.getElementsByName('page_id')[0].attributes.for.value
                     let device;
                     window.addEventListener("resize", handleResize);
                     function handleResize() {
@@ -1676,7 +1681,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // const ip= "123.0.9.123"
                         const payload = {
                           googleAuthToken: response.credential,
-                          site,
+                          sitename:siteName,
                           ip,
                           device,
                         };
@@ -3307,7 +3312,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         name: name,
                         email: email,
                         password: password,
-                        site: "israel-today",
+                        site:siteName,
                         ip: "172.16.2.52",
                         device: "web",
                       };
