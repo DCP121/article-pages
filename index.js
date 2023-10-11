@@ -602,7 +602,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create the second child div (user image)
                     const $userImageDiv = $("<div>").addClass("right");
-                    const $logoiconforuserimage = $("<img>")
+
+
+                    if(userData && userData !==''){
+                    var $logoiconforuserimage = $("<img>")
                       .addClass("comment-logo")
                       .attr(
                         "src",
@@ -612,6 +615,18 @@ document.addEventListener("DOMContentLoaded", function () {
                           ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                       );
+                    }
+                    else{
+                      const site="israelBackOffice"
+                      var $logoiconforuserimage = $("<img>")
+                      .addClass("comment-logo")
+                      .attr(
+                        "src",
+                        site="israelBackOffice"
+                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                      );
+                    }
                     // default Avtart
                     const $userImage = $("<img>")
                       .attr(
@@ -916,7 +931,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           const $userimages = $("<img>")
                             .attr("src", item?.image)
-                            .attr("alt", "User Image");
+                            .attr("alt", "User Image")
+                           .addClass(" user-text")
                           //after login user first letter
                           const $userfirstletterdiv = $("<div>")
                             .addClass("user-text")
