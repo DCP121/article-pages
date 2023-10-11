@@ -622,7 +622,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("comment-logo")
                       .attr(
                         "src",
-                        site="israelBackOffice"
+                        site=="israelBackOffice"
                           ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                       );
