@@ -1681,7 +1681,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // const ip= "123.0.9.123"
                         const payload = {
                           googleAuthToken: response.credential,
-                          sitename:siteName,
+                          site:siteName,
                           ip,
                           device,
                         };
