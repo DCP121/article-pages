@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
               loadScript("https://apis.google.com/js/api.js", function () {
                 // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
                 $(document).ready(function () {
+                  let cliendId = null
                   // Create a script element
                   const script = document.createElement("script");
 
@@ -110,11 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
                     $.ajax({
-                      url: `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
-                        document.getElementsByName("page_id")[0].id
-                      }&userId=${
-                        userId && userId !== null ? userId : ""
-                      }&site=israelBackOffice`, // Replace with your API endpoint
+                      url: `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                        }&userId=${userId && userId !== null ? userId : ""
+                        }&site=israelBackOffice`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -127,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
                         apiFlags = apiFlag;
+                        cliendId = data?.data?.pageData?.google_client_id
+                        console.log("111111111111.....",cliendId)
+
                         // You can use the data in subsequent operations or functions
                         processData(commentlistingdata, apiFlag);
                       },
@@ -443,9 +445,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${
-                              document.getElementsByName("page_id")[0].id
-                            }`; // Example URL
+                            const apiUrl = `https://bfdf-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                              }`; // Example URL
 
                             // Define headers for the request
                             const headers = {
@@ -525,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $errorMessagecomment
                             .text("Invalid content in the comment")
                             .show();
-                        }else {
+                        } else {
                           $commentButton.prop("disabled", true);
 
                           const $spinner = $("<div>")
@@ -1132,34 +1133,34 @@ document.addEventListener("DOMContentLoaded", function () {
                           const originalComment = $commentreplayInput
                             .val()
                             .trim();
-                            const maxCommentLength = 200;
-                            const htmlPattern = /<[^>]*>/g;
-                            const cssPattern = /<style[^>]*>.*<\/style>/g;
-                            const linkPattern = /<a[^>]*>.*<\/a>/g;
-                          
+                          const maxCommentLength = 200;
+                          const htmlPattern = /<[^>]*>/g;
+                          const cssPattern = /<style[^>]*>.*<\/style>/g;
+                          const linkPattern = /<a[^>]*>.*<\/a>/g;
 
-                            if (originalComment === "") {
-                              $errorMessagecomment
-                                .text("Comment cannot be empty")
-                                .show();
-                            } else if (
-                              originalComment.length > maxCommentLength
-                            ) {
-                              $errorMessagecomment
-                                .text("Comment exceeds the maximum length")
-                                .show();
-                            } else if (
-                              htmlPattern.test(originalComment) ||
-                              cssPattern.test(originalComment) ||
-                              linkPattern.test(originalComment)
-                            ) {
-                              $errorMessagecomment
-                                .text("Invalid content in the comment")
-                                .show();
-                            }
-                            else {
-                              $errorMessagecomment.hide();
-                            }
+
+                          if (originalComment === "") {
+                            $errorMessagecomment
+                              .text("Comment cannot be empty")
+                              .show();
+                          } else if (
+                            originalComment.length > maxCommentLength
+                          ) {
+                            $errorMessagecomment
+                              .text("Comment exceeds the maximum length")
+                              .show();
+                          } else if (
+                            htmlPattern.test(originalComment) ||
+                            cssPattern.test(originalComment) ||
+                            linkPattern.test(originalComment)
+                          ) {
+                            $errorMessagecomment
+                              .text("Invalid content in the comment")
+                              .show();
+                          }
+                          else {
+                            $errorMessagecomment.hide();
+                          }
                         });
 
                         $commentreplayInput.on("keyup", function (event) {
@@ -1190,30 +1191,30 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .val()
                                 .trim();
 
-                                const maxCommentLength = 200;
-                            const htmlPattern = /<[^>]*>/g;
-                            const cssPattern = /<style[^>]*>.*<\/style>/g;
-                            const linkPattern = /<a[^>]*>.*<\/a>/g;
-                              
-                            if (commentReplay === "") {
-                              $errorMessagecomment
-                                .text("Comment cannot be empty")
-                                .show();
-                            } else if (
-                              commentReplay.length > maxCommentLength
-                            ) {
-                              $errorMessagecomment
-                                .text("Comment exceeds the maximum length")
-                                .show();
-                            } else if (
-                              htmlPattern.test(commentReplay) ||
-                              cssPattern.test(commentReplay) ||
-                              linkPattern.test(commentReplay)
-                            ) {
-                              $errorMessagecomment
-                                .text("Invalid content in the comment")
-                                .show();
-                            }else {
+                              const maxCommentLength = 200;
+                              const htmlPattern = /<[^>]*>/g;
+                              const cssPattern = /<style[^>]*>.*<\/style>/g;
+                              const linkPattern = /<a[^>]*>.*<\/a>/g;
+
+                              if (commentReplay === "") {
+                                $errorMessagecomment
+                                  .text("Comment cannot be empty")
+                                  .show();
+                              } else if (
+                                commentReplay.length > maxCommentLength
+                              ) {
+                                $errorMessagecomment
+                                  .text("Comment exceeds the maximum length")
+                                  .show();
+                              } else if (
+                                htmlPattern.test(commentReplay) ||
+                                cssPattern.test(commentReplay) ||
+                                linkPattern.test(commentReplay)
+                              ) {
+                                $errorMessagecomment
+                                  .text("Invalid content in the comment")
+                                  .show();
+                              } else {
                                 $errorMessagecomment.hide();
                                 // Rest of your reply comment submission logic here
                                 const token = localStorage.getItem("token");
@@ -1285,35 +1286,35 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // }
                               }
                             }
-                          } else  {
+                          } else {
                             const commentReplay = $commentreplayInput
                               .val()
                               .trim();
 
-                              const maxCommentLength = 200;
-                          const htmlPattern = /<[^>]*>/g;
-                          const cssPattern = /<style[^>]*>.*<\/style>/g;
-                          const linkPattern = /<a[^>]*>.*<\/a>/g;
-                            
-                          if (commentReplay === "") {
-                            $errorMessagecomment
-                              .text("Comment cannot be empty")
-                              .show();
-                          } else if (
-                            commentReplay.length > maxCommentLength
-                          ) {
-                            $errorMessagecomment
-                              .text("Comment exceeds the maximum length")
-                              .show();
-                          } else if (
-                            htmlPattern.test(commentReplay) ||
-                            cssPattern.test(commentReplay) ||
-                            linkPattern.test(commentReplay)
-                          ) {
-                            $errorMessagecomment
-                              .text("Invalid content in the comment")
-                              .show();
-                          }else {
+                            const maxCommentLength = 200;
+                            const htmlPattern = /<[^>]*>/g;
+                            const cssPattern = /<style[^>]*>.*<\/style>/g;
+                            const linkPattern = /<a[^>]*>.*<\/a>/g;
+
+                            if (commentReplay === "") {
+                              $errorMessagecomment
+                                .text("Comment cannot be empty")
+                                .show();
+                            } else if (
+                              commentReplay.length > maxCommentLength
+                            ) {
+                              $errorMessagecomment
+                                .text("Comment exceeds the maximum length")
+                                .show();
+                            } else if (
+                              htmlPattern.test(commentReplay) ||
+                              cssPattern.test(commentReplay) ||
+                              linkPattern.test(commentReplay)
+                            ) {
+                              $errorMessagecomment
+                                .text("Invalid content in the comment")
+                                .show();
+                            } else {
                               $errorMessagecomment.hide();
                               // Rest of your reply comment submission logic here
                               const token = localStorage.getItem("token");
@@ -1588,13 +1589,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         gapi.auth2.init();
                       });
                     };
-
                     // Create a div element for g_id_onload configuration
                     var gIdOnloadDiv = document.createElement("div");
                     gIdOnloadDiv.id = "g_id_onload";
                     gIdOnloadDiv.setAttribute(
                       "data-client_id",
-                      "854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com"
+                      cliendId
                     );
                     gIdOnloadDiv.setAttribute("data-context", "signin");
                     gIdOnloadDiv.setAttribute("data-ux_mode", "popup");
@@ -1619,7 +1619,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     gIdOnloadDiv1.id = "g_id_onload1";
                     gIdOnloadDiv1.setAttribute(
                       "data-client_id",
-                      "854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com"
+                      cliendId
                     );
                     gIdOnloadDiv1.setAttribute("data-context", "signin");
                     gIdOnloadDiv1.setAttribute("data-ux_mode", "popup");
@@ -2314,18 +2314,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         const maxCommentLength = 60;
                         if (name.trim() !== "") {
                           // $emptyFieldErrorRegisterName.css("display", "none");
-                           if (name.trim().length > maxCommentLength) {
+                          if (name.trim().length > maxCommentLength) {
                             $emptyFieldErrorRegisterName
                               .text("maximum length is 60")
                               .css("display", "block");
-                            }
-                            else{
-                              $emptyFieldErrorRegisterName.css("display", "none");
-                              $emptyFieldErrorRegisterName.empty()
-                              $emptyFieldErrorRegisterName.text("Name is required")
-                            }
+                          }
+                          else {
+                            $emptyFieldErrorRegisterName.css("display", "none");
+                            $emptyFieldErrorRegisterName.empty()
+                            $emptyFieldErrorRegisterName.text("Name is required")
+                          }
 
                         } else {
+                          $emptyFieldErrorRegisterName.empty()
+                          $emptyFieldErrorRegisterName.text("Name is required")
                           $emptyFieldErrorRegisterName.css("display", "block");
                         }
                       });
