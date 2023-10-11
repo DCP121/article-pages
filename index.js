@@ -59,11 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementsByName("page_id")[0].attributes.for
                       .value;
                   // An mqtt variable will be initialized globally
-                  const url = "ws://172.16.0.220:8083/mqtt"; //add the ip address with port that we got from the docker run
-
-                  script.onload = () => {
+                  const url = 'wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt' //add the ip address with port that we got from the docker run
+                  const options = {
+                    username: 'tridhyatech',
+                    password: 'Abcd1234',
+                }
+                                  script.onload = () => {
                     // Create an MQTT client instance
-                    const client = mqtt.connect(url);
+                    const client = mqtt.connect(url, options);
                     client.on("connect", function () {
                       console.log("Connected", pageId, site);
                     });
