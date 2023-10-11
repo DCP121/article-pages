@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (token) {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
+                    
                     $.ajax({
                       url: `https://d7e1-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
