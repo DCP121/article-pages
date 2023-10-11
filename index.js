@@ -545,7 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://4e50-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                            const apiUrl = `https://4e50-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
