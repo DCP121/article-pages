@@ -1090,9 +1090,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $userImages = $("<img>")
                           .attr(
                             "src",
-                            "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
+                            userData?.image
                           )
-                          .attr("alt", "User Image");
+                          .attr("alt", "User Image")
+                          .addClass("user-text")
                         //after login user first letter
                         const $userfirstletterdiv = $("<div>")
                           .addClass("user-text")
