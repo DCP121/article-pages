@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         commentlistingdata = data;
                         apiFlags = apiFlag;
                         cliendId = data?.data?.pageData?.google_client_id
-                        console.log("111111111111.....",cliendId)
+                        console.log("111111111111.....", cliendId)
 
                         // You can use the data in subsequent operations or functions
                         processData(commentlistingdata, apiFlag);
@@ -604,28 +604,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $userImageDiv = $("<div>").addClass("right");
 
 
-                    if(userData && userData !==''){
-                    var $logoiconforuserimage = $("<img>")
-                      .addClass("comment-logo")
-                      .attr(
-                        "src",
-                        userData &&
-                          userData !== "" &&
-                          userData.site == "israel-today"
-                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
-                      );
-                    }
-                    else{
-                      const site="israelBackOffice"
+                    if (userData && userData !== '') {
                       var $logoiconforuserimage = $("<img>")
-                      .addClass("comment-logo")
-                      .attr(
-                        "src",
-                        site=="israelBackOffice"
-                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
-                      );
+                        .addClass("comment-logo")
+                        .attr(
+                          "src",
+                          userData &&
+                            userData !== "" &&
+                            userData.site == "israel-today"
+                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                        );
+                    }
+                    else {
+                      const site = "israelBackOffice"
+                      var $logoiconforuserimage = $("<img>")
+                        .addClass("comment-logo")
+                        .attr(
+                          "src",
+                          site == "israelBackOffice"
+                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                        );
                     }
                     // default Avtart
                     const $userImage = $("<img>")
@@ -932,7 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const $userimages = $("<img>")
                             .attr("src", item?.image)
                             .attr("alt", "User Image")
-                           .addClass(" user-text")
+                            .addClass(" user-text")
                           //after login user first letter
                           const $userfirstletterdiv = $("<div>")
                             .addClass("user-text")
@@ -2454,6 +2454,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the actual link element
                     const $termsLink = $("<a>")
                       .attr("href", "https://www.example.com/terms") // Replace with your actual terms and conditions URL
+                      .attr("target", "_blank")
                       .css({
                         color: "inherit", // Inherit the color from the parent (black in this case)
                         "text-decoration": "underline", // Remove the underline
