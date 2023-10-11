@@ -1509,7 +1509,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
-                      .text("show more comment");
+                      .text("show more comment").css({
+                        direction: "ltr",
+                      })
 
                     if (
                       showmorcomment <= commentlistingdata?.data?.totalComment
@@ -1536,6 +1538,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $showmorecommentbutton.on("click", function () {
                       showmorcomment += 10;
+                      $showmorecommentbutton.prop("disabled", true);
+
+                      const $spinner = $("<div>")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
+                        .attr("role", "status")
+                        .appendTo($showmorecommentbutton);
                       commentlistapi(true);
                       console.log("counter");
                     });
