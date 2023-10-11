@@ -42,6 +42,35 @@ document.addEventListener("DOMContentLoaded", function () {
               loadScript("https://apis.google.com/js/api.js", function () {
                 // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
                 $(document).ready(function () {
+                                  // Create a script element
+              const script = document.createElement('script');
+
+              // Set the source and other attributes for the script
+              script.src = "https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.1.0/mqtt.min.js";
+              script.integrity = "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
+              script.crossOrigin = "anonymous";
+              script.referrerPolicy = "no-referrer";
+              const pageId = document.getElementsByName('page_id')[0].id
+              const site = document.getElementsByName('page_id')[0].attributes.for.value
+                          // An mqtt variable will be initialized globally
+            const url = 'ws://172.16.0.220:8083/mqtt' //add the ip address with port that we got from the docker run
+    
+              
+              script.onload = () => {
+                // Create an MQTT client instance 
+                const client = mqtt.connect(url)
+                client.on('connect', function () {
+                    console.log('Connected',pageId,site)
+                })
+                client.subscribe(`${pageId}:${site}`)
+                client.on('message', function (topic, message, packet) {
+                  commentlistapi(true)
+                })
+                };
+                document.head.appendChild(script);
+
+
+
                   // Create a div container with the id "app"
                   var ipadress;
                   const getIp = async () => {
@@ -60,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   //api for comment listing pages
                   var commentlistingdata;
                   var showmorcomment = 10;
-                  const commentlistapi = async () => {
+                  let apiFlags = true
+
+                  const commentlistapi = async (apiFlag) => {
                     const ipAddress = await getIp()
                     const token = localStorage.getItem("token");
                     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -86,16 +117,16 @@ document.addEventListener("DOMContentLoaded", function () {
                       success: function (data) {
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
-
+                        apiFlags = apiFlag
                         // You can use the data in subsequent operations or functions
-                        processData(commentlistingdata);
+                        processData(commentlistingdata,apiFlag);
                       },
                       error: function (xhr, status, error) {
                         console.error("Error fetching data:", error);
                       },
                     });
                   }
-                  commentlistapi();
+                  commentlistapi(true);
                   function timeAgo(isoDateString) {
                     const now = new Date();
                     const commentTime = new Date(isoDateString);
@@ -116,8 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       return days + (days === 1 ? " day ago" : " days ago");
                     }
                   }
-                  function processData(xyz) {
-                    $app.empty();
+                  function processData(xyz, apiFlag) {
+                    if (apiFlag) {
+                      $app.empty();
+                    }
                     function displayResponsiveImage(
                       $parent,
                       imagePath,
@@ -146,7 +179,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
                       bannerClass
                     );
-                    $app.append($firstImageContainer);
+                    if(apiFlags){
+                      $app.append($firstImageContainer);
+                    }
 
                     // Create a div with the class "d-flex" for the second image and h1 tag
                     const $flexContainer = $("<div>").addClass("sub-header");
@@ -169,8 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     // Append the flex container to the main app container
-                    $app.append($flexContainer);
-
+                    if(apiFlags) {
+                      $app.append($flexContainer);
+                    }
                     // Responsive adjustments using media queries
                     // Adjust margins and flex direction for smaller screens
                     function handleMediaQueryChange(e) {
@@ -227,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .click(function () {
                         localStorage.removeItem("token");
                         localStorage.removeItem("userData");
-                        commentlistapi();
+                        commentlistapi(true);
                         $("#ignismyModal").css("display", "block")
                         $("#ignismyModal").addClass("modal fade show");
                         $("#msgtag").html("Logout successfully!!")
@@ -381,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                                commentlistapi();
+                                commentlistapi(true);;
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html("Comment added successfully!!");
@@ -453,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                               // Handle the response data
                               $spinner.remove();
-                              commentlistapi();
+                              commentlistapi(true);;
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html("Comment added successfully!!");
@@ -528,9 +564,13 @@ document.addEventListener("DOMContentLoaded", function () {
                       $userImageDiv,
                       $commentbuttonandinputdiv
                     );
-                    $app.append($subHeader);
+                    if(apiFlags) {
+                      $app.append($subHeader);
+                    }
                     $mainDivForCommentSection.append($commentSectionDiv);
-                    $app.append($mainDivForCommentSection);
+                    if(apiFlags) {
+                      $app.append($mainDivForCommentSection);
+                    }
                     // $mainDivForCommentSection.append($containerCommentpart)
 
                     //comment listing part
@@ -1073,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $spinner.remove();
-                                  commentlistapi();
+                                  commentlistapi(true);;
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass("modal fade show");
                                   $("#msgtag").html("comment replay succesfuly!!");
@@ -1147,7 +1187,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                                commentlistapi();
+                                commentlistapi(true);;
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html("comment replay succesfuly!!");
@@ -1229,7 +1269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         //           .then((data) => {
                         //             // Handle the response data
                         //             $spinner.remove();
-                        //             commentlistapi();
+                        //             commentlistapi(true);;
                         //             $("#ignismyModal").css("display", "block");
                         //             $("#ignismyModal").addClass("modal fade show");
                         //             $("#msgtag").html("comment replay succesfuly!!");
@@ -1301,11 +1341,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $showmorecommentbutton.on("click", function () {
                       showmorcomment += 10;
-                      commentlistapi();
+                      commentlistapi(true);;
                       console.log("counter");
                     });
+                    if(apiFlag) {
+                      $app.append($showmorecommentdiv);
+                    }
+                    var tempElement = document.createElement("div")
+                    tempElement.innerHTML =
+                      commentlistingdata?.data?.pageData?.footer_text;
 
-                    $app.append($showmorecommentdiv);
+                    // Find the <p> element and extract its text
+                    var text = tempElement.querySelector("p").textContent;
+                    const $footerConatiner = $("<div>").text(text).css({
+                      direction: "ltr",
+                    });
+
+                    $app.append($footerConatiner);
                     // const $footerImage = $("<img>")
                     //   .attr(
                     //     "src",
@@ -1319,7 +1371,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // $showmorecommentbutton.on("click", function () {
                     //   showmorcomment += 10;
-                    //   commentlistapi();
+                    //   commentlistapi(true);;
                     // });
 
                     // $app.append($showmorecommentdiv);
@@ -1424,7 +1476,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Close the modal if login is successful
                             localStorage.setItem('token', data?.data?.token)
                             localStorage.setItem('userData', JSON.stringify(data?.data?.user))
-                            commentlistapi()
+                            commentlistapi(true);
                             $Login.css({ 'display': 'none' })
                             $Register.css({ 'display': 'none' })
                             $Logout.css({ 'display': 'block' })
@@ -1755,7 +1807,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           // Close the modal if login is successful
                           localStorage.setItem('token', response?.data?.data?.token)
                           localStorage.setItem('userData', JSON.stringify(response?.data?.data?.user))
-                          commentlistapi();
+                          commentlistapi(true);;
                           $Login.css({ 'display': 'none' })
                           $Register.css({ 'display': 'none' })
                           $Logout.css({ 'display': 'block' })
