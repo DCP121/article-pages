@@ -789,7 +789,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           dataItem?.likeCount
                         );
 
-                        let isLiked = dataItem?.like; // Initialize the state as not liked
+                        let isLiked = dataItem?.like ? dataItem.like : false;; // Initialize the state as not liked
 
                         $likeIcon.click(async function () {
                           const ipAddress = await getIp();
@@ -980,7 +980,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const $likeicontextreplay = $("<span>").text(
                             item?.likeCount
                           );
-                          let isLiked = item?.like;
+                          let isLiked = item?.like ? item.like : false;
 
                           $likeIconreplay.click(async function () {
                             const ipAddress = await getIp();
@@ -1520,7 +1520,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
                       .text("show more comment").css({
-                        direction: "ltr",
+                        direction: "rtl",
+                        display: "flex",
                       })
 
                     if (
