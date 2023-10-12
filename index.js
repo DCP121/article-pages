@@ -1520,8 +1520,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
                       .text("show more comment").css({
-                        direction: "rtl",
-                        display: "flex",
+                        direction: "ltr",
                       })
 
                     if (
@@ -1570,7 +1569,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Find the <p> element and extract its text
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
-                      direction: "ltr",
+                      display:'flex'
                     });
 
                     $app.append($footerConatiner);
