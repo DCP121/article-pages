@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     
                     $.ajax({
-                      url: `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `http://172.16.0.220:3001/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site=='israel'?"israelBackOffice":"ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `http://172.16.0.220:3001/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
                               }`; // Example URL
 
                             // Define headers for the request
@@ -546,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                            const apiUrl = `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                            const apiUrl = `http://172.16.0.220:3001/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -810,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           }
 
                           fetch(
-                            `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                            `http://172.16.0.220:3001/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                             {
                               method: "POST",
                               headers: headers,
@@ -1002,7 +1002,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                              `http://172.16.0.220:3001/api/v1/comments/updateLike?commentId=${item?.id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1252,7 +1252,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `http://172.16.0.220:3001/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1352,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://d4e4-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `http://172.16.0.220:3001/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1689,7 +1689,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          "http://172.16.0.220:3001/api/v1/user/google-sign-in",
                           {
                             method: "POST",
                             headers: {
@@ -1995,8 +1995,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     async function handleLogin() {
                       // Move these lines inside the function
-                      const email = $("#emailInput").val();
-                      const password = $("#passwordField").val();
+                      const email = $emailInput.val();
+                      const password = $passwordInput.val();
                       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                       if (email.trim() === "") {
                         $emptyFieldErrorLogin.css("display", "block");
@@ -2033,7 +2033,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "http://172.16.0.220:3001/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -2199,7 +2199,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "http://172.16.0.220:3001/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2824,7 +2824,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "http://172.16.0.220:3001/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3219,7 +3219,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "http://172.16.0.220:3001/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
@@ -3321,7 +3321,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://d4e4-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "http://172.16.0.220:3001/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
