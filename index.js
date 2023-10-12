@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
-                                  "Comment added successfully!!"
+                                  "Thank you for the comment, Once Admin will approve it, will be publish here!!"
                                 );
                                 setTimeout(() => {
                                   $("#ignismyModal").css("display", "none");
@@ -585,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               commentlistapi(true);
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
-                              $("#msgtag").html("Comment added successfully!!");
+                              $("#msgtag").html("Thank you for the comment, Once Admin will approve it, will be publish here!!");
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
                                 $("#msgtag").html("");
@@ -1294,7 +1294,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       "modal fade show"
                                     );
                                     $("#msgtag").html(
-                                      "comment replay succesfuly!!"
+                                      "Thank you for the comment, Once Admin will approve it, will be publish here!!"
                                     );
                                     setTimeout(() => {
                                       $("#ignismyModal").css("display", "none");
@@ -1394,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "modal fade show"
                                   );
                                   $("#msgtag").html(
-                                    "comment replay succesfuly!!"
+                                    "Thank you for the comment, Once Admin will approve it, will be publish here!!"
                                   );
                                   setTimeout(() => {
                                     $("#ignismyModal").css("display", "none");
