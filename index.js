@@ -305,7 +305,47 @@ document.addEventListener("DOMContentLoaded", function () {
                       .text(
                         `${commentlistingdata?.data?.totalComment} Comments`
                       );
+                    function commentprotection(comment) {
+                      const stripHtml = (html) => {
+                        const doc = new DOMParser().parseFromString(html, 'text/html');
+                        return doc.body.textContent || '';
+                      }
 
+                      //strip javascript
+                      const stripJavascript = (input) => {
+                        return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+                      }
+
+                      //strip url
+                      const stripUrls = (input) => {
+                        return input.replace(/https?:\/\/[^\s/$.?#].[^\s]*/gi, '');
+                      }
+
+                      const stripEmails = (input) => {
+                        return input.replace(/\S+@\S+\.\S+/gi, '');
+                      }
+                      const stripSql = (input) => {
+                        const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'DROP', 'CREATE', 'ALTER', 'TABLE', 'DATABASE'];
+                        const sqlPattern = new RegExp(`\\b(${sqlKeywords.join('|')})\\b`, 'gi');
+                        return input.replace(sqlPattern, '');
+                      }
+
+                      //strip css
+                      const stripCss = (input) => {
+                        return input.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+                      }
+
+                      const sanitizedInput = stripEmails(stripUrls(stripJavascript(stripHtml(stripSql(stripCss(comment))))))
+                        console.log(sanitizedInput, "sanitized")
+                     
+                      if (sanitizedInput === '') {
+                        return ""
+                      }
+                      else {
+                        // Set the sanitized input back to the input field
+                        return sanitizedInput;
+                      }
+                    }
                     const isLogin = localStorage.getItem("token");
                     if (!isLogin) {
                       $Logout.css({ display: "none" });
@@ -363,46 +403,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
                     $commentInput.on("input", function () {
                       let originalComment = $commentInput.val();
-                      console.log("this", originalComment)
-                      //strip html
-                      const stripHtml = (html) => {
-                        const doc = new DOMParser().parseFromString(html, 'text/html');
-                        return doc.body.textContent || '';
-                      }
-
-                      //strip javascript
-                      const stripJavascript = (input) => {
-                        return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-                      }
-
-                      //strip url
-                      const stripUrls = (input) => {
-                        return input.replace(/https?:\/\/[^\s/$.?#].[^\s]*/gi, '');
-                      }
-
-                      const stripEmails = (input) => {
-                        return input.replace(/\S+@\S+\.\S+/gi, '');
-                      }
-                      const stripSql = (input) => {
-                        const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'DROP', 'CREATE', 'ALTER', 'TABLE', 'DATABASE'];
-                        const sqlPattern = new RegExp(`\\b(${sqlKeywords.join('|')})\\b`, 'gi');
-                        return input.replace(sqlPattern, '');
-                      }
-
-                      //strip css
-                      const stripCss = (input) => {
-                        return input.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
-                      }
-
-                      const sanitizedInput = stripEmails(stripUrls(stripJavascript(stripHtml(stripSql(stripCss(originalComment))))))
-                      if (sanitizedInput === '') {
+                      const checking = commentprotection(originalComment)
+                      if (checking === "") {
                         $commentInput.val("")
                       }
                       else {
                         // Set the sanitized input back to the input field
-                        $commentInput.val(sanitizedInput);
+                        $commentInput.val(checking);
                       }
-                      console.log(originalComment, "senitized")
                       const maxCommentLength = 200; // Change this to your desired maximum length
 
                       //rejex
@@ -1227,9 +1235,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         $commentreplayInput.on("input", function () {
-                          const originalComment = $commentreplayInput
+                          let originalComment = $commentreplayInput
                             .val()
-                            .trim();
+                          const checking = commentprotection(originalComment)
+                          if (checking === "") {
+                            $commentreplayInput.val("")
+                          }
+                          else {
+                            // Set the sanitized input back to the input field
+                            $commentreplayInput.val(checking);
+                          }
                           const maxCommentLength = 200;
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /<style[^>]*>.*<\/style>/g;
