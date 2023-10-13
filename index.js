@@ -961,7 +961,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           const $commentreplayparagraph = $("<div>")
                             .addClass("user-comments")
-                            .text(item?.commentReplay);
+                            .text(item?.updatedComment);
 
                           //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
                           //social icon div
@@ -1044,12 +1044,40 @@ document.addEventListener("DOMContentLoaded", function () {
                             $commenticontextreplay,
                             $commentIconreplay
                           );
+                          const $seeOriginalCommentButton = $("<button>")
+                          .text("See Original Comment")
+                          .addClass("outline-blue-btn");
+                        //replay toggle between orignale comment and updated comment
+                        let isOriginalComment = true;
+                        $seeOriginalCommentButton.on("click", function () {
+                          // Replace the original comment text with the updated comment text
+                          if (isOriginalComment) {
+                            // Show the original comment
+                            $commentreplayparagraph.text(item?.originalComment);
+                            $seeOriginalCommentButton.text(
+                              "See Updated Comment"
+                            );
+                          } else {
+                            // Show the updated comment
+                            $commentreplayparagraph.text(item?.updatedComment);
+                            $seeOriginalCommentButton.text(
+                              "See Original Comment"
+                            );
+                          }
+
+                          // Toggle the state
+                          isOriginalComment = !isOriginalComment;
+                        });
+
 
                           const $socialiconcommentreplay =
                             $("<div>").addClass("comment-bottom");
                           $socialiconcommentreplay.append(
-                            $likeicondivreplay
-                            // $commenticondivreplay
+                            $likeicondivreplay,
+                            item?.updatedComment &&
+                            item?.updatedComment !== ""
+                            ? $seeOriginalCommentButton
+                            : ""
                           );
 
                           $leftsidecommentreplaydiv.append(
