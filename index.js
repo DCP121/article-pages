@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   const options = {
                     username: 'tridhyatech',
                     password: 'Abcd1234',
-                }
-                                  script.onload = () => {
+                  }
+                  script.onload = () => {
                     // Create an MQTT client instance
                     const client = mqtt.connect(url, options);
 
@@ -115,11 +115,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (token) {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
-                    
+
                     $.ajax({
                       url: `https://9a75-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
-                        }&site=${site=='israel'?"israelBackOffice":"ittihadBackOffice"}`, // Replace with your API endpoint
+                        }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .attr({
                         type: "text",
                         placeholder: "Add a comment",
-                      });
+                      })
                     const $errorMessagecomment = $("<div>")
                       .css({ display: "flex", color: "red" })
                       .hide();
@@ -362,7 +362,47 @@ document.addEventListener("DOMContentLoaded", function () {
                       $errorMessagecomment
                     );
                     $commentInput.on("input", function () {
-                      const originalComment = $commentInput.val().trim();
+                      let originalComment = $commentInput.val();
+                      console.log("this", originalComment)
+                      //strip html
+                      const stripHtml = (html) => {
+                        const doc = new DOMParser().parseFromString(html, 'text/html');
+                        return doc.body.textContent || '';
+                      }
+
+                      //strip javascript
+                      const stripJavascript = (input) => {
+                        return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+                      }
+
+                      //strip url
+                      const stripUrls = (input) => {
+                        return input.replace(/https?:\/\/[^\s/$.?#].[^\s]*/gi, '');
+                      }
+
+                      const stripEmails = (input) => {
+                        return input.replace(/\S+@\S+\.\S+/gi, '');
+                      }
+                      const stripSql = (input) => {
+                        const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'DROP', 'CREATE', 'ALTER', 'TABLE', 'DATABASE'];
+                        const sqlPattern = new RegExp(`\\b(${sqlKeywords.join('|')})\\b`, 'gi');
+                        return input.replace(sqlPattern, '');
+                      }
+
+                      //strip css
+                      const stripCss = (input) => {
+                        return input.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+                      }
+
+                      const sanitizedInput = stripEmails(stripUrls(stripJavascript(stripHtml(stripSql(stripCss(originalComment))))))
+                      if (sanitizedInput === '') {
+                        $commentInput.val("")
+                      }
+                      else {
+                        // Set the sanitized input back to the input field
+                        $commentInput.val(sanitizedInput);
+                      }
+                      console.log(originalComment, "senitized")
                       const maxCommentLength = 200; // Change this to your desired maximum length
 
                       //rejex
@@ -468,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               headers: headers,
                               body: JSON.stringify({
                                 originalComment: originalComment,
-                                site:siteName,
+                                site: siteName,
                                 ip: ipAddress,
                               }), // Convert the data object to JSON string
                             };
@@ -513,10 +553,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       } else {
                         const originalComment = $commentInput.val().trim();
+                        console.log(originalComment, 'orig')
+
                         const maxCommentLength = 200;
-                          const htmlPattern = /<[^>]*>/g;
-                          const cssPattern = /<style[^>]*>.*<\/style>/g;
-                          const linkPattern = /<a[^>]*>.*<\/a>/g;
+                        const htmlPattern = /<[^>]*>/g;
+                        const cssPattern = /<style[^>]*>.*<\/style>/g;
+                        const linkPattern = /<a[^>]*>.*<\/a>/g;
 
                         if (originalComment === "") {
                           $errorMessagecomment
@@ -546,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                            const apiUrl = `https://9a75-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `https://9a75-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -563,7 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers: headers,
                             body: JSON.stringify({
                               originalComment: originalComment,
-                              site:siteName,
+                              site: siteName,
                               ip: ipAddress,
                             }), // Convert the data object to JSON string
                           };
@@ -1045,29 +1087,29 @@ document.addEventListener("DOMContentLoaded", function () {
                             $commentIconreplay
                           );
                           const $seeOriginalCommentButton = $("<button>")
-                          .text("See Original Comment")
-                          .addClass("outline-blue-btn");
-                        //replay toggle between orignale comment and updated comment
-                        let isOriginalComment = true;
-                        $seeOriginalCommentButton.on("click", function () {
-                          // Replace the original comment text with the updated comment text
-                          if (isOriginalComment) {
-                            // Show the original comment
-                            $commentreplayparagraph.text(item?.originalComment);
-                            $seeOriginalCommentButton.text(
-                              "See Updated Comment"
-                            );
-                          } else {
-                            // Show the updated comment
-                            $commentreplayparagraph.text(item?.updatedComment);
-                            $seeOriginalCommentButton.text(
-                              "See Original Comment"
-                            );
-                          }
+                            .text("See Original Comment")
+                            .addClass("outline-blue-btn");
+                          //replay toggle between orignale comment and updated comment
+                          let isOriginalComment = true;
+                          $seeOriginalCommentButton.on("click", function () {
+                            // Replace the original comment text with the updated comment text
+                            if (isOriginalComment) {
+                              // Show the original comment
+                              $commentreplayparagraph.text(item?.originalComment);
+                              $seeOriginalCommentButton.text(
+                                "See Updated Comment"
+                              );
+                            } else {
+                              // Show the updated comment
+                              $commentreplayparagraph.text(item?.updatedComment);
+                              $seeOriginalCommentButton.text(
+                                "See Original Comment"
+                              );
+                            }
 
-                          // Toggle the state
-                          isOriginalComment = !isOriginalComment;
-                        });
+                            // Toggle the state
+                            isOriginalComment = !isOriginalComment;
+                          });
 
 
                           const $socialiconcommentreplay =
@@ -1075,9 +1117,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           $socialiconcommentreplay.append(
                             $likeicondivreplay,
                             item?.updatedComment &&
-                            item?.updatedComment !== ""
-                            ? $seeOriginalCommentButton
-                            : ""
+                              item?.updatedComment !== ""
+                              ? $seeOriginalCommentButton
+                              : ""
                           );
 
                           $leftsidecommentreplaydiv.append(
@@ -1388,7 +1430,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 headers: headers,
                                 body: JSON.stringify({
                                   commentReplay: commentReplay,
-                                  site:siteName,
+                                  site: siteName,
                                   ip: ipAddress,
                                 }), // Convert the data object to JSON string
                               };
@@ -1597,7 +1639,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Find the <p> element and extract its text
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
-                      display:'flex'
+                      display: 'flex'
                     });
 
                     $app.append($footerConatiner);
@@ -1711,7 +1753,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // const ip= "123.0.9.123"
                         const payload = {
                           googleAuthToken: response.credential,
-                          site:siteName,
+                          site: siteName,
                           ip,
                           device,
                         };
@@ -3342,7 +3384,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         name: name,
                         email: email,
                         password: password,
-                        site:siteName,
+                        site: siteName,
                         ip: "172.16.2.52",
                         device: "web",
                       };
