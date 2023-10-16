@@ -2361,7 +2361,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           $ResetPassForm.css({
                             display: "block",
                             flex: "1",
-                            padding: "20px 60px",
                           });
                         }
                       } catch (error) {
@@ -3512,7 +3511,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $otpForm.css({
                             display: "block",
                             flex: "1", // Allow the OTP form to grow within the flex container
-                            padding: "20px 60px", // Add padding for spacing
+                           
                           });
                         } else {
                           throw new Error("Network response was not ok");
