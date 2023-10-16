@@ -3545,7 +3545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .find("img")
                           .css("max-width", "100%");
                         $flexContainer.find("img").css("max-width", "100%");
-                        $registerModalContent.css("width", "75%");
+                        $registerModalContent.css("width", "90%");
                       } else {
                         // Reset to the original styles for wider screens
                         $firstImageContainer
