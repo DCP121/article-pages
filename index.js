@@ -323,24 +323,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     const capitalizeFirstLetter = (str) => {
-                      if (typeof str !== 'string' || str.length === 0) {
-                        return '';
+                      if (typeof str !== "string" || str.length === 0) {
+                        return "";
                       }
                       return str.charAt(0).toUpperCase() + str.slice(1);
                     };
-                    
-                    const $username = $("<div>").addClass("top-user-name").text(
-                      userData && userData !== ""
-                        ? capitalizeFirstLetter(userData?.name)
-                        : " "
-                    );
+
+                    const $username = $("<div>")
+                      .addClass("top-user-name")
+                      .text(
+                        userData && userData !== ""
+                          ? capitalizeFirstLetter(userData?.name)
+                          : " "
+                      );
 
                     // Append the elements to the main div
 
                     $mainDivForCommentSection.append($divider);
                     $mainDivForCommentSection.append($buttonsDiv);
                     $buttonsDiv.append($textName, $Register, $Login);
-                    $buttonsDiv.append($Logout,  userData && userData !==null ?$username:'');
+                    $buttonsDiv.append(
+                      $Logout,
+                      userData && userData !== null ? $username : ""
+                    );
 
                     // Create the first child div (comment section)
                     const $commentSectionDiv =
@@ -363,10 +368,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       $("<span>").text("Account is still pending confirmation"),
                       " ",
                       $("<span>")
-                      .addClass('pending-useraccount')
+                        .addClass("pending-useraccount")
                         .text("Send confirmation email again")
                         .click(function () {
-                          $registerModal.css("display", "block")
+                          $registerModal.css("display", "block");
                           $otpForm.css("display", "block");
                           const token = localStorage.getItem("token");
 
@@ -376,13 +381,13 @@ document.addEventListener("DOMContentLoaded", function () {
                           if (token) {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
-                            fetch(
-                            `http://137.184.19.129:4002/api/v1/user/resend-otp`,
+                          fetch(
+                            `https://1c6e-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
                             {
                               method: "POST",
                               headers: headers,
                               body: JSON.stringify({
-                                email:userData?.email
+                                email: userData?.email,
                               }),
                             }
                           )
@@ -393,9 +398,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               return response.json();
                             })
                             .then((data) => {
-                               console.log(data)
-                            })
-
+                              console.log(data);
+                            });
                         })
                     );
 
@@ -420,7 +424,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $buttonandinputdiv.append($commentInput, $commentButton);
                     $commentbuttonandinputdiv.append(
-                      userData && userData.emailVerified==false? $Accountpending:'',
+                      userData && userData.emailVerified == false
+                        ? $Accountpending
+                        : "",
                       $comenttitle,
                       $buttonandinputdiv,
                       $errorMessagecomment
@@ -431,8 +437,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       //rejex
                       const htmlPattern = /<[^>]*>/g;
-                      const cssPattern = /<style[^>]*>.*<\/style>/g;
-                      const linkPattern = /<a[^>]*>.*<\/a>/g;
+                      const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                      const linkPattern = /https?:\/\/\S+/g;
+                      const sqlPattern =
+                        /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                      const emailPattern =
+                        /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                       if (originalComment === "") {
                         $errorMessagecomment
@@ -443,9 +453,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           .text("Comment exceeds the maximum length")
                           .show();
                       } else if (
-                        htmlPattern.test(originalComment) ||
                         cssPattern.test(originalComment) ||
-                        linkPattern.test(originalComment)
+                        htmlPattern.test(originalComment) ||
+                        linkPattern.test(originalComment) ||
+                        sqlPattern.test(originalComment) ||
+                        emailPattern.test(originalComment)
                       ) {
                         $errorMessagecomment
                           .text("Invalid content in the comment")
@@ -483,8 +495,12 @@ document.addEventListener("DOMContentLoaded", function () {
                           const originalComment = $commentInput.val().trim();
                           const maxCommentLength = 200;
                           const htmlPattern = /<[^>]*>/g;
-                          const cssPattern = /<style[^>]*>.*<\/style>/g;
-                          const linkPattern = /<a[^>]*>.*<\/a>/g;
+                          const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                          const linkPattern = /https?:\/\/\S+/g;
+                          const sqlPattern =
+                            /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                          const emailPattern =
+                            /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                           if (originalComment === "") {
                             $errorMessagecomment
@@ -499,7 +515,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           } else if (
                             htmlPattern.test(originalComment) ||
                             cssPattern.test(originalComment) ||
-                            linkPattern.test(originalComment)
+                            linkPattern.test(originalComment) ||
+                            sqlPattern.test(originalComment) ||
+                            emailPattern.test(originalComment)
                           ) {
                             $errorMessagecomment
                               .text("Invalid content in the comment")
@@ -556,7 +574,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
-                                  commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
+                                  commentlistingdata?.data?.pageData
+                                    ?.confirmCommentPopUpMessage
                                 );
                                 setTimeout(() => {
                                   $("#ignismyModal").css("display", "none");
@@ -579,8 +598,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         const originalComment = $commentInput.val().trim();
                         const maxCommentLength = 200;
                         const htmlPattern = /<[^>]*>/g;
-                        const cssPattern = /<style[^>]*>.*<\/style>/g;
-                        const linkPattern = /<a[^>]*>.*<\/a>/g;
+                        const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                        const linkPattern = /https?:\/\/\S+/g;
+                        const sqlPattern =
+                          /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                        const emailPattern =
+                          /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                         if (originalComment === "") {
                           $errorMessagecomment
@@ -593,7 +616,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else if (
                           htmlPattern.test(originalComment) ||
                           cssPattern.test(originalComment) ||
-                          linkPattern.test(originalComment)
+                          linkPattern.test(originalComment) ||
+                          sqlPattern.test(originalComment) ||
+                          emailPattern.test(originalComment)
                         ) {
                           $errorMessagecomment
                             .text("Invalid content in the comment")
@@ -648,7 +673,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
-                                commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
+                                commentlistingdata?.data?.pageData
+                                  ?.confirmCommentPopUpMessage
                               );
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
@@ -716,7 +742,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $userfirstletterdiv = $("<div>")
                       .addClass("user-text")
                       .text(
-                        userData && userData.name && userData.name.charAt(0)
+                        userData &&
+                          userData.name &&
+                          capitalizeFirstLetter(userData.name.charAt(0))
                       );
 
                     // $commentSectionDiv.append($commentButton);
@@ -762,7 +790,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         //comment header like user name and time
                         const $commentheadermain =
                           $("<div>").addClass("user-name-wrap");
-                        let time = timeAgo(dataItem.createdAt);
+                        let time = timeAgo(dataItem?.createdAt);
                         const $commenttime = $("<div>")
                           .addClass("post-time")
                           .text(`${time}`)
@@ -802,7 +830,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $commentuserfirstletterdiv = $("<div>")
                           .addClass("user-text")
                           .text(
-                            dataItem && dataItem.name && dataItem.name.charAt(0)
+                            dataItem &&
+                              dataItem.name &&
+                              capitalizeFirstLetter(dataItem.name.charAt(0))
                           );
 
                         const $commentuserimagelogo = $("<img>")
@@ -965,105 +995,116 @@ document.addEventListener("DOMContentLoaded", function () {
                         //relay comment display section
                         const replayCommentDivs = [];
                         dataItem?.replyComments?.forEach((item) => {
-                          let time = timeAgo(item.createdAt);
-                          const $commentreplayheder =
-                            $("<div>").addClass("user-name-wrap");
+                          if (item) {
+                            let time = timeAgo(item?.createdAt);
+                            const $commentreplayheder =
+                              $("<div>").addClass("user-name-wrap");
 
-                          const $commenttimereplay = $("<div>")
-                            .addClass("post-time")
-                            .text(`${time}`)
-                            .css({ direction: "ltr" });
-                          const $commentuserreplay = $("<div>")
-                            .addClass("user-name")
-                            .text(
-                              item?.name && item.name !== ""
-                                ? item.name
-                                : "Anonymous user"
-                            )
-                            .css({});
+                            const $commenttimereplay = $("<div>")
+                              .addClass("post-time")
+                              .text(`${time}`)
+                              .css({ direction: "ltr" });
+                            const $commentuserreplay = $("<div>")
+                              .addClass("user-name")
+                              .text(
+                                item?.name && item.name !== ""
+                                  ? item.name
+                                  : "Anonymous user"
+                              )
+                              .css({});
 
-                          $commentreplayheder.append(
-                            $commentuserreplay,
-                            $commenttimereplay
-                          );
-                          var $replaycommentdiv = $("<div>")
-                            .css({})
-                            .addClass("comments-wrap sub-comment-wrap");
-
-                          const $leftsidecommentreplaydiv =
-                            $("<div>").addClass("left");
-                          const $rightsidecommetreplaydiv =
-                            $("<div>").addClass("right");
-                          //middelepart pragraph and user image
-                          const $commentreplyuserImage = $("<img>")
-                            .addClass("ml-3")
-                            .attr(
-                              "src",
-                              "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
-                            )
-                            .attr("alt", "User Image");
-
-                          const $userimages = $("<img>")
-                            .attr("src", item?.image)
-                            .attr("alt", "User Image")
-                            .addClass(" user-text");
-                          //after login user first letter
-                          const $userfirstletterdiv = $("<div>")
-                            .addClass("user-text")
-                            .text(item && item.name && item.name.charAt(0));
-
-                          //comment replay after user successfuly login
-
-                          const $commentuserreplayimagelogo = $("<img>")
-                            .addClass("comment-logo")
-                            .attr(
-                              "src",
-                              item && item !== "" && item.site == "israel-today"
-                                ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                                : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                            $commentreplayheder.append(
+                              $commentuserreplay,
+                              $commenttimereplay
                             );
+                            var $replaycommentdiv = $("<div>")
+                              .css({})
+                              .addClass("comments-wrap sub-comment-wrap");
 
-                          const $commentreplayparagraph = $("<div>")
-                            .addClass("user-comments")
-                            .text(item?.updatedComment);
+                            const $leftsidecommentreplaydiv =
+                              $("<div>").addClass("left");
+                            const $rightsidecommetreplaydiv =
+                              $("<div>").addClass("right");
+                            //middelepart pragraph and user image
+                            const $commentreplyuserImage = $("<img>")
+                              .addClass("ml-3")
+                              .attr(
+                                "src",
+                                "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                              )
+                              .attr("alt", "User Image");
 
-                          //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
-                          //social icon div
+                            const $userimages = $("<img>")
+                              .attr("src", item?.image)
+                              .attr("alt", "User Image")
+                              .addClass(" user-text");
+                            //after login user first letter
+                            const $userfirstletterdiv = $("<div>")
+                              .addClass("user-text")
+                              .text(
+                                item &&
+                                  item.name &&
+                                  capitalizeFirstLetter(item.name.charAt(0))
+                              );
 
-                          const $likeicondivreplay =
-                            $("<div>").addClass("like-counter");
-                          const $likeIconreplay = $("<img>")
-                            .addClass("comment-logo")
-                            .attr(
-                              "src",
-                              item?.like
-                                ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                            )
-                            .css("cursor", "pointer");
-                          const $likeicontextreplay = $("<span>").text(
-                            item?.likeCount
-                          );
-                          let isLiked = item?.like ? item.like : false;
+                            //comment replay after user successfuly login
 
-                          $likeIconreplay.click(async function () {
-                            const ipAddress = await getIp();
-                            isLiked = !isLiked; // Toggle the state on each click
-                            $(this).attr(
-                              "src",
-                              isLiked
-                                ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                            const $commentuserreplayimagelogo = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                item &&
+                                  item !== "" &&
+                                  item.site == "israel-today"
+                                  ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                              );
+
+                            const $commentreplayparagraph = $("<div>")
+                              .addClass("user-comments")
+                              .text(
+                                item && !item.updatedComment
+                                  ? item?.originalComment
+                                  : item?.updatedComment
+                              );
+
+                            //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
+                            //social icon div
+
+                            const $likeicondivreplay =
+                              $("<div>").addClass("like-counter");
+                            const $likeIconreplay = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                item?.like
+                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                              )
+                              .css("cursor", "pointer");
+                            const $likeicontextreplay = $("<span>").text(
+                              item?.likeCount
                             );
-                            // Change the fill color based on the state
-                            const token = localStorage.getItem("token");
+                            let isLiked = item?.like ? item.like : false;
 
-                            const headers = {
-                              "Content-Type": "application/json", // Specify the content type as JSON
-                            };
-                            if (token) {
-                              headers["Authorization"] = `Bearer ${token}`;
-                            }
+                            $likeIconreplay.click(async function () {
+                              const ipAddress = await getIp();
+                              isLiked = !isLiked; // Toggle the state on each click
+                              $(this).attr(
+                                "src",
+                                isLiked
+                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                              );
+                              // Change the fill color based on the state
+                              const token = localStorage.getItem("token");
+
+                              const headers = {
+                                "Content-Type": "application/json", // Specify the content type as JSON
+                              };
+                              if (token) {
+                                headers["Authorization"] = `Bearer ${token}`;
+                              }
 
                             fetch(
                               `https://1c6e-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
@@ -1090,82 +1131,85 @@ document.addEventListener("DOMContentLoaded", function () {
                               });
                           });
 
-                          const $commenticondivreplay =
-                            $("<div>").addClass("comment-counter");
-                          const $commenticontextreplay = $("<span>").text("15");
-                          const $commentIconreplay = $("<img>")
-                            .addClass("comment-logo")
-                            .attr(
-                              "src",
-                              "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                            const $commenticondivreplay =
+                              $("<div>").addClass("comment-counter");
+                            const $commenticontextreplay =
+                              $("<span>").text("15");
+                            const $commentIconreplay = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                              );
+
+                            $likeicondivreplay.append(
+                              $likeicontextreplay,
+                              $likeIconreplay
+                            );
+                            $commenticondivreplay.append(
+                              $commenticontextreplay,
+                              $commentIconreplay
+                            );
+                            const $seeOriginalCommentButton = $("<button>")
+                              .text("See Original Comment")
+                              .addClass("outline-blue-btn");
+                            //replay toggle between orignale comment and updated comment
+                            let isOriginalComment = true;
+                            $seeOriginalCommentButton.on("click", function () {
+                              // Replace the original comment text with the updated comment text
+                              if (isOriginalComment) {
+                                // Show the original comment
+                                $commentreplayparagraph.text(
+                                  item?.originalComment
+                                );
+                                $seeOriginalCommentButton.text(
+                                  "See Updated Comment"
+                                );
+                              } else {
+                                // Show the updated comment
+                                $commentreplayparagraph.text(
+                                  item?.updatedComment
+                                );
+                                $seeOriginalCommentButton.text(
+                                  "See Original Comment"
+                                );
+                              }
+
+                              // Toggle the state
+                              isOriginalComment = !isOriginalComment;
+                            });
+
+                            const $socialiconcommentreplay =
+                              $("<div>").addClass("comment-bottom");
+                            $socialiconcommentreplay.append(
+                              $likeicondivreplay,
+                              item?.updatedComment &&
+                                item?.updatedComment !== ""
+                                ? $seeOriginalCommentButton
+                                : ""
                             );
 
-                          $likeicondivreplay.append(
-                            $likeicontextreplay,
-                            $likeIconreplay
-                          );
-                          $commenticondivreplay.append(
-                            $commenticontextreplay,
-                            $commentIconreplay
-                          );
-                          const $seeOriginalCommentButton = $("<button>")
-                            .text("See Original Comment")
-                            .addClass("outline-blue-btn");
-                          //replay toggle between orignale comment and updated comment
-                          let isOriginalComment = true;
-                          $seeOriginalCommentButton.on("click", function () {
-                            // Replace the original comment text with the updated comment text
-                            if (isOriginalComment) {
-                              // Show the original comment
-                              $commentreplayparagraph.text(
-                                item?.originalComment
-                              );
-                              $seeOriginalCommentButton.text(
-                                "See Updated Comment"
-                              );
-                            } else {
-                              // Show the updated comment
-                              $commentreplayparagraph.text(
-                                item?.updatedComment
-                              );
-                              $seeOriginalCommentButton.text(
-                                "See Original Comment"
-                              );
-                            }
-
-                            // Toggle the state
-                            isOriginalComment = !isOriginalComment;
-                          });
-
-                          const $socialiconcommentreplay =
-                            $("<div>").addClass("comment-bottom");
-                          $socialiconcommentreplay.append(
-                            $likeicondivreplay,
-                            item?.updatedComment && item?.updatedComment !== ""
-                              ? $seeOriginalCommentButton
-                              : ""
-                          );
-
-                          $leftsidecommentreplaydiv.append(
-                            $commentreplayheder,
-                            $commentreplayparagraph,
-                            $socialiconcommentreplay
-                          );
-                          $rightsidecommetreplaydiv.append(
-                            item && item !== "" && item.name
-                              ? item.image && item.image !== ""
-                                ? $userimages
-                                : $userfirstletterdiv
-                              : $commentreplyuserImage,
-                            // $commentuserimagelogo
-                            //   $commentreplyuserImage,
-                            $commentuserreplayimagelogo
-                          );
-                          $replaycommentdiv.append(
-                            $rightsidecommetreplaydiv,
-                            $leftsidecommentreplaydiv
-                          );
-                          replayCommentDivs.push($replaycommentdiv);
+                            $leftsidecommentreplaydiv.append(
+                              $commentreplayheder,
+                              $commentreplayparagraph,
+                              $socialiconcommentreplay
+                            );
+                            $rightsidecommetreplaydiv.append(
+                              item && item !== "" && item.name
+                                ? item.image && item.image !== ""
+                                  ? $userimages
+                                  : $userfirstletterdiv
+                                : $commentreplyuserImage,
+                              // $commentuserimagelogo
+                              //   $commentreplyuserImage,
+                              $commentuserreplayimagelogo
+                            );
+                            $replaycommentdiv.append(
+                              $rightsidecommetreplaydiv,
+                              $leftsidecommentreplaydiv
+                            );
+                            replayCommentDivs.push($replaycommentdiv);
+                          }
                         });
 
                         //replay comment input div
@@ -1215,7 +1259,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $userfirstletterdiv = $("<div>")
                           .addClass("user-text")
                           .text(
-                            userData && userData.name && userData.name.charAt(0)
+                            userData &&
+                              userData.name &&
+                              capitalizeFirstLetter(userData.name.charAt(0))
                           );
                         $replaycommentinputandbuttondiv.append(
                           $commentreplayInput,
@@ -1253,8 +1299,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             .trim();
                           const maxCommentLength = 200;
                           const htmlPattern = /<[^>]*>/g;
-                          const cssPattern = /<style[^>]*>.*<\/style>/g;
-                          const linkPattern = /<a[^>]*>.*<\/a>/g;
+                          const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                          const linkPattern = /https?:\/\/\S+/g;
+                          const sqlPattern =
+                            /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                          const emailPattern =
+                            /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                           if (originalComment === "") {
                             $errorMessagecomment
@@ -1269,7 +1319,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           } else if (
                             htmlPattern.test(originalComment) ||
                             cssPattern.test(originalComment) ||
-                            linkPattern.test(originalComment)
+                            linkPattern.test(originalComment) ||
+                            sqlPattern.test(originalComment) ||
+                            emailPattern.test(originalComment)
                           ) {
                             $errorMessagecomment
                               .text("Invalid content in the comment")
@@ -1309,8 +1361,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                               const maxCommentLength = 200;
                               const htmlPattern = /<[^>]*>/g;
-                              const cssPattern = /<style[^>]*>.*<\/style>/g;
-                              const linkPattern = /<a[^>]*>.*<\/a>/g;
+                              const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                              const linkPattern = /https?:\/\/\S+/g;
+                              const sqlPattern =
+                                /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                              const emailPattern =
+                                /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                               if (commentReplay === "") {
                                 $errorMessagecomment
@@ -1325,7 +1381,9 @@ document.addEventListener("DOMContentLoaded", function () {
                               } else if (
                                 htmlPattern.test(commentReplay) ||
                                 cssPattern.test(commentReplay) ||
-                                linkPattern.test(commentReplay)
+                                linkPattern.test(commentReplay) ||
+                                sqlPattern.test(originalComment) ||
+                                emailPattern.test(originalComment)
                               ) {
                                 $errorMessagecomment
                                   .text("Invalid content in the comment")
@@ -1383,7 +1441,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                       "modal fade show"
                                     );
                                     $("#msgtag").html(
-                                      commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
+                                      commentlistingdata?.data?.pageData
+                                        ?.confirmCommentPopUpMessage
                                     );
                                     setTimeout(() => {
                                       $("#ignismyModal").css("display", "none");
@@ -1409,8 +1468,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             const maxCommentLength = 200;
                             const htmlPattern = /<[^>]*>/g;
-                            const cssPattern = /<style[^>]*>.*<\/style>/g;
-                            const linkPattern = /<a[^>]*>.*<\/a>/g;
+                            const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                            const linkPattern = /https?:\/\/\S+/g;
+                            const sqlPattern =
+                              /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                            const emailPattern =
+                              /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                             if (commentReplay === "") {
                               $errorMessagecomment
@@ -1425,7 +1488,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             } else if (
                               htmlPattern.test(commentReplay) ||
                               cssPattern.test(commentReplay) ||
-                              linkPattern.test(commentReplay)
+                              linkPattern.test(commentReplay) ||
+                              sqlPattern.test(originalComment) ||
+                              emailPattern.test(originalComment)
                             ) {
                               $errorMessagecomment
                                 .text("Invalid content in the comment")
@@ -1483,7 +1548,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "modal fade show"
                                   );
                                   $("#msgtag").html(
-                                    commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
+                                    commentlistingdata?.data?.pageData
+                                      ?.confirmCommentPopUpMessage
                                   );
                                   setTimeout(() => {
                                     $("#ignismyModal").css("display", "none");
@@ -2893,7 +2959,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                       const email = $registerEmailInput.val();
                       const otpConfirmationPayload = {
-                        email:userData && userData.emailVerified==false ? userData.email:email,
+                        email:
+                          userData && userData.emailVerified == false
+                            ? userData.email
+                            : email,
                         otp: parseInt(enteredOTP),
                         // Include any other necessary data for OTP confirmation
                       };
@@ -2916,7 +2985,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                           }
                         );
-                        if(response.status==200){
+                        if (response.status == 200) {
                           localStorage.setItem(
                             "token",
                             response?.data?.data?.token
@@ -3435,7 +3504,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             "userData",
                             JSON.stringify(response?.data?.data?.user)
                           );
-                          commentlistapi(true)
+                          commentlistapi(true);
                           // Handle the API response here
 
                           // Close the registration form and show the OTP confirmation form if registration is successful
