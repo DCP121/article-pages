@@ -1,10 +1,14 @@
- /* Sub header */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+/* Sub header */
 #app {
+    font-family: 'Open Sans', sans-serif !important;
     max-width: 1224px;
     margin: 0 auto;
     direction: rtl;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 20px 15px 40px 15px;
 }
 .loader {
     display: none;
@@ -303,7 +307,8 @@
     min-height: initial !important;
     align-items: center;
     justify-content: center;
-    margin: 0 !important;
+    margin: 0 auto !important;
+    max-width: 96% !important;
 }
 .thank-you-pop {
     height: 100%;
@@ -324,6 +329,11 @@
     color: #757575;
 }
 
+@media screen and (max-width:1100px) {
+    .sub-header .title {
+        font-size: 52px !important;
+    }
+}
 
 @media screen and (max-width:767px) {
     
@@ -346,8 +356,20 @@
         font-size: 14px !important;
         padding: 0 10px !important;
     }
+    .blue-button {
+        margin-right: 0 !important;
+        margin-left: 30px !important;
+    }
+    .total-comments-wrap {
+        flex-wrap: wrap;
+    }
     .total-comments {
         font-size: 16px !important;
+        width: 100%;
+        order: 10;
+        text-align: right;
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
     .user-name {
         font-size: 16px !important;
@@ -374,9 +396,10 @@
     .form-control-input {
         height: 40px !important;
         font-size: 14px !important;
+        padding: 0 10px !important;
     }
     .post-time {
-        font-size: 14px !important;
+        font-size: 13px !important;
     }
     .user-comments {
         font-size: 14px !important;
@@ -401,13 +424,37 @@
     .post-time {
         min-width: 100px !important;
     }
+    .logout-text, .top-user-name {
+        font-size: 16px !important;
+    }
+    .top-user-name {
+        background-size: 16px;
+        background-position: left 2px !important;
+        min-height: auto !important;
+        padding-left: 20px;
+        padding-right: 5px;
+    }
+}
+
+@media screen and (max-width:620px) {
+    .outline-blue-btn {
+        font-size: 11px !important;
+    }
+    .thank-you-pop h1 {
+        font-size: 32px;
+        margin: 10px 0;
+    }
+    .thank-you-pop p {
+        font-size: 16px;
+        line-height: normal;
+    }
+    .thank-you-pop img {
+        max-width: 80px;
+        height: auto;
+    }
 }
 
 /* Auth Popup Css */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-body {
-    font-family: 'Open Sans', sans-serif;
-}
 
 .modal-content {
     width: 100%;
@@ -551,6 +598,15 @@ body {
 .modal-content .right-content img {
     vertical-align: unset;
 }
+
+.modal-content input[type=number]::-webkit-inner-spin-button, 
+.modal-content input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
 
 
 @media screen and (max-width:768px) {
