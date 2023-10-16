@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // loadCSS(
     //   "https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css"
     // );
-    loadCSS('./index.css')
+    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@89859a8dc7f42f59fd15e83c44782f21222a9852/index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
