@@ -1379,8 +1379,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 htmlPattern.test(commentReplay) ||
                                 cssPattern.test(commentReplay) ||
                                 linkPattern.test(commentReplay) ||
-                                sqlPattern.test(originalComment) ||
-                                emailPattern.test(originalComment)
+                                sqlPattern.test(commentReplay) ||
+                                emailPattern.test(commentReplay)
                               ) {
                                 $errorMessagecomment
                                   .text("Invalid content in the comment")
@@ -1486,8 +1486,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               htmlPattern.test(commentReplay) ||
                               cssPattern.test(commentReplay) ||
                               linkPattern.test(commentReplay) ||
-                              sqlPattern.test(originalComment) ||
-                              emailPattern.test(originalComment)
+                              sqlPattern.test(commentReplay) ||
+                              emailPattern.test(commentReplay)
                             ) {
                               $errorMessagecomment
                                 .text("Invalid content in the comment")
