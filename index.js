@@ -24,11 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCSS(
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
-    //loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
-    // loadCSS(
-    //   "https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css"
-    // );
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@89859a8dc7f42f59fd15e83c44782f21222a9852/index.css')
+   
+    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@bd41a505ff64886bef4cd86b7d3f361057887bb6/index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
