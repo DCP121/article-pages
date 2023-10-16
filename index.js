@@ -556,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
-                                  "Thank you for the comment, Once Admin will approve it, will be publish here!!"
+                                  commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
                                 );
                                 setTimeout(() => {
                                   $("#ignismyModal").css("display", "none");
@@ -648,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
-                                "Thank you for the comment, Once Admin will approve it, will be publish here!!"
+                                commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
                               );
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
@@ -1383,7 +1383,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       "modal fade show"
                                     );
                                     $("#msgtag").html(
-                                      "Thank you for the comment, Once Admin will approve it, will be publish here!!"
+                                      commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
                                     );
                                     setTimeout(() => {
                                       $("#ignismyModal").css("display", "none");
@@ -1483,7 +1483,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "modal fade show"
                                   );
                                   $("#msgtag").html(
-                                    "Thank you for the comment, Once Admin will approve it, will be publish here!!"
+                                    commentlistingdata?.data?.pageData?.confirmCommentPopUpMessage
                                   );
                                   setTimeout(() => {
                                     $("#ignismyModal").css("display", "none");
