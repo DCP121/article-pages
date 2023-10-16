@@ -25,9 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
     //loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
-    loadCSS(
-      "https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css"
-    );
+    // loadCSS(
+    //   "https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css"
+    // );
+    loadCSS('./index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
               loadScript("https://apis.google.com/js/api.js", function () {
                 // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
                 $(document).ready(function () {
-                  let cliendId = null
+                  let cliendId = null;
                   // Create a script element
                   const script = document.createElement("script");
 
@@ -58,13 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
                   const site =
                     document.getElementsByName("page_id")[0].attributes.for
                       .value;
-                  var siteName = site == "israel" ? "israel-today" : "ittihad-today"
+                  var siteName =
+                    site == "israel" ? "israel-today" : "ittihad-today";
                   // An mqtt variable will be initialized globally
-                  const url = 'wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt' //add the ip address with port that we got from the docker run
+                  const url =
+                    "wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt"; //add the ip address with port that we got from the docker run
                   const options = {
-                    username: 'tridhyatech',
-                    password: 'Abcd1234',
-                  }
+                    username: "tridhyatech",
+                    password: "Abcd1234",
+                  };
                   script.onload = () => {
                     // Create an MQTT client instance
                     const client = mqtt.connect(url, options);
@@ -132,8 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
                         apiFlags = apiFlag;
-                        cliendId = data?.data?.pageData?.google_client_id
-                        console.log("111111111111.....", cliendId)
+                        cliendId = data?.data?.pageData?.google_client_id;
+                        console.log("111111111111.....", cliendId);
 
                         // You can use the data in subsequent operations or functions
                         processData(commentlistingdata, apiFlag);
@@ -281,9 +284,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $Register = $("<button>")
                       .addClass("blue-button")
                       .text("Register");
-                    const $Logout = $("<button>")
-                      .text("Logout")
-                      .addClass("blue-button")
+                    const $Logout = $("<p>")
+                      .text("Logout | ")
+                      .addClass("logout-text")
                       .click(function () {
                         localStorage.removeItem("token");
                         localStorage.removeItem("userData");
@@ -305,47 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .text(
                         `${commentlistingdata?.data?.totalComment} Comments`
                       );
-                    function commentprotection(comment) {
-                      const stripHtml = (html) => {
-                        const doc = new DOMParser().parseFromString(html, 'text/html');
-                        return doc.body.textContent || '';
-                      }
 
-                      //strip javascript
-                      const stripJavascript = (input) => {
-                        return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-                      }
-
-                      //strip url
-                      const stripUrls = (input) => {
-                        return input.replace(/https?:\/\/[^\s/$.?#].[^\s]*/gi, '');
-                      }
-
-                      const stripEmails = (input) => {
-                        return input.replace(/\S+@\S+\.\S+/gi, '');
-                      }
-                      const stripSql = (input) => {
-                        const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'DROP', 'CREATE', 'ALTER', 'TABLE', 'DATABASE'];
-                        const sqlPattern = new RegExp(`\\b(${sqlKeywords.join('|')})\\b`, 'gi');
-                        return input.replace(sqlPattern, '');
-                      }
-
-                      //strip css
-                      const stripCss = (input) => {
-                        return input.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
-                      }
-
-                      const sanitizedInput = stripEmails(stripUrls(stripJavascript(stripHtml(stripSql(stripCss(comment))))))
-                        console.log(sanitizedInput, "sanitized")
-                     
-                      if (sanitizedInput === '') {
-                        return ""
-                      }
-                      else {
-                        // Set the sanitized input back to the input field
-                        return sanitizedInput;
-                      }
-                    }
                     const isLogin = localStorage.getItem("token");
                     if (!isLogin) {
                       $Logout.css({ display: "none" });
@@ -353,29 +316,89 @@ document.addEventListener("DOMContentLoaded", function () {
                       $Login.css({ display: "none" });
                       $Register.css({ display: "none" });
                     }
+
+                    //after login user name
+                    const userData = JSON.parse(
+                      localStorage.getItem("userData")
+                    );
+
+                    const capitalizeFirstLetter = (str) => {
+                      if (typeof str !== 'string' || str.length === 0) {
+                        return '';
+                      }
+                      return str.charAt(0).toUpperCase() + str.slice(1);
+                    };
+                    
+                    const $username = $("<div>").addClass("top-user-name").text(
+                      userData && userData !== ""
+                        ? capitalizeFirstLetter(userData?.name)
+                        : " "
+                    );
+
                     // Append the elements to the main div
+
                     $mainDivForCommentSection.append($divider);
                     $mainDivForCommentSection.append($buttonsDiv);
                     $buttonsDiv.append($textName, $Register, $Login);
-                    $buttonsDiv.append($Logout);
+                    $buttonsDiv.append($Logout,  userData && userData !==null ?$username:'');
 
                     // Create the first child div (comment section)
                     const $commentSectionDiv =
                       $("<div>").addClass("comments-wrap");
 
                     // Create the input field and button
-                    const userData = JSON.parse(
-                      localStorage.getItem("userData")
-                    );
                     const $commentbuttonandinputdiv =
                       $("<div>").addClass("left");
                     const $comenttitle = $("<div>")
                       .addClass("user-name")
                       .text(
                         userData && userData !== ""
-                          ? userData?.name
+                          ? capitalizeFirstLetter(userData?.name)
                           : "Anonymous user"
                       );
+
+                    //account is still pending
+
+                    const $Accountpending = $("<div>").append(
+                      $("<span>").text("Account is still pending confirmation"),
+                      " ",
+                      $("<span>")
+                      .addClass('pending-useraccount')
+                        .text("Send confirmation email again")
+                        .click(function () {
+                          $registerModal.css("display", "block")
+                          $otpForm.css("display", "block");
+                          const token = localStorage.getItem("token");
+
+                          const headers = {
+                            "Content-Type": "application/json", // Specify the content type as JSON
+                          };
+                          if (token) {
+                            headers["Authorization"] = `Bearer ${token}`;
+                          }
+                            fetch(
+                            `http://137.184.19.129:4002/api/v1/user/resend-otp`,
+                            {
+                              method: "POST",
+                              headers: headers,
+                              body: JSON.stringify({
+                                email:userData?.email
+                              }),
+                            }
+                          )
+                            .then((response) => {
+                              if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                              }
+                              return response.json();
+                            })
+                            .then((data) => {
+                               console.log(data)
+                            })
+
+                        })
+                    );
+
                     const $buttonandinputdiv =
                       $("<div>").addClass("add-comment");
                     const $commentButton = $("<button>")
@@ -390,27 +413,20 @@ document.addEventListener("DOMContentLoaded", function () {
                       .attr({
                         type: "text",
                         placeholder: "Add a comment",
-                      })
+                      });
                     const $errorMessagecomment = $("<div>")
                       .css({ display: "flex", color: "red" })
                       .hide();
 
                     $buttonandinputdiv.append($commentInput, $commentButton);
                     $commentbuttonandinputdiv.append(
+                      userData && userData.emailVerified==false? $Accountpending:'',
                       $comenttitle,
                       $buttonandinputdiv,
                       $errorMessagecomment
                     );
                     $commentInput.on("input", function () {
-                      let originalComment = $commentInput.val();
-                      const checking = commentprotection(originalComment)
-                      if (checking === "") {
-                        $commentInput.val("")
-                      }
-                      else {
-                        // Set the sanitized input back to the input field
-                        $commentInput.val(checking);
-                      }
+                      const originalComment = $commentInput.val().trim();
                       const maxCommentLength = 200; // Change this to your desired maximum length
 
                       //rejex
@@ -561,8 +577,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       } else {
                         const originalComment = $commentInput.val().trim();
-                        console.log(originalComment, 'orig')
-
                         const maxCommentLength = 200;
                         const htmlPattern = /<[^>]*>/g;
                         const cssPattern = /<style[^>]*>.*<\/style>/g;
@@ -572,9 +586,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $errorMessagecomment
                             .text("Comment cannot be empty")
                             .show();
-                        } else if (
-                          originalComment.length > maxCommentLength
-                        ) {
+                        } else if (originalComment.length > maxCommentLength) {
                           $errorMessagecomment
                             .text("Comment exceeds the maximum length")
                             .show();
@@ -635,7 +647,9 @@ document.addEventListener("DOMContentLoaded", function () {
                               commentlistapi(true);
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
-                              $("#msgtag").html("Thank you for the comment, Once Admin will approve it, will be publish here!!");
+                              $("#msgtag").html(
+                                "Thank you for the comment, Once Admin will approve it, will be publish here!!"
+                              );
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
                                 $("#msgtag").html("");
@@ -663,8 +677,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the second child div (user image)
                     const $userImageDiv = $("<div>").addClass("right");
 
-
-                    if (userData && userData !== '') {
+                    if (userData && userData !== "") {
                       var $logoiconforuserimage = $("<img>")
                         .addClass("comment-logo")
                         .attr(
@@ -675,9 +688,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                             : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                         );
-                    }
-                    else {
-                      const site = "israelBackOffice"
+                    } else {
+                      const site = "israelBackOffice";
                       var $logoiconforuserimage = $("<img>")
                         .addClass("comment-logo")
                         .attr(
@@ -724,6 +736,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $userImageDiv,
                       $commentbuttonandinputdiv
                     );
+
                     if (apiFlags) {
                       $app.append($subHeader);
                     }
@@ -731,6 +744,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (apiFlags) {
                       $app.append($mainDivForCommentSection);
                     }
+
                     // $mainDivForCommentSection.append($containerCommentpart)
 
                     //comment listing part
@@ -839,7 +853,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           dataItem?.likeCount
                         );
 
-                        let isLiked = dataItem?.like ? dataItem.like : false;; // Initialize the state as not liked
+                        let isLiked = dataItem?.like ? dataItem.like : false; // Initialize the state as not liked
 
                         $likeIcon.click(async function () {
                           const ipAddress = await getIp();
@@ -992,7 +1006,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const $userimages = $("<img>")
                             .attr("src", item?.image)
                             .attr("alt", "User Image")
-                            .addClass(" user-text")
+                            .addClass(" user-text");
                           //after login user first letter
                           const $userfirstletterdiv = $("<div>")
                             .addClass("user-text")
@@ -1103,13 +1117,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Replace the original comment text with the updated comment text
                             if (isOriginalComment) {
                               // Show the original comment
-                              $commentreplayparagraph.text(item?.originalComment);
+                              $commentreplayparagraph.text(
+                                item?.originalComment
+                              );
                               $seeOriginalCommentButton.text(
                                 "See Updated Comment"
                               );
                             } else {
                               // Show the updated comment
-                              $commentreplayparagraph.text(item?.updatedComment);
+                              $commentreplayparagraph.text(
+                                item?.updatedComment
+                              );
                               $seeOriginalCommentButton.text(
                                 "See Original Comment"
                               );
@@ -1119,13 +1137,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             isOriginalComment = !isOriginalComment;
                           });
 
-
                           const $socialiconcommentreplay =
                             $("<div>").addClass("comment-bottom");
                           $socialiconcommentreplay.append(
                             $likeicondivreplay,
-                            item?.updatedComment &&
-                              item?.updatedComment !== ""
+                            item?.updatedComment && item?.updatedComment !== ""
                               ? $seeOriginalCommentButton
                               : ""
                           );
@@ -1163,7 +1179,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("user-name")
                           .text(
                             userData && userData !== ""
-                              ? userData?.name
+                              ? capitalizeFirstLetter(userData?.name)
                               : "Anonymous user"
                           );
                         const $leftcommenntinputsection =
@@ -1192,12 +1208,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           )
                           .attr("alt", "User Image");
                         const $userImages = $("<img>")
-                          .attr(
-                            "src",
-                            userData?.image
-                          )
+                          .attr("src", userData?.image)
                           .attr("alt", "User Image")
-                          .addClass("user-text")
+                          .addClass("user-text");
                         //after login user first letter
                         const $userfirstletterdiv = $("<div>")
                           .addClass("user-text")
@@ -1235,21 +1248,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         $commentreplayInput.on("input", function () {
-                          let originalComment = $commentreplayInput
+                          const originalComment = $commentreplayInput
                             .val()
-                          const checking = commentprotection(originalComment)
-                          if (checking === "") {
-                            $commentreplayInput.val("")
-                          }
-                          else {
-                            // Set the sanitized input back to the input field
-                            $commentreplayInput.val(checking);
-                          }
+                            .trim();
                           const maxCommentLength = 200;
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /<style[^>]*>.*<\/style>/g;
                           const linkPattern = /<a[^>]*>.*<\/a>/g;
-
 
                           if (originalComment === "") {
                             $errorMessagecomment
@@ -1269,8 +1274,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $errorMessagecomment
                               .text("Invalid content in the comment")
                               .show();
-                          }
-                          else {
+                          } else {
                             $errorMessagecomment.hide();
                           }
                         });
@@ -1604,9 +1608,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
-                      .text("show more comment").css({
+                      .text("show more comment")
+                      .css({
                         direction: "ltr",
-                      })
+                      });
 
                     if (
                       showmorcomment <= commentlistingdata?.data?.totalComment
@@ -1654,7 +1659,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Find the <p> element and extract its text
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
-                      display: 'flex'
+                      display: "flex",
                     });
 
                     $app.append($footerConatiner);
@@ -1714,10 +1719,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create a div element for g_id_onload configuration
                     var gIdOnloadDiv = document.createElement("div");
                     gIdOnloadDiv.id = "g_id_onload";
-                    gIdOnloadDiv.setAttribute(
-                      "data-client_id",
-                      cliendId
-                    );
+                    gIdOnloadDiv.setAttribute("data-client_id", cliendId);
                     gIdOnloadDiv.setAttribute("data-context", "signin");
                     gIdOnloadDiv.setAttribute("data-ux_mode", "popup");
                     gIdOnloadDiv.setAttribute(
@@ -1739,10 +1741,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create a div element for g_id_onload configuration
                     var gIdOnloadDiv1 = document.createElement("div");
                     gIdOnloadDiv1.id = "g_id_onload1";
-                    gIdOnloadDiv1.setAttribute(
-                      "data-client_id",
-                      cliendId
-                    );
+                    gIdOnloadDiv1.setAttribute("data-client_id", cliendId);
                     gIdOnloadDiv1.setAttribute("data-context", "signin");
                     gIdOnloadDiv1.setAttribute("data-ux_mode", "popup");
                     gIdOnloadDiv1.setAttribute(
@@ -1966,7 +1965,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $loginButton = $("<button>")
                       .addClass("red-button")
                       .text("Login");
-                    // Create a section for other options
+                    // Create a section for other option
                     const $otherOptionsSection = $("<div>");
 
                     // Create the horizontal rule for the section
@@ -2440,16 +2439,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             $emptyFieldErrorRegisterName
                               .text("maximum length is 60")
                               .css("display", "block");
-                          }
-                          else {
+                          } else {
                             $emptyFieldErrorRegisterName.css("display", "none");
-                            $emptyFieldErrorRegisterName.empty()
-                            $emptyFieldErrorRegisterName.text("Name is required")
+                            $emptyFieldErrorRegisterName.empty();
+                            $emptyFieldErrorRegisterName.text(
+                              "Name is required"
+                            );
                           }
-
                         } else {
-                          $emptyFieldErrorRegisterName.empty()
-                          $emptyFieldErrorRegisterName.text("Name is required")
+                          $emptyFieldErrorRegisterName.empty();
+                          $emptyFieldErrorRegisterName.text("Name is required");
                           $emptyFieldErrorRegisterName.css("display", "block");
                         }
                       });
@@ -2894,7 +2893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                       const email = $registerEmailInput.val();
                       const otpConfirmationPayload = {
-                        email: email,
+                        email:userData && userData.emailVerified==false ? userData.email:email,
                         otp: parseInt(enteredOTP),
                         // Include any other necessary data for OTP confirmation
                       };
@@ -2917,6 +2916,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                           }
                         );
+                        if(response.status==200){
+                          localStorage.setItem(
+                            "token",
+                            response?.data?.data?.token
+                          );
+                          localStorage.setItem(
+                            "userData",
+                            JSON.stringify(response?.data?.data?.data)
+                          );
+                          commentlistapi(true);
+                        }
 
                         // Handle the API response here
                         $registerModal.css("display", "none");
@@ -3416,6 +3426,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         if (response.status === 200) {
+                          console.log(response);
+                          localStorage.setItem(
+                            "token",
+                            response?.data?.data?.token
+                          );
+                          localStorage.setItem(
+                            "userData",
+                            JSON.stringify(response?.data?.data?.user)
+                          );
+                          commentlistapi(true)
                           // Handle the API response here
 
                           // Close the registration form and show the OTP confirmation form if registration is successful

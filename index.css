@@ -202,6 +202,27 @@
     border: 2px solid #D9D9D9;
     border-radius: 100%;
 }
+.top-user-name {
+    color: #1890FF;
+    font-size: 26px;
+    display: inline-block;
+    min-height: 30px;
+    padding: 0 10px 0 35px;
+    background: url(./assets/user-icon.svg) no-repeat left 5px;
+}
+.logout-text {
+    color: #1890FF;
+    font-size: 26px;
+    margin: 0;
+    padding: 0 0 0 0;
+    cursor: pointer;
+}
+.pending-useraccount{
+    color:red;
+    cursor: pointer;
+    background: url(./assets/alert-icon-svg) no-repeat left 5px;
+}
+
 .form-control-input {
     border-radius: 7px !important; 
     height: 60px !important;
