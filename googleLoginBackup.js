@@ -14,19 +14,18 @@ function loadScript(url, callback) {
   document.head.appendChild(script);
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
   var divElement = document.querySelector("div[name='page_id']");
   var keyValue = divElement.getAttribute("page_url");
-  var url = window.location.href
+  var url = window.location.href;
   if (keyValue === url) {
     // Load CSS stylesheets
     loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
     loadCSS(
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
-    //loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@7216c3349c942dddc9d5bd411a659090296c936a/index.css');
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@f61720bbc8c783a108b186ffbc73609558c83ff9/index.css')
+   
+    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@8cd97de2780c93c3ee787625a0aae85254ab8bc3/index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -42,41 +41,50 @@ document.addEventListener("DOMContentLoaded", function () {
               loadScript("https://apis.google.com/js/api.js", function () {
                 // Google API has been loaded, you can now use jQuery, axios, DataTables, and Google API
                 $(document).ready(function () {
-                                  // Create a script element
-              const script = document.createElement('script');
+                  let cliendId = null;
+                  // Create a script element
+                  const script = document.createElement("script");
 
-              // Set the source and other attributes for the script
-              script.src = "https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.1.0/mqtt.min.js";
-              script.integrity = "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
-              script.crossOrigin = "anonymous";
-              script.referrerPolicy = "no-referrer";
-              const pageId = document.getElementsByName('page_id')[0].id
-              const site = document.getElementsByName('page_id')[0].attributes.for.value
-                          // An mqtt variable will be initialized globally
-                          const url = 'wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt' //add the ip address with port that we got from the docker run
-                          const options = {
-                            username: 'tridhyatech',
-                            password: 'Abcd1234',
-                        }
-              script.onload = () => {
-                // Create an MQTT client instance 
-                const client = mqtt.connect(url, options)
-                client.on('connect', function () {
-                    console.log('Connected',pageId,site)
-                })
-                client.subscribe(`${pageId}:${site}`)
-                client.on('message', function (topic, message, packet) {
-                  commentlistapi(true)
-                })
-                };
-                document.head.appendChild(script);
+                  // Set the source and other attributes for the script
+                  script.src =
+                    "https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.1.0/mqtt.min.js";
+                  script.integrity =
+                    "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
+                  script.crossOrigin = "anonymous";
+                  script.referrerPolicy = "no-referrer";
+                  const pageId = document.getElementsByName("page_id")[0].id;
+                  const site =
+                    document.getElementsByName("page_id")[0].attributes.for
+                      .value;
+                  var siteName =
+                    site == "israel" ? "israel-today" : "ittihad-today";
+                  // An mqtt variable will be initialized globally
+                  const url =
+                    "wss://d1e35906.ala.us-east-1.emqxsl.com:8084/mqtt"; //add the ip address with port that we got from the docker run
+                  const options = {
+                    username: "tridhyatech",
+                    password: "Abcd1234",
+                  };
+                  script.onload = () => {
+                    // Create an MQTT client instance
+                    const client = mqtt.connect(url, options);
 
-
+                    client.on("connect", function () {
+                      console.log("Connected", pageId, site, client);
+                    });
+                    client.subscribe(`${pageId}:${site}`);
+                    client.on("message", function (topic, message, packet) {
+                      commentlistapi(false);
+                    });
+                  };
+                  document.head.appendChild(script);
 
                   // Create a div container with the id "app"
                   var ipadress;
                   const getIp = async () => {
-                    const response = await fetch(`https://api64.ipify.org/?format=json`)
+                    const response = await fetch(
+                      `https://api64.ipify.org/?format=json`
+                    );
                     if (!response.ok) {
                       throw new Error(`HTTP error! Status: ${response.status}`);
                     }
@@ -91,12 +99,85 @@ document.addEventListener("DOMContentLoaded", function () {
                   //api for comment listing pages
                   var commentlistingdata;
                   var showmorcomment = 10;
-                  let apiFlags = true
+                  let apiFlags = true;
+                  const reenterapicall=async(apiFlag)=>{
 
-                  const commentlistapi = async (apiFlag) => {
-                    const ipAddress = await getIp()
+                    if(showmorcomment==10){
+                      var $spinnerapilist= $("<div>")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-danger text-center main-loader"
+                        )
+                        .attr("role", "status")
+                        .appendTo($app);
+                      }
+    
+                       const ipAddress = await getIp();
+                        const token = localStorage.getItem("token");
+                        const userData = JSON.parse(
+                          localStorage.getItem("userData")
+                        );
+                        const userId = userData && userData._id;
+                        const headers = {
+                          "Content-Type": "application/json", // Specify the content type as JSON
+                        };
+    
+                        if (token) {
+                          headers["Authorization"] = `Bearer ${token}`;
+                        }
+    
+                        $.ajax({
+                          url: `https://83b7-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                            }&userId=${userId && userId !== null ? userId : ""
+                            }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
+                          method: "POST",
+                          dataType: "json",
+                          headers: headers,
+                          data: JSON.stringify({
+                            itemsPerPage: showmorcomment,
+                            ip: ipAddress,
+                          }),
+    
+                          success: function (data) {
+                            if(showmorcomment==10){
+                            $spinnerapilist.remove()}
+                            // The data variable now holds the fetched data
+                            commentlistingdata = data;
+                           // apiFlags = apiFlag;
+                            cliendId = data?.data?.pageData?.google_client_id;
+                            console.log("111111111111.....", cliendId);
+    
+                            // You can use the data in subsequent operations or functions
+                            processData(commentlistingdata, apiFlag);
+                          },
+                          error: function (xhr, status, error) {
+                            console.log(status,xhr?.status,'sta',error,'err')
+                            if(xhr?.status===401){
+    
+                              $spinnerapilist.remove();
+                              localStorage.removeItem("token");
+                              localStorage.removeItem("userData");
+                            }
+                            console.error("Error fetching data:", error);
+                          },
+                        });
+
+                  }
+                   const commentlistapi = async (apiFlag) => {
+
+                  if(showmorcomment==10){
+                  var $spinnerapilist= $("<div>")
+                    .addClass(
+                      "spinner-border spinner-border-sm mx-3 text-danger text-center  main-loader"
+                    )
+                    .attr("role", "status")
+                    .appendTo($app);
+                  }
+
+                   const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
-                    const userData = JSON.parse(localStorage.getItem("userData"));
+                    const userData = JSON.parse(
+                      localStorage.getItem("userData")
+                    );
                     const userId = userData && userData._id;
                     const headers = {
                       "Content-Type": "application/json", // Specify the content type as JSON
@@ -105,29 +186,43 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (token) {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
+
                     $.ajax({
-                      url: `https://8472-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName('page_id')[0].id}&userId=${userId && userId !== null ? userId : ""
-                        }&site=israelBackOffice`, // Replace with your API endpoint
+                      url: `https://83b7-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                        }&userId=${userId && userId !== null ? userId : ""
+                        }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
                       data: JSON.stringify({
                         itemsPerPage: showmorcomment,
-                        ip: ipAddress
+                        ip: ipAddress,
                       }),
 
                       success: function (data) {
+                        if(showmorcomment==10){
+                        $spinnerapilist.remove()}
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
-                        apiFlags = apiFlag
+                        apiFlags = apiFlag;
+                        cliendId = data?.data?.pageData?.google_client_id;
+                        console.log("111111111111.....", cliendId);
+
                         // You can use the data in subsequent operations or functions
-                        processData(commentlistingdata,apiFlag);
+                        processData(commentlistingdata, apiFlag);
                       },
                       error: function (xhr, status, error) {
+                        console.log(status,xhr?.status,'sta',error,'err')
+                        if(xhr?.status===401){
+                          reenterapicall(true)
+                          $spinnerapilist.remove();
+                          localStorage.removeItem("token");
+                          localStorage.removeItem("userData");
+                        }
                         console.error("Error fetching data:", error);
                       },
                     });
-                  }
+                  };
                   commentlistapi(true);
                   function timeAgo(isoDateString) {
                     const now = new Date();
@@ -152,6 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   function processData(xyz, apiFlag) {
                     if (apiFlag) {
                       $app.empty();
+                    } else {
+                      $('.comments-group').remove()
+                      $('#showmorecomment').remove()
+                      $('#footerConatiner').remove()
                     }
                     function displayResponsiveImage(
                       $parent,
@@ -159,7 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       containerClass
                     ) {
                       // Create a container div for the image
-                      const $imageContainer = $("<div>").addClass(containerClass);
+                      const $imageContainer =
+                        $("<div>").addClass(containerClass);
 
                       // Create an image element
                       const $imageElement = $("<img>").attr("src", imagePath);
@@ -181,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
                       bannerClass
                     );
-                    if(apiFlags){
+                    if (apiFlags) {
                       $app.append($firstImageContainer);
                     }
 
@@ -206,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     // Append the flex container to the main app container
-                    if(apiFlags) {
+                    if (apiFlags) {
                       $app.append($flexContainer);
                     }
                     // Responsive adjustments using media queries
@@ -214,11 +314,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     function handleMediaQueryChange(e) {
                       if (e.matches) {
                         // For screens narrower than 768px
-                        $firstImageContainer.find("img").css("max-width", "100%");
+                        $firstImageContainer
+                          .find("img")
+                          .css("max-width", "100%");
                         $flexContainer.find("img").css("max-width", "100%");
                       } else {
                         // Reset to the original styles for wider screens
-                        $firstImageContainer.find("img").css("max-width", "100%");
+                        $firstImageContainer
+                          .find("img")
+                          .css("max-width", "100%");
                         $flexContainer.find("img").css("max-width", "100%");
                       }
                     }
@@ -240,7 +344,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $divider = $("<div>").addClass("divider");
 
                     // Create buttons div
-                    const $buttonsDiv = $("<div>").addClass("total-comments-wrap");
+                    const $buttonsDiv = $("<div>").addClass(
+                      "total-comments-wrap"
+                    );
 
                     // Create buttons and add styles
                     var $Login = $("<button>")
@@ -259,19 +365,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $Register = $("<button>")
                       .addClass("blue-button")
                       .text("Register");
-                    const $Logout = $("<button>")
-                      .text("Logout")
-                      .addClass("blue-button")
+                    const $Logout = $("<p>")
+                      .text("Logout | ")
+                      .addClass("logout-text")
                       .click(function () {
                         localStorage.removeItem("token");
                         localStorage.removeItem("userData");
                         commentlistapi(true);
-                        $("#ignismyModal").css("display", "block")
+                        $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
-                        $("#msgtag").html("Logout successfully!!")
+                        $("#msgtag").html("Logout successfully!!");
                         setTimeout(() => {
-                          $("#ignismyModal").css("display", "none")
-                          $("#msgtag").html("")
+                          $("#ignismyModal").css("display", "none");
+                          $("#msgtag").html("");
                         }, 2000);
                         $Login.css({ display: "block" });
                         $Register.css({ display: "block" });
@@ -280,7 +386,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the text name element
                     const $textName = $("<div>")
                       .addClass("total-comments")
-                      .text(`${commentlistingdata?.data?.totalComment} Comments`);
+                      .text(
+                        `${commentlistingdata?.data?.totalComment} Comments`
+                      );
 
                     const isLogin = localStorage.getItem("token");
                     if (!isLogin) {
@@ -289,29 +397,99 @@ document.addEventListener("DOMContentLoaded", function () {
                       $Login.css({ display: "none" });
                       $Register.css({ display: "none" });
                     }
+
+                    //after login user name
+                    const userData = JSON.parse(
+                      localStorage.getItem("userData")
+                    );
+
+                    const capitalizeFirstLetter = (str) => {
+                      if (typeof str !== "string" || str.length === 0) {
+                        return "";
+                      }
+                      return str.charAt(0).toUpperCase() + str.slice(1);
+                    };
+
+                    const $username = $("<div>")
+                      .addClass("top-user-name")
+                      .text(
+                        userData && userData !== ""
+                          ? capitalizeFirstLetter(userData?.name)
+                          : " "
+                      );
+
                     // Append the elements to the main div
+
                     $mainDivForCommentSection.append($divider);
                     $mainDivForCommentSection.append($buttonsDiv);
                     $buttonsDiv.append($textName, $Register, $Login);
-                    $buttonsDiv.append($Logout);
+                    $buttonsDiv.append(
+                      $Logout,
+                      userData && userData !== null ? $username : ""
+                    );
 
                     // Create the first child div (comment section)
-                    const $commentSectionDiv = $("<div>").addClass("comments-wrap");
+                    const $commentSectionDiv =
+                      $("<div>").addClass("comments-wrap");
 
                     // Create the input field and button
-                    const userData = JSON.parse(localStorage.getItem("userData"));
-                    const $commentbuttonandinputdiv = $("<div>").addClass("left");
+                    const $commentbuttonandinputdiv =
+                      $("<div>").addClass("left");
                     const $comenttitle = $("<div>")
                       .addClass("user-name")
                       .text(
                         userData && userData !== ""
-                          ? userData?.name
+                          ? capitalizeFirstLetter(userData?.name)
                           : "Anonymous user"
                       );
-                    const $buttonandinputdiv = $("<div>").addClass("add-comment");
+
+                    //account is still pending
+
+                    const $Accountpending = $("<div>").append(
+                      $("<span>").text("Account is still pending confirmation"),
+                      " ",
+                      $("<span>")
+                        .addClass("pending-useraccount")
+                        .text("Send confirmation email again")
+                        .click(function () {
+                          $registerModal.css("display", "block");
+                          $otpForm.css("display", "block");
+                          const token = localStorage.getItem("token");
+
+                          const headers = {
+                            "Content-Type": "application/json", // Specify the content type as JSON
+                          };
+                          if (token) {
+                            headers["Authorization"] = `Bearer ${token}`;
+                          }
+                          fetch(
+                            `https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
+                            {
+                              method: "POST",
+                              headers: headers,
+                              body: JSON.stringify({
+                                email: userData?.email,
+                              }),
+                            }
+                          )
+                            .then((response) => {
+                              if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                              }
+                              return response.json();
+                            })
+                            .then((data) => {
+                              console.log(data);
+                            });
+                        })
+                    );
+
+                    const $buttonandinputdiv =
+                      $("<div>").addClass("add-comment");
                     const $commentButton = $("<button>")
-                      .addClass("red-button").css({
-                        direction: 'ltr'
+                      .addClass("red-button")
+                      .css({
+                        direction: "ltr",
                       })
                       .text("send");
 
@@ -327,16 +505,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $buttonandinputdiv.append($commentInput, $commentButton);
                     $commentbuttonandinputdiv.append(
+                      userData && userData.emailVerified == false
+                        ? $Accountpending
+                        : "",
                       $comenttitle,
                       $buttonandinputdiv,
                       $errorMessagecomment
                     );
                     $commentInput.on("input", function () {
                       const originalComment = $commentInput.val().trim();
+                      const maxCommentLength = 200; // Change this to your desired maximum length
+
+                      //rejex
+                      const htmlPattern = /<[^>]*>/g;
+                      const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                      const linkPattern = /https?:\/\/\S+/g;
+                     // const sqlPattern =  /^(?!(<[^>]+>|<script[^>]*>|<\/script[^>]*>|<style[^>]*>|<\/style[^>]*>|javascript:|url\(|sql:|select\s+(?!\*|.*\bwhere\b).*|insert\s+|update\s+.+|delete\s+|create\s|drop\s|alter\s)).*$/im;
+                      const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                      const emailPattern =
+                        /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                       if (originalComment === "") {
                         $errorMessagecomment
-                          .text("Comment cannot be empty.")
+                          .text("Comment cannot be empty")
+                          .show();
+                      } else if (originalComment.length > maxCommentLength) {
+                        $errorMessagecomment
+                          .text("Comment exceeds the maximum length")
+                          .show();
+                      } else if (
+                        cssPattern.test(originalComment)||
+                         htmlPattern.test(originalComment)||
+                        linkPattern.test(originalComment)||
+                         sqlPattern.test(originalComment)||
+                         emailPattern.test(originalComment)
+                      ) {
+                        $errorMessagecomment
+                          .text("Invalid content in the comment")
                           .show();
                       } else {
                         $errorMessagecomment.hide();
@@ -359,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     const submitComment = async () => {
-                      const ipAddress = await getIp()
+                      const ipAddress = await getIp();
                       if (commentlistingdata?.data?.pageData?.mustLogin) {
                         const token = localStorage.getItem("token");
 
@@ -369,21 +574,47 @@ document.addEventListener("DOMContentLoaded", function () {
                           $loginForm.css("display", "block");
                         } else {
                           const originalComment = $commentInput.val().trim();
+                          const maxCommentLength = 200;
+                          const htmlPattern = /<[^>]*>/g;
+                          const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                          const linkPattern = /https?:\/\/\S+/g;
+                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                          const emailPattern =
+                            /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                           if (originalComment === "") {
                             $errorMessagecomment
-                              .text("Comment cannot be empty.")
+                              .text("Comment cannot be empty")
+                              .show();
+                          } else if (
+                            originalComment.length > maxCommentLength
+                          ) {
+                            $errorMessagecomment
+                              .text("Comment exceeds the maximum length")
+                              .show();
+                          } else if (
+                            htmlPattern.test(originalComment) ||
+                            cssPattern.test(originalComment) ||
+                            linkPattern.test(originalComment) ||
+                            sqlPattern.test(originalComment) ||
+                            emailPattern.test(originalComment)
+                          ) {
+                            $errorMessagecomment
+                              .text("Invalid content in the comment")
                               .show();
                           } else {
                             // Disable the comment button during the API call
                             $commentButton.prop("disabled", true);
 
                             const $spinner = $("<div>")
-                              .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                              .addClass(
+                                "spinner-border spinner-border-sm mx-3 text-light"
+                              )
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName('page_id')[0].id}`; // Example URL
+                            const apiUrl = `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                              }`; // Example URL
 
                             // Define headers for the request
                             const headers = {
@@ -399,8 +630,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               headers: headers,
                               body: JSON.stringify({
                                 originalComment: originalComment,
-                                site: "israel-today",
-                                ip: ipAddress
+                                site: siteName,
+                                ip: ipAddress,
                               }), // Convert the data object to JSON string
                             };
 
@@ -419,10 +650,14 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                                commentlistapi(true);;
+                               // commentlistapi(true);
+                               $commentInput.val('')
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
-                                $("#msgtag").html("Comment added successfully!!");
+                                $("#msgtag").html(
+                                  commentlistingdata?.data?.pageData
+                                    ?.confirmCommentPopUpMessage
+                                );
                                 setTimeout(() => {
                                   $("#ignismyModal").css("display", "none");
                                   $("#msgtag").html("");
@@ -442,20 +677,43 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       } else {
                         const originalComment = $commentInput.val().trim();
+                        const maxCommentLength = 200;
+                        const htmlPattern = /<[^>]*>/g;
+                        const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                        const linkPattern = /https?:\/\/\S+/g;
+                        const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                        const emailPattern =
+                          /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty.")
+                            .text("Comment cannot be empty")
+                            .show();
+                        } else if (originalComment.length > maxCommentLength) {
+                          $errorMessagecomment
+                            .text("Comment exceeds the maximum length")
+                            .show();
+                        } else if (
+                          htmlPattern.test(originalComment) ||
+                          cssPattern.test(originalComment) ||
+                          linkPattern.test(originalComment) ||
+                          sqlPattern.test(originalComment) ||
+                          emailPattern.test(originalComment)
+                        ) {
+                          $errorMessagecomment
+                            .text("Invalid content in the comment")
                             .show();
                         } else {
                           $commentButton.prop("disabled", true);
 
                           const $spinner = $("<div>")
-                            .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                            .addClass(
+                              "spinner-border spinner-border-sm mx-3 text-light"
+                            )
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/65098ac7dfc16014091b766f`; // Example URL
+                          const apiUrl = `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -472,8 +730,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers: headers,
                             body: JSON.stringify({
                               originalComment: originalComment,
-                              site: "israel-today",
-                              ip: ipAddress
+                              site: siteName,
+                              ip: ipAddress,
                             }), // Convert the data object to JSON string
                           };
                           fetch(apiUrl, requestOptions)
@@ -491,10 +749,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                               // Handle the response data
                               $spinner.remove();
-                              commentlistapi(true);;
+                              //commentlistapi(true);
+                              $commentInput.val('')
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
-                              $("#msgtag").html("Comment added successfully!!");
+                              $("#msgtag").html(
+                                commentlistingdata?.data?.pageData
+                                  ?.confirmCommentPopUpMessage
+                              );
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
                                 $("#msgtag").html("");
@@ -512,7 +774,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
                         }
                       }
-                    }
+                    };
 
                     // Create element under the logo
                     const $subHeader = $("<div>")
@@ -521,16 +783,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create the second child div (user image)
                     const $userImageDiv = $("<div>").addClass("right");
-                    const $logoiconforuserimage = $("<img>")
-                      .addClass("comment-logo")
-                      .attr(
-                        "src",
-                        userData &&
-                          userData !== "" &&
-                          userData.site == "israel-today"
-                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
-                      );
+
+                    if (userData && userData !== "") {
+                      var $logoiconforuserimage = $("<img>")
+                        .addClass("comment-logo")
+                        .attr(
+                          "src",
+                          userData &&
+                            userData !== "" &&
+                            userData.site == "israel-today"
+                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                        );
+                    } else {
+                      const site = "israelBackOffice";
+                      var $logoiconforuserimage = $("<img>")
+                        .addClass("comment-logo")
+                        .attr(
+                          "src",
+                          siteName == "israel-today"
+                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                        );
+                    }
                     // default Avtart
                     const $userImage = $("<img>")
                       .attr(
@@ -547,7 +822,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     //after login user first letter
                     const $userfirstletterdiv = $("<div>")
                       .addClass("user-text")
-                      .text(userData && userData.name && userData.name.charAt(0));
+                      .text(
+                        userData &&
+                          userData.name &&
+                          capitalizeFirstLetter(userData.name.charAt(0))
+                      );
 
                     // $commentSectionDiv.append($commentButton);
                     // $commentSectionDiv.append($commentInput);
@@ -566,248 +845,53 @@ document.addEventListener("DOMContentLoaded", function () {
                       $userImageDiv,
                       $commentbuttonandinputdiv
                     );
-                    if(apiFlags) {
+
+                    if (apiFlags) {
                       $app.append($subHeader);
                     }
                     $mainDivForCommentSection.append($commentSectionDiv);
-                    if(apiFlags) {
+                    if (apiFlags) {
                       $app.append($mainDivForCommentSection);
                     }
+
                     // $mainDivForCommentSection.append($containerCommentpart)
 
                     //comment listing part
-                    commentlistingdata.data.allCommentsData.forEach((dataItem) => {
+                    commentlistingdata.data.allCommentsData.forEach(
+                      (dataItem) => {
+                        const $maincommentlistingcontainer =
+                          $("<div>").addClass("comments-group");
+                        const $container = $("<div>")
+                          .addClass("containar-fluid")
+                          .css({ width: "100%" });
+                        const $containerCommentpart = $("<div>")
+                          .addClass("comment-section-layout")
+                          .css({});
 
-                      const $maincommentlistingcontainer =
-                        $("<div>").addClass("comments-group");
-                      const $container = $("<div>")
-                        .addClass("containar-fluid")
-                        .css({ width: "100%" });
-                      const $containerCommentpart = $("<div>")
-                        .addClass("comment-section-layout")
-                        .css({});
-
-                      //comment header like user name and time
-                      const $commentheadermain =
-                        $("<div>").addClass("user-name-wrap");
-                      let time = timeAgo(dataItem.createdAt);
-                      const $commenttime = $("<div>")
-                        .addClass("post-time")
-                        .text(`${time}`)
-                        .css({ direction: 'ltr'});
-                      const $commentuser = $("<div>")
-                        .addClass("user-name")
-                        .text(
-                          dataItem?.name && dataItem.name !== ""
-                            ? dataItem.name
-                            : "Anonymous user"
-                        )
-                        .css({});
-
-                      $commentheadermain.append($commentuser, $commenttime);
-
-                      const $middelcomentpart = $("<div>")
-                        .addClass("col-md-12 d-flex justify-content-end")
-                        .css({});
-                      //side bar user icon
-                      const $commentuserImage = $("<img>")
-                        .addClass("ml-3")
-                        .attr(
-                          "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
-                        )
-                        .attr("alt", "User Image");
-
-                      //after login user image
-                      const $commentuserImages = $("<img>")
-                        .attr(
-                          "src",
-                          "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
-                        )
-                        .attr("alt", "User Image")
-                        .addClass("user-text");
-                      //after login user first letter
-                      const $commentuserfirstletterdiv = $("<div>")
-                        .addClass("user-text")
-                        .text(dataItem && dataItem.name && dataItem.name.charAt(0));
-
-                      const $commentuserimagelogo = $("<img>")
-                        .addClass("comment-logo")
-                        .attr(
-                          "src",
-                          dataItem &&
-                            dataItem !== "" &&
-                            dataItem.site == "israel-today"
-                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
-                          //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                        );
-
-                      const $paragraph = $("<div>")
-                        .addClass("user-comments")
-                        .text(
-                          dataItem && !dataItem.updatedComment
-                            ? dataItem.originalComment
-                            : dataItem.updatedComment
-                        );
-
-                      // Append the div to the document body or another container
-
-                      const $commentDiv = $("<div>").addClass("comments-wrap");
-                      const $righdiv = $("<div>").addClass("right");
-                      const $leftdiv = $("<div>").addClass("left");
-
-                      //$middelcomentpart.append($paragraph, $commentuserImage);
-                      //like comment div
-                      const $socialicon = $("<div>")
-                        .css({})
-                        .addClass("comment-bottom");
-
-                      const $likeicondiv = $("<div>").addClass("like-counter");
-                      const $likeIcon = $("<img>")
-                        .addClass("comment-logo")
-                        .attr(
-                          "src",
-                             dataItem?.like
-                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                        ).css("cursor", "pointer");
-                      const $likeicontext = $("<span>").text(dataItem?.likeCount);
-
-                      let isLiked = dataItem?.like; // Initialize the state as not liked
-
-                      $likeIcon.click( async function () {
-                        const ipAddress = await getIp();
-                        isLiked = !isLiked; // Toggle the state on each click
-                        $(this).attr(
-                          "src",
-                          isLiked
-                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                        );
-                        const token = localStorage.getItem("token");
-
-                        const headers = {
-                          "Content-Type": "application/json", // Specify the content type as JSON
-                        };
-                        if (token) {
-                          headers["Authorization"] = `Bearer ${token}`;
-                        }
-
-                        fetch(
-                          `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
-                          {
-                            method: "POST",
-                            headers:headers,
-                            body: JSON.stringify({
-                              like: isLiked, // Send the current state as like
-                              ip:ipAddress
-                            }),
-                          }
-                        )
-                          .then((response) => {
-                            if (!response.ok) {
-                              throw new Error("Network response was not ok");
-                            }
-                            return response.json();
-                          })
-                          .then((data) => {
-                            $likeicontext.text(data?.data?.likeCount);
-                            isLiked=data?.data?.like
-                          });
-                      });
-
-                      const $commenticondiv =
-                        $("<div>").addClass("comment-counter");
-                      const $commenticontext = $("<span>").text(
-                        dataItem?.totalReplay
-                      );
-                      const $commentIcon = $("<img>")
-                        .addClass("comment-logo")
-                        .attr(
-                          "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
-                        );
-
-                      $likeicondiv.append($likeicontext, $likeIcon);
-                      $commenticondiv.append($commenticontext, $commentIcon);
-                      // Create the "See Original Comment" button
-                      const $seeOriginalCommentButton = $("<button>")
-                        .text("See Original Comment")
-                        .addClass("outline-blue-btn");
-                      //toggle between orignale comment and updated comment
-                      let isOriginalComment = true;
-                      $seeOriginalCommentButton.on("click", function () {
-                        // Replace the original comment text with the updated comment text
-                        if (isOriginalComment) {
-                          // Show the original comment
-                          $paragraph.text(dataItem?.originalComment);
-                          $seeOriginalCommentButton.text("See Updated Comment");
-                        } else {
-                          // Show the updated comment
-                          $paragraph.text(dataItem?.updatedComment);
-                          $seeOriginalCommentButton.text("See Original Comment");
-                        }
-
-                        // Toggle the state
-                        isOriginalComment = !isOriginalComment;
-                      });
-
-                      // Append the icons and button to the $socialicon
-                      $socialicon.append(
-                        $likeicondiv,
-                        $commenticondiv,
-                        dataItem.updatedComment && dataItem.updatedComment !== ""
-                          ? $seeOriginalCommentButton
-                          : ""
-                      );
-                      $righdiv.append(
-                        dataItem && dataItem !== "" && dataItem.name
-                          ? dataItem.image && dataItem.image !== ""
-                            ? $commentuserImages
-                            : $commentuserfirstletterdiv
-                          : $commentuserImage,
-                        $commentuserimagelogo
-                      );
-
-                      $leftdiv.append($commentheadermain, $paragraph, $socialicon);
-                      //append comment section all div
-                      $commentDiv.append($righdiv, $leftdiv);
-
-                      //relay comment display section
-                      const replayCommentDivs = [];
-                      dataItem?.replyComments?.forEach((item) => {
-                        let time = timeAgo(item.createdAt);
-                        const $commentreplayheder =
+                        //comment header like user name and time
+                        const $commentheadermain =
                           $("<div>").addClass("user-name-wrap");
-
-                        const $commenttimereplay = $("<div>")
+                        let time = timeAgo(dataItem?.createdAt);
+                        const $commenttime = $("<div>")
                           .addClass("post-time")
                           .text(`${time}`)
-                          .css({direction: 'ltr'});
-                        const $commentuserreplay = $("<div>")
+                          .css({ direction: "ltr" });
+                        const $commentuser = $("<div>")
                           .addClass("user-name")
                           .text(
-                            item?.name && item.name !== ""
-                              ? item.name
+                            dataItem?.name && dataItem.name !== ""
+                              ? capitalizeFirstLetter(dataItem.name)
                               : "Anonymous user"
                           )
                           .css({});
 
-                        $commentreplayheder.append(
-                          $commentuserreplay,
-                          $commenttimereplay
-                        );
-                        var $replaycommentdiv = $("<div>")
-                          .css({})
-                          .addClass("comments-wrap sub-comment-wrap");
+                        $commentheadermain.append($commentuser, $commenttime);
 
-                        const $leftsidecommentreplaydiv =
-                          $("<div>").addClass("left");
-                        const $rightsidecommetreplaydiv =
-                          $("<div>").addClass("right");
-                        //middelepart pragraph and user image
-                        const $commentreplyuserImage = $("<img>")
+                        const $middelcomentpart = $("<div>")
+                          .addClass("col-md-12 d-flex justify-content-end")
+                          .css({});
+                        //side bar user icon
+                        const $commentuserImage = $("<img>")
                           .addClass("ml-3")
                           .attr(
                             "src",
@@ -815,47 +899,74 @@ document.addEventListener("DOMContentLoaded", function () {
                           )
                           .attr("alt", "User Image");
 
-                        const $userimages = $("<img>")
-                          .attr("src", item?.image)
-                          .attr("alt", "User Image");
-                        //after login user first letter
-                        const $userfirstletterdiv = $("<div>")
-                          .addClass("user-text")
-                          .text(item && item.name && item.name.charAt(0));
-
-                        //comment replay after user successfuly login
-
-                        const $commentuserreplayimagelogo = $("<img>")
-                          .addClass("comment-logo")
+                        //after login user image
+                        const $commentuserImages = $("<img>")
                           .attr(
                             "src",
-                            item && item !== "" && item.site == "israel-today"
-                              ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                              : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                            "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
+                          )
+                          .attr("alt", "User Image")
+                          .addClass("user-text");
+                        //after login user first letter
+                        const $commentuserfirstletterdiv = $("<div>")
+                          .addClass("user-text")
+                          .text(
+                            dataItem &&
+                              dataItem.name &&
+                              capitalizeFirstLetter(dataItem.name.charAt(0))
                           );
 
-                        const $commentreplayparagraph = $("<div>")
-                          .addClass("user-comments")
-                          .text(item?.commentReplay);
-
-                        //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
-                        //social icon div
-
-                        const $likeicondivreplay =
-                          $("<div>").addClass("like-counter");
-                        const $likeIconreplay = $("<img>")
+                        const $commentuserimagelogo = $("<img>")
                           .addClass("comment-logo")
                           .attr(
                             "src",
-                            item?.like
+                            dataItem &&
+                              dataItem !== "" &&
+                              dataItem.site == "israel-today"
+                              ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                              : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                            //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                          );
+
+                        const $paragraph = $("<div>")
+                          .addClass("user-comments")
+                          .text(
+                            dataItem && !dataItem.updatedComment
+                              ? dataItem.originalComment
+                              : dataItem.updatedComment
+                          );
+
+                        // Append the div to the document body or another container
+
+                        const $commentDiv =
+                          $("<div>").addClass("comments-wrap");
+                        const $righdiv = $("<div>").addClass("right");
+                        const $leftdiv = $("<div>").addClass("left");
+
+                        //$middelcomentpart.append($paragraph, $commentuserImage);
+                        //like comment div
+                        const $socialicon = $("<div>")
+                          .css({})
+                          .addClass("comment-bottom");
+
+                        const $likeicondiv =
+                          $("<div>").addClass("like-counter");
+                        const $likeIcon = $("<img>")
+                          .addClass("comment-logo")
+                          .attr(
+                            "src",
+                            dataItem?.like
                               ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
                               : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                          
-                          ).css("cursor", "pointer");
-                        const $likeicontextreplay = $("<span>").text(item?.likeCount);
-                        let isLiked = item?.like
+                          )
+                          .css("cursor", "pointer");
+                        const $likeicontext = $("<span>").text(
+                          dataItem?.likeCount
+                        );
 
-                        $likeIconreplay.click(async function () {
+                        let isLiked = dataItem?.like ? dataItem.like : false; // Initialize the state as not liked
+
+                        $likeIcon.click(async function () {
                           const ipAddress = await getIp();
                           isLiked = !isLiked; // Toggle the state on each click
                           $(this).attr(
@@ -864,7 +975,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
                               : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
                           );
-                          // Change the fill color based on the state
                           const token = localStorage.getItem("token");
 
                           const headers = {
@@ -875,13 +985,13 @@ document.addEventListener("DOMContentLoaded", function () {
                           }
 
                           fetch(
-                            `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                            `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                             {
                               method: "POST",
-                              headers:headers,
+                              headers: headers,
                               body: JSON.stringify({
                                 like: isLiked, // Send the current state as like
-                                ip:ipAddress
+                                ip: ipAddress,
                               }),
                             }
                           )
@@ -892,181 +1002,577 @@ document.addEventListener("DOMContentLoaded", function () {
                               return response.json();
                             })
                             .then((data) => {
-                              $likeicontextreplay.text(data?.data?.likeCount);
-                              isLiked=data.data.like
+                              $likeicontext.text(data?.data?.likeCount);
+                              isLiked = data?.data?.like;
                             });
                         });
 
-
-
-
-
-                        const $commenticondivreplay =
+                        const $commenticondiv =
                           $("<div>").addClass("comment-counter");
-                        const $commenticontextreplay = $("<span>").text("15");
-                        const $commentIconreplay = $("<img>")
+                        const $commenticontext = $("<span>").text(
+                          dataItem?.totalReplay
+                        );
+                        const $commentIcon = $("<img>")
                           .addClass("comment-logo")
                           .attr(
                             "src",
                             "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
                           );
 
-                        $likeicondivreplay.append(
-                          $likeicontextreplay,
-                          $likeIconreplay
-                        );
-                        $commenticondivreplay.append(
-                          $commenticontextreplay,
-                          $commentIconreplay
-                        );
-
-                        const $socialiconcommentreplay =
-                          $("<div>").addClass("comment-bottom");
-                        $socialiconcommentreplay.append(
-                          $likeicondivreplay
-                          // $commenticondivreplay
-                        );
-
-                        $leftsidecommentreplaydiv.append(
-                          $commentreplayheder,
-                          $commentreplayparagraph,
-                          $socialiconcommentreplay
-                        );
-                        $rightsidecommetreplaydiv.append(
-                          item && item !== "" && item.name
-                            ? item.image && item.image !== ""
-                              ? $userimages
-                              : $userfirstletterdiv
-                            : $commentreplyuserImage,
-                          // $commentuserimagelogo
-                          //   $commentreplyuserImage,
-                          $commentuserreplayimagelogo
-                        );
-                        $replaycommentdiv.append(
-                          $rightsidecommetreplaydiv,
-                          $leftsidecommentreplaydiv
-                        );
-                        replayCommentDivs.push($replaycommentdiv);
-                      });
-
-                      //replay comment input div
-
-                      const $replycommentinputsection = $("<div>").addClass(
-                        "comments-wrap sub-comment-wrap"
-                      );
-                      const $replaycommentinputandbuttondiv =
-                        $("<div>").addClass("add-comment");
-                      const $comenttitlereplay = $("<div>")
-                        .addClass("user-name")
-                        .text(
-                          userData && userData !== ""
-                            ? userData?.name
-                            : "Anonymous user"
-                        );
-                      const $leftcommenntinputsection = $("<div>").addClass("left");
-                      const $rightcommenntinputsection =
-                        $("<div>").addClass("right");
-                      const $replaycommentButton = $("<button>")
-                        .addClass("red-button").css({
-                          direction: 'ltr'
-                        })
-                        .text("send");
-                      const $commentreplayInput = $("<input>")
-                        .addClass("form-control-input")
-                        .attr({
-                          type: "text",
-                          placeholder: "Add a comment",
-                        });
-                      const $errorMessagecomment = $("<div>")
-                        .css({ display: "flex", color: "red" })
-                        .hide();
-                      const $commentreplayuserImage = $("<img>")
-                        .attr(
-                          "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
-                        )
-                        .attr("alt", "User Image");
-                      const $userImages = $("<img>")
-                        .attr(
-                          "src",
-                          "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
-                        )
-                        .attr("alt", "User Image");
-                      //after login user first letter
-                      const $userfirstletterdiv = $("<div>")
-                        .addClass("user-text")
-                        .text(userData && userData.name && userData.name.charAt(0));
-                      $replaycommentinputandbuttondiv.append(
-                        $commentreplayInput,
-                        $replaycommentButton
-                      );
-                      const $commentuserreplyimagelogo = $("<img>")
-                        .addClass("comment-logo")
-                        .attr(
-                          "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                        );
-                      $leftcommenntinputsection.append(
-                        $comenttitlereplay,
-                        $replaycommentinputandbuttondiv,
-                        $errorMessagecomment
-                      );
-                      $rightcommenntinputsection.append(
-                        userData && userData !== ""
-                          ? userData.image && userData.image !== ""
-                            ? $userImages
-                            : $userfirstletterdiv
-                          : $commentreplayuserImage,
-                        //$commentreplayuserImage,
-                        $commentuserreplyimagelogo
-                      );
-
-                      $replycommentinputsection.append(
-                        $rightcommenntinputsection,
-                        $leftcommenntinputsection
-                      );
-
-                      $commentreplayInput.on("input", function () {
-                        const originalComment = $commentreplayInput.val().trim();
-
-                        if (originalComment === "") {
-                          $errorMessagecomment
-                            .text("Comment cannot be empty")
-                            .show();
-                        } else {
-                          $errorMessagecomment.text("").show();
-                        }
-                      });
-
-                      $commentreplayInput.on("keyup", function (event) {
-                        // Check if the Enter key (key code 13) was pressed
-                        if (event.keyCode === 13) {
-                          // Prevent the default behavior of the Enter key (e.g., form submission)
-                          event.preventDefault();
-
-                          // Trigger the reply comment submission when Enter key is pressed
-                          submitReplyComment();
-                        }
-                      });
-
-                      $replaycommentButton.on("click", function () {
-                        submitReplyComment();
-                      });
-
-                      const submitReplyComment = async () => {
-                        const ipAddress = await getIp()
-                        if (commentlistingdata?.data?.pageData?.mustLogin) {
-                          const token = localStorage.getItem("token");
-                          if (!token) {
-                            // Display registration and login modal when mustLogin is true and no token is present.
-                            $registerModal.css("display", "block");
-                            $loginForm.css("display", "block");
+                        $likeicondiv.append($likeicontext, $likeIcon);
+                        $commenticondiv.append($commenticontext, $commentIcon);
+                        // Create the "See Original Comment" button
+                        const $seeOriginalCommentButton = $("<button>")
+                          .text("See Original Comment")
+                          .addClass("outline-blue-btn");
+                        //toggle between orignale comment and updated comment
+                        let isOriginalComment = true;
+                        $seeOriginalCommentButton.on("click", function () {
+                          // Replace the original comment text with the updated comment text
+                          if (isOriginalComment) {
+                            // Show the original comment
+                            $paragraph.text(dataItem?.originalComment);
+                            $seeOriginalCommentButton.text(
+                              "See Updated Comment"
+                            );
+                          } else {
+                            // Show the updated comment
+                            $paragraph.text(dataItem?.updatedComment);
+                            $seeOriginalCommentButton.text(
+                              "See Original Comment"
+                            );
                           }
-                          else {
-                            const commentReplay = $commentreplayInput.val().trim();
+
+                          // Toggle the state
+                          isOriginalComment = !isOriginalComment;
+                        });
+
+                        // Append the icons and button to the $socialicon
+                        $socialicon.append(
+                          $likeicondiv,
+                          $commenticondiv,
+                          dataItem.updatedComment &&
+                            dataItem.updatedComment !== ""
+                            ? $seeOriginalCommentButton
+                            : ""
+                        );
+                        $righdiv.append(
+                          dataItem && dataItem !== "" && dataItem.name
+                            ? dataItem.image && dataItem.image !== ""
+                              ? $commentuserImages
+                              : $commentuserfirstletterdiv
+                            : $commentuserImage,
+                          $commentuserimagelogo
+                        );
+
+                        $leftdiv.append(
+                          $commentheadermain,
+                          $paragraph,
+                          $socialicon
+                        );
+                        //append comment section all div
+                        $commentDiv.append($righdiv, $leftdiv);
+
+                        //relay comment display section
+                        const replayCommentDivs = [];
+                        dataItem?.replyComments?.forEach((item) => {
+                          if (item) {
+                            let time = timeAgo(item?.createdAt);
+                            const $commentreplayheder =
+                              $("<div>").addClass("user-name-wrap");
+
+                            const $commenttimereplay = $("<div>")
+                              .addClass("post-time")
+                              .text(`${time}`)
+                              .css({ direction: "ltr" });
+                            const $commentuserreplay = $("<div>")
+                              .addClass("user-name")
+                              .text(
+                                item?.name && item.name !== ""
+                                  ? capitalizeFirstLetter(item.name)
+                                  : "Anonymous user"
+                              )
+                              .css({});
+
+                            $commentreplayheder.append(
+                              $commentuserreplay,
+                              $commenttimereplay
+                            );
+                            var $replaycommentdiv = $("<div>")
+                              .css({})
+                              .addClass("comments-wrap sub-comment-wrap");
+
+                            const $leftsidecommentreplaydiv =
+                              $("<div>").addClass("left");
+                            const $rightsidecommetreplaydiv =
+                              $("<div>").addClass("right");
+                            //middelepart pragraph and user image
+                            const $commentreplyuserImage = $("<img>")
+                              .addClass("ml-3")
+                              .attr(
+                                "src",
+                                "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                              )
+                              .attr("alt", "User Image");
+
+                            const $userimages = $("<img>")
+                              .attr("src", item?.image)
+                              .attr("alt", "User Image")
+                              .addClass(" user-text");
+                            //after login user first letter
+                            const $userfirstletterdiv = $("<div>")
+                              .addClass("user-text")
+                              .text(
+                                item &&
+                                  item.name &&
+                                  capitalizeFirstLetter(item.name.charAt(0))
+                              );
+
+                            //comment replay after user successfuly login
+
+                            const $commentuserreplayimagelogo = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                item &&
+                                  item !== "" &&
+                                  item.site == "israel-today"
+                                  ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                              );
+
+                            const $commentreplayparagraph = $("<div>")
+                              .addClass("user-comments")
+                              .text(
+                                item && !item.updatedComment
+                                  ? item?.originalComment
+                                  : item?.updatedComment
+                              );
+
+                            //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
+                            //social icon div
+
+                            const $likeicondivreplay =
+                              $("<div>").addClass("like-counter");
+                            const $likeIconreplay = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                item?.like
+                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                              )
+                              .css("cursor", "pointer");
+                            const $likeicontextreplay = $("<span>").text(
+                              item?.likeCount
+                            );
+                            let isLiked = item?.like ? item.like : false;
+
+                            $likeIconreplay.click(async function () {
+                              const ipAddress = await getIp();
+                              isLiked = !isLiked; // Toggle the state on each click
+                              $(this).attr(
+                                "src",
+                                isLiked
+                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                              );
+                              // Change the fill color based on the state
+                              const token = localStorage.getItem("token");
+
+                              const headers = {
+                                "Content-Type": "application/json", // Specify the content type as JSON
+                              };
+                              if (token) {
+                                headers["Authorization"] = `Bearer ${token}`;
+                              }
+
+                            fetch(
+                              `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                              {
+                                method: "POST",
+                                headers: headers,
+                                body: JSON.stringify({
+                                  like: isLiked, // Send the current state as like
+                                  ip: ipAddress,
+                                }),
+                              }
+                            )
+                              .then((response) => {
+                                if (!response.ok) {
+                                  throw new Error(
+                                    "Network response was not ok"
+                                  );
+                                }
+                                return response.json();
+                              })
+                              .then((data) => {
+                                $likeicontextreplay.text(data?.data?.likeCount);
+                                isLiked = data.data.like;
+                              });
+                          });
+
+                            const $commenticondivreplay =
+                              $("<div>").addClass("comment-counter");
+                            const $commenticontextreplay =
+                              $("<span>").text("15");
+                            const $commentIconreplay = $("<img>")
+                              .addClass("comment-logo")
+                              .attr(
+                                "src",
+                                "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                              );
+
+                            $likeicondivreplay.append(
+                              $likeicontextreplay,
+                              $likeIconreplay
+                            );
+                            $commenticondivreplay.append(
+                              $commenticontextreplay,
+                              $commentIconreplay
+                            );
+                            const $seeOriginalCommentButton = $("<button>")
+                              .text("See Original Comment")
+                              .addClass("outline-blue-btn");
+                            //replay toggle between orignale comment and updated comment
+                            let isOriginalComment = true;
+                            $seeOriginalCommentButton.on("click", function () {
+                              // Replace the original comment text with the updated comment text
+                              if (isOriginalComment) {
+                                // Show the original comment
+                                $commentreplayparagraph.text(
+                                  item?.originalComment
+                                );
+                                $seeOriginalCommentButton.text(
+                                  "See Updated Comment"
+                                );
+                              } else {
+                                // Show the updated comment
+                                $commentreplayparagraph.text(
+                                  item?.updatedComment
+                                );
+                                $seeOriginalCommentButton.text(
+                                  "See Original Comment"
+                                );
+                              }
+
+                              // Toggle the state
+                              isOriginalComment = !isOriginalComment;
+                            });
+
+                            const $socialiconcommentreplay =
+                              $("<div>").addClass("comment-bottom");
+                            $socialiconcommentreplay.append(
+                              $likeicondivreplay,
+                              item?.updatedComment &&
+                                item?.updatedComment !== ""
+                                ? $seeOriginalCommentButton
+                                : ""
+                            );
+
+                            $leftsidecommentreplaydiv.append(
+                              $commentreplayheder,
+                              $commentreplayparagraph,
+                              $socialiconcommentreplay
+                            );
+                            $rightsidecommetreplaydiv.append(
+                              item && item !== "" && item.name
+                                ? item.image && item.image !== ""
+                                  ? $userimages
+                                  : $userfirstletterdiv
+                                : $commentreplyuserImage,
+                              // $commentuserimagelogo
+                              //   $commentreplyuserImage,
+                              $commentuserreplayimagelogo
+                            );
+                            $replaycommentdiv.append(
+                              $rightsidecommetreplaydiv,
+                              $leftsidecommentreplaydiv
+                            );
+                            replayCommentDivs.push($replaycommentdiv);
+                          }
+                        });
+
+                        //replay comment input div
+
+                        const $replycommentinputsection = $("<div>").addClass(
+                          "comments-wrap sub-comment-wrap"
+                        );
+                        const $replaycommentinputandbuttondiv =
+                          $("<div>").addClass("add-comment");
+                        const $comenttitlereplay = $("<div>")
+                          .addClass("user-name")
+                          .text(
+                            userData && userData !== ""
+                              ? capitalizeFirstLetter(userData?.name)
+                              : "Anonymous user"
+                          );
+                        const $leftcommenntinputsection =
+                          $("<div>").addClass("left");
+                        const $rightcommenntinputsection =
+                          $("<div>").addClass("right");
+                        const $replaycommentButton = $("<button>")
+                          .addClass("red-button")
+                          .css({
+                            direction: "ltr",
+                          })
+                          .text("send");
+                        const $commentreplayInput = $("<input>")
+                          .addClass("form-control-input")
+                          .attr({
+                            type: "text",
+                            placeholder: "Add a comment",
+                          });
+                        const $errorMessagecomment = $("<div>")
+                          .css({ display: "flex", color: "red" })
+                          .hide();
+                        const $commentreplayuserImage = $("<img>")
+                          .attr(
+                            "src",
+                            "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                          )
+                          .attr("alt", "User Image");
+                        const $userImages = $("<img>")
+                          .attr("src", userData?.image)
+                          .attr("alt", "User Image")
+                          .addClass("user-text");
+                        //after login user first letter
+                        const $userfirstletterdiv = $("<div>")
+                          .addClass("user-text")
+                          .text(
+                            userData &&
+                              userData.name &&
+                              capitalizeFirstLetter(userData.name.charAt(0))
+                          );
+                        $replaycommentinputandbuttondiv.append(
+                          $commentreplayInput,
+                          $replaycommentButton
+                        );
+                        const $commentuserreplyimagelogo = $("<img>")
+                          .addClass("comment-logo")
+                          .attr(
+                            "src",
+                            "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                          );
+                        $leftcommenntinputsection.append(
+                          $comenttitlereplay,
+                          $replaycommentinputandbuttondiv,
+                          $errorMessagecomment
+                        );
+                        $rightcommenntinputsection.append(
+                          userData && userData !== ""
+                            ? userData.image && userData.image !== ""
+                              ? $userImages
+                              : $userfirstletterdiv
+                            : $commentreplayuserImage,
+                          //$commentreplayuserImage,
+                          $commentuserreplyimagelogo
+                        );
+
+                        $replycommentinputsection.append(
+                          $rightcommenntinputsection,
+                          $leftcommenntinputsection
+                        );
+
+                        $commentreplayInput.on("input", function () {
+                          const originalComment = $commentreplayInput
+                            .val()
+                            .trim();
+                          const maxCommentLength = 200;
+                          const htmlPattern = /<[^>]*>/g;
+                          const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                          const linkPattern = /https?:\/\/\S+/g;
+                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                          const emailPattern =
+                            /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
+
+                          if (originalComment === "") {
+                            $errorMessagecomment
+                              .text("Comment cannot be empty")
+                              .show();
+                          } else if (
+                            originalComment.length > maxCommentLength
+                          ) {
+                            $errorMessagecomment
+                              .text("Comment exceeds the maximum length")
+                              .show();
+                          } else if (
+                            htmlPattern.test(originalComment) ||
+                            cssPattern.test(originalComment) ||
+                            linkPattern.test(originalComment) ||
+                            sqlPattern.test(originalComment) ||
+                            emailPattern.test(originalComment)
+                          ) {
+                            $errorMessagecomment
+                              .text("Invalid content in the comment")
+                              .show();
+                          } else {
+                            $errorMessagecomment.hide();
+                          }
+                        });
+
+                        $commentreplayInput.on("keyup", function (event) {
+                          // Check if the Enter key (key code 13) was pressed
+                          if (event.keyCode === 13) {
+                            // Prevent the default behavior of the Enter key (e.g., form submission)
+                            event.preventDefault();
+
+                            // Trigger the reply comment submission when Enter key is pressed
+                            submitReplyComment();
+                          }
+                        });
+
+                        $replaycommentButton.on("click", function () {
+                          submitReplyComment();
+                        });
+
+                        const submitReplyComment = async () => {
+                          const ipAddress = await getIp();
+                          if (commentlistingdata?.data?.pageData?.mustLogin) {
+                            const token = localStorage.getItem("token");
+                            if (!token) {
+                              // Display registration and login modal when mustLogin is true and no token is present.
+                              $registerModal.css("display", "block");
+                              $loginForm.css("display", "block");
+                            } else {
+                              const commentReplay = $commentreplayInput
+                                .val()
+                                .trim();
+
+                              const maxCommentLength = 200;
+                              const htmlPattern = /<[^>]*>/g;
+                              const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                              const linkPattern = /https?:\/\/\S+/g;
+                              const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                              const emailPattern =
+                                /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
+
+                              if (commentReplay === "") {
+                                $errorMessagecomment
+                                  .text("Comment cannot be empty")
+                                  .show();
+                              } else if (
+                                commentReplay.length > maxCommentLength
+                              ) {
+                                $errorMessagecomment
+                                  .text("Comment exceeds the maximum length")
+                                  .show();
+                              } else if (
+                                htmlPattern.test(commentReplay) ||
+                                cssPattern.test(commentReplay) ||
+                                linkPattern.test(commentReplay) ||
+                                sqlPattern.test(commentReplay) ||
+                                emailPattern.test(commentReplay)
+                              ) {
+                                $errorMessagecomment
+                                  .text("Invalid content in the comment")
+                                  .show();
+                              } else {
+                                $errorMessagecomment.hide();
+                                // Rest of your reply comment submission logic here
+                                const token = localStorage.getItem("token");
+                                const headers = {
+                                  "Content-Type": "application/json", // Specify the content type as JSON
+                                };
+
+                                if (token) {
+                                  headers["Authorization"] = `Bearer ${token}`;
+                                }
+                                const apiUrl = `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+
+                                // Define additional options for the request
+                                const requestOptions = {
+                                  method: "POST", // HTTP method
+                                  headers: headers,
+                                  body: JSON.stringify({
+                                    commentReplay: commentReplay,
+                                    site: siteName,
+                                    ip: ipAddress,
+                                  }), // Convert the data object to JSON string
+                                };
+                                const $spinner = $("<div>")
+                                  .addClass(
+                                    "spinner-border spinner-border-sm mx-3 text-light"
+                                  )
+                                  .attr("role", "status")
+                                  .appendTo($replaycommentButton);
+
+                                $replaycommentButton.prop("disabled", true);
+
+                                fetch(apiUrl, requestOptions)
+                                  .then((response) => {
+                                    // Check if the response status is OK (201 Created)
+                                    if (!response.ok) {
+                                      throw new Error(
+                                        `HTTP error! Status: ${response.status}`
+                                      );
+                                    }
+
+                                    // Parse the response body as JSON
+                                    return response.json();
+                                  })
+                                  .then((data) => {
+                                    // Handle the response data
+                                    $spinner.remove();
+                                    //commentlistapi(true);
+                                    $commentreplayInput.val('');
+                                    $("#ignismyModal").css("display", "block");
+                                    $("#ignismyModal").addClass(
+                                      "modal fade show"
+                                    );
+                                    $("#msgtag").html(
+                                      commentlistingdata?.data?.pageData
+                                        ?.confirmCommentPopUpMessage
+                                    );
+                                    setTimeout(() => {
+                                      $("#ignismyModal").css("display", "none");
+                                      $("#msgtag").html("");
+                                    }, 2000);
+                                    //alert(data.message);
+                                  })
+                                  .catch((error) => {
+                                    // Handle any errors that occurred during the fetch
+                                    console.error("Fetch error:", error);
+                                  });
+                                // finally {
+                                //   // Enable button and remove spinner after API call is complete
+                                //   $replaycommentButton.prop("disabled", false);
+                                //   $spinner.remove();
+                                // }
+                              }
+                            }
+                          } else {
+                            const commentReplay = $commentreplayInput
+                              .val()
+                              .trim();
+
+                            const maxCommentLength = 200;
+                            const htmlPattern = /<[^>]*>/g;
+                            const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
+                            const linkPattern = /https?:\/\/\S+/g;
+                            const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
+                            const emailPattern =
+                              /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
+
                             if (commentReplay === "") {
                               $errorMessagecomment
                                 .text("Comment cannot be empty")
+                                .show();
+                            } else if (
+                              commentReplay.length > maxCommentLength
+                            ) {
+                              $errorMessagecomment
+                                .text("Comment exceeds the maximum length")
+                                .show();
+                            } else if (
+                              htmlPattern.test(commentReplay) ||
+                              cssPattern.test(commentReplay) ||
+                              linkPattern.test(commentReplay) ||
+                              sqlPattern.test(commentReplay) ||
+                              emailPattern.test(commentReplay)
+                            ) {
+                              $errorMessagecomment
+                                .text("Invalid content in the comment")
                                 .show();
                             } else {
                               $errorMessagecomment.hide();
@@ -1079,7 +1585,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `https://83b7-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1087,8 +1593,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 headers: headers,
                                 body: JSON.stringify({
                                   commentReplay: commentReplay,
-                                  site: "israel-today",
-                                  ip: ipAddress
+                                  site: siteName,
+                                  ip: ipAddress,
                                 }), // Convert the data object to JSON string
                               };
                               const $spinner = $("<div>")
@@ -1115,10 +1621,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $spinner.remove();
-                                  commentlistapi(true);;
+                                  //commentlistapi(true);
+                                  $commentreplayInput.val('')
                                   $("#ignismyModal").css("display", "block");
-                                  $("#ignismyModal").addClass("modal fade show");
-                                  $("#msgtag").html("comment replay succesfuly!!");
+                                  $("#ignismyModal").addClass(
+                                    "modal fade show"
+                                  );
+                                  $("#msgtag").html(
+                                    commentlistingdata?.data?.pageData
+                                      ?.confirmCommentPopUpMessage
+                                  );
                                   setTimeout(() => {
                                     $("#ignismyModal").css("display", "none");
                                     $("#msgtag").html("");
@@ -1136,189 +1648,120 @@ document.addEventListener("DOMContentLoaded", function () {
                               // }
                             }
                           }
-                        } else {
-                          const commentReplay = $commentreplayInput.val().trim();
-                          if (commentReplay === "") {
-                            $errorMessagecomment
-                              .text("Comment cannot be empty.")
-                              .show();
-                          } else {
-                            $errorMessagecomment.hide();
-                            // Rest of your reply comment submission logic here
-                            const token = localStorage.getItem("token");
-                            const headers = {
-                              "Content-Type": "application/json", // Specify the content type as JSON
-                            };
 
-                            if (token) {
-                              headers["Authorization"] = `Bearer ${token}`;
-                            }
-                            const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                          //   if (commentlistingdata?.data?.pageData?.mustLogin) {
+                          //     const token = localStorage.getItem("token");
+                          //     if (!token) {
+                          //       $registerModal.css("display", "block");
+                          //       $loginForm.css("display", "block");
+                          //     } else {
+                          //       const commentReplay = $commentreplayInput.val().trim();
+                          //       if (commentReplay === "") {
+                          //         $errorMessagecomment
+                          //           .text("Comment cannot be empty.")
+                          //           .show();
+                          //       } else {
+                          //         $errorMessagecomment.hide();
+                          //         // Rest of your reply comment submission logic here
+                          //         const token = localStorage.getItem("token");
+                          //         const headers = {
+                          //           "Content-Type": "application/json", // Specify the content type as JSON
+                          //         };
 
-                            // Define additional options for the request
-                            const requestOptions = {
-                              method: "POST", // HTTP method
-                              headers: headers,
-                              body: JSON.stringify({
-                                commentReplay: commentReplay,
-                                site: "israel-today",
-                                ip: ipAddress
-                              }), // Convert the data object to JSON string
-                            };
-                            const $spinner = $("<div>")
-                              .addClass(
-                                "spinner-border spinner-border-sm mx-3 text-light"
-                              )
-                              .attr("role", "status")
-                              .appendTo($replaycommentButton);
+                          //         if (token) {
+                          //           headers["Authorization"] = `Bearer ${token}`;
+                          //         }
+                          //         const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
-                            $replaycommentButton.prop("disabled", true);
+                          //         // Define additional options for the request
+                          //         const requestOptions = {
+                          //           method: "POST", // HTTP method
+                          //           headers: headers,
+                          //           body: JSON.stringify({
+                          //             commentReplay: commentReplay,
+                          //             site: "israel-today",
+                          //           }), // Convert the data object to JSON string
+                          //         };
+                          //         const $spinner = $("<div>")
+                          //           .addClass(
+                          //             "spinner-border spinner-border-sm mx-3 text-light"
+                          //           )
+                          //           .attr("role", "status")
+                          //           .appendTo($replaycommentButton);
 
-                            fetch(apiUrl, requestOptions)
-                              .then((response) => {
-                                // Check if the response status is OK (201 Created)
-                                if (!response.ok) {
-                                  throw new Error(
-                                    `HTTP error! Status: ${response.status}`
-                                  );
-                                }
+                          //         $replaycommentButton.prop("disabled", true);
 
-                                // Parse the response body as JSON
-                                return response.json();
-                              })
-                              .then((data) => {
-                                // Handle the response data
-                                $spinner.remove();
-                                commentlistapi(true);;
-                                $("#ignismyModal").css("display", "block");
-                                $("#ignismyModal").addClass("modal fade show");
-                                $("#msgtag").html("comment replay succesfuly!!");
-                                setTimeout(() => {
-                                  $("#ignismyModal").css("display", "none");
-                                  $("#msgtag").html("");
-                                }, 2000);
-                                //alert(data.message);
-                              })
-                              .catch((error) => {
-                                // Handle any errors that occurred during the fetch
-                                console.error("Fetch error:", error);
-                              });
-                            // finally {
-                            //   // Enable button and remove spinner after API call is complete
-                            //   $replaycommentButton.prop("disabled", false);
-                            //   $spinner.remove();
-                            // }
-                          }
-                        }
+                          //         fetch(apiUrl, requestOptions)
+                          //           .then((response) => {
+                          //             // Check if the response status is OK (201 Created)
+                          //             if (!response.ok) {
+                          //               throw new Error(
+                          //                 `HTTP error! Status: ${response.status}`
+                          //               );
+                          //             }
 
+                          //             // Parse the response body as JSON
+                          //             return response.json();
+                          //           })
+                          //           .then((data) => {
+                          //             // Handle the response data
+                          //             $spinner.remove();
+                          //             commentlistapi(true);;
+                          //             $("#ignismyModal").css("display", "block");
+                          //             $("#ignismyModal").addClass("modal fade show");
+                          //             $("#msgtag").html("comment replay succesfuly!!");
+                          //             setTimeout(() => {
+                          //               $("#ignismyModal").css("display", "none");
+                          //               $("#msgtag").html("");
+                          //             }, 2000);
+                          //             //alert(data.message);
+                          //           })
+                          //           .catch((error) => {
+                          //             // Handle any errors that occurred during the fetch
+                          //             console.error("Fetch error:", error);
+                          //           });
+                          //         // finally {
+                          //         //   // Enable button and remove spinner after API call is complete
+                          //         //   $replaycommentButton.prop("disabled", false);
+                          //         //   $spinner.remove();
+                          //         // }
+                          //       }
+                          //     }
+                          //   } else {
+                          //     $registerModal.css("display", "block");
+                          //     $loginForm.css("display", "block");
+                          //   }
+                        };
 
+                        //Append the div to the document body or another container
 
-
-                        //   if (commentlistingdata?.data?.pageData?.mustLogin) {
-                        //     const token = localStorage.getItem("token");
-                        //     if (!token) {
-                        //       $registerModal.css("display", "block");
-                        //       $loginForm.css("display", "block");
-                        //     } else {
-                        //       const commentReplay = $commentreplayInput.val().trim();
-                        //       if (commentReplay === "") {
-                        //         $errorMessagecomment
-                        //           .text("Comment cannot be empty.")
-                        //           .show();
-                        //       } else {
-                        //         $errorMessagecomment.hide();
-                        //         // Rest of your reply comment submission logic here
-                        //         const token = localStorage.getItem("token");
-                        //         const headers = {
-                        //           "Content-Type": "application/json", // Specify the content type as JSON
-                        //         };
-
-                        //         if (token) {
-                        //           headers["Authorization"] = `Bearer ${token}`;
-                        //         }
-                        //         const apiUrl = `https://8472-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
-
-                        //         // Define additional options for the request
-                        //         const requestOptions = {
-                        //           method: "POST", // HTTP method
-                        //           headers: headers,
-                        //           body: JSON.stringify({
-                        //             commentReplay: commentReplay,
-                        //             site: "israel-today",
-                        //           }), // Convert the data object to JSON string
-                        //         };
-                        //         const $spinner = $("<div>")
-                        //           .addClass(
-                        //             "spinner-border spinner-border-sm mx-3 text-light"
-                        //           )
-                        //           .attr("role", "status")
-                        //           .appendTo($replaycommentButton);
-
-                        //         $replaycommentButton.prop("disabled", true);
-
-                        //         fetch(apiUrl, requestOptions)
-                        //           .then((response) => {
-                        //             // Check if the response status is OK (201 Created)
-                        //             if (!response.ok) {
-                        //               throw new Error(
-                        //                 `HTTP error! Status: ${response.status}`
-                        //               );
-                        //             }
-
-                        //             // Parse the response body as JSON
-                        //             return response.json();
-                        //           })
-                        //           .then((data) => {
-                        //             // Handle the response data
-                        //             $spinner.remove();
-                        //             commentlistapi(true);;
-                        //             $("#ignismyModal").css("display", "block");
-                        //             $("#ignismyModal").addClass("modal fade show");
-                        //             $("#msgtag").html("comment replay succesfuly!!");
-                        //             setTimeout(() => {
-                        //               $("#ignismyModal").css("display", "none");
-                        //               $("#msgtag").html("");
-                        //             }, 2000);
-                        //             //alert(data.message);
-                        //           })
-                        //           .catch((error) => {
-                        //             // Handle any errors that occurred during the fetch
-                        //             console.error("Fetch error:", error);
-                        //           });
-                        //         // finally {
-                        //         //   // Enable button and remove spinner after API call is complete
-                        //         //   $replaycommentButton.prop("disabled", false);
-                        //         //   $spinner.remove();
-                        //         // }
-                        //       }
-                        //     }
-                        //   } else {
-                        //     $registerModal.css("display", "block");
-                        //     $loginForm.css("display", "block");
-                        //   }
+                        $containerCommentpart.append(
+                          $commentDiv,
+                          replayCommentDivs,
+                          $replycommentinputsection
+                        );
+                        $container.append($containerCommentpart);
+                        $maincommentlistingcontainer.append(
+                          $containerCommentpart
+                        );
+                        $app.append($maincommentlistingcontainer);
                       }
-
-                      //Append the div to the document body or another container
-
-                      $containerCommentpart.append(
-                        $commentDiv,
-                        replayCommentDivs,
-                        $replycommentinputsection
-                      );
-                      $container.append($containerCommentpart);
-                      $maincommentlistingcontainer.append($containerCommentpart);
-                      $app.append($maincommentlistingcontainer);
-                    });
+                    );
 
                     //show more comment button div
 
-                    const $showmorecommentdiv = $("<div>").css({});
+                    const $showmorecommentdiv = $("<div>").css({}).attr('id', "showmorecomment");
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
-                      .text("show more comment");
+                      .text("show more comment")
+                      .css({
+                        direction: "ltr",
+                      });
 
-                    if (showmorcomment <= commentlistingdata?.data?.totalComment) {
+                    if (
+                      showmorcomment <= commentlistingdata?.data?.totalComment
+                    ) {
                       $showmorecommentdiv.append($showmorecommentbutton);
                     }
                     //               const $spinnerviewmore = $("<div>")
@@ -1327,8 +1770,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     // .hide();
 
                     // $app.append($showmorecommentdiv);
-
-
 
                     const $footerImage = $("<img>")
                       .attr(
@@ -1343,21 +1784,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $showmorecommentbutton.on("click", function () {
                       showmorcomment += 10;
-                      commentlistapi(true);;
+                      $showmorecommentbutton.prop("disabled", true);
+
+                      const $spinner = $("<div>")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
+                        .attr("role", "status")
+                        .appendTo($showmorecommentbutton);
+                      commentlistapi(true);
                       console.log("counter");
                     });
-                    if(apiFlag) {
+                    // if (apiFlag) {
                       $app.append($showmorecommentdiv);
-                    }
-                    var tempElement = document.createElement("div")
+                    // }
+                    var tempElement = document.createElement("div");
                     tempElement.innerHTML =
                       commentlistingdata?.data?.pageData?.footer_text;
 
                     // Find the <p> element and extract its text
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
-                      direction: "ltr",
-                    });
+                      display: "flex",
+                    }).attr('id', "footerConatiner");
 
                     $app.append($footerConatiner);
                     // const $footerImage = $("<img>")
@@ -1377,129 +1826,139 @@ document.addEventListener("DOMContentLoaded", function () {
                     // });
 
                     // $app.append($showmorecommentdiv);
-                    fetch('https://api.ipify.org?format=json'
-                    )
-                      .then(response => response.json())
-                      .then(data => {
-                        localStorage.setItem('ip', data?.ip)
+                    fetch("https://api.ipify.org?format=json")
+                      .then((response) => response.json())
+                      .then((data) => {
+                        localStorage.setItem("ip", data?.ip);
                       })
-                      .catch(error => {
-                        console.error('Error:', error);
+                      .catch((error) => {
+                        console.error("Error:", error);
                       });
-                    const site = 'israel-today'  //document.getElementsByName('page_id')[0].attributes.for.value
+                    //const site = "israel-today"; //document.getElementsByName('page_id')[0].attributes.for.value
                     let device;
-                    window.addEventListener('resize', handleResize);
+                    window.addEventListener("resize", handleResize);
                     function handleResize() {
                       const width = window.innerWidth;
 
                       if (width < 768) {
-                        device = 'mobile';
+                        device = "mobile";
                       } else if (width >= 768 && width < 1024) {
-                        device = 'tablet';
+                        device = "tablet";
                       } else {
-                        device = 'desktop';
+                        device = "desktop";
                       }
                     }
 
                     handleResize(); // Initial check
 
-
                     // Create a script element for loading the Google Sign-In API
-                    var scriptElement = document.createElement('script');
-                    scriptElement.src = 'https://accounts.google.com/gsi/client';
+                    var scriptElement = document.createElement("script");
+                    scriptElement.src =
+                      "https://accounts.google.com/gsi/client";
                     scriptElement.async = true;
                     $("head").append(scriptElement);
                     scriptElement.onload = function () {
-                      gapi.load('auth2', function () {
+                      gapi.load("auth2", function () {
                         gapi.auth2.init();
                       });
                     };
-
                     // Create a div element for g_id_onload configuration
-                    var gIdOnloadDiv = document.createElement('div');
-                    gIdOnloadDiv.id = 'g_id_onload';
-                    gIdOnloadDiv.setAttribute('data-client_id', '854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com');
-                    gIdOnloadDiv.setAttribute('data-context', 'signin');
-                    gIdOnloadDiv.setAttribute('data-ux_mode', 'popup');
-                    gIdOnloadDiv.setAttribute('data-callback', 'handleCredentialResponse');
-                    gIdOnloadDiv.setAttribute('data-auto_prompt', 'false');
+                    var gIdOnloadDiv = document.createElement("div");
+                    gIdOnloadDiv.id = "g_id_onload";
+                    gIdOnloadDiv.setAttribute("data-client_id", cliendId);
+                    gIdOnloadDiv.setAttribute("data-context", "signin");
+                    gIdOnloadDiv.setAttribute("data-ux_mode", "popup");
+                    gIdOnloadDiv.setAttribute(
+                      "data-callback",
+                      "handleCredentialResponse"
+                    );
+                    gIdOnloadDiv.setAttribute("data-auto_prompt", "false");
 
                     // Create a div element for g_id_signin configuration
-                    var gIdSigninDiv = document.createElement('div');
-                    gIdSigninDiv.className = 'g_id_signin';
-                    gIdSigninDiv.setAttribute('data-type', 'statndard');
-                    gIdSigninDiv.setAttribute('data-shape', 'rectangular');
-                    gIdSigninDiv.setAttribute('data-theme', 'outline');
-                    gIdSigninDiv.setAttribute('data-text', 'signin_with');
-                    gIdSigninDiv.setAttribute('data-size', 'medium');
-                    gIdSigninDiv.setAttribute('data-logo_alignment', 'left');
+                    var gIdSigninDiv = document.createElement("div");
+                    gIdSigninDiv.className = "g_id_signin";
+                    gIdSigninDiv.setAttribute("data-type", "statndard");
+                    gIdSigninDiv.setAttribute("data-shape", "rectangular");
+                    gIdSigninDiv.setAttribute("data-theme", "outline");
+                    gIdSigninDiv.setAttribute("data-text", "signin_with");
+                    gIdSigninDiv.setAttribute("data-size", "medium");
+                    gIdSigninDiv.setAttribute("data-logo_alignment", "left");
 
                     // Create a div element for g_id_onload configuration
-                    var gIdOnloadDiv1 = document.createElement('div');
-                    gIdOnloadDiv1.id = 'g_id_onload1';
-                    gIdOnloadDiv1.setAttribute('data-client_id', '854415067555-25hc5udjnp1soapn7jr9ip85ugnta9a1.apps.googleusercontent.com');
-                    gIdOnloadDiv1.setAttribute('data-context', 'signin');
-                    gIdOnloadDiv1.setAttribute('data-ux_mode', 'popup');
-                    gIdOnloadDiv1.setAttribute('callback', 'handleCredentialResponse');
-                    gIdOnloadDiv1.setAttribute('data-auto_prompt', 'false');
-
+                    var gIdOnloadDiv1 = document.createElement("div");
+                    gIdOnloadDiv1.id = "g_id_onload1";
+                    gIdOnloadDiv1.setAttribute("data-client_id", cliendId);
+                    gIdOnloadDiv1.setAttribute("data-context", "signin");
+                    gIdOnloadDiv1.setAttribute("data-ux_mode", "popup");
+                    gIdOnloadDiv1.setAttribute(
+                      "callback",
+                      "handleCredentialResponse"
+                    );
+                    gIdOnloadDiv1.setAttribute("data-auto_prompt", "false");
 
                     // Create a div element for g_id_signin configuration
-                    var gIdSigninDiv1 = document.createElement('div');
-                    gIdSigninDiv1.className = 'g_id_signin';
-                    gIdSigninDiv1.setAttribute('data-type', 'statndard');
-                    gIdSigninDiv1.setAttribute('data-shape', 'rectangular');
-                    gIdSigninDiv1.setAttribute('data-theme', 'outline');
-                    gIdSigninDiv1.setAttribute('data-text', 'signin_with');
-                    gIdSigninDiv1.setAttribute('data-size', 'medium');
-                    gIdSigninDiv1.setAttribute('data-logo_alignment', 'left');
+                    var gIdSigninDiv1 = document.createElement("div");
+                    gIdSigninDiv1.className = "g_id_signin";
+                    gIdSigninDiv1.setAttribute("data-type", "statndard");
+                    gIdSigninDiv1.setAttribute("data-shape", "rectangular");
+                    gIdSigninDiv1.setAttribute("data-theme", "outline");
+                    gIdSigninDiv1.setAttribute("data-text", "signin_with");
+                    gIdSigninDiv1.setAttribute("data-size", "medium");
+                    gIdSigninDiv1.setAttribute("data-logo_alignment", "left");
 
                     // Define the handleCredentialResponse function using jQuery
                     window.handleCredentialResponse = (response) => {
                       if (response.credential) {
-                        const ip = localStorage.getItem('ip')
+                        const ip = localStorage.getItem("ip");
                         // const ip= "123.0.9.123"
                         const payload = {
                           googleAuthToken: response.credential,
-                          site,
+                          site: siteName,
                           ip,
-                          device
-                        }
+                          device,
+                        };
                         // Send a POST request to the login API
-                        fetch('https://8472-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify(payload)
-                        })
-                          .then(response => response.json())
-                          .then(data => {
+                        fetch(
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(payload),
+                          }
+                        )
+                          .then((response) => response.json())
+                          .then((data) => {
                             // Close the modal if login is successful
-                            localStorage.setItem('token', data?.data?.token)
-                            localStorage.setItem('userData', JSON.stringify(data?.data?.user))
+                            localStorage.setItem("token", data?.data?.token);
+                            localStorage.setItem(
+                              "userData",
+                              JSON.stringify(data?.data?.user)
+                            );
                             commentlistapi(true);
-                            $Login.css({ 'display': 'none' })
-                            $Register.css({ 'display': 'none' })
-                            $Logout.css({ 'display': 'block' })
-                            onClosed()
-                            FormCleaner()
-                            $registerModal.css('display', 'none');
-                            $("#ignismyModal").css("display", "block")
+                            $Login.css({ display: "none" });
+                            $Register.css({ display: "none" });
+                            $Logout.css({ display: "block" });
+                            onClosed();
+                            FormCleaner();
+                            $registerModal.css("display", "none");
+                            $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html("Login successfully!!")
+                            $("#msgtag").html("Login successfully!!");
                             setTimeout(() => {
-                              $("#ignismyModal").css("display", "none")
-                              $("#msgtag").html("")
+                              $("#ignismyModal").css("display", "none");
+                              $("#msgtag").html("");
                             }, 2000);
                           })
-                          .catch(error => {
-                            console.error('Error:', error);
+                          .catch((error) => {
+                            console.error("Error:", error);
                           });
                       } else {
                         // User is not signed in or declined to sign in.
                       }
-                    }
+                    };
+                  
 
                     const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
       <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
@@ -1515,9 +1974,11 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     </div>
   `;
-                    $(`body`).append($modalContentSuccess)
+                    $(`body`).append($modalContentSuccess);
                     // Create the child div for the login form
-                    const $loginForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
+                    const $loginForm = $("<div>")
+                      .addClass("left-content")
+                      .css({ display: "none" });
                     const $ApierrorLogin = $("<div>").css({
                       display: "none",
                       color: "red",
@@ -1526,8 +1987,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $loginHeader = $("<h2>").text("Login Form");
 
                     // Create a new element for the red text line
-                    const $redText = $("<h4>")
-                      .text("To comment you need to login")
+                    const $redText = $("<h4>").text(
+                      "To comment you need to login"
+                    );
 
                     // Append the login header and red text elements to the login form
                     $loginForm.append($loginHeader);
@@ -1579,7 +2041,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $emptyFieldErrorLogin.css("display", "none");
                         }
                       });
-                    const $emailContainer = $("<div>")
+                    const $emailContainer = $("<div>");
 
                     // Create a container div for the password input and show/hide toggle button
                     const $passwordContainer = $("<div>");
@@ -1647,8 +2109,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     });
 
-                    const $loginButton = $("<button>").addClass("red-button").text("Login");
-                    // Create a section for other options
+                    const $loginButton = $("<button>")
+                      .addClass("red-button")
+                      .text("Login");
+                    // Create a section for other option
                     const $otherOptionsSection = $("<div>");
 
                     // Create the horizontal rule for the section
@@ -1659,8 +2123,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Create the text for the section
-                    const $otherOptionsText = $("<div>").addClass("other-options")
-                    const $otherOptionsTextSpan = $("<span>").text("Other options");
+                    const $otherOptionsText =
+                      $("<div>").addClass("other-options");
+                    const $otherOptionsTextSpan =
+                      $("<span>").text("Other options");
                     const errorTextEmailLogin = "Invalid email address";
                     const $errorElementLogin = $("<div>")
                       .css({
@@ -1674,11 +2140,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     $loginForm.append($loginHeader);
                     $loginForm.append($redText);
                     $loginForm.append($ApierrorLogin);
-                    $emailContainer.append($emailInput)
-                    $emailContainer.append($errorElementLogin)
-                    $emailContainer.append($emptyFieldErrorLogin)
+                    $emailContainer.append($emailInput);
+                    $emailContainer.append($errorElementLogin);
+                    $emailContainer.append($emptyFieldErrorLogin);
 
-                    $loginForm.append($emailContainer)
+                    $loginForm.append($emailContainer);
                     // $loginForm.append($emailInput); // Append email input
                     // $loginForm.append($errorElementLogin);
                     // $loginForm.append($emptyFieldErrorLogin);
@@ -1693,7 +2159,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     $otherOptionsText.append($otherOptionsTextSpan);
 
                     // Create the "Forgot password?" link with red text
-                    const $forgotPasswordLink = $("<p>").addClass("auth-link pointer-cursor")
+                    const $forgotPasswordLink = $("<p>")
+                      .addClass("auth-link pointer-cursor")
                       .text("Forgot password?")
 
                       .click(function () {
@@ -1724,7 +2191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append the "Register" text to the existing paragraph
                     $registerLink.append($registerSpan);
                     // Append the footer image to the modal content
-                    $loginForm.append($registerLinkDiv)
+                    $loginForm.append($registerLinkDiv);
                     $registerLinkDiv.append($registerLink);
                     $registerLinkDiv.append(
                       '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
@@ -1759,8 +2226,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     async function handleLogin() {
                       // Move these lines inside the function
-                      const email = $("#emailInput").val();
-                      const password = $("#passwordField").val();
+                      const email = $emailInput.val();
+                      const password = $passwordInput.val();
                       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                       if (email.trim() === "") {
                         $emptyFieldErrorLogin.css("display", "block");
@@ -1787,7 +2254,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         device: "web",
                       };
                       const $spinner = $("<div>")
-                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
                         .attr("role", "status")
                         .appendTo($loginButton);
 
@@ -1795,7 +2264,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -1804,30 +2273,37 @@ document.addEventListener("DOMContentLoaded", function () {
                           }
                         );
 
-
                         if (response.status === 200) {
                           // Close the modal if login is successful
-                          localStorage.setItem('token', response?.data?.data?.token)
-                          localStorage.setItem('userData', JSON.stringify(response?.data?.data?.user))
-                          commentlistapi(true);;
-                          $Login.css({ 'display': 'none' })
-                          $Register.css({ 'display': 'none' })
-                          $Logout.css({ 'display': 'block' })
+                          localStorage.setItem(
+                            "token",
+                            response?.data?.data?.token
+                          );
+                          localStorage.setItem(
+                            "userData",
+                            JSON.stringify(response?.data?.data?.user)
+                          );
+                          commentlistapi(true);
+                          $Login.css({ display: "none" });
+                          $Register.css({ display: "none" });
+                          $Logout.css({ display: "block" });
                           $registerModal.css("display", "none");
                           onClosed();
                           FormCleaner();
-                          $("#ignismyModal").css("display", "block")
+                          $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
-                          $("#msgtag").html("Login successfully!!")
+                          $("#msgtag").html("Login successfully!!");
                           setTimeout(() => {
-                            $("#ignismyModal").css("display", "none")
-                            $("#msgtag").html("")
+                            $("#ignismyModal").css("display", "none");
+                            $("#msgtag").html("");
                           }, 2000);
                         }
                       } catch (error) {
                         console.error("Error:", error);
                         $ApierrorLogin.empty();
-                        $ApierrorLogin.append($("<p>").text(error.response.data.message));
+                        $ApierrorLogin.append(
+                          $("<p>").text(error.response.data.message)
+                        );
                         $ApierrorLogin.css("display", "block");
 
                         // Handle errors here if necessary
@@ -1852,13 +2328,15 @@ document.addEventListener("DOMContentLoaded", function () {
                       "z-index": "1",
                     });
 
-                    const $registerModalContent = $("<div>")
-                      .addClass("modal-content")
+                    const $registerModalContent =
+                      $("<div>").addClass("modal-content");
 
                     $registerModalContent.css({
                       position: "relative",
                     });
-                    const $ForgotPassForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
+                    const $ForgotPassForm = $("<div>")
+                      .addClass("left-content")
+                      .css({ display: "none" });
                     const $ForgotPassHeader = $("<h2>").text("Forgot password");
                     const $redTextForgotPass = $("<p>")
                       .text(
@@ -1892,7 +2370,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       })
                       .text("Email is required");
                     // Create the email input field
-                    const $ForgotPassEmailInputDiv = $("<div>")
+                    const $ForgotPassEmailInputDiv = $("<div>");
                     const $ForgotPassEmailInput = $("<input>")
                       .attr("type", "email")
                       .addClass("custom-input")
@@ -1943,14 +2421,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         email: emailValue,
                       };
                       const $spinner = $("<div>")
-                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
                         .attr("role", "status")
                         .appendTo($ForgotPassSubmit);
 
-                      $ForgotPassSubmit.prop("disabled", true)
+                      $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -1965,7 +2445,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           $ResetPassForm.css({
                             display: "block",
                             flex: "1",
-                            padding: "20px 60px",
                           });
                         }
                       } catch (error) {
@@ -1982,13 +2461,15 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     }
                     // Create the registration button
-                    const $ForgotPassSubmit = $("<button>").addClass("red-button")
+                    const $ForgotPassSubmit = $("<button>")
+                      .addClass("red-button")
                       .text("Submit")
 
                       .click(sendForgotPasswordRequest);
 
                     // Append the "Login" text to the existing paragraph
-                    const $BackToLoginForgot = $("<p>").addClass("auth-link")
+                    const $BackToLoginForgot = $("<p>")
+                      .addClass("auth-link")
                       .text("Back to Login")
 
                       .click(function () {
@@ -2001,8 +2482,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         ErrorCleaner();
                         FormCleaner();
                       });
-                    const $registerLinkForgotDiv = $("<div>").addClass("bottom-wrap")
-                    const $registerLinkForgot = $("<p>").addClass("have-accoung")
+                    const $registerLinkForgotDiv =
+                      $("<div>").addClass("bottom-wrap");
+                    const $registerLinkForgot =
+                      $("<p>").addClass("have-accoung");
 
                     // Create the "Don’t have an account?" text and make it black
                     $registerLinkForgot.append("Don’t have an account? ");
@@ -2022,9 +2505,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     $ForgotPassForm.append($ForgotPassHeader);
                     $ForgotPassForm.append($redTextForgotPass);
                     $ForgotPassForm.append($ApierrorforgotPass);
-                    $ForgotPassEmailInputDiv.append($ForgotPassEmailInput)
-                    $ForgotPassEmailInputDiv.append($errorElementForgot)
-                    $ForgotPassEmailInputDiv.append($emptyFieldErrorForgot)
+                    $ForgotPassEmailInputDiv.append($ForgotPassEmailInput);
+                    $ForgotPassEmailInputDiv.append($errorElementForgot);
+                    $ForgotPassEmailInputDiv.append($emptyFieldErrorForgot);
                     $ForgotPassForm.append($ForgotPassEmailInputDiv);
 
                     // $ForgotPassForm.append($ForgotPassEmailInput);
@@ -2039,11 +2522,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                     );
                     // Create the child div for the registration form
-                    const $registrationForm = $("<div>").addClass("left-content").css({ 'display': 'none' });
+                    const $registrationForm = $("<div>")
+                      .addClass("left-content")
+                      .css({ display: "none" });
 
                     const $registerHeader = $("<h2>").text("Register");
-                    const $redTextreg = $("<h4>")
-                      .text("To comment you need to register")
+                    const $redTextreg = $("<h4>").text(
+                      "To comment you need to register"
+                    );
                     const $ApierrorRegistration = $("<div>").css({
                       display: "none",
                       color: "red",
@@ -2074,7 +2560,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "font-size": "14px",
                       })
                       .text("Name is required");
-                    const $nameDiv = $("<div>")
+                    const $nameDiv = $("<div>");
                     const $registerNameInput = $("<input>")
                       .attr("type", "text")
                       .addClass("custom-input")
@@ -2092,15 +2578,29 @@ document.addEventListener("DOMContentLoaded", function () {
                       .on("input", function () {
                         const name = $(this).val();
                         // Check if the email is valid
+                        const maxCommentLength = 60;
                         if (name.trim() !== "") {
-                          $emptyFieldErrorRegisterName.css("display", "none");
+                          // $emptyFieldErrorRegisterName.css("display", "none");
+                          if (name.trim().length > maxCommentLength) {
+                            $emptyFieldErrorRegisterName
+                              .text("maximum length is 60")
+                              .css("display", "block");
+                          } else {
+                            $emptyFieldErrorRegisterName.css("display", "none");
+                            $emptyFieldErrorRegisterName.empty();
+                            $emptyFieldErrorRegisterName.text(
+                              "Name is required"
+                            );
+                          }
                         } else {
+                          $emptyFieldErrorRegisterName.empty();
+                          $emptyFieldErrorRegisterName.text("Name is required");
                           $emptyFieldErrorRegisterName.css("display", "block");
                         }
                       });
 
                     // Create the email input field
-                    const $registerEmailInputDiv = $("<div>")
+                    const $registerEmailInputDiv = $("<div>");
                     const $registerEmailInput = $("<input>")
                       .attr("type", "email")
                       .addClass("custom-input")
@@ -2133,7 +2633,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
 
                     // Create the password input field
-                    const $registerPasswordFieldDiv = $("<div>")
+                    const $registerPasswordFieldDiv = $("<div>");
                     const $registerPasswordField = $("<input>")
                       .attr("type", "password")
                       .addClass("custom-input")
@@ -2170,7 +2670,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
 
                     // Create the registration button
-                    const $registerButton = $("<button>").addClass("red-button").text("Register");
+                    const $registerButton = $("<button>")
+                      .addClass("red-button")
+                      .text("Register");
 
                     // Create a section for other options
                     const $registerOtherOptionsSection = $("<div>");
@@ -2182,8 +2684,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       margin: "0",
                     });
 
-                    const $registerOtherOptionsText = $("<div>").addClass("other-options")
-                    const $registerOtherOptionsTextSpan = $("<span>").text("Other options");
+                    const $registerOtherOptionsText =
+                      $("<div>").addClass("other-options");
+                    const $registerOtherOptionsTextSpan =
+                      $("<span>").text("Other options");
 
                     // Create the "Already have an account?" text and make it black
                     // const $registerLoginLink = $("<p>").text("").css({
@@ -2192,13 +2696,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     //   "margin-bottom": "10px",
                     // });
                     // Create the "I accept the terms and conditions" text with a clickable link
-                    const $registerTermsLinkDiv = $("<div>").addClass("bottom-wrap");
+                    const $registerTermsLinkDiv =
+                      $("<div>").addClass("bottom-wrap");
 
                     const $registerTermsLink = $("<p>").addClass("t-and-c");
 
                     // Create the actual link element
                     const $termsLink = $("<a>")
                       .attr("href", "https://www.example.com/terms") // Replace with your actual terms and conditions URL
+                      .attr("target", "_blank")
                       .css({
                         color: "inherit", // Inherit the color from the parent (black in this case)
                         "text-decoration": "underline", // Remove the underline
@@ -2211,8 +2717,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Append the "I accept the terms and conditions" text to the existing paragraph
 
-                    const $registerLoginLinkRed = $("<p>").addClass("have-accoung")
-                      .text("Do you have an account ? ")
+                    const $registerLoginLinkRed = $("<p>")
+                      .addClass("have-accoung")
+                      .text("Do you have an account ? ");
 
                     // Append the "Login" text to the existing paragraph
                     const $registerLoginSpan = $("<span>")
@@ -2239,24 +2746,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append registration form elements to the registration form div
                     $registrationForm.append($registerHeader);
                     $registrationForm.append($redTextreg);
-                    $registrationForm.append($ApierrorRegistration)
+                    $registrationForm.append($ApierrorRegistration);
                     // Append the name input field to the registration form
-                    $nameDiv.append($registerNameInput)
-                    $nameDiv.append($emptyFieldErrorRegisterName)
-                    $registrationForm.append($nameDiv)
+                    $nameDiv.append($registerNameInput);
+                    $nameDiv.append($emptyFieldErrorRegisterName);
+                    $registrationForm.append($nameDiv);
                     // $registrationForm.append($registerNameInput);
                     // $registrationForm.append($emptyFieldErrorRegisterName);
-                    $registerEmailInputDiv.append($registerEmailInput)
-                    $registerEmailInputDiv.append($errorElementReg)
-                    $registerEmailInputDiv.append($emptyFieldErrorRegisterEmail)
-                    $registrationForm.append($registerEmailInputDiv)
+                    $registerEmailInputDiv.append($registerEmailInput);
+                    $registerEmailInputDiv.append($errorElementReg);
+                    $registerEmailInputDiv.append(
+                      $emptyFieldErrorRegisterEmail
+                    );
+                    $registrationForm.append($registerEmailInputDiv);
 
                     // $registrationForm.append($registerEmailInput);
                     // $registrationForm.append($errorElementReg);
                     // $registrationForm.append($emptyFieldErrorRegisterEmail);
-                    $registerPasswordFieldDiv.append($registerPasswordField)
-                    $registerPasswordFieldDiv.append($emptyFieldErrorRegisterPass)
-                    $registrationForm.append($registerPasswordFieldDiv)
+                    $registerPasswordFieldDiv.append($registerPasswordField);
+                    $registerPasswordFieldDiv.append(
+                      $emptyFieldErrorRegisterPass
+                    );
+                    $registrationForm.append($registerPasswordFieldDiv);
 
                     // $registrationForm.append($registerPasswordField);
                     // $registrationForm.append($emptyFieldErrorRegisterPass);
@@ -2268,8 +2779,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     // $registerOtherOptionsSection.append($registerHorizontalRule);
                     // $registrationForm.append($registerOtherOptionsSection);
                     // $otherOptionsSection.append($horizontalRule);
-                    $registerOtherOptionsSection.append($registerOtherOptionsText);
-                    $registerOtherOptionsText.append($registerOtherOptionsTextSpan);
+                    $registerOtherOptionsSection.append(
+                      $registerOtherOptionsText
+                    );
+                    $registerOtherOptionsText.append(
+                      $registerOtherOptionsTextSpan
+                    );
 
                     $registerOtherOptionsSection.append(gIdOnloadDiv1);
                     $registerOtherOptionsSection.append(gIdSigninDiv1);
@@ -2279,7 +2794,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     $registerTermsLinkDiv.append($footerImage);
 
                     // $registerOtherOptionsSection.append($registerLoginLink);
-
 
                     // Create a div for the image
                     const $imageDivReg = $("<div>").addClass("right-content");
@@ -2300,7 +2814,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append the image to the image div
                     $imageDivReg.append($registrationImage);
 
-
                     function ErrorCleaner() {
                       $errorElementForgot.css("display", "none");
                       $errorElementLogin.css("display", "none");
@@ -2315,15 +2828,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       $emptyFieldErrorRegisterPass.css("display", "none");
                       $emptyFieldErrorOtp.css("display", "none");
                       $emptyFieldErrorResetPass.css("display", "none");
-                      $emptyFieldErrorResetNewPass.css("display", "none")
-                      $emptyFieldErrorResetConfirmPass.css("display", "none")
+                      $emptyFieldErrorResetNewPass.css("display", "none");
+                      $emptyFieldErrorResetConfirmPass.css("display", "none");
                       $errorElementPass.css("display", "none");
                       $ApierrorforgotPass.css("display", "none");
                       $ApierrorLogin.css("display", "none");
                       $ApierrorRegistration.css("display", "none");
                       $ApierrorResetPass.css("display", "none");
                       $ApierrorOTP.css("display", "none");
-
                     }
                     function FormCleaner() {
                       $emailInput.val("");
@@ -2369,7 +2881,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Append the close button to the registration modal content
-
 
                     // Append the registration modal content to the registration modal
                     $registerModal.append($registerModalContent);
@@ -2421,7 +2932,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       })
                       .text(errorTextOtp);
                     // Create an input field for OTP
-                    const $otpInputDiv = $("<div>")
+                    const $otpInputDiv = $("<div>");
                     const $otpInput = $("<input>")
                       .attr("type", "number")
                       .addClass("custom-input")
@@ -2460,7 +2971,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
 
                     // Create a button for OTP confirmation
-                    const $otpConfirmButton = $("<button>").addClass("red-button")
+                    const $otpConfirmButton = $("<button>")
+                      .addClass("red-button")
                       .text("Submit OTP")
                       .click(handleOTPConfirmation);
                     // Create the horizontal rule for the section
@@ -2471,7 +2983,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Append the "Login" text to the existing paragraph
-                    const $BackToLogin = $("<p>").addClass("auth-link")
+                    const $BackToLogin = $("<p>")
+                      .addClass("auth-link")
                       .text("Back to Login")
                       .click(function () {
                         // Add functionality to handle "Login" click here
@@ -2483,7 +2996,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         FormCleaner();
                       });
                     // Create the footer image for the OTP form
-                    const $footerImageOtpDiv = $("<div>").addClass('bottom-wrap')
+                    const $footerImageOtpDiv =
+                      $("<div>").addClass("bottom-wrap");
                     const $footerImageOtp = $("<img>")
                       .attr(
                         "src",
@@ -2498,7 +3012,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append OTP form elements to the OTP form container
                     $otpForm.append($otpHeader);
                     $otpForm.append($redTextOtp);
-                    $otpForm.append($ApierrorOTP)
+                    $otpForm.append($ApierrorOTP);
                     $otpForm.append($otpInputDiv);
                     $otpInputDiv.append($otpInput);
                     $otpInputDiv.append($emptyFieldErrorOtp);
@@ -2525,21 +3039,25 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                       const email = $registerEmailInput.val();
                       const otpConfirmationPayload = {
-                        email: email,
+                        email:
+                          userData && userData.emailVerified == false
+                            ? userData.email
+                            : email,
                         otp: parseInt(enteredOTP),
                         // Include any other necessary data for OTP confirmation
                       };
                       const $spinner = $("<div>")
-                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
                         .attr("role", "status")
                         .appendTo($otpConfirmButton);
 
-                      $otpConfirmButton.prop("disabled", true)
+                      $otpConfirmButton.prop("disabled", true);
                       // Prepare the payload for OTP confirmation
                       try {
-
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -2547,22 +3065,37 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                           }
                         );
+                        if (response.status == 200) {
+                          localStorage.setItem(
+                            "token",
+                            response?.data?.data?.token
+                          );
+                          localStorage.setItem(
+                            "userData",
+                            JSON.stringify(response?.data?.data?.data)
+                          );
+                          commentlistapi(true);
+                        }
 
                         // Handle the API response here
                         $registerModal.css("display", "none");
                         onClosed();
                         FormCleaner();
-                        $("#ignismyModal").css("display", "block")
+                        $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
-                        $("#msgtag").html("your account has been created successfully!!")
+                        $("#msgtag").html(
+                          "your account has been created successfully!!"
+                        );
                         setTimeout(() => {
-                          $("#ignismyModal").css("display", "none")
-                          $("#msgtag").html("")
+                          $("#ignismyModal").css("display", "none");
+                          $("#msgtag").html("");
                         }, 2000);
                       } catch (error) {
                         console.error("Error:", error);
                         $ApierrorOTP.empty();
-                        $ApierrorOTP.append($("<p>").text(error.response.data.message));
+                        $ApierrorOTP.append(
+                          $("<p>").text(error.response.data.message)
+                        );
                         $ApierrorOTP.css("display", "block");
                         // Handle errors here if necessary
                       } finally {
@@ -2573,19 +3106,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     // Create a div for the OTP form
-                    const $ResetPassForm = $("<div>").addClass("left-content").css({
-                      display: "none", // Initially hide the OTP form
-                      // 'flex': '1', // Allow the OTP form to grow within the flex container
-                    });
+                    const $ResetPassForm = $("<div>")
+                      .addClass("left-content")
+                      .css({
+                        display: "none", // Initially hide the OTP form
+                        // 'flex': '1', // Allow the OTP form to grow within the flex container
+                      });
 
                     // Create an h2 header for the OTP form
-                    const $ResetPassHeader = $("<h2>").text("Reset password").css({
-                      // Add your styling for the OTP form header
-                    });
+                    const $ResetPassHeader = $("<h2>")
+                      .text("Reset password")
+                      .css({
+                        // Add your styling for the OTP form header
+                      });
 
                     // Create the red text "Enter OTP for verification"
-                    const $RedTextResetPass = $("<h4>")
-                      .text("Enter OTP & new password")
+                    const $RedTextResetPass = $("<h4>").text(
+                      "Enter OTP & new password"
+                    );
                     const $ApierrorResetPass = $("<div>").css({
                       display: "none",
                       color: "red",
@@ -2653,7 +3191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .text(errorTextPassResetConfirm);
                     // Create the password input field
                     // Create an input field for OTP
-                    const $ResetInputDiv = $("<div>")
+                    const $ResetInputDiv = $("<div>");
 
                     const $ResetInput = $("<input>")
                       .attr("type", "number")
@@ -2692,7 +3230,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       });
                     // Create the password input field
-                    const $ResetPassInputDiv = $("<div>")
+                    const $ResetPassInputDiv = $("<div>");
                     const $ResetPassInput = $("<input>")
                       .attr("type", "password") // Set the input type to password
                       .addClass("custom-input")
@@ -2732,7 +3270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
 
                     // Create the password input field
-                    const $ResetPassReInputdiv = $("<div>")
+                    const $ResetPassReInputdiv = $("<div>");
                     const $ResetPassReInput = $("<input>")
                       .attr("type", "password") // Set the input type to password
                       .addClass("custom-input")
@@ -2761,18 +3299,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (!passwordRegex.test(password)) {
                           $errorElementPassResetConfirm.css("display", "block");
-                          $emptyFieldErrorResetConfirmPass.css("display", "none");
+                          $emptyFieldErrorResetConfirmPass.css(
+                            "display",
+                            "none"
+                          );
                         } else {
                           $errorElementPassResetConfirm.css("display", "none");
                         }
                         if (password.trim() === "") {
                           $errorElementPassResetConfirm.css("display", "none");
-                          $emptyFieldErrorResetConfirmPass.css("display", "block");
+                          $emptyFieldErrorResetConfirmPass.css(
+                            "display",
+                            "block"
+                          );
                         }
                       });
 
                     // Create a button for OTP confirmation
-                    const $ResetPassButton = $("<button>").addClass("red-button")
+                    const $ResetPassButton = $("<button>")
+                      .addClass("red-button")
                       .text("Reset password")
 
                       .click(handleResetSubmit);
@@ -2784,7 +3329,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Append the "Login" text to the existing paragraph
-                    const $BackToLoginResetPass = $("<p>").addClass("auth-link")
+                    const $BackToLoginResetPass = $("<p>")
+                      .addClass("auth-link")
                       .text("Back to Login")
 
                       .click(function () {
@@ -2798,7 +3344,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         ErrorCleaner();
                       });
 
-                    const $ResetPassBottpmImg = $("<div>").addClass("bottom-wrap")
+                    const $ResetPassBottpmImg =
+                      $("<div>").addClass("bottom-wrap");
                     $ResetPassBottpmImg.append(
                       '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                     );
@@ -2806,7 +3353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append OTP form elements to the OTP form container
                     $ResetPassForm.append($ResetPassHeader);
                     $ResetPassForm.append($RedTextResetPass);
-                    $ResetPassForm.append($ApierrorResetPass)
+                    $ResetPassForm.append($ApierrorResetPass);
                     $ResetPassForm.append($PasswordNotSame);
                     $ResetPassForm.append($ResetInputDiv);
                     $ResetInputDiv.append($ResetInput);
@@ -2820,14 +3367,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $ResetPassForm.append($ResetPassReInputdiv);
                     $ResetPassReInputdiv.append($ResetPassReInput);
-                    $ResetPassReInputdiv.append($emptyFieldErrorResetConfirmPass);
+                    $ResetPassReInputdiv.append(
+                      $emptyFieldErrorResetConfirmPass
+                    );
                     $ResetPassReInputdiv.append($errorElementPassResetConfirm);
 
                     $ResetPassForm.append($ResetPassButton);
                     // $ResetPassForm.append($ResetPassHorizontalRule);
                     $ResetPassForm.append($BackToLoginResetPass);
                     $ResetPassForm.append($ResetPassBottpmImg);
-
 
                     // Append the OTP form to the document body or another container
 
@@ -2851,7 +3399,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           return;
                         }
                         if (confirmPass === "") {
-                          $emptyFieldErrorResetConfirmPass.css("display", "block");
+                          $emptyFieldErrorResetConfirmPass.css(
+                            "display",
+                            "block"
+                          );
                           return;
                         }
                         return;
@@ -2859,13 +3410,19 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (newPass === "") {
                         $emptyFieldErrorResetNewPass.css("display", "block");
                         if (confirmPass === "") {
-                          $emptyFieldErrorResetConfirmPass.css("display", "block");
+                          $emptyFieldErrorResetConfirmPass.css(
+                            "display",
+                            "block"
+                          );
                           return;
                         }
                         return;
                       }
                       if (confirmPass === "") {
-                        $emptyFieldErrorResetConfirmPass.css("display", "block");
+                        $emptyFieldErrorResetConfirmPass.css(
+                          "display",
+                          "block"
+                        );
                         return;
                       }
                       if (!otpRegex.test(enteredOTP)) {
@@ -2896,21 +3453,22 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Include any other necessary data for OTP confirmation
                       };
                       const $spinner = $("<div>")
-                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
                         .attr("role", "status")
                         .appendTo($ResetPassButton);
 
-                      $ResetPassButton.prop("disabled", true)
+                      $ResetPassButton.prop("disabled", true);
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
                               "Content-Type": "application/json",
                             },
-
                           }
                         );
 
@@ -2919,12 +3477,14 @@ document.addEventListener("DOMContentLoaded", function () {
                           $registerModal.css("display", "none");
                           onClosed();
                           FormCleaner();
-                          $("#ignismyModal").css("display", "block")
+                          $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
-                          $("#msgtag").html("your password has been updated successfully!!")
+                          $("#msgtag").html(
+                            "your password has been updated successfully!!"
+                          );
                           setTimeout(() => {
-                            $("#ignismyModal").css("display", "none")
-                            $("#msgtag").html("")
+                            $("#ignismyModal").css("display", "none");
+                            $("#msgtag").html("");
                           }, 2000);
                         }
                       } catch (error) {
@@ -2952,7 +3512,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (email.trim() === "") {
                           $emptyFieldErrorRegisterEmail.css("display", "block");
                           if (password.trim() === "") {
-                            $emptyFieldErrorRegisterPass.css("display", "block");
+                            $emptyFieldErrorRegisterPass.css(
+                              "display",
+                              "block"
+                            );
                             return;
                           }
                           return;
@@ -2983,24 +3546,26 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
 
                       const $spinner = $("<div>")
-                        .addClass("spinner-border spinner-border-sm mx-3 text-light")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-light"
+                        )
                         .attr("role", "status")
                         .appendTo($registerButton);
 
-                      $registerButton.prop("disabled", true)
+                      $registerButton.prop("disabled", true);
                       // Prepare the payload
                       const payload = {
                         name: name,
                         email: email,
                         password: password,
-                        site: "israel-today",
+                        site: siteName,
                         ip: "172.16.2.52",
                         device: "web",
                       };
 
                       try {
                         const response = await axios.post(
-                          "https://8472-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "https://83b7-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
@@ -3010,6 +3575,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         if (response.status === 200) {
+                          console.log(response);
+                          localStorage.setItem(
+                            "token",
+                            response?.data?.data?.token
+                          );
+                          localStorage.setItem(
+                            "userData",
+                            JSON.stringify(response?.data?.data?.user)
+                          );
+                          commentlistapi(true);
                           // Handle the API response here
 
                           // Close the registration form and show the OTP confirmation form if registration is successful
@@ -3020,7 +3595,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $otpForm.css({
                             display: "block",
                             flex: "1", // Allow the OTP form to grow within the flex container
-                            padding: "20px 60px", // Add padding for spacing
+                           
                           });
                         } else {
                           throw new Error("Network response was not ok");
@@ -3028,7 +3603,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       } catch (error) {
                         console.error("Error:", error.response.data.message);
                         $ApierrorRegistration.empty();
-                        $ApierrorRegistration.append($("<p>").text(error.response.data.message));
+                        $ApierrorRegistration.append(
+                          $("<p>").text(error.response.data.message)
+                        );
                         $ApierrorRegistration.css("display", "block");
                         // Handle errors here if necessary
                       } finally {
@@ -3048,18 +3625,21 @@ document.addEventListener("DOMContentLoaded", function () {
                         //   "margin-left": "20px",
                         //   "margin-right": "20px",
                         // });
-                        $firstImageContainer.find("img").css("max-width", "100%");
+                        $firstImageContainer
+                          .find("img")
+                          .css("max-width", "100%");
                         $flexContainer.find("img").css("max-width", "100%");
-                        $registerModalContent.css("width", "75%");
+                        $registerModalContent.css("width", "90%");
                       } else {
                         // Reset to the original styles for wider screens
-                        $firstImageContainer.find("img").css("max-width", "100%");
+                        $firstImageContainer
+                          .find("img")
+                          .css("max-width", "100%");
                         $flexContainer.find("img").css("max-width", "100%");
-
                       }
                     }
                     // $(document).on('keyup', function (event) {
-                    $registrationForm.on('keyup', function (event) {
+                    $registrationForm.on("keyup", function (event) {
                       // Check if the Enter key (key code 13) was pressed
                       if (event.keyCode === 13) {
                         // Prevent the default behavior of the Enter key (e.g., form submission)
@@ -3068,7 +3648,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         handleRegistration();
                       }
                     });
-                    $loginForm.on('keyup', function (event) {
+                    $loginForm.on("keyup", function (event) {
                       // Check if the Enter key (key code 13) was pressed
                       if (event.keyCode === 13) {
                         // Prevent the default behavior of the Enter key (e.g., form submission)
@@ -3077,7 +3657,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         handleLogin();
                       }
                     });
-                    $otpForm.on('keyup', function (event) {
+                    $otpForm.on("keyup", function (event) {
                       // Check if the Enter key (key code 13) was pressed
                       if (event.keyCode === 13) {
                         // Prevent the default behavior of the Enter key (e.g., form submission)
@@ -3086,7 +3666,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         handleOTPConfirmation();
                       }
                     });
-                    $ForgotPassForm.on('keyup', function (event) {
+                    $ForgotPassForm.on("keyup", function (event) {
                       // Check if the Enter key (key code 13) was pressed
                       if (event.keyCode === 13) {
                         // Prevent the default behavior of the Enter key (e.g., form submission)
@@ -3095,7 +3675,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         sendForgotPasswordRequest();
                       }
                     });
-                    $ResetPassForm.on('keyup', function (event) {
+                    $ResetPassForm.on("keyup", function (event) {
                       // Check if the Enter key (key code 13) was pressed
                       if (event.keyCode === 13) {
                         // Prevent the default behavior of the Enter key (e.g., form submission)
@@ -3119,7 +3699,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Initial check for the media query and add a listener for changes
                     handleMediaQueryChange(mediaQuery);
-                    mediaQuery.addEventListener("change", handleMediaQueryChange);
+                    mediaQuery.addEventListener(
+                      "change",
+                      handleMediaQueryChange
+                    );
                   }
                 });
               });
@@ -3128,7 +3711,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       );
     });
-
-  } 
+  }
 });
-

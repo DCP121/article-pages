@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     client.subscribe(`${pageId}:${site}`);
                     client.on("message", function (topic, message, packet) {
-                      commentlistapi(true);
+                      commentlistapi(false);
                     });
                   };
                   document.head.appendChild(script);
@@ -247,6 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   function processData(xyz, apiFlag) {
                     if (apiFlag) {
                       $app.empty();
+                    } else {
+                      $('.comments-group').remove()
+                      $('#showmorecomment').remove()
+                      $('#footerConatiner').remove()
                     }
                     function displayResponsiveImage(
                       $parent,
@@ -646,7 +650,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                               // commentlistapi(false);
+                               // commentlistapi(true);
                                $commentInput.val('')
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
@@ -745,7 +749,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                               // Handle the response data
                               $spinner.remove();
-                              //commentlistapi(false);
+                              //commentlistapi(true);
                               $commentInput.val('')
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
@@ -1510,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .then((data) => {
                                     // Handle the response data
                                     $spinner.remove();
-                                    //commentlistapi(false);
+                                    //commentlistapi(true);
                                     $commentreplayInput.val('');
                                     $("#ignismyModal").css("display", "block");
                                     $("#ignismyModal").addClass(
@@ -1617,7 +1621,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $spinner.remove();
-                                  //commentlistapi(false);
+                                  //commentlistapi(true);
                                   $commentreplayInput.val('')
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
@@ -1746,7 +1750,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     //show more comment button div
 
-                    const $showmorecommentdiv = $("<div>").css({});
+                    const $showmorecommentdiv = $("<div>").css({}).attr('id', "showmorecomment");
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
@@ -1791,9 +1795,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistapi(true);
                       console.log("counter");
                     });
-                    if (apiFlag) {
+                    // if (apiFlag) {
                       $app.append($showmorecommentdiv);
-                    }
+                    // }
                     var tempElement = document.createElement("div");
                     tempElement.innerHTML =
                       commentlistingdata?.data?.pageData?.footer_text;
@@ -1802,7 +1806,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
                       display: "flex",
-                    });
+                    }).attr('id', "footerConatiner");
 
                     $app.append($footerConatiner);
                     // const $footerImage = $("<img>")
