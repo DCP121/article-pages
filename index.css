@@ -607,7 +607,13 @@ body {
     margin: 0; 
 }
 
-
+.main-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ff00ff;
+    margin: 0 auto;
+}
 
 @media screen and (max-width:768px) {
     .modal-content .left-content {

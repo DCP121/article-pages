@@ -100,9 +100,80 @@ document.addEventListener("DOMContentLoaded", function () {
                   var commentlistingdata;
                   var showmorcomment = 10;
                   let apiFlags = true;
+                  const reenterapicall=async(apiFlag)=>{
 
-                  const commentlistapi = async (apiFlag) => {
-                    const ipAddress = await getIp();
+                    if(showmorcomment==10){
+                      var $spinnerapilist= $("<div>")
+                        .addClass(
+                          "spinner-border spinner-border-sm mx-3 text-danger text-center main-loader"
+                        )
+                        .attr("role", "status")
+                        .appendTo($app);
+                      }
+    
+                       const ipAddress = await getIp();
+                        const token = localStorage.getItem("token");
+                        const userData = JSON.parse(
+                          localStorage.getItem("userData")
+                        );
+                        const userId = userData && userData._id;
+                        const headers = {
+                          "Content-Type": "application/json", // Specify the content type as JSON
+                        };
+    
+                        if (token) {
+                          headers["Authorization"] = `Bearer ${token}`;
+                        }
+    
+                        $.ajax({
+                          url: `https://83b7-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                            }&userId=${userId && userId !== null ? userId : ""
+                            }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
+                          method: "POST",
+                          dataType: "json",
+                          headers: headers,
+                          data: JSON.stringify({
+                            itemsPerPage: showmorcomment,
+                            ip: ipAddress,
+                          }),
+    
+                          success: function (data) {
+                            if(showmorcomment==10){
+                            $spinnerapilist.remove()}
+                            // The data variable now holds the fetched data
+                            commentlistingdata = data;
+                           // apiFlags = apiFlag;
+                            cliendId = data?.data?.pageData?.google_client_id;
+                            console.log("111111111111.....", cliendId);
+    
+                            // You can use the data in subsequent operations or functions
+                            processData(commentlistingdata, apiFlag);
+                          },
+                          error: function (xhr, status, error) {
+                            console.log(status,xhr?.status,'sta',error,'err')
+                            if(xhr?.status===401){
+    
+                              $spinnerapilist.remove();
+                              localStorage.removeItem("token");
+                              localStorage.removeItem("userData");
+                            }
+                            console.error("Error fetching data:", error);
+                          },
+                        });
+
+                  }
+                   const commentlistapi = async (apiFlag) => {
+
+                  if(showmorcomment==10){
+                  var $spinnerapilist= $("<div>")
+                    .addClass(
+                      "spinner-border spinner-border-sm mx-3 text-danger text-center  main-loader"
+                    )
+                    .attr("role", "status")
+                    .appendTo($app);
+                  }
+
+                   const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
                     const userData = JSON.parse(
                       localStorage.getItem("userData")
@@ -129,6 +200,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       }),
 
                       success: function (data) {
+                        if(showmorcomment==10){
+                        $spinnerapilist.remove()}
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
                         apiFlags = apiFlag;
@@ -139,6 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         processData(commentlistingdata, apiFlag);
                       },
                       error: function (xhr, status, error) {
+                        console.log(status,xhr?.status,'sta',error,'err')
+                        if(xhr?.status===401){
+                          reenterapicall(true)
+                          $spinnerapilist.remove();
+                          localStorage.removeItem("token");
+                          localStorage.removeItem("userData");
+                        }
                         console.error("Error fetching data:", error);
                       },
                     });
@@ -436,8 +516,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       const htmlPattern = /<[^>]*>/g;
                       const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                       const linkPattern = /https?:\/\/\S+/g;
-                      const sqlPattern =
-                        /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                     // const sqlPattern =  /^(?!(<[^>]+>|<script[^>]*>|<\/script[^>]*>|<style[^>]*>|<\/style[^>]*>|javascript:|url\(|sql:|select\s+(?!\*|.*\bwhere\b).*|insert\s+|update\s+.+|delete\s+|create\s|drop\s|alter\s)).*$/im;
+                      const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                       const emailPattern =
                         /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -450,11 +530,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           .text("Comment exceeds the maximum length")
                           .show();
                       } else if (
-                        cssPattern.test(originalComment) ||
-                        htmlPattern.test(originalComment) ||
-                        linkPattern.test(originalComment) ||
-                        sqlPattern.test(originalComment) ||
-                        emailPattern.test(originalComment)
+                        cssPattern.test(originalComment)||
+                         htmlPattern.test(originalComment)||
+                        linkPattern.test(originalComment)||
+                         sqlPattern.test(originalComment)||
+                         emailPattern.test(originalComment)
                       ) {
                         $errorMessagecomment
                           .text("Invalid content in the comment")
@@ -494,8 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                           const linkPattern = /https?:\/\/\S+/g;
-                          const sqlPattern =
-                            /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                           const emailPattern =
                             /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -567,7 +646,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                                commentlistapi(true);
+                               // commentlistapi(false);
+                               $commentInput.val('')
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
@@ -597,8 +677,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const htmlPattern = /<[^>]*>/g;
                         const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                         const linkPattern = /https?:\/\/\S+/g;
-                        const sqlPattern =
-                          /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                        const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                         const emailPattern =
                           /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -666,7 +745,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                               // Handle the response data
                               $spinner.remove();
-                              commentlistapi(true);
+                              //commentlistapi(false);
+                              $commentInput.val('')
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -796,7 +876,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("user-name")
                           .text(
                             dataItem?.name && dataItem.name !== ""
-                              ? dataItem.name
+                              ? capitalizeFirstLetter(dataItem.name)
                               : "Anonymous user"
                           )
                           .css({});
@@ -1005,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .addClass("user-name")
                               .text(
                                 item?.name && item.name !== ""
-                                  ? item.name
+                                  ? capitalizeFirstLetter(item.name)
                                   : "Anonymous user"
                               )
                               .css({});
@@ -1298,8 +1378,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                           const linkPattern = /https?:\/\/\S+/g;
-                          const sqlPattern =
-                            /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                           const emailPattern =
                             /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1360,8 +1439,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               const htmlPattern = /<[^>]*>/g;
                               const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                               const linkPattern = /https?:\/\/\S+/g;
-                              const sqlPattern =
-                                /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                              const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                               const emailPattern =
                                 /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1432,7 +1510,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .then((data) => {
                                     // Handle the response data
                                     $spinner.remove();
-                                    commentlistapi(true);
+                                    //commentlistapi(false);
+                                    $commentreplayInput.val('');
                                     $("#ignismyModal").css("display", "block");
                                     $("#ignismyModal").addClass(
                                       "modal fade show"
@@ -1467,8 +1546,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             const htmlPattern = /<[^>]*>/g;
                             const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                             const linkPattern = /https?:\/\/\S+/g;
-                            const sqlPattern =
-                              /SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER BY|GROUP BY|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|LIMIT|UNION|HAVING|INNER JOIN|OUTER JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE/i;
+                            const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                             const emailPattern =
                               /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1539,7 +1617,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $spinner.remove();
-                                  commentlistapi(true);
+                                  //commentlistapi(false);
+                                  $commentreplayInput.val('')
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -1875,6 +1954,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // User is not signed in or declined to sign in.
                       }
                     };
+                  
 
                     const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
       <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
