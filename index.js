@@ -24,8 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCSS(
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
-   
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@133dfa69f7fab44e376f4154a56c541b60ed0724/index.css')
+
+    // loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@8cd97de2780c93c3ee787625a0aae85254ab8bc3/index.css')
+    loadCSS("./index.css");
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     client.subscribe(`${pageId}:${site}`);
                     client.on("message", function (topic, message, packet) {
-                      commentlistapi(false);
+                      commentlistapi(true);
                     });
                   };
                   document.head.appendChild(script);
@@ -100,80 +101,91 @@ document.addEventListener("DOMContentLoaded", function () {
                   var commentlistingdata;
                   var showmorcomment = 10;
                   let apiFlags = true;
-                  const reenterapicall=async(apiFlag)=>{
-
-                    if(showmorcomment==10){
-                      var $spinnerapilist= $("<div>")
+                  const reenterapicall = async (apiFlag) => {
+                    if (showmorcomment == 10) {
+                      var $spinnerdiv = $("<div>");
+                      var $spinnerapilist = $("<div>")
                         .addClass(
-                          "spinner-border spinner-border-sm mx-3 text-danger text-center main-loader"
+                          "spinner-border spinner-border-md mt-5 text-danger text-center "
                         )
-                        .attr("role", "status")
+                        .attr("role", "status");
+                      $spinnerdiv
+                        .append($spinnerapilist)
+                        .addClass("main-loader")
                         .appendTo($app);
-                      }
-    
-                       const ipAddress = await getIp();
-                        const token = localStorage.getItem("token");
-                        const userData = JSON.parse(
-                          localStorage.getItem("userData")
-                        );
-                        const userId = userData && userData._id;
-                        const headers = {
-                          "Content-Type": "application/json", // Specify the content type as JSON
-                        };
-    
-                        if (token) {
-                          headers["Authorization"] = `Bearer ${token}`;
+                    }
+
+                    const ipAddress = await getIp();
+                    const token = localStorage.getItem("token");
+                    const userData = JSON.parse(
+                      localStorage.getItem("userData")
+                    );
+                    const userId = userData && userData._id;
+                    const headers = {
+                      "Content-Type": "application/json", // Specify the content type as JSON
+                    };
+
+                    if (token) {
+                      headers["Authorization"] = `Bearer ${token}`;
+                    }
+
+                    $.ajax({
+                      url: `https://ac86-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
+                        document.getElementsByName("page_id")[0].id
+                      }&userId=${
+                        userId && userId !== null ? userId : ""
+                      }&site=${
+                        site == "israel"
+                          ? "israelBackOffice"
+                          : "ittihadBackOffice"
+                      }`, // Replace with your API endpoint
+                      method: "POST",
+                      dataType: "json",
+                      headers: headers,
+                      data: JSON.stringify({
+                        itemsPerPage: showmorcomment,
+                        ip: ipAddress,
+                      }),
+
+                      success: function (data) {
+                        if (showmorcomment == 10) {
+                          $spinnerapilist.remove();
                         }
-    
-                        $.ajax({
-                          url: `https://ac86-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
-                            }&userId=${userId && userId !== null ? userId : ""
-                            }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
-                          method: "POST",
-                          dataType: "json",
-                          headers: headers,
-                          data: JSON.stringify({
-                            itemsPerPage: showmorcomment,
-                            ip: ipAddress,
-                          }),
-    
-                          success: function (data) {
-                            if(showmorcomment==10){
-                            $spinnerapilist.remove()}
-                            // The data variable now holds the fetched data
-                            commentlistingdata = data;
-                           // apiFlags = apiFlag;
-                            cliendId = data?.data?.pageData?.google_client_id;
-                            console.log("111111111111.....", cliendId);
-    
-                            // You can use the data in subsequent operations or functions
-                            processData(commentlistingdata, apiFlag);
-                          },
-                          error: function (xhr, status, error) {
-                            console.log(status,xhr?.status,'sta',error,'err')
-                            if(xhr?.status===401){
-    
-                              $spinnerapilist.remove();
-                              localStorage.removeItem("token");
-                              localStorage.removeItem("userData");
-                            }
-                            console.error("Error fetching data:", error);
-                          },
-                        });
+                        // The data variable now holds the fetched data
+                        commentlistingdata = data;
+                        // apiFlags = apiFlag;
+                        cliendId = data?.data?.pageData?.google_client_id;
+                        console.log("111111111111.....", cliendId);
 
-                  }
-                   const commentlistapi = async (apiFlag) => {
+                        // You can use the data in subsequent operations or functions
+                        processData(commentlistingdata, apiFlag);
+                      },
+                      error: function (xhr, status, error) {
+                        console.log(status, xhr?.status, "sta", error, "err");
+                        if (xhr?.status === 401) {
+                          $spinnerapilist.remove();
+                          localStorage.removeItem("token");
+                          localStorage.removeItem("userData");
+                        }
+                        console.error("Error fetching data:", error);
+                      },
+                    });
+                  };
+                  const commentlistapi = async (apiFlag) => {
+                    if (showmorcomment == 10) {
+                      var $spinnerdiv = $("<div>");
+                      var $spinnerapilist = $("<div>")
+                        .addClass(
+                          "spinner-border spinner-border-md mt-5 text-danger text-center "
+                        )
+                        .attr("role", "status");
+                      $spinnerdiv
+                        .append($spinnerapilist)
+                        .addClass("main-loader")
+                        .appendTo($app);
+                    }
 
-                  if(showmorcomment==10){
-                  var $spinnerapilist= $("<div>")
-                    .addClass(
-                      "spinner-border spinner-border-sm mx-3 text-danger text-center  main-loader"
-                    )
-                    .attr("role", "status")
-                    .appendTo($app);
-                  }
-
-                   const ipAddress = await getIp();
+                    const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
                     const userData = JSON.parse(
                       localStorage.getItem("userData")
@@ -200,8 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       }),
 
                       success: function (data) {
-                        if(showmorcomment==10){
-                        $spinnerapilist.remove()}
+                        if (showmorcomment == 10) {
+                          $spinnerapilist.remove();
+                        }
                         // The data variable now holds the fetched data
                         commentlistingdata = data;
                         apiFlags = apiFlag;
@@ -212,9 +225,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         processData(commentlistingdata, apiFlag);
                       },
                       error: function (xhr, status, error) {
-                        console.log(status,xhr?.status,'sta',error,'err')
-                        if(xhr?.status===401){
-                          reenterapicall(true)
+                        console.log(status, xhr?.status, "sta", error, "err");
+                        if (xhr?.status === 401) {
+                          reenterapicall(true);
                           $spinnerapilist.remove();
                           localStorage.removeItem("token");
                           localStorage.removeItem("userData");
@@ -247,10 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   function processData(xyz, apiFlag) {
                     if (apiFlag) {
                       $app.empty();
-                    } else {
-                      $('.comments-group').remove()
-                      $('#showmorecomment').remove()
-                      $('#footerConatiner').remove()
                     }
                     function displayResponsiveImage(
                       $parent,
@@ -520,8 +529,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       const htmlPattern = /<[^>]*>/g;
                       const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                       const linkPattern = /https?:\/\/\S+/g;
-                     // const sqlPattern =  /^(?!(<[^>]+>|<script[^>]*>|<\/script[^>]*>|<style[^>]*>|<\/style[^>]*>|javascript:|url\(|sql:|select\s+(?!\*|.*\bwhere\b).*|insert\s+|update\s+.+|delete\s+|create\s|drop\s|alter\s)).*$/im;
-                      const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                       const emailPattern =
                         /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -534,11 +541,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           .text("Comment exceeds the maximum length")
                           .show();
                       } else if (
-                        cssPattern.test(originalComment)||
-                         htmlPattern.test(originalComment)||
-                        linkPattern.test(originalComment)||
-                         sqlPattern.test(originalComment)||
-                         emailPattern.test(originalComment)
+                        cssPattern.test(originalComment) ||
+                        htmlPattern.test(originalComment) ||
+                        linkPattern.test(originalComment) ||
+                        emailPattern.test(originalComment)
                       ) {
                         $errorMessagecomment
                           .text("Invalid content in the comment")
@@ -548,16 +554,16 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     });
 
-                    $commentInput.on("keyup", function (event) {
-                      // Check if the Enter key (key code 13) was pressed
-                      if (event.keyCode === 13) {
-                        // Prevent the default behavior of the Enter key (e.g., form submission)
-                        event.preventDefault();
+                    // $commentInput.on("keyup", function (event) {
+                    //   // Check if the Enter key (key code 13) was pressed
+                    //   if (event.keyCode === 13) {
+                    //     // Prevent the default behavior of the Enter key (e.g., form submission)
+                    //     event.preventDefault();
 
-                        // Trigger the comment submission logic when Enter key is pressed
-                        submitComment();
-                      }
-                    });
+                    //     // Trigger the comment submission logic when Enter key is pressed
+                    //     submitComment();
+                    //   }
+                    // });
 
                     $commentButton.on("click", function () {
                       submitComment();
@@ -578,7 +584,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                           const linkPattern = /https?:\/\/\S+/g;
-                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                           const emailPattern =
                             /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -596,7 +601,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             htmlPattern.test(originalComment) ||
                             cssPattern.test(originalComment) ||
                             linkPattern.test(originalComment) ||
-                            sqlPattern.test(originalComment) ||
                             emailPattern.test(originalComment)
                           ) {
                             $errorMessagecomment
@@ -650,8 +654,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((data) => {
                                 // Handle the response data
                                 $spinner.remove();
-                               // commentlistapi(true);
-                               $commentInput.val('')
+                                // commentlistapi(false);
+                                $commentInput.val("");
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
@@ -681,7 +685,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         const htmlPattern = /<[^>]*>/g;
                         const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                         const linkPattern = /https?:\/\/\S+/g;
-                        const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                         const emailPattern =
                           /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -697,7 +700,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           htmlPattern.test(originalComment) ||
                           cssPattern.test(originalComment) ||
                           linkPattern.test(originalComment) ||
-                          sqlPattern.test(originalComment) ||
                           emailPattern.test(originalComment)
                         ) {
                           $errorMessagecomment
@@ -749,8 +751,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                               // Handle the response data
                               $spinner.remove();
-                              //commentlistapi(true);
-                              $commentInput.val('')
+                              //commentlistapi(false);
+                              $commentInput.val("");
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -927,7 +929,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                             //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           );
-
                         const $paragraph = $("<div>")
                           .addClass("user-comments")
                           .text(
@@ -963,48 +964,58 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $likeicontext = $("<span>").text(
                           dataItem?.likeCount
                         );
-
+                        let likeclickflage = true;
                         let isLiked = dataItem?.like ? dataItem.like : false; // Initialize the state as not liked
 
                         $likeIcon.click(async function () {
-                          const ipAddress = await getIp();
-                          isLiked = !isLiked; // Toggle the state on each click
-                          $(this).attr(
-                            "src",
-                            isLiked
-                              ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                              : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                          );
-                          const token = localStorage.getItem("token");
+                          if (likeclickflage) {
+                            likeclickflage = false;
+                            const ipAddress = await getIp();
+                            isLiked = !isLiked; // Toggle the state on each click
+                            $(this).prop("disabled", true);
+                            $(this).attr(
+                              "src",
+                              isLiked
+                                ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                            );
+                            const token = localStorage.getItem("token");
 
-                          const headers = {
-                            "Content-Type": "application/json", // Specify the content type as JSON
-                          };
-                          if (token) {
-                            headers["Authorization"] = `Bearer ${token}`;
-                          }
-
-                          fetch(
-                            `https://ac86-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
-                            {
-                              method: "POST",
-                              headers: headers,
-                              body: JSON.stringify({
-                                like: isLiked, // Send the current state as like
-                                ip: ipAddress,
-                              }),
+                            const headers = {
+                              "Content-Type": "application/json", // Specify the content type as JSON
+                            };
+                            if (token) {
+                              headers["Authorization"] = `Bearer ${token}`;
                             }
-                          )
-                            .then((response) => {
-                              if (!response.ok) {
-                                throw new Error("Network response was not ok");
+
+                            fetch(
+                              `https://ac86-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                              {
+                                method: "POST",
+                                headers: headers,
+                                body: JSON.stringify({
+                                  like: isLiked, // Send the current state as like
+                                  ip: ipAddress,
+                                }),
                               }
-                              return response.json();
-                            })
-                            .then((data) => {
-                              $likeicontext.text(data?.data?.likeCount);
-                              isLiked = data?.data?.like;
-                            });
+                            )
+                              .then((response) => {
+                                if (!response.ok) {
+                                  throw new Error(
+                                    "Network response was not ok"
+                                  );
+                                }
+                                return response.json();
+                              })
+                              .then((data) => {
+                                $likeicontext.text(data?.data?.likeCount);
+                                isLiked = data?.data?.like;
+                                // $(this).prop('disabled', false)
+                                likeclickflage = true;
+                              }).finally(()=>{
+                                likeclickflage = true;
+                              });
+                          }
                         });
 
                         const $commenticondiv =
@@ -1166,9 +1177,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             const $likeicontextreplay = $("<span>").text(
                               item?.likeCount
                             );
+                            let likeclickflage = true;
                             let isLiked = item?.like ? item.like : false;
 
                             $likeIconreplay.click(async function () {
+                              if (likeclickflage) {
+                              likeclickflage=false
                               const ipAddress = await getIp();
                               isLiked = !isLiked; // Toggle the state on each click
                               $(this).attr(
@@ -1187,30 +1201,37 @@ document.addEventListener("DOMContentLoaded", function () {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
 
-                            fetch(
-                              `https://ac86-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
-                              {
-                                method: "POST",
-                                headers: headers,
-                                body: JSON.stringify({
-                                  like: isLiked, // Send the current state as like
-                                  ip: ipAddress,
-                                }),
-                              }
-                            )
-                              .then((response) => {
-                                if (!response.ok) {
-                                  throw new Error(
-                                    "Network response was not ok"
-                                  );
+                              fetch(
+                                `https://ac86-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                {
+                                  method: "POST",
+                                  headers: headers,
+                                  body: JSON.stringify({
+                                    like: isLiked, // Send the current state as like
+                                    ip: ipAddress,
+                                  }),
                                 }
-                                return response.json();
-                              })
-                              .then((data) => {
-                                $likeicontextreplay.text(data?.data?.likeCount);
-                                isLiked = data.data.like;
-                              });
-                          });
+                              )
+                                .then((response) => {
+                                  if (!response.ok) {
+                                    throw new Error(
+                                      "Network response was not ok"
+                                    );
+                                  }
+                                  return response.json();
+                                })
+                                .then((data) => {
+                                  $likeicontextreplay.text(
+                                    data?.data?.likeCount
+                                  );
+                                  isLiked = data.data.like;
+                                  likeclickflage=true;
+                                }).finally(()=>{
+                                  likeclickflage = true;
+                                });;
+                              }
+                            });
+                          
 
                             const $commenticondivreplay =
                               $("<div>").addClass("comment-counter");
@@ -1382,7 +1403,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           const htmlPattern = /<[^>]*>/g;
                           const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                           const linkPattern = /https?:\/\/\S+/g;
-                          const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                           const emailPattern =
                             /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1400,7 +1420,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             htmlPattern.test(originalComment) ||
                             cssPattern.test(originalComment) ||
                             linkPattern.test(originalComment) ||
-                            sqlPattern.test(originalComment) ||
                             emailPattern.test(originalComment)
                           ) {
                             $errorMessagecomment
@@ -1411,16 +1430,16 @@ document.addEventListener("DOMContentLoaded", function () {
                           }
                         });
 
-                        $commentreplayInput.on("keyup", function (event) {
-                          // Check if the Enter key (key code 13) was pressed
-                          if (event.keyCode === 13) {
-                            // Prevent the default behavior of the Enter key (e.g., form submission)
-                            event.preventDefault();
+                        // $commentreplayInput.on("keyup", function (event) {
+                        //   // Check if the Enter key (key code 13) was pressed
+                        //   if (event.keyCode === 13) {
+                        //     // Prevent the default behavior of the Enter key (e.g., form submission)
+                        //     event.preventDefault();
 
-                            // Trigger the reply comment submission when Enter key is pressed
-                            submitReplyComment();
-                          }
-                        });
+                        //     // Trigger the reply comment submission when Enter key is pressed
+                        //     submitReplyComment();
+                        //   }
+                        // });
 
                         $replaycommentButton.on("click", function () {
                           submitReplyComment();
@@ -1443,7 +1462,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               const htmlPattern = /<[^>]*>/g;
                               const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                               const linkPattern = /https?:\/\/\S+/g;
-                              const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                               const emailPattern =
                                 /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1461,7 +1479,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 htmlPattern.test(commentReplay) ||
                                 cssPattern.test(commentReplay) ||
                                 linkPattern.test(commentReplay) ||
-                                sqlPattern.test(commentReplay) ||
                                 emailPattern.test(commentReplay)
                               ) {
                                 $errorMessagecomment
@@ -1514,8 +1531,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .then((data) => {
                                     // Handle the response data
                                     $spinner.remove();
-                                    //commentlistapi(true);
-                                    $commentreplayInput.val('');
+                                    //commentlistapi(false);
+                                    $commentreplayInput.val("");
                                     $("#ignismyModal").css("display", "block");
                                     $("#ignismyModal").addClass(
                                       "modal fade show"
@@ -1550,7 +1567,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             const htmlPattern = /<[^>]*>/g;
                             const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
                             const linkPattern = /https?:\/\/\S+/g;
-                            const sqlPattern = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|INTO|VALUES|WHERE|AND|OR|SET|AS|ORDER\s+BY|GROUP\s+BY|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|LIMIT|UNION|HAVING|OUTER\s+JOIN|BETWEEN|CASE|WHEN|THEN|END|DESC|ASC|COUNT|SUM|MAX|MIN|AVG|DISTINCT|TABLE|DATABASE)\b/i;
                             const emailPattern =
                               /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
@@ -1568,7 +1584,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               htmlPattern.test(commentReplay) ||
                               cssPattern.test(commentReplay) ||
                               linkPattern.test(commentReplay) ||
-                              sqlPattern.test(commentReplay) ||
                               emailPattern.test(commentReplay)
                             ) {
                               $errorMessagecomment
@@ -1621,8 +1636,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $spinner.remove();
-                                  //commentlistapi(true);
-                                  $commentreplayInput.val('')
+                                  //commentlistapi(false);
+                                  $commentreplayInput.val("");
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -1750,7 +1765,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     //show more comment button div
 
-                    const $showmorecommentdiv = $("<div>").css({}).attr('id', "showmorecomment");
+                    const $showmorecommentdiv = $("<div>").css({});
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
@@ -1795,9 +1810,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistapi(true);
                       console.log("counter");
                     });
-                    // if (apiFlag) {
+                    if (apiFlag) {
                       $app.append($showmorecommentdiv);
-                    // }
+                    }
                     var tempElement = document.createElement("div");
                     tempElement.innerHTML =
                       commentlistingdata?.data?.pageData?.footer_text;
@@ -1806,7 +1821,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
                       display: "flex",
-                    }).attr('id', "footerConatiner");
+                    });
 
                     $app.append($footerConatiner);
                     // const $footerImage = $("<img>")
@@ -1958,7 +1973,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         // User is not signed in or declined to sign in.
                       }
                     };
-                  
 
                     const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
       <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
@@ -3595,7 +3609,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           $otpForm.css({
                             display: "block",
                             flex: "1", // Allow the OTP form to grow within the flex container
-                           
                           });
                         } else {
                           throw new Error("Network response was not ok");
