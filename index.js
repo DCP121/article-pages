@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
    
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@8cd97de2780c93c3ee787625a0aae85254ab8bc3/index.css')
+    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@133dfa69f7fab44e376f4154a56c541b60ed0724/index.css')
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
