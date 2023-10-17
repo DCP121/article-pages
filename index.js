@@ -285,10 +285,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create a div for the first image and add it to the main app container
                     const $firstImageContainer = $("<div>");
+                    console.log(commentlistingdata.data.pageData, "data")
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
-                      `https://d4a4-137-184-19-129.ngrok-free.app/public/uploads/1697466281228.jpg`,
+                      `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
                       bannerClass
                     );
                     if (apiFlags) {
@@ -311,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                      `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-logo.png`,
+                       `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -2818,7 +2819,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/authentication-image.jpg"
+                         `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
