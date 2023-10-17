@@ -287,7 +287,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $firstImageContainer = $("<div>");
                     displayResponsiveImage(
                       $firstImageContainer,
-                      `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
+                      // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
+                      `https://d4a4-137-184-19-129.ngrok-free.app/public/uploads/1697466281228.jpg`,
                       bannerClass
                     );
                     if (apiFlags) {
