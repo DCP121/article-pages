@@ -137,11 +137,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     "forgot_password": "Forgot password ?",
                     "login_model_footer": "Don’t have an account? ",
                     "reset_password": "Reset password",
-                    "reset_desc": "Enter your email address And we will send you an email to reset",
+                    "forgot_desc": "Enter your email address And we will send you an email to reset",
                     "back_to_login": "Back to login",
                     "submit": "Submit",
-                    "forgot_desc": "Enter OTP for verification",
-                    "login_form": "Login form"
+                    "login_form": "Login form",
+                    "reset_desc": "Enter OTP & new password",
+                    "otp_header": "OTP Verification",
+                    "otp_desc": "Enter OTP for verification",
+                    "otp_placeholder": "Enter OTP",
+                    "submit_otp": "Submit OTP"
                   }
 
                   var arabicJson = {
@@ -178,11 +182,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     "forgot_password": "نسيت كلمة السر؟",
                     "login_model_footer": "ليس لديك حساب؟ ",
                     "reset_password": "إعادة تعيين كلمة المرور",
-                    "reset_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور",
+                    "forgot_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور",
                     "back_to_login": "العودة إلى تسجيل الدخول",
                     "submit": "إرسال",
-                    "forgot_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
-                    "login_form": "نموذج تسجيل الدخول"
+                    "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
+                    "login_form": "نموذج تسجيل الدخول",
+                    "reset_desc": "أدخل كلمة المرور لمرة واحدة وكلمة المرور الجديدة",
+                    "otp_header": "التحقق من كلمة المرور لمرة واحدة",
+                    "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
+                    "otp_placeholder": "أدخل كلمة المرور لمرة واحدة",
+                    "submit_otp": "إرسال كلمة المرور لمرة واحدة"
                   }
                   var hebrewJson = {
                     "title": "אהלן וסהלן",
@@ -218,7 +227,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     "forgot_password": "שכחת את הסיסמה?",
                     "login_model_footer": "אין לך חשבון? להרשמה",
                     "reset_password": "איפוס סיסמה",
-                    "reset_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה"
+                    "forgot_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה",
+                    "submit": "שלח",
+                    "otp_desc": "הזן OTP לאימות",
+                    "login_form": "טופס התחברות",
+                    "reset_desc": "הזן OTP וסיסמה חדשה",
+                    "otp_header": "אימות OTP",
+                    "otp_desc": "הזן OTP לאימות",
+                    "otp_placeholder": "הזן OTP",
+                    "submit_otp": "שלח OTP"
                   }
                   var JsonData = arabicJson
                   const reenterapicall = async (apiFlag) => {
@@ -2479,7 +2496,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $ForgotPassHeader = $("<h2>").text(JsonData?.forgot_password);
                     const $redTextForgotPass = $("<p>")
                       .text(
-                        JsonData?.reset_desc
+                        JsonData?.forgot_desc
                       )
                       .css({
                         color: "black",
@@ -3038,13 +3055,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     // Create an h2 header for the OTP form
-                    const $otpHeader = $("<h2>").text("OTP Verification").css({
+                    const $otpHeader = $("<h2>").text(JsonData?.otp_header).css({
                       // Add your styling for the OTP form header
                     });
 
                     // Create the red text "Enter OTP for verification"
                     const $redTextOtp = $("<h4>")
-                      .text("Enter OTP for verification")
+                      .text(JsonData?.otp_desc)
                       .css({
                         color: "red",
                         "margin-top": "5px", // Adjust margin if needed
@@ -3082,7 +3099,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       })
 
-                      .attr("placeholder", "Enter OTP")
+                      .attr("placeholder", JsonData?.otp_placeholder)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
@@ -3112,7 +3129,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create a button for OTP confirmation
                     const $otpConfirmButton = $("<button>")
                       .addClass("red-button")
-                      .text("Submit OTP")
+                      .text(JsonData?.submit_otp)
                       .click(handleOTPConfirmation);
                     // Create the horizontal rule for the section
                     const $OtpHorizontalRule = $("<hr>").css({
@@ -3261,7 +3278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create the red text "Enter OTP for verification"
                     const $RedTextResetPass = $("<h4>").text(
-                      "Enter OTP & new password"
+                      JsonData?.reset_desc
                     );
                     const $ApierrorResetPass = $("<div>").css({
                       display: "none",
@@ -3342,7 +3359,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       })
 
-                      .attr("placeholder", "Enter OTP")
+                      .attr("placeholder", JsonData?.otp_placeholder)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
