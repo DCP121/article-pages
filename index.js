@@ -590,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $("<span>")
                         .addClass("pending-useraccount")
                         .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
-                        .addClass("pending-useraccount")
+            
                         .text("Send confirmation email again")
                         .click(function () {
                           $registerModal.css("display", "block");
@@ -2132,7 +2132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $registerModal.css("display", "none");
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html("Login successfully!!");
+                            $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
                             setTimeout(() => {
                               $("#ignismyModal").css("display", "none");
                               $("#msgtag").html("");
@@ -2478,7 +2478,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           FormCleaner();
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
-                          $("#msgtag").html("Login successfully!!");
+                          $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
                             $("#msgtag").html("");
@@ -3270,7 +3270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
                         $("#msgtag").html(
-                          "your account has been created successfully!!"
+                          commentlistingdata?.data?.pageData?.registration_message
                         );
                         setTimeout(() => {
                           $("#ignismyModal").css("display", "none");
@@ -3666,7 +3666,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
                           $("#msgtag").html(
-                            "your password has been updated successfully!!"
+                            commentlistingdata?.data?.pageData?.forgot_message
                           );
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
