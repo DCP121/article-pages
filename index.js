@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
 
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@1fce38d9ca668be14357ba437aa4d4b54797c6be/index.css')
+    loadCSS(
+      "https://cdn.jsdelivr.net/gh/DCP121/article-pages@1fce38d9ca668be14357ba437aa4d4b54797c6be/index.css"
+    );
     // loadCSS("./index.css");
 
     // Load JavaScript libraries
@@ -365,7 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create a div for the first image and add it to the main app container
                     const $firstImageContainer = $("<div>");
-                    console.log(commentlistingdata.data.pageData, "data")
+                    console.log(commentlistingdata.data.pageData, "data");
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
@@ -575,7 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       })
                       .text(JsonData?.send);
 
-                    const $commentInput = $("<input>")
+                    const $commentInput = $("<textarea>")
                       .addClass("form-control-input")
                       .attr({
                         type: "text",
@@ -639,6 +641,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // });
 
                     $commentButton.on("click", function () {
+                      $commentButton.prop("disabled", true);
                       submitComment();
                     });
 
@@ -681,7 +684,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               .show();
                           } else {
                             // Disable the comment button during the API call
-                            $commentButton.prop("disabled", true);
 
                             const $spinner = $("<div>")
                               .addClass(
@@ -1002,13 +1004,27 @@ document.addEventListener("DOMContentLoaded", function () {
                               : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                             //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           );
-                        const $paragraph = $("<div>")
-                          .addClass("user-comments")
-                          .text(
-                            dataItem && !dataItem.updatedComment
-                              ? dataItem.originalComment
-                              : dataItem.updatedComment
-                          );
+                        // const $paragraph = $("<div>")
+                        // .addClass("user-comments")
+                        // .text(
+                        //   dataItem && !dataItem.updatedComment
+                        //     ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
+                        //      dataItem.updatedComment : dataItem.originalComment
+                        // );
+                        const text =
+                          dataItem && !dataItem.updatedComment
+                            ? dataItem.originalComment
+                            : dataItem.ip === localStorage.getItem("ip")
+                            ? dataItem.updatedComment
+                            : dataItem.originalComment;
+
+                        const lines = text.split("\n");
+
+                        const $paragraph = $("<div>").addClass("user-comments");
+
+                        lines.forEach((line) => {
+                          $paragraph.append($("<div>").text(line));
+                        });
 
                         // Append the div to the document body or another container
 
@@ -1136,7 +1152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $likeicondiv,
                           $commenticondiv,
                           dataItem.updatedComment &&
-                            dataItem.updatedComment !== ""
+                            dataItem?.userId === userData?._id
                             ? $seeOriginalCommentButton
                             : ""
                         );
@@ -1225,13 +1241,28 @@ document.addEventListener("DOMContentLoaded", function () {
                                   : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                               );
 
-                            const $commentreplayparagraph = $("<div>")
-                              .addClass("user-comments")
-                              .text(
-                                item && !item.updatedComment
-                                  ? item?.originalComment
-                                  : item?.updatedComment
+                            // const $commentreplayparagraph = $("<div>")
+                            //   .addClass("user-comments")
+                            //   .text(
+                            //     item && !item.updatedComment
+                            //       ? item?.originalComment
+                            //       : item?.updatedComment
+                            //   );
+                            const text =
+                              item && !item.updatedComment
+                                ? item?.originalComment
+                                : item?.updatedComment;
+
+                            const lines = text.split("\n");
+
+                            const $commentreplayparagraph =
+                              $("<div>").addClass("user-comments");
+
+                            lines.forEach((line) => {
+                              $commentreplayparagraph.append(
+                                $("<div>").text(line)
                               );
+                            });
 
                             //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
                             //social icon div
@@ -1267,6 +1298,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Change the fill color based on the state
                                 const token = localStorage.getItem("token");
 
+                                
                                 const headers = {
                                   "Content-Type": "application/json", // Specify the content type as JSON
                                 };
@@ -1411,7 +1443,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             direction: "ltr",
                           })
                           .text(JsonData?.send);
-                        const $commentreplayInput = $("<input>")
+                        const $commentreplayInput = $("<textarea>")
                           .addClass("form-control-input")
                           .attr({
                             type: "text",
@@ -1515,6 +1547,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // });
 
                         $replaycommentButton.on("click", function () {
+                          $replaycommentButton.prop("disabled", true);
                           submitReplyComment();
                         });
 
