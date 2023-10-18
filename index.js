@@ -103,89 +103,124 @@ document.addEventListener("DOMContentLoaded", function () {
                   var commentlistingdata;
                   var showmorcomment = 10;
                   let apiFlags = true;
-                    var englishJson = {
-                      "title": "Title",
-                      "subtitle_text": "Subtitle text",
-                      "login": "Login",
-                      "register": "Register",
-                      "comment": "Comments",
-                      "send": "Send",
-                      "anonymous_user": "Anonymous user",
-                      "add_your_comment": "Add your comment",
-                      "see_org_comment": "See original comment",
-                      "posted": "Posted",
-                      "min_ago": "min ago",
-                      "show_more_cmt": "Show more comments",
-                      "footer_text": "Footer text",
-                      "register_desc": "To comment you need to register",
-                      "name": "Name",
-                      "email": "Email",
-                      "password": "Password",
-                      "create_account": "Create account",
-                      "other_options": "Other options",
-                      "register_model_footer": "I accept the terms and conditions Do you have an accout? Login",
-                      "login_desc": "To comment you need to login",
-                      "forgot_password": "Forgot password ?",
-                      "login_model_footer": "Don’t have an account? Register",
-                      "reset_password": "Reset password",
-                      "reset_desc": "Enter your email address And we will send you an email to reset"
-                    }
+                  var englishJson = {
+                    "title": "Title",
+                    "subtitle_text": "Subtitle text",
+                    "login": "Login",
+                    "register": "Register",
+                    "comment": "Comments",
+                    "send": "Send",
+                    "anonymous_user": "Anonymous user",
+                    "add_your_comment": "Add your comment",
+                    "see_org_comment": "See original comment",
+                    "posted": "Posted",
+                    "min_ago": "min ago",
+                    "just_now": "Just now",
+                    "hour_ago": "hour ago",
+                    "hours_ago": "hours ago",
+                    "day_ago": "day ago",
+                    "days_ago": "days ago",
+                    "show_more_cmt": "Show more comments",
+                    "footer_text": "Footer text",
+                    "register_desc": "To comment you need to register",
+                    "name": "Name",
+                    "email": "Email",
+                    "password": "Password",
+                    "new_password": "New password",
+                    "confirm_password": "Confirm password",
+                    "create_account": "Create account",
+                    "other_options": "Other options",
+                    "register_model_footer": "I accept the ",
+                    "terms_condition": "terms and conditions",
+                    "do_account" : "Do you have an account? ",
+                    "login_desc": "To comment you need to login",
+                    "forgot_password": "Forgot password ?",
+                    "login_model_footer": "Don’t have an account? ",
+                    "reset_password": "Reset password",
+                    "reset_desc": "Enter your email address And we will send you an email to reset",
+                    "back_to_login": "Back to login",
+                    "submit" : "Submit",
+                    "forgot_desc": "Enter OTP for verification",
+                    "login_form": "Login form"
+                  }
 
-                    var arabicJson = {
-                      "title": "اهلا وسهلا",
-                      "subtitle_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد",
-                      "login": "تسجيل",
-                      "register": "اتصال",
-                      "comment": "الردود",
-                      "send": "يرسل",
-                      "anonymous_user": "مستخدم مجهول",
-                      "add_your_comment": "أضف تعليقك",
-                      "see_org_comment": "أظهر المزيد من التعليقات",
-                      "posted": "دقائق",
-                      "min_ago": "منذ",
-                      "show_more_cmt": "أظهر المزيد من التعليقات",
-                      "footer_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد المزيد من النص ...",
-                      "register_desc": "للرد عليك التسجيل",
-                      "name": "اسم",
-                      "email": "بريد إلكتروني",
-                      "password": "كلمة المرور",
-                      "create_account": "إنشاء حساب",
-                      "other_options": "يمكنك أيضا التسجيل عن طريق",
-                      "register_model_footer": "بالتسجيل فإنك توافق على الشروط وسياسة الخصوصية الخاصة بنا هل لديك حساب؟ للاتصال",
-                      "login_desc": "للرد عليك التسجيل",
-                      "forgot_password": "نسيت كلمة السر؟",
-                      "login_model_footer": "لا تملك حساب؟ للتسجيل",
-                      "reset_password": "إعادة تعيين كلمة المرور",
-                      "reset_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور"
-                    }
-                    var hebrewJson = {
-                      "title": "אהלן וסהלן",
-                      "subtitle_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש",
-                      "login": "הרשמה",
-                      "register": "הרשמה",
-                      "comment": "תגובות",
-                      "send": "שלח",
-                      "anonymous_user": "משתמש אנונימי",
-                      "add_your_comment": "הוסף את תגובתך",
-                      "see_org_comment": "הצג בשפת המקור",
-                      "posted": "דק’",
-                      "min_ago": "לפני ",
-                      "show_more_cmt": "הצג תגובות נוספות",
-                      "footer_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש טקסט נוסף...",
-                      "register_desc": "על מנת להגיב יש להרשם",
-                      "name": "שם",
-                      "email": "מייל",
-                      "password": "סיסמה",
-                      "create_account": "צור חשבון",
-                      "other_options": "אפשר להרשם גם ע”י",
-                      "register_model_footer": "ע”י הרשמה אתה מסכים לתנאים ולמדיניות הפרטיות שלנו כבר יש לך חשבון ? להתחברות",
-                      "login_desc": "על מנת להגיב יש להרשם",
-                      "forgot_password": "שכחת את הסיסמה?",
-                      "login_model_footer": "אין לך חשבון? להרשמה",
-                      "reset_password": "איפוס סיסמה",
-                      "reset_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה"
-                    }
-                    var JsonData = englishJson
+                  var arabicJson = {
+                    "title": "اهلا وسهلا",
+                    "subtitle_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد",
+                    "login": "تسجيل",
+                    "register": "اتصال",
+                    "comment": "الردود",
+                    "send": "يرسل",
+                    "anonymous_user": "مستخدم مجهول",
+                    "add_your_comment": "أضف تعليقك",
+                    "see_org_comment": "أظهر المزيد من التعليقات",
+                    "posted": "دقائق",
+                    "min_ago": "منذ",
+                    "just_now": "الآن فقط",
+                    "hour_ago": "منذ ساعة",
+                    "hours_ago": "منذ ساعات",
+                    "day_ago": "منذ يوم",
+                    "days_ago": "منذ أيام",
+                    "show_more_cmt": "أظهر المزيد من التعليقات",
+                    "footer_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد المزيد من النص ...",
+                    "register_desc": "للرد عليك التسجيل",
+                    "name": "اسم",
+                    "email": "بريد إلكتروني",
+                    "password": "كلمة المرور",
+                    "new_password": "كلمة مرور جديدة",
+                    "confirm_password": "تأكيد كلمة المرور",
+                    "create_account": "إنشاء حساب",
+                    "other_options": "يمكنك أيضا التسجيل عن طريق",
+                    "register_model_footer":"أنا أقبل ",
+                    "terms_condition": " الشروط والأحكام",
+                    "do_account" : "هل لديك حساب؟ ",
+                    "login_desc": "للرد عليك التسجيل",
+                    "forgot_password": "نسيت كلمة السر؟",
+                    "login_model_footer": "ليس لديك حساب؟ ",
+                    "reset_password": "إعادة تعيين كلمة المرور",
+                    "reset_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور",
+                    "back_to_login": "العودة إلى تسجيل الدخول",
+                    "submit" : "إرسال",
+                    "forgot_desc":"أدخل كلمة المرور لمرة واحدة للتحقق",
+                    "login_form": "نموذج تسجيل الدخول"
+                  }
+                  var hebrewJson = {
+                    "title": "אהלן וסהלן",
+                    "subtitle_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש",
+                    "login": "הרשמה",
+                    "register": "הרשמה",
+                    "comment": "תגובות",
+                    "send": "שלח",
+                    "anonymous_user": "משתמש אנונימי",
+                    "add_your_comment": "הוסף את תגובתך",
+                    "see_org_comment": "הצג בשפת המקור",
+                    "posted": "דק’",
+                    "min_ago": "לפני ",
+                    "just_now": "בדיוק",
+                    "hour_ago": "לפני שעה",
+                    "hours_ago": "לפני שעות",
+                    "day_ago": "יום לפני",
+                    "days_ago": "לפני ימים",
+                    "show_more_cmt": "הצג תגובות נוספות",
+                    "footer_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש טקסט נוסף...",
+                    "register_desc": "על מנת להגיב יש להרשם",
+                    "name": "שם",
+                    "email": "מייל",
+                    "password": "סיסמה",
+                    "new_password": "סיסמה חדשה",
+                    "confirm_password": "אשר סיסמה",
+                    "create_account": "צור חשבון",
+                    "other_options": "אפשר להרשם גם ע”י",
+                    "register_model_footer": "אני מקבל את",
+                    "terms_condition": " תנאים והתניות",
+                    "do_account" : "האם יש לך חשבון?",
+                    "login_desc": "על מנת להגיב יש להרשם",
+                    "forgot_password": "שכחת את הסיסמה?",
+                    "login_model_footer": "אין לך חשבון? להרשמה",
+                    "reset_password": "איפוס סיסמה",
+                    "reset_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה"
+                  }
+                  var JsonData = englishJson
                   const reenterapicall = async (apiFlag) => {
                     if (showmorcomment == 10) {
                       var $spinnerdiv = $("<div>");
@@ -199,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("main-loader")
                         .appendTo($app);
                     }
-                  
+
                     const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
                     const userData = JSON.parse(
@@ -215,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://9c01-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `https://a15a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == "israel"
                           ? "israelBackOffice"
@@ -282,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://9c01-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `https://a15a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -326,17 +361,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     const minutes = Math.floor(timeDifference / (1000 * 60));
 
                     if (minutes < 1) {
-                      return "Just now";
+                      return JsonData?.just_now;
                     } else if (minutes === 1) {
-                      return "1 minute ago";
+                      return `1 ${JsonData?.min_ago}`;
                     } else if (minutes < 60) {
-                      return minutes + " minutes ago";
+                      return minutes + ` ${JsonData?.min_ago}`;
                     } else if (minutes < 1440) {
                       const hours = Math.floor(minutes / 60);
-                      return hours + (hours === 1 ? " hour ago" : " hours ago");
+                      return hours + (hours === 1 ? ` ${JsonData?.hour_ago}` : ` ${JsonData?.hours_ago}`);
                     } else {
                       const days = Math.floor(minutes / 1440);
-                      return days + (days === 1 ? " day ago" : " days ago");
+                      return days + (days === 1 ? ` ${JsonData?.day_ago}` : ` ${JsonData?.days_ago}`);
                     }
                   }
                   function processData(xyz, apiFlag) {
@@ -371,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
-                      `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
+                      `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
                       bannerClass
                     );
                     if (apiFlags) {
@@ -394,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                      `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
+                      `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -445,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var $Login = $("<button>")
                       .addClass("blue-button")
                       .text(JsonData?.login);
-                  
+
                     const $Register = $("<button>")
                       .addClass("blue-button")
                       .text(JsonData?.register);
@@ -547,7 +582,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
                           fetch(
-                            `https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
+                            `https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
                             {
                               method: "POST",
                               headers: headers,
@@ -581,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("form-control-input")
                       .attr({
                         type: "text",
-                        placeholder: "Add a comment",
+                        placeholder: JsonData?.add_your_comment,
                       });
                     const $errorMessagecomment = $("<div>")
                       .css({ display: "flex", color: "red" })
@@ -692,7 +727,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
                               }`; // Example URL
 
                             // Define headers for the request
@@ -790,7 +825,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -1015,8 +1050,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           dataItem && !dataItem.updatedComment
                             ? dataItem.originalComment
                             : dataItem.ip === localStorage.getItem("ip")
-                            ? dataItem.updatedComment
-                            : dataItem.originalComment;
+                              ? dataItem.updatedComment
+                              : dataItem.originalComment;
 
                         const lines = text.split("\n");
 
@@ -1078,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                              `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1123,7 +1158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $commenticondiv.append($commenticontext, $commentIcon);
                         // Create the "See Original Comment" button
                         const $seeOriginalCommentButton = $("<button>")
-                          .text("See Original Comment")
+                          .text(JsonData?.see_org_comment)
                           .addClass("outline-blue-btn");
                         //toggle between orignale comment and updated comment
                         let isOriginalComment = true;
@@ -1139,7 +1174,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Show the updated comment
                             $paragraph.text(dataItem?.updatedComment);
                             $seeOriginalCommentButton.text(
-                              "See Original Comment"
+                              JsonData?.see_org_comment
                             );
                           }
 
@@ -1298,7 +1333,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Change the fill color based on the state
                                 const token = localStorage.getItem("token");
 
-                                
+
                                 const headers = {
                                   "Content-Type": "application/json", // Specify the content type as JSON
                                 };
@@ -1307,7 +1342,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }
 
                                 fetch(
-                                  `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                  `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
                                   {
                                     method: "POST",
                                     headers: headers,
@@ -1358,7 +1393,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               $commentIconreplay
                             );
                             const $seeOriginalCommentButton = $("<button>")
-                              .text("See Original Comment")
+                              .text(JsonData?.see_org_comment)
                               .addClass("outline-blue-btn");
                             //replay toggle between orignale comment and updated comment
                             let isOriginalComment = true;
@@ -1378,7 +1413,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   item?.updatedComment
                                 );
                                 $seeOriginalCommentButton.text(
-                                  "See Original Comment"
+                                  JsonData?.see_org_comment
                                 );
                               }
 
@@ -1447,7 +1482,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("form-control-input")
                           .attr({
                             type: "text",
-                            placeholder: "Add a comment",
+                            placeholder: JsonData?.add_your_comment,
                           });
                         const $errorMessagecomment = $("<div>")
                           .css({ display: "flex", color: "red" })
@@ -1601,7 +1636,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1706,7 +1741,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1875,7 +1910,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
-                      .text("show more comment")
+                      .text(JsonData?.show_more_cmt)
                       .css({
                         direction: "ltr",
                       });
@@ -1930,23 +1965,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     $app.append($footerConatiner);
-                    // const $footerImage = $("<img>")
-                    //   .attr(
-                    //     "src",
-                    //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
-                    //   )
-                    //   .css({
-                    //     width: "155.07px",
-                    //     height: "20px",
-                    //     "margin-top": "20px", // Adjust margin as needed
-                    //   });
-
-                    // $showmorecommentbutton.on("click", function () {
-                    //   showmorcomment += 10;
-                    //   commentlistapi(true);;
-                    // });
-
-                    // $app.append($showmorecommentdiv);
+                   
                     fetch("https://api.ipify.org?format=json")
                       .then((response) => response.json())
                       .then((data) => {
@@ -2040,7 +2059,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
                           {
                             method: "POST",
                             headers: {
@@ -2104,11 +2123,11 @@ document.addEventListener("DOMContentLoaded", function () {
                       color: "red",
                       "margin-top": "5px",
                     });
-                    const $loginHeader = $("<h2>").text("Login Form");
+                    const $loginHeader = $("<h2>").text(JsonData?.login_form);
 
                     // Create a new element for the red text line
                     const $redText = $("<h4>").text(
-                      "To comment you need to login"
+                      JsonData?.login_desc
                     );
 
                     // Append the login header and red text elements to the login form
@@ -2139,7 +2158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           event.preventDefault();
                         }
                       })
-                      .attr("placeholder", "Email")
+                      .attr("placeholder", JsonData?.email)
                       .on("focus", function () {
                         // Change the placeholder text color when input is focused
                         $(this).css("color", "#333");
@@ -2185,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           event.preventDefault();
                         }
                       })
-                      .attr("placeholder", "Password")
+                      .attr("placeholder", JsonData?.password)
                       .on("focus", function () {
                         // Change the placeholder text color when input is focused
                         $(this).css("color", "#333");
@@ -2246,7 +2265,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $otherOptionsText =
                       $("<div>").addClass("other-options");
                     const $otherOptionsTextSpan =
-                      $("<span>").text("Other options");
+                      $("<span>").text(JsonData?.other_options);
                     const errorTextEmailLogin = "Invalid email address";
                     const $errorElementLogin = $("<div>")
                       .css({
@@ -2281,7 +2300,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the "Forgot password?" link with red text
                     const $forgotPasswordLink = $("<p>")
                       .addClass("auth-link pointer-cursor")
-                      .text("Forgot password?")
+                      .text(JsonData?.forgot_password)
 
                       .click(function () {
                         // Add functionality to handle "Forgot password?" click here  $loginForm.css('display', 'none');
@@ -2297,7 +2316,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the "Don’t have an account?" text and make it black
                     const $registerLinkDiv = $("<div>").addClass("bottom-wrap");
 
-                    $registerLink.append("Don’t have an account? ");
+                    $registerLink.append(JsonData?.login_model_footer);
                     const $registerSpan = $("<span>")
                       .text(JsonData?.register)
 
@@ -2384,7 +2403,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -2457,10 +2476,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $ForgotPassForm = $("<div>")
                       .addClass("left-content")
                       .css({ display: "none" });
-                    const $ForgotPassHeader = $("<h2>").text("Forgot password");
+                    const $ForgotPassHeader = $("<h2>").text(JsonData?.forgot_password);
                     const $redTextForgotPass = $("<p>")
                       .text(
-                        "Enter your email address And we will send you an email to reset"
+                       JsonData?.reset_desc
                       )
                       .css({
                         color: "black",
@@ -2496,7 +2515,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("custom-input")
                       .attr("id", "registerEmailInput")
 
-                      .attr("placeholder", "Email")
+                      .attr("placeholder", JsonData?.email)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
@@ -2550,7 +2569,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2583,14 +2602,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the registration button
                     const $ForgotPassSubmit = $("<button>")
                       .addClass("red-button")
-                      .text("Submit")
+                      .text(JsonData?.submit)
 
                       .click(sendForgotPasswordRequest);
 
                     // Append the "Login" text to the existing paragraph
                     const $BackToLoginForgot = $("<p>")
                       .addClass("auth-link")
-                      .text("Back to Login")
+                      .text(JsonData?.back_to_login)
 
                       .click(function () {
                         // Add functionality to handle "Login" click here
@@ -2608,7 +2627,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $("<p>").addClass("have-accoung");
 
                     // Create the "Don’t have an account?" text and make it black
-                    $registerLinkForgot.append("Don’t have an account? ");
+                    $registerLinkForgot.append(JsonData?.login_model_footer);
                     const $registerForgotSpan = $("<span>")
                       .text(JsonData?.register)
 
@@ -2648,7 +2667,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const $registerHeader = $("<h2>").text(JsonData?.register);
                     const $redTextreg = $("<h4>").text(
-                      "To comment you need to register"
+                      JsonData?.register_desc
                     );
                     const $ApierrorRegistration = $("<div>").css({
                       display: "none",
@@ -2686,7 +2705,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("custom-input")
                       .attr("id", "registerNameInput")
 
-                      .attr("placeholder", "Name")
+                      .attr("placeholder", JsonData?.name)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
@@ -2726,7 +2745,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("custom-input")
                       .attr("id", "registerEmailInput")
 
-                      .attr("placeholder", "Email")
+                      .attr("placeholder", JsonData?.email)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
@@ -2759,7 +2778,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("custom-input")
                       .attr("id", "registerPasswordField")
 
-                      .attr("placeholder", "Password")
+                      .attr("placeholder", JsonData?.password)
                       .on("focus", function () {
                         $(this).css("color", "#333");
                       })
@@ -2792,7 +2811,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the registration button
                     const $registerButton = $("<button>")
                       .addClass("red-button")
-                      .text(JsonData?.register);
+                      .text(JsonData?.create_account);
 
                     // Create a section for other options
                     const $registerOtherOptionsSection = $("<div>");
@@ -2807,7 +2826,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registerOtherOptionsText =
                       $("<div>").addClass("other-options");
                     const $registerOtherOptionsTextSpan =
-                      $("<span>").text("Other options");
+                      $("<span>").text(JsonData?.other_options);
 
                     // Create the "Already have an account?" text and make it black
                     // const $registerLoginLink = $("<p>").text("").css({
@@ -2829,17 +2848,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         color: "inherit", // Inherit the color from the parent (black in this case)
                         "text-decoration": "underline", // Remove the underline
                       })
-                      .text("Terms and Conditions"); // The visible link text
+                      .text(JsonData?.terms_condition); // The visible link text
 
                     // Append the link element to the "I accept the terms and conditions" text
-                    $registerTermsLink.append("I accept the ");
+                    $registerTermsLink.append(JsonData?.register_model_footer);
                     $registerTermsLink.append($termsLink);
 
                     // Append the "I accept the terms and conditions" text to the existing paragraph
 
                     const $registerLoginLinkRed = $("<p>")
                       .addClass("have-accoung")
-                      .text("Do you have an account ? ");
+                      .text(JsonData?.do_account);
 
                     // Append the "Login" text to the existing paragraph
                     const $registerLoginSpan = $("<span>")
@@ -2923,7 +2942,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                        `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
+                        `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
@@ -3105,7 +3124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append the "Login" text to the existing paragraph
                     const $BackToLogin = $("<p>")
                       .addClass("auth-link")
-                      .text("Back to Login")
+                      .text(JsonData?.back_to_login)
                       .click(function () {
                         // Add functionality to handle "Login" click here
                         // For example, you can show the login modal or trigger an action.
@@ -3177,7 +3196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3235,7 +3254,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create an h2 header for the OTP form
                     const $ResetPassHeader = $("<h2>")
-                      .text("Reset password")
+                      .text(JsonData?.reset_password)
                       .css({
                         // Add your styling for the OTP form header
                       });
@@ -3361,7 +3380,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           event.preventDefault();
                         }
                       })
-                      .attr("placeholder", "New password")
+                      .attr("placeholder", JsonData?.new_password)
                       .on("focus", function () {
                         // Change the placeholder text color when input is focused
                         $(this).css("color", "#333");
@@ -3401,7 +3420,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           event.preventDefault();
                         }
                       })
-                      .attr("placeholder", "Confirm password")
+                      .attr("placeholder", JsonData?.confirm_password)
                       .on("focus", function () {
                         // Change the placeholder text color when input is focused
                         $(this).css("color", "#333");
@@ -3438,7 +3457,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create a button for OTP confirmation
                     const $ResetPassButton = $("<button>")
                       .addClass("red-button")
-                      .text("Reset password")
+                      .text(JsonData?.reset_password)
 
                       .click(handleResetSubmit);
                     // Create the horizontal rule for the section
@@ -3451,7 +3470,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Append the "Login" text to the existing paragraph
                     const $BackToLoginResetPass = $("<p>")
                       .addClass("auth-link")
-                      .text("Back to Login")
+                      .text(JsonData?.back_to_login)
 
                       .click(function () {
                         // Add functionality to handle "Login" click here
@@ -3583,7 +3602,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
@@ -3685,7 +3704,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
