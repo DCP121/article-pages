@@ -949,7 +949,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                         );
                     }
-                    // default Avtart
                     const $userImage = $("<img>")
                       .attr(
                         "src",
