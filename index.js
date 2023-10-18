@@ -132,14 +132,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     "other_options": "Other options",
                     "register_model_footer": "I accept the ",
                     "terms_condition": "terms and conditions",
-                    "do_account" : "Do you have an account? ",
+                    "do_account": "Do you have an account? ",
                     "login_desc": "To comment you need to login",
                     "forgot_password": "Forgot password ?",
                     "login_model_footer": "Don’t have an account? ",
                     "reset_password": "Reset password",
                     "reset_desc": "Enter your email address And we will send you an email to reset",
                     "back_to_login": "Back to login",
-                    "submit" : "Submit",
+                    "submit": "Submit",
                     "forgot_desc": "Enter OTP for verification",
                     "login_form": "Login form"
                   }
@@ -171,17 +171,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     "confirm_password": "تأكيد كلمة المرور",
                     "create_account": "إنشاء حساب",
                     "other_options": "يمكنك أيضا التسجيل عن طريق",
-                    "register_model_footer":"أنا أقبل ",
-                    "terms_condition": " الشروط والأحكام",
-                    "do_account" : "هل لديك حساب؟ ",
+                    "register_model_footer": "بالتسجيل فإنك توافق على",
+                    "terms_condition": "الشروط وسياسة الخصوصية",
+                    "do_account": "الخاصة بنا هل لديك حساب؟ ",
                     "login_desc": "للرد عليك التسجيل",
                     "forgot_password": "نسيت كلمة السر؟",
                     "login_model_footer": "ليس لديك حساب؟ ",
                     "reset_password": "إعادة تعيين كلمة المرور",
                     "reset_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور",
                     "back_to_login": "العودة إلى تسجيل الدخول",
-                    "submit" : "إرسال",
-                    "forgot_desc":"أدخل كلمة المرور لمرة واحدة للتحقق",
+                    "submit": "إرسال",
+                    "forgot_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
                     "login_form": "نموذج تسجيل الدخول"
                   }
                   var hebrewJson = {
@@ -211,16 +211,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     "confirm_password": "אשר סיסמה",
                     "create_account": "צור חשבון",
                     "other_options": "אפשר להרשם גם ע”י",
-                    "register_model_footer": "אני מקבל את",
-                    "terms_condition": " תנאים והתניות",
-                    "do_account" : "האם יש לך חשבון?",
+                    "register_model_footer": "ע”י הרשמה אתה מסכים",
+                    "terms_condition": "לתנאים ולמדיניות הפרטיות",
+                    "do_account": "? כבר יש לך חשבון",
                     "login_desc": "על מנת להגיב יש להרשם",
                     "forgot_password": "שכחת את הסיסמה?",
                     "login_model_footer": "אין לך חשבון? להרשמה",
                     "reset_password": "איפוס סיסמה",
                     "reset_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה"
                   }
-                  var JsonData = englishJson
+                  var JsonData = arabicJson
                   const reenterapicall = async (apiFlag) => {
                     if (showmorcomment == 10) {
                       var $spinnerdiv = $("<div>");
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://a15a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == "israel"
                           ? "israelBackOffice"
@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://a15a-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
-                      `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
+                      `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
                       bannerClass
                     );
                     if (apiFlags) {
@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                      `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
+                      `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -582,7 +582,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
                           fetch(
-                            `https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
+                            `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
                             {
                               method: "POST",
                               headers: headers,
@@ -727,7 +727,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
                               }`; // Example URL
 
                             // Define headers for the request
@@ -825,7 +825,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -1113,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                              `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1342,7 +1342,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }
 
                                 fetch(
-                                  `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                  `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
                                   {
                                     method: "POST",
                                     headers: headers,
@@ -1636,7 +1636,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1741,7 +1741,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://a15a-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1965,7 +1965,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     $app.append($footerConatiner);
-                   
+
                     fetch("https://api.ipify.org?format=json")
                       .then((response) => response.json())
                       .then((data) => {
@@ -2059,7 +2059,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
                           {
                             method: "POST",
                             headers: {
@@ -2403,7 +2403,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -2479,7 +2479,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $ForgotPassHeader = $("<h2>").text(JsonData?.forgot_password);
                     const $redTextForgotPass = $("<p>")
                       .text(
-                       JsonData?.reset_desc
+                        JsonData?.reset_desc
                       )
                       .css({
                         color: "black",
@@ -2569,7 +2569,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2942,7 +2942,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                        `https://a15a-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
+                        `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
@@ -3196,7 +3196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3602,7 +3602,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
@@ -3704,7 +3704,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://a15a-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
