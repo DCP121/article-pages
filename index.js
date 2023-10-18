@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                             }&userId=${userId && userId !== null ? userId : ""
                             }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
