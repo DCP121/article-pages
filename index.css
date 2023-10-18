@@ -224,8 +224,12 @@ body {
 .pending-useraccount{
     color:red;
     cursor: pointer;
-    background: url(./assets/alert-icon-svg) no-repeat left 5px;
+    direction: ltr
 }
+.alerticon-size {
+    width: 20px;
+    height: 20px;
+  }
 
 .form-control-input {
     border-radius: 7px !important; 

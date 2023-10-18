@@ -584,11 +584,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     //account is still pending
 
-                    const $Accountpending = $("<div>").append(
+                    const $Accountpending = $("<div>").css({direction:'ltr'}).append(
                       $("<span>").text("Account is still pending confirmation"),
                       " ",
                       $("<span>")
                         .addClass("pending-useraccount")
+                        .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
+            
                         .text("Send confirmation email again")
                         .click(function () {
                           $registerModal.css("display", "block");
@@ -706,6 +708,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const token = localStorage.getItem("token");
 
                         if (!token) {
+                          $commentButton.prop("disabled", false);
                           // Display registration and login modal when mustLogin is true and no token is present.
                           $registerModal.css("display", "block");
                           $loginForm.css("display", "block");
@@ -773,9 +776,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then((response) => {
                                 // Check if the response status is OK (201 Created)
                                 if (!response.ok) {
-                                  throw new Error(
-                                    `HTTP error! Status: ${response.status}`
-                                  );
+                                  response.text().then(errorMessage => {
+                                    const errorData = JSON.parse(errorMessage);
+                                    $errorMessagecomment
+                                    .text(errorData.message)
+                                    .show();
+                                    throw new Error(`HTTP error! Status: ${response.status}`)
+                                  });
                                 }
 
                                 // Parse the response body as JSON
@@ -870,9 +877,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((response) => {
                               // Check if the response status is OK (201 Created)
                               if (!response.ok) {
-                                throw new Error(
-                                  `HTTP error! Status: ${response.status}`
-                                );
+                                response.text().then(errorMessage => {
+                                  const errorData = JSON.parse(errorMessage);
+                                  $errorMessagecomment
+                                  .text(errorData.message)
+                                  .show();
+                                  throw new Error(`HTTP error! Status: ${response.status}`)
+                                });
                               }
 
                               // Parse the response body as JSON
@@ -1374,9 +1385,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 )
                                   .then((response) => {
                                     if (!response.ok) {
-                                      throw new Error(
-                                        "Network response was not ok"
-                                      );
+                                      response.text().then(errorMessage => {
+                                        const errorData = JSON.parse(errorMessage);
+                                        $errorMessagecomment
+                                        .text(errorData.message)
+                                        .show();
+                                      })
                                     }
                                     return response.json();
                                   })
@@ -1611,6 +1625,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           if (commentlistingdata?.data?.pageData?.mustLogin) {
                             const token = localStorage.getItem("token");
                             if (!token) {
+                              $replaycommentButton.prop("disabled", false);
                               // Display registration and login modal when mustLogin is true and no token is present.
                               $registerModal.css("display", "block");
                               $loginForm.css("display", "block");
@@ -1681,9 +1696,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .then((response) => {
                                     // Check if the response status is OK (201 Created)
                                     if (!response.ok) {
-                                      throw new Error(
-                                        `HTTP error! Status: ${response.status}`
-                                      );
+                                      response.text().then(errorMessage => {
+                                        const errorData = JSON.parse(errorMessage);
+                                        $errorMessagecomment
+                                        .text(errorData.message)
+                                        .show();
+                                      })
                                     }
 
                                     // Parse the response body as JSON
@@ -1691,7 +1709,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   })
                                   .then((data) => {
                                     // Handle the response data
-                                    $spinner.remove();
+                                    $replaycommentButton.prop("disabled", false);
+                                    $spinner.remove()
                                     //commentlistapi(false);
                                     $commentreplayInput.val("");
                                     $("#ignismyModal").css("display", "block");
@@ -1710,6 +1729,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   })
                                   .catch((error) => {
                                     // Handle any errors that occurred during the fetch
+                                    $replaycommentButton.prop("disabled", false);
+                                    $spinner.remove()
                                     console.error("Fetch error:", error);
                                   });
                                 // finally {
@@ -1786,9 +1807,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((response) => {
                                   // Check if the response status is OK (201 Created)
                                   if (!response.ok) {
-                                    throw new Error(
-                                      `HTTP error! Status: ${response.status}`
-                                    );
+                                    response.text().then(errorMessage => {
+                                      const errorData = JSON.parse(errorMessage);
+                                      $errorMessagecomment
+                                      .text(errorData.message)
+                                      .show();
+                                    })
                                   }
 
                                   // Parse the response body as JSON
@@ -1796,7 +1820,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 })
                                 .then((data) => {
                                   // Handle the response data
-                                  $spinner.remove();
+                                  $replaycommentButton.prop("disabled", false);
+                                    $spinner.remove()
                                   //commentlistapi(false);
                                   $commentreplayInput.val("");
                                   $("#ignismyModal").css("display", "block");
@@ -1816,6 +1841,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .catch((error) => {
                                   // Handle any errors that occurred during the fetch
                                   console.error("Fetch error:", error);
+                                  $replaycommentButton.prop("disabled", false);
+                                    $spinner.remove()
                                 });
                               // finally {
                               //   // Enable button and remove spinner after API call is complete
@@ -2105,7 +2132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $registerModal.css("display", "none");
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html("Login successfully!!");
+                            $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
                             setTimeout(() => {
                               $("#ignismyModal").css("display", "none");
                               $("#msgtag").html("");
@@ -2451,7 +2478,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           FormCleaner();
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
-                          $("#msgtag").html("Login successfully!!");
+                          $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
                             $("#msgtag").html("");
@@ -3243,7 +3270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
                         $("#msgtag").html(
-                          "your account has been created successfully!!"
+                          commentlistingdata?.data?.pageData?.registration_message
                         );
                         setTimeout(() => {
                           $("#ignismyModal").css("display", "none");
@@ -3639,7 +3666,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
                           $("#msgtag").html(
-                            "your password has been updated successfully!!"
+                            commentlistingdata?.data?.pageData?.forgot_message
                           );
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
