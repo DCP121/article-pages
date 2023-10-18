@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `http://137.184.19.129:4002/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                             }&userId=${userId && userId !== null ? userId : ""
                             }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -931,12 +931,12 @@ document.addEventListener("DOMContentLoaded", function () {
                               : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                             //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           );
-                        const $paragraph = $("<div>")
+                          const $paragraph = $("<div>")
                           .addClass("user-comments")
                           .text(
                             dataItem && !dataItem.updatedComment
-                              ? dataItem.originalComment
-                              : dataItem.updatedComment
+                              ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
+                               dataItem.updatedComment : dataItem.originalComment
                           );
 
                         // Append the div to the document body or another container
@@ -1065,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $likeicondiv,
                           $commenticondiv,
                           dataItem.updatedComment &&
-                            dataItem.updatedComment !== ""
+                          dataItem?.userId === userData?._id
                             ? $seeOriginalCommentButton
                             : ""
                         );
