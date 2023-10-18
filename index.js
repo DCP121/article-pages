@@ -101,6 +101,89 @@ document.addEventListener("DOMContentLoaded", function () {
                   var commentlistingdata;
                   var showmorcomment = 10;
                   let apiFlags = true;
+                    var englishJson = {
+                      "title": "Title",
+                      "subtitle_text": "Subtitle text",
+                      "login": "Login",
+                      "register": "Register",
+                      "comment": "Comments",
+                      "send": "Send",
+                      "anonymous_user": "Anonymous user",
+                      "add_your_comment": "Add your comment",
+                      "see_org_comment": "See original comment",
+                      "posted": "Posted",
+                      "min_ago": "min ago",
+                      "show_more_cmt": "Show more comments",
+                      "footer_text": "Footer text",
+                      "register_desc": "To comment you need to register",
+                      "name": "Name",
+                      "email": "Email",
+                      "password": "Password",
+                      "create_account": "Create account",
+                      "other_options": "Other options",
+                      "register_model_footer": "I accept the terms and conditions Do you have an accout? Login",
+                      "login_desc": "To comment you need to login",
+                      "forgot_password": "Forgot password ?",
+                      "login_model_footer": "Don’t have an account? Register",
+                      "reset_password": "Reset password",
+                      "reset_desc": "Enter your email address And we will send you an email to reset"
+                    }
+
+                    var arabicJson = {
+                      "title": "اهلا وسهلا",
+                      "subtitle_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد",
+                      "login": "تسجيل",
+                      "register": "اتصال",
+                      "comment": "الردود",
+                      "send": "يرسل",
+                      "anonymous_user": "مستخدم مجهول",
+                      "add_your_comment": "أضف تعليقك",
+                      "see_org_comment": "أظهر المزيد من التعليقات",
+                      "posted": "دقائق",
+                      "min_ago": "منذ",
+                      "show_more_cmt": "أظهر المزيد من التعليقات",
+                      "footer_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد المزيد من النص ...",
+                      "register_desc": "للرد عليك التسجيل",
+                      "name": "اسم",
+                      "email": "بريد إلكتروني",
+                      "password": "كلمة المرور",
+                      "create_account": "إنشاء حساب",
+                      "other_options": "يمكنك أيضا التسجيل عن طريق",
+                      "register_model_footer": "بالتسجيل فإنك توافق على الشروط وسياسة الخصوصية الخاصة بنا هل لديك حساب؟ للاتصال",
+                      "login_desc": "للرد عليك التسجيل",
+                      "forgot_password": "نسيت كلمة السر؟",
+                      "login_model_footer": "لا تملك حساب؟ للتسجيل",
+                      "reset_password": "إعادة تعيين كلمة المرور",
+                      "reset_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور"
+                    }
+                    var hebrewJson = {
+                      "title": "אהלן וסהלן",
+                      "subtitle_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש",
+                      "login": "הרשמה",
+                      "register": "הרשמה",
+                      "comment": "תגובות",
+                      "send": "שלח",
+                      "anonymous_user": "משתמש אנונימי",
+                      "add_your_comment": "הוסף את תגובתך",
+                      "see_org_comment": "הצג בשפת המקור",
+                      "posted": "דק’",
+                      "min_ago": "לפני ",
+                      "show_more_cmt": "הצג תגובות נוספות",
+                      "footer_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש טקסט נוסף...",
+                      "register_desc": "על מנת להגיב יש להרשם",
+                      "name": "שם",
+                      "email": "מייל",
+                      "password": "סיסמה",
+                      "create_account": "צור חשבון",
+                      "other_options": "אפשר להרשם גם ע”י",
+                      "register_model_footer": "ע”י הרשמה אתה מסכים לתנאים ולמדיניות הפרטיות שלנו כבר יש לך חשבון ? להתחברות",
+                      "login_desc": "על מנת להגיב יש להרשם",
+                      "forgot_password": "שכחת את הסיסמה?",
+                      "login_model_footer": "אין לך חשבון? להרשמה",
+                      "reset_password": "איפוס סיסמה",
+                      "reset_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה"
+                    }
+                    var JsonData = englishJson
                   const reenterapicall = async (apiFlag) => {
                     if (showmorcomment == 10) {
                       var $spinnerdiv = $("<div>");
@@ -114,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("main-loader")
                         .appendTo($app);
                     }
-
+                  
                     const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
                     const userData = JSON.parse(
@@ -130,15 +213,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
-                        document.getElementsByName("page_id")[0].id
-                      }&userId=${
-                        userId && userId !== null ? userId : ""
-                      }&site=${
-                        site == "israel"
+                      url: `https://9c01-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                        }&userId=${userId && userId !== null ? userId : ""
+                        }&site=${site == "israel"
                           ? "israelBackOffice"
                           : "ittihadBackOffice"
-                      }`, // Replace with your API endpoint
+                        }`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -200,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
-                            }&userId=${userId && userId !== null ? userId : ""
-                            }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
+                      url: `https://9c01-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                        }&userId=${userId && userId !== null ? userId : ""
+                        }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -289,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
-                      `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
+                      `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
                       bannerClass
                     );
                     if (apiFlags) {
@@ -306,13 +386,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create an h1 tag with the content "Israel Today"
                     const $h1Element = $("<div>")
                       .addClass("title")
-                      .text(commentlistingdata?.data?.pageData?.top_title);
+                      .text(JsonData?.title);
 
                     // Append the h1 tag to the flex container
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                       `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
+                      `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -362,20 +442,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create buttons and add styles
                     var $Login = $("<button>")
                       .addClass("blue-button")
-                      .text("Login");
-                    // $Login.hover(
-                    //   function () {
-                    //     // Mouse enter (hover in) - Change the background color to red
-                    //     $(this);
-                    //   },
-                    //   function () {
-                    //     // Mouse leave (hover out) - Restore the original background color
-                    //     $(this);
-                    //   }
-                    // );
+                      .text(JsonData?.login);
+                  
                     const $Register = $("<button>")
                       .addClass("blue-button")
-                      .text("Register");
+                      .text(JsonData?.register);
                     const $Logout = $("<p>")
                       .text("Logout | ")
                       .addClass("logout-text")
@@ -398,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $textName = $("<div>")
                       .addClass("total-comments")
                       .text(
-                        `${commentlistingdata?.data?.totalComment} Comments`
+                        `${commentlistingdata?.data?.totalComment} ${JsonData?.comment}`
                       );
 
                     const isLogin = localStorage.getItem("token");
@@ -451,7 +522,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .text(
                         userData && userData !== ""
                           ? capitalizeFirstLetter(userData?.name)
-                          : "Anonymous user"
+                          : JsonData?.anonymous_user
                       );
 
                     //account is still pending
@@ -474,7 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
                           fetch(
-                            `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
+                            `https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
                             {
                               method: "POST",
                               headers: headers,
@@ -502,7 +573,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .css({
                         direction: "ltr",
                       })
-                      .text("send");
+                      .text(JsonData?.send);
 
                     const $commentInput = $("<input>")
                       .addClass("form-control-input")
@@ -619,7 +690,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
                               }`; // Example URL
 
                             // Define headers for the request
@@ -717,7 +788,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -783,7 +854,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create element under the logo
                     const $subHeader = $("<div>")
                       .addClass("sub-title")
-                      .text(commentlistingdata?.data?.pageData?.sub_title);
+                      .text(JsonData?.subtitle_text);
 
                     // Create the second child div (user image)
                     const $userImageDiv = $("<div>").addClass("right");
@@ -828,8 +899,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("user-text")
                       .text(
                         userData &&
-                          userData.name &&
-                          capitalizeFirstLetter(userData.name.charAt(0))
+                        userData.name &&
+                        capitalizeFirstLetter(userData.name.charAt(0))
                       );
 
                     // $commentSectionDiv.append($commentButton);
@@ -885,7 +956,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .text(
                             dataItem?.name && dataItem.name !== ""
                               ? capitalizeFirstLetter(dataItem.name)
-                              : "Anonymous user"
+                              : JsonData?.anonymous_user
                           )
                           .css({});
 
@@ -916,8 +987,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("user-text")
                           .text(
                             dataItem &&
-                              dataItem.name &&
-                              capitalizeFirstLetter(dataItem.name.charAt(0))
+                            dataItem.name &&
+                            capitalizeFirstLetter(dataItem.name.charAt(0))
                           );
 
                         const $commentuserimagelogo = $("<img>")
@@ -991,7 +1062,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                              `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1014,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 isLiked = data?.data?.like;
                                 // $(this).prop('disabled', false)
                                 likeclickflage = true;
-                              }).finally(()=>{
+                              }).finally(() => {
                                 likeclickflage = true;
                               });
                           }
@@ -1103,7 +1174,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .text(
                                 item?.name && item.name !== ""
                                   ? capitalizeFirstLetter(item.name)
-                                  : "Anonymous user"
+                                  : JsonData?.anonymous_user
                               )
                               .css({});
 
@@ -1137,8 +1208,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               .addClass("user-text")
                               .text(
                                 item &&
-                                  item.name &&
-                                  capitalizeFirstLetter(item.name.charAt(0))
+                                item.name &&
+                                capitalizeFirstLetter(item.name.charAt(0))
                               );
 
                             //comment replay after user successfuly login
@@ -1184,56 +1255,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             $likeIconreplay.click(async function () {
                               if (likeclickflage) {
-                              likeclickflage=false
-                              const ipAddress = await getIp();
-                              isLiked = !isLiked; // Toggle the state on each click
-                              $(this).attr(
-                                "src",
-                                isLiked
-                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                              );
-                              // Change the fill color based on the state
-                              const token = localStorage.getItem("token");
+                                likeclickflage = false
+                                const ipAddress = await getIp();
+                                isLiked = !isLiked; // Toggle the state on each click
+                                $(this).attr(
+                                  "src",
+                                  isLiked
+                                    ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                    : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                                );
+                                // Change the fill color based on the state
+                                const token = localStorage.getItem("token");
 
-                              const headers = {
-                                "Content-Type": "application/json", // Specify the content type as JSON
-                              };
-                              if (token) {
-                                headers["Authorization"] = `Bearer ${token}`;
-                              }
-
-                              fetch(
-                                `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
-                                {
-                                  method: "POST",
-                                  headers: headers,
-                                  body: JSON.stringify({
-                                    like: isLiked, // Send the current state as like
-                                    ip: ipAddress,
-                                  }),
+                                const headers = {
+                                  "Content-Type": "application/json", // Specify the content type as JSON
+                                };
+                                if (token) {
+                                  headers["Authorization"] = `Bearer ${token}`;
                                 }
-                              )
-                                .then((response) => {
-                                  if (!response.ok) {
-                                    throw new Error(
-                                      "Network response was not ok"
-                                    );
+
+                                fetch(
+                                  `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                  {
+                                    method: "POST",
+                                    headers: headers,
+                                    body: JSON.stringify({
+                                      like: isLiked, // Send the current state as like
+                                      ip: ipAddress,
+                                    }),
                                   }
-                                  return response.json();
-                                })
-                                .then((data) => {
-                                  $likeicontextreplay.text(
-                                    data?.data?.likeCount
-                                  );
-                                  isLiked = data.data.like;
-                                  likeclickflage=true;
-                                }).finally(()=>{
-                                  likeclickflage = true;
-                                });;
+                                )
+                                  .then((response) => {
+                                    if (!response.ok) {
+                                      throw new Error(
+                                        "Network response was not ok"
+                                      );
+                                    }
+                                    return response.json();
+                                  })
+                                  .then((data) => {
+                                    $likeicontextreplay.text(
+                                      data?.data?.likeCount
+                                    );
+                                    isLiked = data.data.like;
+                                    likeclickflage = true;
+                                  }).finally(() => {
+                                    likeclickflage = true;
+                                  });;
                               }
                             });
-                          
+
 
                             const $commenticondivreplay =
                               $("<div>").addClass("comment-counter");
@@ -1328,7 +1399,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .text(
                             userData && userData !== ""
                               ? capitalizeFirstLetter(userData?.name)
-                              : "Anonymous user"
+                              : JsonData?.anonymous_user
                           );
                         const $leftcommenntinputsection =
                           $("<div>").addClass("left");
@@ -1339,7 +1410,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .css({
                             direction: "ltr",
                           })
-                          .text("send");
+                          .text(JsonData?.send);
                         const $commentreplayInput = $("<input>")
                           .addClass("form-control-input")
                           .attr({
@@ -1364,8 +1435,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           .addClass("user-text")
                           .text(
                             userData &&
-                              userData.name &&
-                              capitalizeFirstLetter(userData.name.charAt(0))
+                            userData.name &&
+                            capitalizeFirstLetter(userData.name.charAt(0))
                           );
                         $replaycommentinputandbuttondiv.append(
                           $commentreplayInput,
@@ -1497,7 +1568,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1602,7 +1673,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `https://9c01-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -1936,7 +2007,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
                           {
                             method: "POST",
                             headers: {
@@ -2127,7 +2198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const $loginButton = $("<button>")
                       .addClass("red-button")
-                      .text("Login");
+                      .text(JsonData?.login);
                     // Create a section for other option
                     const $otherOptionsSection = $("<div>");
 
@@ -2195,7 +2266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     $registerLink.append("Don’t have an account? ");
                     const $registerSpan = $("<span>")
-                      .text("Register")
+                      .text(JsonData?.register)
 
                       .click(function () {
                         // Add functionality to handle "Register" click here
@@ -2280,7 +2351,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
                           payload,
                           {
                             headers: {
@@ -2446,7 +2517,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2506,7 +2577,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the "Don’t have an account?" text and make it black
                     $registerLinkForgot.append("Don’t have an account? ");
                     const $registerForgotSpan = $("<span>")
-                      .text("Register")
+                      .text(JsonData?.register)
 
                       .click(function () {
                         // Add functionality to handle "Register" click here
@@ -2542,7 +2613,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .addClass("left-content")
                       .css({ display: "none" });
 
-                    const $registerHeader = $("<h2>").text("Register");
+                    const $registerHeader = $("<h2>").text(JsonData?.register);
                     const $redTextreg = $("<h4>").text(
                       "To comment you need to register"
                     );
@@ -2688,7 +2759,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create the registration button
                     const $registerButton = $("<button>")
                       .addClass("red-button")
-                      .text("Register");
+                      .text(JsonData?.register);
 
                     // Create a section for other options
                     const $registerOtherOptionsSection = $("<div>");
@@ -2739,7 +2810,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Append the "Login" text to the existing paragraph
                     const $registerLoginSpan = $("<span>")
-                      .text("Login")
+                      .text(JsonData?.login)
 
                       .click(function () {
                         // Add functionality to handle "Login" click here
@@ -2819,7 +2890,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                         `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
+                        `https://9c01-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
@@ -3073,7 +3144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3479,7 +3550,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
                           ResetPassVal,
                           {
                             headers: {
@@ -3581,7 +3652,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://d4a4-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          "https://9c01-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
                           payload,
                           {
                             headers: {
