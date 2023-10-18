@@ -942,7 +942,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $userImage = $("<img>")
                       .attr(
                         "src",
-                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                        "assets/ei_user.png"
                       )
                       .attr("alt", "User Image");
 
