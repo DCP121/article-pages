@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     );
 
-    loadCSS('https://cdn.jsdelivr.net/gh/DCP121/article-pages@1fce38d9ca668be14357ba437aa4d4b54797c6be/index.css')
+    loadCSS(
+      "https://cdn.jsdelivr.net/gh/DCP121/article-pages@1fce38d9ca668be14357ba437aa4d4b54797c6be/index.css"
+    );
     // loadCSS("./index.css");
 
     // Load JavaScript libraries
@@ -200,9 +202,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
-                            }&userId=${userId && userId !== null ? userId : ""
-                            }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
+                      url: `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${
+                        document.getElementsByName("page_id")[0].id
+                      }&userId=${
+                        userId && userId !== null ? userId : ""
+                      }&site=${
+                        site == "israel"
+                          ? "israelBackOffice"
+                          : "ittihadBackOffice"
+                      }`, // Replace with your API endpoint
                       method: "POST",
                       dataType: "json",
                       headers: headers,
@@ -285,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Create a div for the first image and add it to the main app container
                     const $firstImageContainer = $("<div>");
-                    console.log(commentlistingdata.data.pageData, "data")
+                    console.log(commentlistingdata.data.pageData, "data");
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
@@ -312,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                       `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
+                      `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -504,7 +512,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       })
                       .text("send");
 
-                    const $commentInput = $("<input>")
+                    const $commentInput = $("<textarea>")
                       .addClass("form-control-input")
                       .attr({
                         type: "text",
@@ -568,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // });
 
                     $commentButton.on("click", function () {
+                      $commentButton.prop("disabled", true);
                       submitComment();
                     });
 
@@ -610,7 +619,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               .show();
                           } else {
                             // Disable the comment button during the API call
-                            $commentButton.prop("disabled", true);
 
                             const $spinner = $("<div>")
                               .addClass(
@@ -619,8 +627,9 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
-                              }`; // Example URL
+                            const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${
+                              document.getElementsByName("page_id")[0].id
+                            }`; // Example URL
 
                             // Define headers for the request
                             const headers = {
@@ -717,7 +726,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${
+                            document.getElementsByName("page_id")[0].id
+                          }`; // Example URL
 
                           // Define headers for the request
 
@@ -931,13 +942,27 @@ document.addEventListener("DOMContentLoaded", function () {
                               : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                             //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
                           );
-                          const $paragraph = $("<div>")
-                          .addClass("user-comments")
-                          .text(
-                            dataItem && !dataItem.updatedComment
-                              ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
-                               dataItem.updatedComment : dataItem.originalComment
-                          );
+                        // const $paragraph = $("<div>")
+                        // .addClass("user-comments")
+                        // .text(
+                        //   dataItem && !dataItem.updatedComment
+                        //     ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
+                        //      dataItem.updatedComment : dataItem.originalComment
+                        // );
+                        const text =
+                          dataItem && !dataItem.updatedComment
+                            ? dataItem.originalComment
+                            : dataItem.ip === localStorage.getItem("ip")
+                            ? dataItem.updatedComment
+                            : dataItem.originalComment;
+
+                        const lines = text.split("\n");
+
+                        const $paragraph = $("<div>").addClass("user-comments");
+
+                        lines.forEach((line) => {
+                          $paragraph.append($("<div>").text(line));
+                        });
 
                         // Append the div to the document body or another container
 
@@ -1014,7 +1039,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 isLiked = data?.data?.like;
                                 // $(this).prop('disabled', false)
                                 likeclickflage = true;
-                              }).finally(()=>{
+                              })
+                              .finally(() => {
                                 likeclickflage = true;
                               });
                           }
@@ -1065,7 +1091,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $likeicondiv,
                           $commenticondiv,
                           dataItem.updatedComment &&
-                          dataItem?.userId === userData?._id
+                            dataItem?.userId === userData?._id
                             ? $seeOriginalCommentButton
                             : ""
                         );
@@ -1154,13 +1180,28 @@ document.addEventListener("DOMContentLoaded", function () {
                                   : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
                               );
 
-                            const $commentreplayparagraph = $("<div>")
-                              .addClass("user-comments")
-                              .text(
-                                item && !item.updatedComment
-                                  ? item?.originalComment
-                                  : item?.updatedComment
+                            // const $commentreplayparagraph = $("<div>")
+                            //   .addClass("user-comments")
+                            //   .text(
+                            //     item && !item.updatedComment
+                            //       ? item?.originalComment
+                            //       : item?.updatedComment
+                            //   );
+                            const text =
+                              item && !item.updatedComment
+                                ? item?.originalComment
+                                : item?.updatedComment;
+
+                            const lines = text.split("\n");
+
+                            const $commentreplayparagraph =
+                              $("<div>").addClass("user-comments");
+
+                            lines.forEach((line) => {
+                              $commentreplayparagraph.append(
+                                $("<div>").text(line)
                               );
+                            });
 
                             //$middelepartreplaycommentsection.append($commentreplayparagraph,$commentreplyuserImage);
                             //social icon div
@@ -1184,56 +1225,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             $likeIconreplay.click(async function () {
                               if (likeclickflage) {
-                              likeclickflage=false
-                              const ipAddress = await getIp();
-                              isLiked = !isLiked; // Toggle the state on each click
-                              $(this).attr(
-                                "src",
-                                isLiked
-                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
-                              );
-                              // Change the fill color based on the state
-                              const token = localStorage.getItem("token");
+                                likeclickflage = false;
+                                const ipAddress = await getIp();
+                                isLiked = !isLiked; // Toggle the state on each click
+                                $(this).attr(
+                                  "src",
+                                  isLiked
+                                    ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
+                                    : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                                );
+                                // Change the fill color based on the state
+                                const token = localStorage.getItem("token");
 
-                              const headers = {
-                                "Content-Type": "application/json", // Specify the content type as JSON
-                              };
-                              if (token) {
-                                headers["Authorization"] = `Bearer ${token}`;
-                              }
-
-                              fetch(
-                                `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
-                                {
-                                  method: "POST",
-                                  headers: headers,
-                                  body: JSON.stringify({
-                                    like: isLiked, // Send the current state as like
-                                    ip: ipAddress,
-                                  }),
+                                const headers = {
+                                  "Content-Type": "application/json", // Specify the content type as JSON
+                                };
+                                if (token) {
+                                  headers["Authorization"] = `Bearer ${token}`;
                                 }
-                              )
-                                .then((response) => {
-                                  if (!response.ok) {
-                                    throw new Error(
-                                      "Network response was not ok"
-                                    );
+
+                                fetch(
+                                  `https://d4a4-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                  {
+                                    method: "POST",
+                                    headers: headers,
+                                    body: JSON.stringify({
+                                      like: isLiked, // Send the current state as like
+                                      ip: ipAddress,
+                                    }),
                                   }
-                                  return response.json();
-                                })
-                                .then((data) => {
-                                  $likeicontextreplay.text(
-                                    data?.data?.likeCount
-                                  );
-                                  isLiked = data.data.like;
-                                  likeclickflage=true;
-                                }).finally(()=>{
-                                  likeclickflage = true;
-                                });;
+                                )
+                                  .then((response) => {
+                                    if (!response.ok) {
+                                      throw new Error(
+                                        "Network response was not ok"
+                                      );
+                                    }
+                                    return response.json();
+                                  })
+                                  .then((data) => {
+                                    $likeicontextreplay.text(
+                                      data?.data?.likeCount
+                                    );
+                                    isLiked = data.data.like;
+                                    likeclickflage = true;
+                                  })
+                                  .finally(() => {
+                                    likeclickflage = true;
+                                  });
                               }
                             });
-                          
 
                             const $commenticondivreplay =
                               $("<div>").addClass("comment-counter");
@@ -1340,7 +1381,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             direction: "ltr",
                           })
                           .text("send");
-                        const $commentreplayInput = $("<input>")
+                        const $commentreplayInput = $("<textarea>")
                           .addClass("form-control-input")
                           .attr({
                             type: "text",
@@ -1444,6 +1485,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // });
 
                         $replaycommentButton.on("click", function () {
+                          $replaycommentButton.prop("disabled", true);
                           submitReplyComment();
                         });
 
@@ -2819,7 +2861,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                         `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
+                        `https://d4a4-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
