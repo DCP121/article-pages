@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "otp_placeholder": "הזן OTP",
                     "submit_otp": "שלח OTP"
                   }
-                  var JsonData = arabicJson
+                  var JsonData = englishJson
                   const reenterapicall = async (apiFlag) => {
                     if (showmorcomment == 10) {
                       var $spinnerdiv = $("<div>");
@@ -1032,7 +1032,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $commentuserImages = $("<img>")
                           .attr(
                             "src",
-                            "https://lh3.googleusercontent.com/a/ACg8ocLWwk52M93JXNOXhlBSUngVV7LgJbTm77LlLN856wgx=s96-c"
+                             dataItem?.image
                           )
                           .attr("alt", "User Image")
                           .addClass("user-text");
