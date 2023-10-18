@@ -3738,14 +3738,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         .appendTo($registerButton);
 
                       $registerButton.prop("disabled", true);
+                      const ip = localStorage.getItem("ip");
+
                       // Prepare the payload
                       const payload = {
                         name: name,
                         email: email,
                         password: password,
                         site: siteName,
-                        ip: "172.16.2.52",
-                        device: "web",
+                        ip,
+                        device,
                       };
 
                       try {
