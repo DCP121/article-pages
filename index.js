@@ -700,8 +700,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     // });
 
                     $commentButton.on("click", function () {
+                    if(userData?.emailVerified===true){
+                     $commentButton.prop("disabled", true);
+                      submitComment();
+                    }
+                    else if(userData===null){
                       $commentButton.prop("disabled", true);
                       submitComment();
+                    }
+                    else{
+                      $errorMessagecomment
+                      .text("you are not verified pleace verified your account")
+                      .show();
+                    }
                     });
 
                     const submitComment = async () => {
@@ -1617,8 +1628,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         // });
 
                         $replaycommentButton.on("click", function () {
+                          if(userData?.emailVerified===true){
+
                           $replaycommentButton.prop("disabled", true);
-                          submitReplyComment();
+                          submitReplyComment();}
+                          else if(userData===null){
+                            $replaycommentButton.prop("disabled", true);
+                            submitReplyComment();
+                          }
+                          else{
+                            $errorMessagecomment
+                            .text("you are not verified pleace verified your account")
+                            .show();
+                          }
                         });
 
                         const submitReplyComment = async () => {
