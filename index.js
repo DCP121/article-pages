@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create an h1 tag with the content "Israel Today"
                     const $h1Element = $("<div>")
                       .addClass("title")
-                      .text(JsonData?.title);
+                      .text(commentlistingdata?.data?.pageData?.top_title);
 
                     // Append the h1 tag to the flex container
                     $flexContainer.append($h1Element);
@@ -924,7 +924,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Create element under the logo
                     const $subHeader = $("<div>")
                       .addClass("sub-title")
-                      .text(JsonData?.subtitle_text);
+                      .text(commentlistingdata?.data?.pageData?.sub_title);
 
                     // Create the second child div (user image)
                     const $userImageDiv = $("<div>").addClass("right");
