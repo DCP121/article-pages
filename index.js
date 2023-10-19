@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   let cliendId = null;
                   // Create a script element
                   const script = document.createElement("script");
+                  var API_URL="https://5bfe-137-184-19-129.ngrok-free.app/api/v1"
+                  var FILE_URL="https://5bfe-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
@@ -270,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `${API_URL}/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == "israel"
                           ? "israelBackOffice"
@@ -337,7 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `${API_URL}/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -426,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     displayResponsiveImage(
                       $firstImageContainer,
                       // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
-                      `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.top_banner_image}`,
+                      `${FILE_URL}/${commentlistingdata.data.pageData.top_banner_image}`,
                       bannerClass
                     );
                     if (apiFlags) {
@@ -449,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $flexContainer.append($h1Element);
                     displayResponsiveImage(
                       $flexContainer,
-                      `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.logo_image}`,
+                      `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
 
@@ -604,7 +606,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             headers["Authorization"] = `Bearer ${token}`;
                           }
                           fetch(
-                            `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/resend-otp`,
+                            `${API_URL}/user/resend-otp`,
                             {
                               method: "POST",
                               headers: headers,
@@ -750,7 +752,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `${API_URL}/comments/addComments/${document.getElementsByName("page_id")[0].id
                               }`; // Example URL
 
                             // Define headers for the request
@@ -852,7 +854,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `${API_URL}/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
 
                           // Define headers for the request
 
@@ -1143,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             fetch(
-                              `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${dataItem._id}`,
+                              `${API_URL}/comments/updateLike?commentId=${dataItem._id}`,
                               {
                                 method: "POST",
                                 headers: headers,
@@ -1372,7 +1374,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }
 
                                 fetch(
-                                  `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/updateLike?commentId=${item?.id}`,
+                                  `${API_URL}/comments/updateLike?commentId=${item?.id}`,
                                   {
                                     method: "POST",
                                     headers: headers,
@@ -1670,7 +1672,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (token) {
                                   headers["Authorization"] = `Bearer ${token}`;
                                 }
-                                const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                                const apiUrl = `${API_URL}/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                                 // Define additional options for the request
                                 const requestOptions = {
@@ -1781,7 +1783,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (token) {
                                 headers["Authorization"] = `Bearer ${token}`;
                               }
-                              const apiUrl = `https://5bfe-137-184-19-129.ngrok-free.app/api/v1/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
+                              const apiUrl = `${API_URL}/comments/addCommentsReplay/${dataItem?._id}`; // Example URL
 
                               // Define additional options for the request
                               const requestOptions = {
@@ -2105,7 +2107,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
                         // Send a POST request to the login API
                         fetch(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/google-sign-in",
+                          `${API_URL}/user/google-sign-in`,
                           {
                             method: "POST",
                             headers: {
@@ -2449,7 +2451,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/login-article-page",
+                          `${API_URL}/user/login-article-page`,
                           payload,
                           {
                             headers: {
@@ -2615,7 +2617,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $ForgotPassSubmit.prop("disabled", true);
                       try {
                         const response = await axios.post(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/forgot-password-article-page",
+                          `${API_URL}/user/forgot-password-article-page`,
                           ForgotPassPayload,
                           {
                             headers: {
@@ -2988,7 +2990,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $registrationImage = $("<img>")
                       .attr(
                         "src",
-                        `https://5bfe-137-184-19-129.ngrok-free.app/${commentlistingdata.data.pageData.login_image}`,
+                        `${FILE_URL}/${commentlistingdata.data.pageData.login_image}`,
                       ) // Replace with the actual path to your image
                       .css({
                         "max-width": "100%",
@@ -3242,7 +3244,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Prepare the payload for OTP confirmation
                       try {
                         const response = await axios.post(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/verify-otp-for-article",
+                          `${API_URL}/user/verify-otp-for-article`,
                           otpConfirmationPayload,
                           {
                             headers: {
@@ -3648,7 +3650,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // Send a POST request to the OTP confirmation API
                       try {
                         const response = await axios.post(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/reset-password-article-page",
+                          `${API_URL}/user/reset-password-article-page`,
                           ResetPassVal,
                           {
                             headers: {
@@ -3752,7 +3754,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       try {
                         const response = await axios.post(
-                          "https://5bfe-137-184-19-129.ngrok-free.app/api/v1/user/register-article-page",
+                          `${API_URL}/user/register-article-page`,
                           payload,
                           {
                             headers: {
