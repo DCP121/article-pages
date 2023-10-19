@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element
                   const script = document.createElement("script");
                   // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var API_URL = "http://172.16.1.237:3001/api/v1"
+                  var API_URL = "https://131c-137-184-19-129.ngrok-free.app/api/v1"
 
-                  var FILE_URL = "https://41dd-137-184-19-129.ngrok-free.app"
+                  var FILE_URL = "https://131c-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
@@ -312,6 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           localStorage.removeItem("token");
                           localStorage.removeItem("userData");
                         }
+                         $spinnerapilist.remove();
                         console.error("Error fetching data:", error);
                       },
                     });
@@ -343,7 +344,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (token) {
                       headers["Authorization"] = `Bearer ${token}`;
                     }
-
+                      var $errormeassgeloding=$("<div>").text('').css({direction:'ltr'})
+                      $app.append($errormeassgeloding)
                     $.ajax({
                       url: `${API_URL}/artical-page/articalPage?pageId=${saparetId
                         }&userId=${userId && userId !== null ? userId : ""
@@ -371,13 +373,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         processData(commentlistingdata, apiFlag);
                       },
                       error: function (xhr, status, error) {
-                        console.log(status, xhr?.status, "sta", error, "err");
+                        console.log(xhr,status, xhr?.status, "sta", error, "err");
                         if (xhr?.status === 401) {
                           reenterapicall(true);
                           $spinnerapilist.remove();
                           localStorage.removeItem("token");
                           localStorage.removeItem("userData");
                         }
+                         $spinnerapilist.remove();
+                         $errormeassgeloding.text(xhr.responseJSON.message)
                         console.error("Error fetching data:", error);
                       },
                     });
