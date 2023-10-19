@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   let cliendId = null;
                   // Create a script element
                   const script = document.createElement("script");
-                  var API_URL="https://5dfb-137-184-19-129.ngrok-free.app/api/v1"
-                  var FILE_URL="https://5dfb-137-184-19-129.ngrok-free.app"
+                  var API_URL="https://5bfe-137-184-19-129.ngrok-free.app/api/v1"
+                  var FILE_URL="https://5bfe-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
@@ -965,7 +965,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const $userImage = $("<img>")
                       .attr(
                         "src",
-                        "assets/ei_user.png"
+                        "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
                       )
                       .attr("alt", "User Image");
 
