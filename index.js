@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     loadCSS(
-      "https://cdn.jsdelivr.net/gh/DCP121/article-pages@1fce38d9ca668be14357ba437aa4d4b54797c6be/index.css"
+      "https://cdn.jsdelivr.net/gh/DCP121/article-pages@b557d7200627dfa0c23b270638ca94ac5e9aaa4e/index.css"
     );
     // loadCSS("./index.css");
 
