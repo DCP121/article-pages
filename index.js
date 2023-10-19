@@ -15,10 +15,7 @@ function loadScript(url, callback) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  var divElement = document.querySelector("div[name='page_id']");
-  var keyValue = divElement.getAttribute("page_url");
-  var url = window.location.href;
-  if (keyValue === url) {
+ 
     // Load CSS stylesheets
     loadCSS("https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css");
     loadCSS(
@@ -47,8 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   let cliendId = null;
                   // Create a script element
                   const script = document.createElement("script");
-                  var API_URL="https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var FILE_URL="https://41dd-137-184-19-129.ngrok-free.app"
+                  // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
+                  var API_URL = "http://172.16.1.237:3001/api/v1"
+
+                  var FILE_URL = "https://41dd-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
@@ -57,10 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
                   script.crossOrigin = "anonymous";
                   script.referrerPolicy = "no-referrer";
-                  const pageId = document.getElementsByName("page_id")[0].id;
-                  const site =
-                    document.getElementsByName("page_id")[0].attributes.for
-                      .value;
+                  // const pageId = document.getElementsByName("page_id")[0].id;
+                  // // const site =
+                  // //   document.getElementsByName("page_id")[0].attributes.for
+                  // //     .value;
+                  const article_page_id = document.getElementsByName("article_page_id")[0].attributes.for.value
+                  var parts = article_page_id.split("-");
+                  var site = parts[0];
+                  var saparetId = parts[1];
+                  var page_url = window.location.href;
+                  console.log(site, saparetId,"article_page_id")
                   var siteName =
                     site == "israel" ? "israel-today" : "ittihad-today";
                   // An mqtt variable will be initialized globally
@@ -75,9 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const client = mqtt.connect(url, options);
 
                     client.on("connect", function () {
-                      console.log("Connected", pageId, site, client);
+                      console.log("Connected", saparetId, site, client);
                     });
-                    client.subscribe(`${pageId}:${site}`);
+                    client.subscribe(`${saparetId}:${site}`);
                     client.on("message", function (topic, message, packet) {
                       commentlistapi(true);
                     });
@@ -272,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `${API_URL}/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `${API_URL}/artical-page/articalPage?pageId=${saparetId
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == "israel"
                           ? "israelBackOffice"
@@ -284,6 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       data: JSON.stringify({
                         itemsPerPage: showmorcomment,
                         ip: ipAddress,
+                        url:page_url
                       }),
 
                       success: function (data) {
@@ -339,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     $.ajax({
-                      url: `${API_URL}/artical-page/articalPage?pageId=${document.getElementsByName("page_id")[0].id
+                      url: `${API_URL}/artical-page/articalPage?pageId=${saparetId
                         }&userId=${userId && userId !== null ? userId : ""
                         }&site=${site == 'israel' ? "israelBackOffice" : "ittihadBackOffice"}`, // Replace with your API endpoint
                       method: "POST",
@@ -348,6 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       data: JSON.stringify({
                         itemsPerPage: showmorcomment,
                         ip: ipAddress,
+                        url: page_url
                       }),
 
                       success: function (data) {
@@ -586,13 +593,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     //account is still pending
 
-                    const $Accountpending = $("<div>").css({direction:'ltr'}).append(
+                    const $Accountpending = $("<div>").css({ direction: 'ltr' }).append(
                       $("<span>").text("Account is still pending confirmation"),
                       " ",
                       $("<span>")
                         .addClass("pending-useraccount")
                         .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
-            
+
                         .text("Send confirmation email again")
                         .click(function () {
                           $registerModal.css("display", "block");
@@ -700,19 +707,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     // });
 
                     $commentButton.on("click", function () {
-                    if(userData?.emailVerified===true){
-                     
-                      submitComment();
-                    }
-                    else if(userData===null){
-                      
-                      submitComment();
-                    }
-                    else{
-                      $errorMessagecomment
-                      .text("you are not verified pleace verified your account")
-                      .show();
-                    }
+                      if (userData?.emailVerified === true) {
+
+                        submitComment();
+                      }
+                      else if (userData === null) {
+
+                        submitComment();
+                      }
+                      else {
+                        $errorMessagecomment
+                          .text("you are not verified pleace verified your account")
+                          .show();
+                      }
                     });
 
                     const submitComment = async () => {
@@ -763,7 +770,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .attr("role", "status")
                               .appendTo($commentButton);
 
-                            const apiUrl = `${API_URL}/comments/addComments/${document.getElementsByName("page_id")[0].id
+                            const apiUrl = `${API_URL}/comments/addComments/${saparetId
                               }`; // Example URL
 
                             // Define headers for the request
@@ -792,8 +799,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   response.text().then(errorMessage => {
                                     const errorData = JSON.parse(errorMessage);
                                     $errorMessagecomment
-                                    .text(errorData.message)
-                                    .show();
+                                      .text(errorData.message)
+                                      .show();
                                     throw new Error(`HTTP error! Status: ${response.status}`)
                                   });
                                 }
@@ -865,7 +872,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr("role", "status")
                             .appendTo($commentButton);
 
-                          const apiUrl = `${API_URL}/comments/addComments/${document.getElementsByName("page_id")[0].id}`; // Example URL
+                          const apiUrl = `${API_URL}/comments/addComments/${saparetId}`; // Example URL
 
                           // Define headers for the request
 
@@ -893,8 +900,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 response.text().then(errorMessage => {
                                   const errorData = JSON.parse(errorMessage);
                                   $errorMessagecomment
-                                  .text(errorData.message)
-                                  .show();
+                                    .text(errorData.message)
+                                    .show();
                                   throw new Error(`HTTP error! Status: ${response.status}`)
                                 });
                               }
@@ -1058,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const $commentuserImages = $("<img>")
                           .attr(
                             "src",
-                             dataItem?.image
+                            dataItem?.image
                           )
                           .attr("alt", "User Image")
                           .addClass("user-text");
@@ -1400,8 +1407,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                       response.text().then(errorMessage => {
                                         const errorData = JSON.parse(errorMessage);
                                         $errorMessagecomment
-                                        .text(errorData.message)
-                                        .show();
+                                          .text(errorData.message)
+                                          .show();
                                       })
                                     }
                                     return response.json();
@@ -1555,12 +1562,33 @@ document.addEventListener("DOMContentLoaded", function () {
                           $commentreplayInput,
                           $replaycommentButton
                         );
-                        const $commentuserreplyimagelogo = $("<img>")
-                          .addClass("comment-logo")
-                          .attr(
-                            "src",
-                            "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          );
+                        if (userData && userData !== "") {
+                          var $commentuserreplyimagelogo = $("<img>")
+                            .addClass("comment-logo")
+                            .attr(
+                              "src",
+                              userData &&
+                                userData !== "" &&
+                                userData.site == "israel-today"
+                                ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                                : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                            );
+                        } else {
+                          var $commentuserreplyimagelogo = $("<img>")
+                            .addClass("comment-logo")
+                            .attr(
+                              "src",
+                              siteName == "israel-today"
+                                ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                                : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                            );
+                        }
+                        // const $commentuserreplyimagelogo = $("<img>")
+                        //   .addClass("comment-logo")
+                        //   .attr(
+                        //     "src",
+                        //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                        //   );
                         $leftcommenntinputsection.append(
                           $comenttitlereplay,
                           $replaycommentinputandbuttondiv,
@@ -1628,15 +1656,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         // });
 
                         $replaycommentButton.on("click", function () {
-                          if(userData?.emailVerified===true){
-                          submitReplyComment();}
-                          else if(userData===null){
+                          if (userData?.emailVerified === true) {
                             submitReplyComment();
                           }
-                          else{
+                          else if (userData === null) {
+                            submitReplyComment();
+                          }
+                          else {
                             $errorMessagecomment
-                            .text("you are not verified pleace verified your account")
-                            .show();
+                              .text("you are not verified pleace verified your account")
+                              .show();
                           }
                         });
 
@@ -1719,8 +1748,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                       response.text().then(errorMessage => {
                                         const errorData = JSON.parse(errorMessage);
                                         $errorMessagecomment
-                                        .text(errorData.message)
-                                        .show();
+                                          .text(errorData.message)
+                                          .show();
                                       })
                                     }
 
@@ -1830,8 +1859,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     response.text().then(errorMessage => {
                                       const errorData = JSON.parse(errorMessage);
                                       $errorMessagecomment
-                                      .text(errorData.message)
-                                      .show();
+                                        .text(errorData.message)
+                                        .show();
                                     })
                                   }
 
@@ -1841,7 +1870,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .then((data) => {
                                   // Handle the response data
                                   $replaycommentButton.prop("disabled", false);
-                                    $spinner.remove()
+                                  $spinner.remove()
                                   //commentlistapi(false);
                                   $commentreplayInput.val("");
                                   $("#ignismyModal").css("display", "block");
@@ -1862,7 +1891,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   // Handle any errors that occurred during the fetch
                                   console.error("Fetch error:", error);
                                   $replaycommentButton.prop("disabled", false);
-                                    $spinner.remove()
+                                  $spinner.remove()
                                 });
                               // finally {
                               //   // Enable button and remove spinner after API call is complete
@@ -3918,5 +3947,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       );
     });
-  }
+  
 });
