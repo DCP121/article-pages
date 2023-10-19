@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return ipAddress;
                   };
                   const $container = $("<div>").addClass("container");
-                  const $app = $("#app");
+                  const $app = $("#load-article-comment");
                   const containerClass = "image-container";
                   const bannerClass = "top-banner";
                   //api for comment listing pages
