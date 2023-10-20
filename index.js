@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element
                   const script = document.createElement("script");
                   // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var API_URL = "https://131c-137-184-19-129.ngrok-free.app/api/v1"
+                  var API_URL = "https://92d6-137-184-19-129.ngrok-free.app/api/v1"
 
-                  var FILE_URL = "https://131c-137-184-19-129.ngrok-free.app"
+                  var FILE_URL = "https://92d6-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     client.subscribe(`${saparetId}:${site}`);
                     client.on("message", function (topic, message, packet) {
-                      commentlistapi(true);
+                      commentlistapi(false);
                     });
                   };
                   document.head.appendChild(script);
@@ -330,6 +330,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("main-loader")
                         .appendTo($app);
                     }
+                    if(apiFlag===false){
+                      $spinnerapilist.remove();
+                    }
 
                     const ipAddress = await getIp();
                     const token = localStorage.getItem("token");
@@ -410,6 +413,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   function processData(xyz, apiFlag) {
                     if (apiFlag) {
                       $app.empty();
+                    } else {
+                      $('.comments-group').remove()
+                      $('#showmorecomment').remove()
+                      $('#footerConatiner').remove()
                     }
                     function displayResponsiveImage(
                       $parent,
@@ -1482,10 +1489,12 @@ document.addEventListener("DOMContentLoaded", function () {
                               $("<div>").addClass("comment-bottom");
                             $socialiconcommentreplay.append(
                               $likeicondivreplay,
+                            item.userId===userData?._id ?
                               item?.updatedComment &&
                                 item?.updatedComment !== ""
                                 ? $seeOriginalCommentButton
                                 : ""
+                              :''
                             );
 
                             $leftsidecommentreplaydiv.append(
@@ -2006,7 +2015,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     //show more comment button div
 
-                    const $showmorecommentdiv = $("<div>").css({});
+                    const $showmorecommentdiv = $("<div>").css({}).attr('id', "showmorecomment");
 
                     const $showmorecommentbutton = $("<button>")
                       .addClass("red-button-big")
@@ -2051,9 +2060,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistapi(true);
                       console.log("counter");
                     });
-                    if (apiFlag) {
+                    // if (apiFlag) {
                       $app.append($showmorecommentdiv);
-                    }
+                    // }
                     var tempElement = document.createElement("div");
                     tempElement.innerHTML =
                       commentlistingdata?.data?.pageData?.footer_text;
@@ -2062,7 +2071,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var text = tempElement.querySelector("p").textContent;
                     const $footerConatiner = $("<div>").text(text).css({
                       display: "flex",
-                    });
+                    }).attr('id', "footerConatiner");
 
                     $app.append($footerConatiner);
 
