@@ -422,6 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (apiFlag) {
                       $app.empty();
                     } else {
+                      $('#comment-section').remove()
                       $('.comments-group').remove()
                       $('#showmorecomment').remove()
                       $('#footerConatiner').remove()
@@ -1030,9 +1031,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       $app.append($subHeader);
                     }
                     $mainDivForCommentSection.append($commentSectionDiv);
-                    if (apiFlags) {
+                    // if (apiFlags) {
                       $app.append($mainDivForCommentSection);
-                    }
+                    // }
 
                     // $mainDivForCommentSection.append($containerCommentpart)
 
