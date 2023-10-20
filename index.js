@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   document.head.appendChild(script);
 
                   // Create a div container with the id "app"
-                  var ipadress;
+                  var ipAddress;
                   const getIp = async () => {
                     const response = await fetch(
                       `https://api64.ipify.org/?format=json`
@@ -102,6 +102,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     const ipAddress = data.ip;
                     return ipAddress;
                   };
+                  (async () => {
+                    try {
+                      ipAddress = await getIp();
+                      console.log('ip', ipAddress);
+                    } catch (error) {
+                      console.error('Error:', error);
+                    }
+                  })();
                   const $container = $("<div>").addClass("container");
                   const $app = $("#load-article-comment");
                   const containerClass = "image-container";
@@ -734,7 +742,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
 
                     const submitComment = async () => {
-                      const ipAddress = await getIp();
+                      //const ipAddress = await getIp();
                       if (commentlistingdata?.data?.pageData?.mustLogin) {
                         const token = localStorage.getItem("token");
 
@@ -1154,7 +1162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $likeIcon.click(async function () {
                           if (likeclickflage) {
                             likeclickflage = false;
-                            const ipAddress = await getIp();
+                            //const ipAddress = await getIp();
                             isLiked = !isLiked; // Toggle the state on each click
                             $(this).prop("disabled", true);
                             $(this).attr(
@@ -1382,7 +1390,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $likeIconreplay.click(async function () {
                               if (likeclickflage) {
                                 likeclickflage = false
-                                const ipAddress = await getIp();
+                                //const ipAddress = await getIp();
                                 isLiked = !isLiked; // Toggle the state on each click
                                 $(this).attr(
                                   "src",
@@ -1682,7 +1690,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
 
                         const submitReplyComment = async () => {
-                          const ipAddress = await getIp();
+                          //const ipAddress = await getIp();
                           if (commentlistingdata?.data?.pageData?.mustLogin) {
                             const token = localStorage.getItem("token");
                             if (!token) {
