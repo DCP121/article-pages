@@ -820,6 +820,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 return response.json();
                               })
                               .then((data) => {
+                                console.log('data',data)
                                 // Handle the response data
                                 $spinner.remove();
                                 // commentlistapi(false);
@@ -827,8 +828,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass("modal fade show");
                                 $("#msgtag").html(
-                                  commentlistingdata?.data?.pageData
-                                    ?.confirmCommentPopUpMessage
+                                  data?.message
                                 );
                                 setTimeout(() => {
                                   $("#ignismyModal").css("display", "none");
@@ -928,8 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
-                                commentlistingdata?.data?.pageData
-                                  ?.confirmCommentPopUpMessage
+                                data?.message
                               );
                               setTimeout(() => {
                                 $("#ignismyModal").css("display", "none");
@@ -1780,8 +1779,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       "modal fade show"
                                     );
                                     $("#msgtag").html(
-                                      commentlistingdata?.data?.pageData
-                                        ?.confirmCommentPopUpMessage
+                                     data?.message
                                     );
                                     setTimeout(() => {
                                       $("#ignismyModal").css("display", "none");
@@ -1891,8 +1889,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "modal fade show"
                                   );
                                   $("#msgtag").html(
-                                    commentlistingdata?.data?.pageData
-                                      ?.confirmCommentPopUpMessage
+                                    data?.message
                                   );
                                   setTimeout(() => {
                                     $("#ignismyModal").css("display", "none");
@@ -2194,7 +2191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $registerModal.css("display", "none");
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
+                            $("#msgtag").html(data?.message);
                             setTimeout(() => {
                               $("#ignismyModal").css("display", "none");
                               $("#msgtag").html("");
@@ -2522,6 +2519,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         if (response.status === 200) {
+                        console.log('res',response.data.message)
                           // Close the modal if login is successful
                           localStorage.setItem(
                             "token",
@@ -2540,10 +2538,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           FormCleaner();
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
-                          $("#msgtag").html(commentlistingdata?.data?.pageData?.login_message);
+                          $("#msgtag").html(response.data.message);
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
-                            $("#msgtag").html("");
+                            $("#msgtag").html(response?.data?.message);
                           }, 2000);
                         }
                       } catch (error) {
@@ -3332,7 +3330,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
                         $("#msgtag").html(
-                          commentlistingdata?.data?.pageData?.registration_message
+                          response?.data?.message
                         );
                         setTimeout(() => {
                           $("#ignismyModal").css("display", "none");
@@ -3728,7 +3726,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $("#ignismyModal").css("display", "block");
                           $("#ignismyModal").addClass("modal fade show");
                           $("#msgtag").html(
-                            commentlistingdata?.data?.pageData?.forgot_message
+                           response.data?.message
                           );
                           setTimeout(() => {
                             $("#ignismyModal").css("display", "none");
