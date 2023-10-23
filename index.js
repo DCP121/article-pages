@@ -1115,12 +1115,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         //     ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
                         //      dataItem.updatedComment : dataItem.originalComment
                         // );
-                        const text =
-                          dataItem && !dataItem.updatedComment
-                            ? dataItem.originalComment
-                            : dataItem.ip === localStorage.getItem("ip")
-                              ? dataItem.updatedComment
-                              : dataItem.originalComment;
+                        // const text =
+                        //   dataItem && !dataItem.updatedComment
+                        //     ? dataItem.originalComment
+                        //     : dataItem.ip === localStorage.getItem("ip")
+                        //       ? dataItem.updatedComment
+                        //       : dataItem.originalComment;
+                       const text= dataItem && !dataItem.updatedComment
+                                ? dataItem?.originalComment
+                                : dataItem?.updatedComment;
 
                         const lines = text.split("\n");
 
@@ -1256,7 +1259,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $likeicondiv,
                           $commenticondiv,
                           dataItem.updatedComment &&
-                            dataItem?.userId === userData?._id
+                            dataItem?.userId ===  userData && userData?.id && userData?._id
                             ? $seeOriginalCommentButton
                             : ""
                         );
@@ -1493,17 +1496,42 @@ document.addEventListener("DOMContentLoaded", function () {
                               isOriginalComment = !isOriginalComment;
                             });
 
-                            const $socialiconcommentreplay =
-                              $("<div>").addClass("comment-bottom");
-                            $socialiconcommentreplay.append(
-                              $likeicondivreplay,
-                            item.userId===userData?._id ?
-                              item?.updatedComment &&
-                                item?.updatedComment !== ""
-                                ? $seeOriginalCommentButton
-                                : ""
-                              :''
-                            );
+                          //   const $socialiconcommentreplay =
+                          //     $("<div>").addClass("comment-bottom");
+                          //   $socialiconcommentreplay.append(
+                          //     $likeicondivreplay,
+                          //  userData !==null && item.userId===userData?._id ?
+                          //     item?.updatedComment &&
+                          //       item?.updatedComment !== ""
+                          //       ? $seeOriginalCommentButton
+                          //       : ""
+                          //     :item?.ip==ipAddress && item?.updatedComment &&
+                          //     item?.updatedComment !== ""
+                          //     ? $seeOriginalCommentButton
+                          //     : ""
+                          //   );
+                          const $socialiconcommentreplay = $("<div>").addClass("comment-bottom");
+$socialiconcommentreplay.append($likeicondivreplay);
+
+if (
+  userData !== null &&               // Check if userData is not null
+  item.userId === userData?._id      // Check if item.userId is equal to userData?._id
+) {
+  if (
+    item.updatedComment &&            // Check if item.updatedComment is not empty
+    item.updatedComment !== ""
+  ) {
+    $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
+  }
+// } else{
+//   if (
+//     item.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
+//     item.updatedComment &&            // Check if item.updatedComment is not empty
+//     item.updatedComment !== ""
+//   ) {
+//     $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
+//   }
+}
 
                             $leftsidecommentreplaydiv.append(
                               $commentreplayheder,
