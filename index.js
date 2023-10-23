@@ -2190,7 +2190,7 @@ if (
                     gIdSigninDiv1.setAttribute("data-logo_alignment", "left");
 
                     // Define the handleCredentialResponse function using jQuery
-                    window.handleCredentialResponse = (response) => {
+                    window.handleCredentialResponse = async (response) => {
                       if (response.credential) {
                         const ip = localStorage.getItem("ip");
                         // const ip= "123.0.9.123"
@@ -2201,23 +2201,22 @@ if (
                           device,
                         };
                         // Send a POST request to the login API
-                        fetch(
-                          `${API_URL}/user/google-sign-in`,
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(payload),
-                          }
-                        )
-                          .then((response) => response.json())
-                          .then((data) => {
-                            // Close the modal if login is successful
-                            localStorage.setItem("token", data?.data?.token);
+                        try {
+                          const response = await axios.post(
+                            `${API_URL}/user/google-sign-in`,
+                            payload,
+                            {
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+                            console.log(response)
+                          if (response.status === 200) {
+                            localStorage.setItem("token", response?.data?.data?.token);
                             localStorage.setItem(
                               "userData",
-                              JSON.stringify(data?.data?.user)
+                              JSON.stringify(response?.data?.data?.user)
                             );
                             commentlistapi(true);
                             $Login.css({ display: "none" });
@@ -2228,15 +2227,64 @@ if (
                             $registerModal.css("display", "none");
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
-                            $("#msgtag").html(data?.message);
+                            $("#msgtag").html(response?.data?.message);
                             setTimeout(() => {
                               $("#ignismyModal").css("display", "none");
                               $("#msgtag").html("");
                             }, 2000);
-                          })
-                          .catch((error) => {
-                            console.error("Error:", error);
-                          });
+                          }
+                        } catch (error) {
+                          console.error("Error:", error);
+                          $ApierrorLogin.empty();
+                          $ApierrorLogin.append(
+                            $("<p>").text(error.response.data.message)
+                          );
+                          $ApierrorLogin.css("display", "block");
+  
+                          // Handle errors here if necessary
+                        } finally {
+                          // Enable button and remove spinner after API call is complete
+                          $loginButton.prop("disabled", false);
+                          $spinner.remove();
+                        }
+
+
+                        // fetch(
+                        //   `${API_URL}/user/google-sign-in`,
+                        //   {
+                        //     method: "POST",
+                        //     headers: {
+                        //       "Content-Type": "application/json",
+                        //     },
+                        //     body: JSON.stringify(payload),
+                        //   }
+                        // )
+                        //   .then((response) => response.json())
+                        //   .then((data) => {
+                        //     // Close the modal if login is successful
+                        //     localStorage.setItem("token", data?.data?.token);
+                        //     localStorage.setItem(
+                        //       "userData",
+                        //       JSON.stringify(data?.data?.user)
+                        //     );
+                        //     commentlistapi(true);
+                        //     $Login.css({ display: "none" });
+                        //     $Register.css({ display: "none" });
+                        //     $Logout.css({ display: "block" });
+                        //     onClosed();
+                        //     FormCleaner();
+                        //     $registerModal.css("display", "none");
+                        //     $("#ignismyModal").css("display", "block");
+                        //     $("#ignismyModal").addClass("modal fade show");
+                        //     $("#msgtag").html(data?.message);
+                        //     setTimeout(() => {
+                        //       $("#ignismyModal").css("display", "none");
+                        //       $("#msgtag").html("");
+                        //     }, 2000);
+                        //   })
+                        //   .catch((error) => {
+                        //     console.error("Error:", error);
+                        //   });
                       } else {
                         // User is not signed in or declined to sign in.
                       }
