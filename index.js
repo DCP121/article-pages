@@ -1258,11 +1258,30 @@ document.addEventListener("DOMContentLoaded", function () {
                         $socialicon.append(
                           $likeicondiv,
                           $commenticondiv,
-                          dataItem.updatedComment &&
-                            dataItem?.userId ===  userData && userData?.id && userData?._id
-                            ? $seeOriginalCommentButton
-                            : ""
+                          // dataItem.updatedComment &&
+                          //   dataItem?.userId ===  userData && userData?.id && userData?._id
+                          //   ? $seeOriginalCommentButton
+                          //   : ""
                         );
+                        if (
+                          userData !== null && userData?._id &&             // Check if userData is not null
+                          dataItem.userId === userData?._id      // Check if item.userId is equal to userData?._id
+                        ) {
+                          if (
+                            dataItem.updatedComment &&            // Check if item.updatedComment is not empty
+                            dataItem.updatedComment !== ""
+                          ) {
+                            $socialicon.append($seeOriginalCommentButton); // Append the button
+                          }
+                        } else{
+                          if ( userData ==null && !dataItem.userId &&
+                            dataItem.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
+                            dataItem.updatedComment &&            // Check if item.updatedComment is not empty
+                            dataItem.updatedComment !== ""
+                          ) {
+                            $socialicon.append($seeOriginalCommentButton); // Append the button
+                          }
+                        }
                         $righdiv.append(
                           dataItem && dataItem !== "" && dataItem.name
                             ? dataItem.image && dataItem.image !== ""
@@ -1523,14 +1542,14 @@ if (
   ) {
     $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
   }
-// } else{
-//   if (
-//     item.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
-//     item.updatedComment &&            // Check if item.updatedComment is not empty
-//     item.updatedComment !== ""
-//   ) {
-//     $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
-//   }
+} else{
+  if ( userData ==null && !item.userId &&
+    item.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
+    item.updatedComment &&            // Check if item.updatedComment is not empty
+    item.updatedComment !== ""
+  ) {
+    $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
+  }
 }
 
                             $leftsidecommentreplaydiv.append(
