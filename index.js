@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCSS(
       "https://cdn.jsdelivr.net/gh/DCP121/article-pages@b557d7200627dfa0c23b270638ca94ac5e9aaa4e/index.css"
     );
-    // loadCSS("./index.css");
+    loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+    //loadCSS("./index.css");
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element
                   const script = document.createElement("script");
                   // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var API_URL = "https://1d83-137-184-19-129.ngrok-free.app/api/v1"
+                  var API_URL = "http://137.184.19.129:4002/api/v1"
 
                   var FILE_URL = "https://1d83-137-184-19-129.ngrok-free.app"
 
@@ -622,7 +623,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       " ",
                       $("<span>")
                         .addClass("pending-useraccount")
-                        .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
+                        // .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
 
                         .text("Send confirmation email again")
                         .click(function () {
@@ -2397,7 +2398,7 @@ if (
                     const $emailContainer = $("<div>");
 
                     // Create a container div for the password input and show/hide toggle button
-                    const $passwordContainer = $("<div>");
+                    const $passwordContainer = $("<div>").addClass("custom-password");
                     var errorTextPass =
                       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character";
                     var $errorElementPass = $("<div>")
@@ -2441,7 +2442,7 @@ if (
 
                     // Create an icon for show/hide password functionality
                     const $showPasswordToggle = $("<i>")
-                      .addClass("far fa-eye")
+                      .addClass("fa fa-eye-slash")
                       .css({
                         "font-size": "24px", // Adjust the icon size
                         color: "#999", // Set the initial icon color
@@ -2455,10 +2456,10 @@ if (
                       const fieldType = $passwordField.attr("type");
                       if (fieldType === "password") {
                         $passwordField.attr("type", "text");
-                        $(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change the icon to hide
+                        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
                       } else {
                         $passwordField.attr("type", "password");
-                        $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to show
+                        $(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change the icon to show
                       }
                     });
 
@@ -2503,7 +2504,7 @@ if (
                     // $loginForm.append($emptyFieldErrorLogin);
                     $passwordContainer.append($passwordInput); // Append password input to the container
                     $passwordContainer.append($emptyFieldErrorLoginPass);
-                    // $passwordContainer.append($showPasswordToggle); // Append show/hide password icon to the container
+                    $passwordContainer.append($showPasswordToggle); // Append show/hide password icon to the container
                     $loginForm.append($passwordContainer); // Append the container to the login form
                     $loginForm.append($loginButton);
                     $loginForm.append($otherOptionsSection);
@@ -2987,7 +2988,7 @@ if (
                       });
 
                     // Create the password input field
-                    const $registerPasswordFieldDiv = $("<div>");
+                    const $registerPasswordFieldDiv = $("<div>").addClass('custom-password');
                     const $registerPasswordField = $("<input>")
                       .attr("type", "password")
                       .addClass("custom-input")
@@ -3022,6 +3023,29 @@ if (
                           $emptyFieldErrorRegisterPass.css("display", "block");
                         }
                       });
+                      const $showregisterpasswordtoggele = $("<i>")
+                      .addClass("fa fa-eye-slash")
+                      .css({
+                        "font-size": "24px", // Adjust the icon size
+                        color: "#999", // Set the initial icon color
+                        cursor: "pointer",
+                        "margin-left": "5px", // Adjust margin between input and icon
+                      });
+
+                    // Toggle the password field between text and password type
+                    $showregisterpasswordtoggele.click(function () {
+                      const $passwordField = $("#registerPasswordField");
+                      const fieldType = $passwordField.attr("type");
+                      if (fieldType === "password") {
+                        $passwordField.attr("type", "text");
+                        $(this).removeClass("fa-eye-slash").addClass("fa-eye"); 
+                         // Change the icon to hide
+                      } else {
+                        $passwordField.attr("type", "password");
+                        $(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
+                      }
+                    });
+                      
 
                     // Create the registration button
                     const $registerButton = $("<button>")
@@ -3117,7 +3141,7 @@ if (
                     // $registrationForm.append($registerEmailInput);
                     // $registrationForm.append($errorElementReg);
                     // $registrationForm.append($emptyFieldErrorRegisterEmail);
-                    $registerPasswordFieldDiv.append($registerPasswordField);
+                    $registerPasswordFieldDiv.append($registerPasswordField,$showregisterpasswordtoggele);
                     $registerPasswordFieldDiv.append(
                       $emptyFieldErrorRegisterPass
                     );
@@ -3584,11 +3608,11 @@ if (
                         }
                       });
                     // Create the password input field
-                    const $ResetPassInputDiv = $("<div>");
+                    const $ResetPassInputDiv = $("<div>").addClass('custom-password');
                     const $ResetPassInput = $("<input>")
                       .attr("type", "password") // Set the input type to password
                       .addClass("custom-input")
-                      .attr("id", "passwordField")
+                      .attr("id", "rpasswordField")
 
                       .keydown(function (event) {
                         if (event.keyCode == 32) {
@@ -3622,13 +3646,35 @@ if (
                           $emptyFieldErrorResetNewPass.css("display", "block");
                         }
                       });
+                      const $Showmoretotalresertpassword = $("<i>")
+                      .addClass("fa fa-eye-slash")
+                      .css({
+                        "font-size": "24px", // Adjust the icon size
+                        color: "#999", // Set the initial icon color
+                        cursor: "pointer",
+                        "margin-left": "5px", // Adjust margin between input and icon
+                      });
+
+                    // Toggle the password field between text and password type
+                    $Showmoretotalresertpassword.click(function () {
+                      const $passwordField = $("#rpasswordField");
+                      const fieldType = $passwordField.attr("type");
+                      if (fieldType === "password") {
+                        $passwordField.attr("type", "text");
+                        $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                      } else {
+                        $passwordField.attr("type", "password");
+                        
+                        $(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
+                      }
+                    });
 
                     // Create the password input field
-                    const $ResetPassReInputdiv = $("<div>");
+                    const $ResetPassReInputdiv = $("<div>").addClass('custom-password');
                     const $ResetPassReInput = $("<input>")
                       .attr("type", "password") // Set the input type to password
                       .addClass("custom-input")
-                      .attr("id", "passwordField")
+                      .attr("id", "repasswordField")
 
                       .keydown(function (event) {
                         if (event.keyCode == 32) {
@@ -3668,6 +3714,29 @@ if (
                           );
                         }
                       });
+                      const $Showmoretotalresertrepassword = $("<i>")
+                      .addClass("fa fa-eye-slash")
+                      .css({
+                        "font-size": "24px", // Adjust the icon size
+                        color: "#999", // Set the initial icon color
+                        cursor: "pointer",
+                        "margin-left": "5px", // Adjust margin between input and icon
+                      });
+
+                    // Toggle the password field between text and password type
+                    $Showmoretotalresertrepassword.click(function () {
+                      const $passwordField = $("#repasswordField");
+                      const fieldType = $passwordField.attr("type");
+                      if (fieldType === "password") {
+                        $passwordField.attr("type", "text");
+                       // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                      } else {
+                        $passwordField.attr("type", "password");
+                        // Change the icon to show
+                        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      }
+                    });
 
                     // Create a button for OTP confirmation
                     const $ResetPassButton = $("<button>")
@@ -3718,9 +3787,11 @@ if (
                     $ResetPassInputDiv.append($ResetPassInput);
                     $ResetPassInputDiv.append($emptyFieldErrorResetNewPass);
                     $ResetPassInputDiv.append($errorElementPassReset);
+                    $ResetPassInputDiv.append($Showmoretotalresertpassword);
 
                     $ResetPassForm.append($ResetPassReInputdiv);
                     $ResetPassReInputdiv.append($ResetPassReInput);
+                    $ResetPassReInputdiv.append($Showmoretotalresertrepassword);
                     $ResetPassReInputdiv.append(
                       $emptyFieldErrorResetConfirmPass
                     );

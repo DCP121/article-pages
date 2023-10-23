@@ -224,7 +224,11 @@ body {
 .pending-useraccount{
     color:red;
     cursor: pointer;
-    direction: ltr
+    direction: ltr;
+    background: url(./assets/alert-icon-svg.svg) no-repeat right top;
+    min-height: 30px;
+    padding-right: 35px;
+    text-decoration: underline;
 }
 .alerticon-size {
     width: 20px;
@@ -509,6 +513,14 @@ body {
     outline: 0;
     direction: rtl;
     margin-top: 15px;
+}
+.modal-content .left-content .custom-password {
+    position: relative;
+}
+.modal-content .left-content .custom-password .fa {
+ position: absolute;
+ left: 5px;
+ top: 22px;
 }
 .modal-content .left-content .red-button {
     width: 100%;
