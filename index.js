@@ -539,17 +539,21 @@ document.addEventListener("DOMContentLoaded", function () {
                       .click(function () {
                         localStorage.removeItem("token");
                         localStorage.removeItem("userData");
+                        $Login.css({ display: "block" });
+                        $Register.css({ display: "block" });
+                        $Logout.css({ display: "none" });
                         commentlistapi(true);
                         $("#ignismyModal").css("display", "block");
                         $("#ignismyModal").addClass("modal fade show");
                         $("#msgtag").html("Logout successfully!!");
+                       
                         setTimeout(() => {
                           $("#ignismyModal").css("display", "none");
                           $("#msgtag").html("");
                         }, 2000);
-                        $Login.css({ display: "block" });
-                        $Register.css({ display: "block" });
-                        $Logout.css({ display: "none" });
+                        // $Login.css({ display: "block" });
+                        // $Register.css({ display: "block" });
+                        // $Logout.css({ display: "none" });
                       });
                     // Create the text name element
                     const $textName = $("<div>")
