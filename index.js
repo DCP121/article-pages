@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "https://cdn.jsdelivr.net/gh/DCP121/article-pages@b557d7200627dfa0c23b270638ca94ac5e9aaa4e/index.css"
     );
     loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
-    //loadCSS("./index.css");
+   // loadCSS("./index.css");
 
     // Load JavaScript libraries
     loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element
                   const script = document.createElement("script");
                   // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var API_URL = "http://137.184.19.129:4002/api/v1"
+                  var API_URL = "https://1d83-137-184-19-129.ngrok-free.app"
 
                   var FILE_URL = "https://1d83-137-184-19-129.ngrok-free.app"
 
