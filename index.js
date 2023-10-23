@@ -1514,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", function () {
 $socialiconcommentreplay.append($likeicondivreplay);
 
 if (
-  userData !== null && userData?.id &&             // Check if userData is not null
+  userData !== null && userData?._id &&             // Check if userData is not null
   item.userId === userData?._id      // Check if item.userId is equal to userData?._id
 ) {
   if (
