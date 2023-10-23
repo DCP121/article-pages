@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element
                   const script = document.createElement("script");
                   // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                  var API_URL = "https://f1ef-137-184-19-129.ngrok-free.app/api/v1"
+                  var API_URL = "https://b2ae-137-184-19-129.ngrok-free.app/api/v1"
 
-                  var FILE_URL = "https://f1ef-137-184-19-129.ngrok-free.app"
+                  var FILE_URL = "https://b2ae-137-184-19-129.ngrok-free.app"
 
                   // Set the source and other attributes for the script
                   script.src =
