@@ -2440,7 +2440,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Create an icon for show/hide password functionality
                   const $showPasswordToggle = $("<i>")
-                    .addClass("fa fa-eye-slash")
+                    .addClass("fa fa-eye")
                     .css({
                       "font-size": "24px", // Adjust the icon size
                       color: "#999", // Set the initial icon color
@@ -2454,10 +2454,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     const fieldType = $passwordField.attr("type");
                     if (fieldType === "password") {
                       $passwordField.attr("type", "text");
-                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                     // $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                     $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
                       $passwordField.attr("type", "password");
-                      $(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change the icon to show
+                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      //$(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change the icon to show
                     }
                   });
 
@@ -3022,7 +3024,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     });
                   const $showregisterpasswordtoggele = $("<i>")
-                    .addClass("fa fa-eye-slash")
+                    .addClass("fa fa-eye")
                     .css({
                       "font-size": "24px", // Adjust the icon size
                       color: "#999", // Set the initial icon color
@@ -3036,11 +3038,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     const fieldType = $passwordField.attr("type");
                     if (fieldType === "password") {
                       $passwordField.attr("type", "text");
-                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      //$(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                       // Change the icon to hide
                     } else {
                       $passwordField.attr("type", "password");
-                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
+                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      //$(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
                     }
                   });
 
@@ -3645,7 +3649,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     });
                   const $Showmoretotalresertpassword = $("<i>")
-                    .addClass("fa fa-eye-slash")
+                    .addClass("fa fa-eye")
                     .css({
                       "font-size": "24px", // Adjust the icon size
                       color: "#999", // Set the initial icon color
@@ -3659,11 +3663,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     const fieldType = $passwordField.attr("type");
                     if (fieldType === "password") {
                       $passwordField.attr("type", "text");
-                      $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                     // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                     $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
                       $passwordField.attr("type", "password");
-
-                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
+                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      //$(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
                     }
                   });
 
@@ -3713,7 +3718,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     });
                   const $Showmoretotalresertrepassword = $("<i>")
-                    .addClass("fa fa-eye-slash")
+                    .addClass("fa fa-eye")
                     .css({
                       "font-size": "24px", // Adjust the icon size
                       color: "#999", // Set the initial icon color
@@ -3728,11 +3733,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (fieldType === "password") {
                       $passwordField.attr("type", "text");
                       // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                      //$(this).removeClass("fa-eye-slash").addClass("fa-eye"); 
                       $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
                       $passwordField.attr("type", "password");
                       // Change the icon to show
-                      $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      $(this).removeClass("fa-eye-slash").addClass("fa-eye")
+                      //$(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     }
                   });
 
