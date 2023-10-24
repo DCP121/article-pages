@@ -2450,14 +2450,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Toggle the password field between text and password type
                   $showPasswordToggle.click(function () {
-                    const $passwordField = $("#passwordField");
-                    const fieldType = $passwordField.attr("type");
+                   // const $passwordField = $("#passwordField");
+                    const fieldType = $passwordInput.attr("type");
                     if (fieldType === "password") {
-                      $passwordField.attr("type", "text");
+                      $passwordInput.attr("type", "text");
                      // $(this).removeClass("fa-eye-slash").addClass("fa-eye");
                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
-                      $passwordField.attr("type", "password");
+                      $passwordInput.attr("type", "password");
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye");
                       //$(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change the icon to show
                     }
@@ -3034,15 +3034,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Toggle the password field between text and password type
                   $showregisterpasswordtoggele.click(function () {
-                    const $passwordField = $("#registerPasswordField");
-                    const fieldType = $passwordField.attr("type");
+                    //const $passwordField = $("#registerPasswordField");
+                    const fieldType = $registerPasswordField.attr("type");
                     if (fieldType === "password") {
-                      $passwordField.attr("type", "text");
+                      $registerPasswordField.attr("type", "text");
                       //$(this).removeClass("fa-eye-slash").addClass("fa-eye");
                       $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                       // Change the icon to hide
                     } else {
-                      $passwordField.attr("type", "password");
+                      $registerPasswordField.attr("type", "password");
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye");
                       //$(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
                     }
@@ -3660,13 +3660,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Toggle the password field between text and password type
                   $Showmoretotalresertpassword.click(function () {
                     const $passwordField = $("#rpasswordField");
-                    const fieldType = $passwordField.attr("type");
+                    const fieldType = $ResetPassInput.attr("type");
                     if (fieldType === "password") {
-                      $passwordField.attr("type", "text");
+                      $ResetPassInput.attr("type", "text");
                      // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
-                      $passwordField.attr("type", "password");
+                      $ResetPassInput.attr("type", "password");
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye");
                       //$(this).removeClass("fa-eye").addClass("fa-eye-slash");// Change the icon to show
                     }
@@ -3728,15 +3728,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Toggle the password field between text and password type
                   $Showmoretotalresertrepassword.click(function () {
-                    const $passwordField = $("#repasswordField");
-                    const fieldType = $passwordField.attr("type");
+                    //const $passwordField = $("#repasswordField");
+                    const fieldType = $ResetPassReInput.attr("type");
                     if (fieldType === "password") {
-                      $passwordField.attr("type", "text");
+                      $ResetPassReInput.attr("type", "text");
                       // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
                       //$(this).removeClass("fa-eye-slash").addClass("fa-eye"); 
                       $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
-                      $passwordField.attr("type", "password");
+                      $ResetPassReInput.attr("type", "password");
                       // Change the icon to show
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye")
                       //$(this).removeClass("fa-eye").addClass("fa-eye-slash");
