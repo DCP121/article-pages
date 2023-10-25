@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-   loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
-  //loadCSS("./index.css");
+  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+ // loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -1607,12 +1607,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         })
                         .text(JsonData?.send);
                         $(document).ready(function () {
-                          $("#commentreplayTextarea").on("input", function () {
+                          $(`#${index}`).on("input", function () {
                             this.style.height = "auto";
                             this.style.height = this.scrollHeight + 10 + "px";
                           });
                         });
-                      const $commentreplayInput = $("<textarea>").attr('id','commentreplayTextarea')
+                      const $commentreplayInput = $("<textarea>").attr('id',index)
                         .addClass("form-control-input")
                         .attr({
                           type: "text",
