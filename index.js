@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
- // loadCSS("./index.css");
+ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+  //loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -827,6 +827,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (!response.ok) {
                                 response.text().then(errorMessage => {
                                   const errorData = JSON.parse(errorMessage);
+                                  if(response.status==401){
+                                    $errorMessagecomment
+                                    .text(errorData.message)
+                                    .hide
+                                    $registerModal.css("display", "block");
+                                    $loginForm.css("display", "block")
+                                  }
                                   $errorMessagecomment
                                     .text(errorData.message)
                                     .show();
@@ -927,6 +934,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (!response.ok) {
                               response.text().then(errorMessage => {
                                 const errorData = JSON.parse(errorMessage);
+                                if(response.status==401){
+                                  $errorMessagecomment
+                                  .text(errorData.message)
+                                  .hide
+                                  $registerModal.css("display", "block");
+                                  $loginForm.css("display", "block")
+                                }
                                 $errorMessagecomment
                                   .text(errorData.message)
                                   .show();
@@ -942,7 +956,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $spinner.remove();
                             //commentlistapi(false);
                             $("#ignismyModal").css("display", "block");
-                            $("#ignismyModal").addClass("modal fade show");
+                            $("#ignismyModal").addClass("modal fade show")
                             $("#msgtag").html(
                               data?.message
                             );
@@ -955,6 +969,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $commentButton.prop("disabled", false);
                           })
                           .catch((error) => {
+                            console.log(error,'error')
                             // Re-enable the comment button in case of an error
                             $commentButton.prop("disabled", false);
                             $spinner.remove();
@@ -1827,6 +1842,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                   // Check if the response status is OK (201 Created)
                                   if (!response.ok) {
                                     response.text().then(errorMessage => {
+                                      if(response.status==401){
+                                        $errorMessagecomment
+                                        .text(errorData.message)
+                                        .hide
+                                        $registerModal.css("display", "block");
+                                        $loginForm.css("display", "block")
+                                      }
                                       const errorData = JSON.parse(errorMessage);
                                       $errorMessagecomment
                                         .text(errorData.message)
@@ -1936,6 +1958,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Check if the response status is OK (201 Created)
                                 if (!response.ok) {
                                   response.text().then(errorMessage => {
+                                    if(response.status==401){
+                                      $errorMessagecomment
+                                      .text(errorData.message)
+                                      .hide
+                                      $registerModal.css("display", "block");
+                                      $loginForm.css("display", "block")
+                                    }
                                     const errorData = JSON.parse(errorMessage);
                                     $errorMessagecomment
                                       .text(errorData.message)
