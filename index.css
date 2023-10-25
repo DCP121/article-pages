@@ -237,7 +237,7 @@ body {
 
 .form-control-input {
     border-radius: 7px !important; 
-    height: 60px !important;
+    height: 60px;
     padding: 0px 20px !important; 
     border: 1px solid #D9D9D9 !important;
     background: #fff !important; 
@@ -402,7 +402,7 @@ body {
         left: 0 !important;
     }
     .form-control-input {
-        height: 40px !important;
+        height: 40px;
         font-size: 14px !important;
         padding: 0 10px !important;
     }
