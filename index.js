@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
-  //loadCSS("./index.css");
+  // loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -685,7 +685,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $buttonandinputdiv,
                     $errorMessagecomment
                   );
-                  $commentInput.on("input", function () {
+                  $commentInput.on("textarea", function () {
                     const originalComment = $commentInput.val().trim();
                     const maxCommentLength = 200; // Change this to your desired maximum length
 
@@ -836,7 +836,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               // Handle the response data
                               $spinner.remove();
                               // commentlistapi(false);
-                              $commentInput.val("");
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -936,7 +935,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Handle the response data
                             $spinner.remove();
                             //commentlistapi(false);
-                            $commentInput.val("");
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show");
                             $("#msgtag").html(
@@ -1832,7 +1830,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $replaycommentButton.prop("disabled", false);
                                   $spinner.remove()
                                   //commentlistapi(false);
-                                  $commentreplayInput.val("");
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -1942,7 +1939,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
                                 //commentlistapi(false);
-                                $commentreplayInput.val("");
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass(
                                   "modal fade show"
@@ -2058,8 +2054,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       $containerCommentpart.append(
                         $commentDiv,
-                        replayCommentDivs,
-                        $replycommentinputsection
+                        $replycommentinputsection,
+                        replayCommentDivs
                       );
                       $container.append($containerCommentpart);
                       $maincommentlistingcontainer.append(
