@@ -493,9 +493,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   $flexContainer.append($h1Element);
                   displayResponsiveImage(
                     $flexContainer,
-                    `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
+                    `${FILE_URL}/${commentlistingdata.data.pageData.logo_image_2}`,
                     containerClass
                   );
+                    displayResponsiveImage(
+                      $flexContainer,
+                      `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
+                      containerClass
+                    );
 
                   // Append the flex container to the main app container
                   if (apiFlags) {
