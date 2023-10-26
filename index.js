@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Create a script element
                 const script = document.createElement("script");
                 var commentData=''
+                var inputHeight=''
                 // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
                 var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
@@ -666,12 +667,12 @@ document.addEventListener("DOMContentLoaded", function () {
                       direction: "ltr",
                     })
                     .text(JsonData?.send);
-                    $(document).ready(function () {
-                      $("#commentTextarea").on("input", function () {
-                        this.style.height = "auto";
-                        this.style.height = this.scrollHeight + 10 + "px";
-                      });
-                    });
+                    // $(document).ready(function () {
+                    //   $("#commentTextarea").on("input", function () {
+                    //     this.style.height = "auto";
+                    //     this.style.height = this.scrollHeight + 10 + "px";
+                    //   });
+                    // });
 
                   const $commentInput = $("<textarea>").attr('id','commentTextarea')
                     .addClass("form-control-input")
@@ -692,15 +693,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     $buttonandinputdiv,
                     $errorMessagecomment
                   );
-                    $commentInput.val(commentData);
-  //                   $("#commentTextarea").on("change", function () {
-  //   if (this.value === "") {
-  //     this.style.height = "auto";
-  //   }
-  // });
-
                     $commentInput.on("input", function () {
-                   
+                      this.style.height = "auto";
+                        this.style.height = this.scrollHeight + 10 + "px";
                     const originalComment = $commentInput.val().trim();
                     const maxCommentLength = 200; // Change this to your desired maximum length
                     //rejex
@@ -731,20 +726,13 @@ document.addEventListener("DOMContentLoaded", function () {
                       $errorMessagecomment.hide();
                     }
                   });
-
-                  // $commentInput.on("keyup", function (event) {
-                  //   // Check if the Enter key (key code 13) was pressed
-                  //   if (event.keyCode === 13) {
-                  //     // Prevent the default behavior of the Enter key (e.g., form submission)
-                  //     event.preventDefault();
-
-                  //     // Trigger the comment submission logic when Enter key is pressed
-                  //     submitComment();
-                  //   }
-                  // });
-
+                  if(commentData!==''){
+                    $commentInput.val(commentData);
+                    $commentInput.css({height:`${inputHeight}px`})
+                  }
                   $commentButton.on("click", function () {
                     commentData=$commentInput.val();
+                    inputHeight= $commentInput[0].offsetHeight
                     if (userData?.emailVerified === true) {
 
                       submitComment();
@@ -859,6 +847,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               $spinner.remove();
                               // commentlistapi(false);
                               $commentInput.val('')
+                              $("#commentTextarea").css("height", "");
                               commentData=''
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
@@ -967,6 +956,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $spinner.remove();
                             //commentlistapi(false);
                             $commentInput.val('')
+                            $("#commentTextarea").css("height", "");
                             commentData=''
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show")
