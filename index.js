@@ -1657,7 +1657,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                         .attr({
                           type: "text",
                           placeholder: JsonData?.add_your_comment,
-                        }).val('jdjdjjd');
+                        });
                       const $errorMessagecomment = $("<div>")
                         .css({ display: "flex", color: "red" })
                         .hide();
