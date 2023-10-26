@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
- loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
- // loadCSS("./index.css");
+loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+//  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -557,8 +557,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     .text("Logout | ")
                     .addClass("logout-text")
                     .click(function () {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("userData");
+                      // localStorage.removeItem("token");
+                      // localStorage.removeItem("userData");
+                      let ip = localStorage.getItem('ip')
+                      localStorage.clear()
+                      localStorage.setItem("ip",ip)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
                       $Logout.css({ display: "none" });
@@ -1082,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // $mainDivForCommentSection.append($containerCommentpart)
 
                   //comment listing part
-                  commentlistingdata.data.allCommentsData.forEach(
+                  commentlistingdata?.data?.allCommentsData?.forEach(
                     (dataItem,index) => {
                       const $maincommentlistingcontainer =
                         $("<div>").addClass("comments-group");
@@ -1169,11 +1172,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         ? dataItem?.originalComment
                         : dataItem?.updatedComment;
 
-                      const lines = text.split("\n");
+                      const lines = text?.split("\n");
 
                       const $paragraph = $("<div>").addClass("user-comments");
 
-                      lines.forEach((line) => {
+                      lines?.forEach((line) => {
                         $paragraph.append($("<div>").text(line));
                       });
 
@@ -1649,12 +1652,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             this.style.height = this.scrollHeight + 10 + "px";
                           });
                         });
-                      const $commentreplayInput = $("<textarea>").attr('id',index)
+                      const $commentreplayInput = $("<textarea>").attr('id',dataItem._id)
                         .addClass("form-control-input")
                         .attr({
                           type: "text",
                           placeholder: JsonData?.add_your_comment,
-                        });
+                        }).val('jdjdjjd');
                       const $errorMessagecomment = $("<div>")
                         .css({ display: "flex", color: "red" })
                         .hide();
@@ -1726,8 +1729,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         $rightcommenntinputsection,
                         $leftcommenntinputsection
                       );
-
                       $commentreplayInput.on("input", function () {
+                        const element= document.getElementById(dataItem._id)
+                       if (element) {
+                        const elementValue = element.value;
+localStorage.setItem(dataItem._id,elementValue)
+                      } 
+
                         const originalComment = $commentreplayInput
                           .val()
                           .trim();
@@ -1772,7 +1780,11 @@ document.addEventListener("DOMContentLoaded", function () {
                       //     submitReplyComment();
                       //   }
                       // });
-
+                      const replyValue = localStorage.getItem(dataItem._id)
+                      if(replyValue!==''){
+                        $commentreplayInput.val(replyValue);
+                        // $commentreplayInput.css({height:`${inputHeight}px`})
+                      }
                       $replaycommentButton.on("click", function () {
                         if (userData?.emailVerified === true) {
                           submitReplyComment();
@@ -1887,6 +1899,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $spinner.remove()
                                   //commentlistapi(false);
                                   $commentreplayInput.val('')
+                       localStorage.removeItem(dataItem._id)
+
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -2003,6 +2017,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
                                   $commentreplayInput.val('')
+                       localStorage.removeItem(dataItem._id)
+
                                 //commentlistapi(false);
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass(
