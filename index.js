@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
- loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
-  //loadCSS("./index.css");
+//  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let cliendId = null;
                 // Create a script element
                 const script = document.createElement("script");
+                var commentData=''
                 // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
                 var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
@@ -691,10 +692,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     $buttonandinputdiv,
                     $errorMessagecomment
                   );
-                  $commentInput.on("textarea", function () {
+                    $commentInput.val(commentData);
+  //                   $("#commentTextarea").on("change", function () {
+  //   if (this.value === "") {
+  //     this.style.height = "auto";
+  //   }
+  // });
+
+                    $commentInput.on("input", function () {
+                   
                     const originalComment = $commentInput.val().trim();
                     const maxCommentLength = 200; // Change this to your desired maximum length
-
                     //rejex
                     const htmlPattern = /<[^>]*>/g;
                     const cssPattern = /([a-zA-Z-]+)\s*:\s*([^;]+);/g;
@@ -736,6 +744,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // });
 
                   $commentButton.on("click", function () {
+                    commentData=$commentInput.val();
                     if (userData?.emailVerified === true) {
 
                       submitComment();
@@ -849,6 +858,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               // Handle the response data
                               $spinner.remove();
                               // commentlistapi(false);
+                              $commentInput.val('')
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -955,6 +965,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Handle the response data
                             $spinner.remove();
                             //commentlistapi(false);
+                            $commentInput.val('')
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show")
                             $("#msgtag").html(
@@ -1864,6 +1875,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $replaycommentButton.prop("disabled", false);
                                   $spinner.remove()
                                   //commentlistapi(false);
+                                  $commentreplayInput.val('')
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -1979,6 +1991,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Handle the response data
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
+                                  $commentreplayInput.val('')
                                 //commentlistapi(false);
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass(
