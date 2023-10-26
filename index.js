@@ -211,51 +211,51 @@ document.addEventListener("DOMContentLoaded", function () {
                   "submit_otp": "إرسال كلمة المرور لمرة واحدة"
                 }
                 var hebrewJson = {
-                  "title": "אהלן וסהלן",
-                  "subtitle_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש",
-                  "login": "הרשמה",
+                  "title": "Where are you using this in the page? it comes from the back office",
+                  "subtitle_text": "Where are you using this in the page ? it comes from the back office",
+                  "login": "התחברות",
                   "register": "הרשמה",
                   "comment": "תגובות",
                   "send": "שלח",
                   "anonymous_user": "משתמש אנונימי",
                   "add_your_comment": "הוסף את תגובתך",
                   "see_org_comment": "הצג בשפת המקור",
-                  "see_upt_comment": "ראה תגובה מעודכנת",
-                  "posted": "דק’",
-                  "min_ago": "לפני ",
-                  "just_now": "בדיוק",
+                  "see_upt_comment": "הצג תרגום",
+                  "posted": "Where are you using this in the page ?",
+                  "min_ago": `לפני X דקות`,
+                  "just_now": "הרגע",
                   "hour_ago": "לפני שעה",
-                  "hours_ago": "לפני שעות",
-                  "day_ago": "יום לפני",
-                  "days_ago": "לפני ימים",
+                  "hours_ago": `לפני X שעות`,
+                  "day_ago": "אתמול",
+                  "days_ago": "לפני X ימים",
                   "show_more_cmt": "הצג תגובות נוספות",
-                  "footer_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש טקסט נוסף...",
-                  "register_desc": "על מנת להגיב יש להרשם",
+                  "footer_text": "Where are you using this in the page ? it comes from the back office",
+                  "register_desc": "Where are you using this in the page ? it comes from the back office",
                   "name": "שם",
                   "email": "מייל",
                   "password": "סיסמה",
                   "new_password": "סיסמה חדשה",
-                  "confirm_password": "אשר סיסמה",
+                  "confirm_password": "אימות סיסמה",
                   "create_account": "צור חשבון",
                   "other_options": "אפשר להרשם גם ע”י",
-                  "register_model_footer": "ע”י הרשמה אתה מסכים",
-                  "terms_condition": "לתנאים ולמדיניות הפרטיות",
-                  "do_account": "? כבר יש לך חשבון",
-                  "login_desc": "על מנת להגיב יש להרשם",
+                  "register_model_footer": "ע”י הרשמה אתה מסכים לתנאים ולמדיניות הפרטיות שלנו",
+                  "terms_condition": "ע”י הרשמה אתה מסכים לתנאים ול",
+                  "do_account": "כבר יש לך חשבון ? ",
+                  "login_desc": "יש להתחבר כדי לשלוח תגובות",
                   "forgot_password": "שכחת את הסיסמה?",
-                  "login_model_footer": "אין לך חשבון? להרשמה",
+                  "login_model_footer": "אין לך חשבון? ",
                   "reset_password": "איפוס סיסמה",
                   "forgot_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה",
+                  "back_to_login": "חזרה להתחברות",
                   "submit": "שלח",
-                  "otp_desc": "הזן OTP לאימות",
-                  "login_form": "טופס התחברות",
-                  "reset_desc": "הזן OTP וסיסמה חדשה",
-                  "otp_header": "אימות OTP",
-                  "otp_desc": "הזן OTP לאימות",
-                  "otp_placeholder": "הזן OTP",
-                  "submit_otp": "שלח OTP"
+                  "login_form": "הרשמה",
+                  "reset_desc": "הזן את קוד האימות שקיבלת למייל וסיסמה",
+                  "otp_header": "אימות כתובת מייל",
+                  "otp_desc": "הזן את קוד האימות שקיבלת למייל",
+                  "otp_placeholder": "קוד אימות",
+                  "submit_otp": "שלח"
                 }
-                var JsonData = englishJson
+                var JsonData = hebrewJson
                 const reenterapicall = async (apiFlag) => {
                   if (showmorcomment == 10) {
                     var $spinnerdiv = $("<div>");
@@ -403,19 +403,33 @@ document.addEventListener("DOMContentLoaded", function () {
                   const commentTime = new Date(isoDateString);
                   const timeDifference = now - commentTime;
                   const minutes = Math.floor(timeDifference / (1000 * 60));
+                  function minAgo(time) {
+                    let a = minutes;
+                    let originalString = JsonData?.min_ago
+                    let replacedString = originalString.replace("X", a);
 
+                    return replacedString
+                  }
                   if (minutes < 1) {
                     return JsonData?.just_now;
                   } else if (minutes === 1) {
-                    return `1 ${JsonData?.min_ago}`;
+
+                    return minAgo(minutes);
                   } else if (minutes < 60) {
-                    return minutes + ` ${JsonData?.min_ago}`;
+                    return minAgo(minutes);
                   } else if (minutes < 1440) {
                     const hours = Math.floor(minutes / 60);
-                    return hours + (hours === 1 ? ` ${JsonData?.hour_ago}` : ` ${JsonData?.hours_ago}`);
+                    let a = hours;
+                    let originalString = JsonData?.hours_ago
+                    let replacedString = originalString.replace("X", a);
+                   
+                    return hours === 1 ? `${JsonData?.hour_ago}` : replacedString;
                   } else {
                     const days = Math.floor(minutes / 1440);
-                    return days + (days === 1 ? ` ${JsonData?.day_ago}` : ` ${JsonData?.days_ago}`);
+                    let a = days;
+                    let originalString = JsonData?.days_ago
+                    let replacedString = originalString.replace("X", a);
+                    return days === 1 ? `${JsonData?.day_ago}` : replacedString;
                   }
                 }
                 function processData(xyz, apiFlag) {
@@ -700,7 +714,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // });
 
                     $commentInput.on("input", function () {
-                   
                     const originalComment = $commentInput.val().trim();
                     const maxCommentLength = 200; // Change this to your desired maximum length
                     //rejex
