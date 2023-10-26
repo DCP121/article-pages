@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
+loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800d01c5578c475983186/index.css")
 //  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
@@ -45,8 +45,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                 const script = document.createElement("script");
                 var commentData=''
                 var inputHeight=''
-                // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
-                var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
+                var API_URL = "http://172.16.0.220:3001/api/v1"
+                // var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
                 var FILE_URL = "https://israel-ittihad-api.devhostserver.com"
 
@@ -1162,16 +1162,13 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                       //     ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
                       //      dataItem.updatedComment : dataItem.originalComment
                       // );
-                      // const text =
-                      //   dataItem && !dataItem.updatedComment
-                      //     ? dataItem.originalComment
-                      //     : dataItem.ip === localStorage.getItem("ip")
-                      //       ? dataItem.updatedComment
-                      //       : dataItem.originalComment;
-                      const text = dataItem && !dataItem.updatedComment
-                        ? dataItem?.originalComment
-                        : dataItem?.updatedComment;
-
+                      
+                      const text = dataItem?.comment?.comment
+                        
+                       
+                        console.log(
+                         dataItem?.comment?.originalComment
+                        ,"||", dataItem?.comment?.comment,"||", text,"text missing")
                       const lines = text?.split("\n");
 
                       const $paragraph = $("<div>").addClass("user-comments");
@@ -1285,13 +1282,13 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                         // Replace the original comment text with the updated comment text
                         if (isOriginalComment) {
                           // Show the original comment
-                          $paragraph.text(dataItem?.originalComment);
+                          $paragraph.text(dataItem?.comment.originalComment);
                           $seeOriginalCommentButton.text(
-                            "See Updated Comment"
+                            JsonData.see_upt_comment
                           );
                         } else {
                           // Show the updated comment
-                          $paragraph.text(dataItem?.updatedComment);
+                          $paragraph.text(dataItem?.comment.comment);
                           $seeOriginalCommentButton.text(
                             JsonData?.see_org_comment
                           );
@@ -1310,24 +1307,27 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                         //   ? $seeOriginalCommentButton
                         //   : ""
                       );
-                      if (
-                        userData !== null && userData?._id &&             // Check if userData is not null
-                        dataItem.userId === userData?._id      // Check if item.userId is equal to userData?._id
-                      ) {
-                        if (
-                          dataItem.updatedComment &&            // Check if item.updatedComment is not empty
-                          dataItem.updatedComment !== ""
-                        ) {
-                          $socialicon.append($seeOriginalCommentButton); // Append the button
-                        }
-                      } else {
-                        if (userData == null && !dataItem.userId &&
-                          dataItem.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
-                          dataItem.updatedComment &&            // Check if item.updatedComment is not empty
-                          dataItem.updatedComment !== ""
-                        ) {
-                          $socialicon.append($seeOriginalCommentButton); // Append the button
-                        }
+                      // if (
+                      //   userData !== null && userData?._id &&             // Check if userData is not null
+                      //   dataItem.userId === userData?._id      // Check if item.userId is equal to userData?._id
+                      // ) {
+                      //   if (
+                      //     dataItem.updatedComment &&            // Check if item.updatedComment is not empty
+                      //     dataItem.updatedComment !== ""
+                      //   ) {
+                      //     $socialicon.append($seeOriginalCommentButton); // Append the button
+                      //   }
+                      // } else {
+                      //   if (userData == null && !dataItem.userId &&
+                      //     dataItem.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
+                      //     dataItem.updatedComment &&            // Check if item.updatedComment is not empty
+                      //     dataItem.updatedComment !== ""
+                      //   ) {
+                      //     $socialicon.append($seeOriginalCommentButton); // Append the button
+                      //   }
+                      // }
+                      if(dataItem.comment.originalComment){
+                        $socialicon.append($seeOriginalCommentButton); // Append the button
                       }
                       $righdiv.append(
                         dataItem && dataItem !== "" && dataItem.name
@@ -1421,10 +1421,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                           //       ? item?.originalComment
                           //       : item?.updatedComment
                           //   );
-                          const text =
-                            item && !item.updatedComment
-                              ? item?.originalComment
-                              : item?.updatedComment;
+                          const text = item.comment.comment
+                            
 
                           const lines = text.split("\n");
 
@@ -1538,20 +1536,22 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                             .addClass("outline-blue-btn");
                           //replay toggle between orignale comment and updated comment
                           let isOriginalComment = true;
+
                           $seeOriginalCommentButton.on("click", function () {
                             // Replace the original comment text with the updated comment text
+                            
                             if (isOriginalComment) {
                               // Show the original comment
                               $commentreplayparagraph.text(
-                                item?.originalComment
+                                item?.comment?.originalComment
                               );
                               $seeOriginalCommentButton.text(
-                                "See Updated Comment"
+                               JsonData.see_upt_comment
                               );
                             } else {
                               // Show the updated comment
                               $commentreplayparagraph.text(
-                                item?.updatedComment
+                                item?.comment?.comment
                               );
                               $seeOriginalCommentButton.text(
                                 JsonData?.see_org_comment
@@ -1580,23 +1580,9 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641
                           $socialiconcommentreplay.append($likeicondivreplay);
 
                           if (
-                            userData !== null && userData?._id &&             // Check if userData is not null
-                            item.userId === userData?._id      // Check if item.userId is equal to userData?._id
+                           item.comment.originalComment
                           ) {
-                            if (
-                              item.updatedComment &&            // Check if item.updatedComment is not empty
-                              item.updatedComment !== ""
-                            ) {
-                              $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
-                            }
-                          } else {
-                            if (userData == null && !item.userId &&
-                              item.ip == ipAddress &&           // Check if item.ip is equal to ipAddress
-                              item.updatedComment &&            // Check if item.updatedComment is not empty
-                              item.updatedComment !== ""
-                            ) {
-                              $socialiconcommentreplay.append($seeOriginalCommentButton); // Append the button
-                            }
+                              $socialiconcommentreplay.append($seeOriginalCommentButton);
                           }
 
                           $leftsidecommentreplaydiv.append(
