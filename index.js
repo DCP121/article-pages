@@ -859,6 +859,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               $spinner.remove();
                               // commentlistapi(false);
                               $commentInput.val('')
+                              commentData=''
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -966,6 +967,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $spinner.remove();
                             //commentlistapi(false);
                             $commentInput.val('')
+                            commentData=''
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show")
                             $("#msgtag").html(
