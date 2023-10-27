@@ -1718,8 +1718,13 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                       $commentreplayInput.on("input", function () {
                         const element= document.getElementById(dataItem._id)
                        if (element) {
+                        console.log(element.offsetHeight)
                         const elementValue = element.value;
-localStorage.setItem(dataItem._id,elementValue)
+                        const dataToStore = {
+                          value: elementValue,
+                          height: element.offsetHeight
+                      };
+                      localStorage.setItem(dataItem._id, JSON.stringify(dataToStore));
                       } 
 
                         const originalComment = $commentreplayInput
@@ -1767,9 +1772,10 @@ localStorage.setItem(dataItem._id,elementValue)
                       //   }
                       // });
                       const replyValue = localStorage.getItem(dataItem._id)
-                      if(replyValue!==''){
-                        $commentreplayInput.val(replyValue);
-                        // $commentreplayInput.css({height:`${inputHeight}px`})
+                      const parsedData = JSON.parse(replyValue);
+                      if(parsedData && parsedData.value!==''){
+                        $commentreplayInput.val(parsedData.value);
+                         $commentreplayInput.css({height:`${parsedData.height}px`})
                       }
                       $replaycommentButton.on("click", function () {
                         if (userData?.emailVerified === true) {
