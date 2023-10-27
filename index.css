@@ -243,6 +243,7 @@ body {
     background: #fff !important; 
     width: 100% !important;
     direction: rtl !important;
+    overflow: hidden;
 }
 .form-control-input:focus {
     outline: none !important;
@@ -405,6 +406,7 @@ body {
         height: 40px;
         font-size: 14px !important;
         padding: 0 10px !important;
+        overflow: hidden;
     }
     .post-time {
         font-size: 13px !important;

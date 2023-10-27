@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800d01c5578c475983186/index.css")
-//  loadCSS("./index.css");
+ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800d01c5578c475983186/index.css")
+  // loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -339,8 +339,9 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                     },
                   });
                 };
+                var loaderShown = false;
                 const commentlistapi = async (apiFlag) => {
-                  if (showmorcomment == 10) {
+                  if (showmorcomment == 10 && !loaderShown) {
                     var $spinnerdiv = $("<div>");
                     var $spinnerapilist = $("<div>")
                       .addClass(
@@ -351,9 +352,10 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                       .append($spinnerapilist)
                       .addClass("main-loader")
                       .appendTo($app);
+                      loaderShown = true;
                   }
                   if (apiFlag === false) {
-                    $spinnerapilist.remove();
+                    $spinnerapilist?.remove();
                   }
 
                   const ipAddress = await getIp();
@@ -386,7 +388,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
 
                     success: function (data) {
                       if (showmorcomment == 10) {
-                        $spinnerapilist.remove();
+                        $spinnerapilist?.remove();
                       }
                       // The data variable now holds the fetched data
                       commentlistingdata = data;
@@ -611,11 +613,18 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                     localStorage.getItem("userData")
                   );
 
-                  const capitalizeFirstLetter = (str) => {
-                    if (typeof str !== "string" || str.length === 0) {
+                  const capitalizeFirstLetter = (fullName) => {
+                    if (typeof fullName !== "string" || fullName.length === 0) {
                       return "";
                     }
-                    return str.charAt(0).toUpperCase() + str.slice(1);
+                    
+                    const spaceIndex = fullName.indexOf(' ');
+                    if (spaceIndex === -1) {
+                      return fullName.charAt(0).toUpperCase() + fullName.slice(1);
+                    }
+                    
+                    const firstName = fullName.slice(0, spaceIndex);
+                    return firstName.charAt(0).toUpperCase() + firstName.slice(1);
                   };
 
                   const $username = $("<div>")
