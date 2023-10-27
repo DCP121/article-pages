@@ -38,9 +38,11 @@ body {
 .sub-header .image-container {
     display: inline-block !important;
     vertical-align: top !important;
+    margin-right:24px
 }
 .sub-header .image-container img {
     max-height: 50px !important;
+    margin-right:24px
 }
 .sub-header .title {
     color: #EB5757 !important;
