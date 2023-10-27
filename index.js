@@ -13,6 +13,19 @@ function loadScript(url, callback) {
   script.onload = callback;
   document.head.appendChild(script);
 }
+function clearLocalStorageExcept(keysToKeep) {
+  for (let key in localStorage) {
+      if (!keysToKeep.includes(key)) {
+          localStorage.removeItem(key);
+      }
+  }
+}
+
+// Check if the page is being refreshed
+window.addEventListener('beforeunload', function (event) {
+  // Clear localStorage except for "token" and "userData"
+  clearLocalStorageExcept(["token", "userData"]);
+});
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -848,14 +861,15 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                                   const errorData = JSON.parse(errorMessage);
                                   if(response.status==401){
                                     $errorMessagecomment
-                                    .text(errorData.message)
-                                    .hide
+                                    .text('')
+                                    .hide()
                                     $registerModal.css("display", "block");
                                     $loginForm.css("display", "block")
-                                  }
+                                  }else{
                                   $errorMessagecomment
                                     .text(errorData.message)
                                     .show();
+                                  }
                                   throw new Error(`HTTP error! Status: ${response.status}`)
                                 });
                               }
@@ -959,13 +973,13 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                                 if(response.status==401){
                                   $errorMessagecomment
                                   .text(errorData.message)
-                                  .hide
+                                  .hide();
                                   $registerModal.css("display", "block");
                                   $loginForm.css("display", "block")
-                                }
+                                }else{
                                 $errorMessagecomment
                                   .text(errorData.message)
-                                  .show();
+                                  .show();}
                                 throw new Error(`HTTP error! Status: ${response.status}`)
                               });
                             }
@@ -1870,16 +1884,19 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                                     response.text().then(errorMessage => {
                                       if(response.status==401){
                                         $errorMessagecomment
-                                        .text(errorData.message)
-                                        .hide
+                                        .text('')
+                                        .hide()
                                         $registerModal.css("display", "block");
                                         $loginForm.css("display", "block")
                                       }
+                                      else{
                                       const errorData = JSON.parse(errorMessage);
                                       $errorMessagecomment
                                         .text(errorData.message)
                                         .show();
+                                      }
                                     })
+                                  
                                   }
 
                                   // Parse the response body as JSON
@@ -1991,15 +2008,18 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                                     if(response.status==401){
                                       $errorMessagecomment
                                       .text(errorData.message)
-                                      .hide
+                                      .hide('')
                                       $registerModal.css("display", "block");
                                       $loginForm.css("display", "block")
                                     }
+                                    else{
                                     const errorData = JSON.parse(errorMessage);
                                     $errorMessagecomment
                                       .text(errorData.message)
                                       .show();
+                                    }
                                   })
+                              
                                 }
 
                                 // Parse the response body as JSON
