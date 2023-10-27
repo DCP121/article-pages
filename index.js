@@ -58,7 +58,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                 const script = document.createElement("script");
                 var commentData=''
                 var inputHeight=''
-                //var API_URL = "http://172.16.0.220:3001/api/v1"
+                // var API_URL = "http://172.16.0.220:3001/api/v1"
                 var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
                 var FILE_URL = "https://israel-ittihad-api.devhostserver.com"
@@ -175,7 +175,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                   "otp_header": "OTP Verification",
                   "otp_desc": "Enter OTP for verification",
                   "otp_placeholder": "Enter OTP",
-                  "submit_otp": "Submit OTP"
+                  "submit_otp": "Submit OTP",
+                  "success": ""
                 }
 
                 var arabicJson = {
@@ -222,7 +223,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                   "otp_header": "التحقق من كلمة المرور لمرة واحدة",
                   "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
                   "otp_placeholder": "أدخل كلمة المرور لمرة واحدة",
-                  "submit_otp": "إرسال كلمة المرور لمرة واحدة"
+                  "submit_otp": "إرسال كلمة المرور لمرة واحدة",
+                  "success": ""
                 }
                 var hebrewJson = {
                   "title": "Where are you using this in the page? it comes from the back office",
@@ -244,7 +246,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                   "days_ago": "לפני X ימים",
                   "show_more_cmt": "הצג תגובות נוספות",
                   "footer_text": "Where are you using this in the page ? it comes from the back office",
-                  "register_desc": "Where are you using this in the page ? it comes from the back office",
+                  "register_desc": "על מנת להגיב יש להרשם",
                   "name": "שם",
                   "email": "מייל",
                   "password": "סיסמה",
@@ -267,7 +269,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                   "otp_header": "אימות כתובת מייל",
                   "otp_desc": "הזן את קוד האימות שקיבלת למייל",
                   "otp_placeholder": "קוד אימות",
-                  "submit_otp": "שלח"
+                  "submit_otp": "שלח",
+                  "success": "הַצלָחָה"
                 }
                 var JsonData = hebrewJson
                 const reenterapicall = async (apiFlag) => {
@@ -2409,7 +2412,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
           <div class="modal-body">
             <div class="thank-you-pop">
             <img src="https://img.icons8.com/color/144/ok--v1.png" alt=""/>
-              <h1>Success!</h1>
+              <h1>${JsonData?.success}!</h1>
               <p id="msgtag"></p>
             </div>
           </div>
