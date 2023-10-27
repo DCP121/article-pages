@@ -70,10 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
                 script.crossOrigin = "anonymous";
                 script.referrerPolicy = "no-referrer";
-                // const pageId = document.getElementsByName("page_id")[0].id;
-                // // const site =
-                // //   document.getElementsByName("page_id")[0].attributes.for
-                // //     .value;
+               
                 const article_page_id = document.getElementsByName("article_page_id")[0].attributes.for.value
                 var parts = article_page_id.split("-");
                 var site = parts[0];
