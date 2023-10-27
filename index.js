@@ -45,8 +45,8 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                 const script = document.createElement("script");
                 var commentData=''
                 var inputHeight=''
-                var API_URL = "http://172.16.0.220:3001/api/v1"
-                // var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
+                //var API_URL = "http://172.16.0.220:3001/api/v1"
+                var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
                 var FILE_URL = "https://israel-ittihad-api.devhostserver.com"
 
@@ -1633,7 +1633,7 @@ loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800
                         })
                         .text(JsonData?.send);
                         $(document).ready(function () {
-                          $(`#${index}`).on("input", function () {
+                          $(`#${dataItem._id}`).on("input", function () {
                             this.style.height = "auto";
                             this.style.height = this.scrollHeight + 10 + "px";
                           });
@@ -1886,6 +1886,7 @@ localStorage.setItem(dataItem._id,elementValue)
                                   //commentlistapi(false);
                                   $commentreplayInput.val('')
                        localStorage.removeItem(dataItem._id)
+                       $(`#${dataItem._id}`).css("height", "");
 
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
@@ -2002,8 +2003,9 @@ localStorage.setItem(dataItem._id,elementValue)
                                 // Handle the response data
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
-                                  $commentreplayInput.val('')
-                       localStorage.removeItem(dataItem._id)
+                                 $commentreplayInput.val('')
+                              localStorage.removeItem(dataItem._id)
+                               $(`#${dataItem._id}`).css("height", "");
 
                                 //commentlistapi(false);
                                 $("#ignismyModal").css("display", "block");

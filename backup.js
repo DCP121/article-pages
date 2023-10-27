@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-//  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@d9f38e1144a6a400f61641443cdd3df9e5dcba0b/index.css")
- loadCSS("./index.css");
+loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9c0f088ab3ffab9810f800d01c5578c475983186/index.css")
+//  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const script = document.createElement("script");
                 var commentData=''
                 var inputHeight=''
-                const commenrreplayinputFields = [];
                 // var API_URL = "https://41dd-137-184-19-129.ngrok-free.app/api/v1"
                 var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
@@ -213,51 +212,51 @@ document.addEventListener("DOMContentLoaded", function () {
                   "submit_otp": "إرسال كلمة المرور لمرة واحدة"
                 }
                 var hebrewJson = {
-                  "title": "אהלן וסהלן",
-                  "subtitle_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש",
-                  "login": "הרשמה",
+                  "title": "Where are you using this in the page? it comes from the back office",
+                  "subtitle_text": "Where are you using this in the page ? it comes from the back office",
+                  "login": "התחברות",
                   "register": "הרשמה",
                   "comment": "תגובות",
                   "send": "שלח",
                   "anonymous_user": "משתמש אנונימי",
                   "add_your_comment": "הוסף את תגובתך",
                   "see_org_comment": "הצג בשפת המקור",
-                  "see_upt_comment": "ראה תגובה מעודכנת",
-                  "posted": "דק’",
-                  "min_ago": "לפני ",
-                  "just_now": "בדיוק",
+                  "see_upt_comment": "הצג תרגום",
+                  "posted": "Where are you using this in the page ?",
+                  "min_ago": `לפני X דקות`,
+                  "just_now": "הרגע",
                   "hour_ago": "לפני שעה",
-                  "hours_ago": "לפני שעות",
-                  "day_ago": "יום לפני",
-                  "days_ago": "לפני ימים",
+                  "hours_ago": `לפני X שעות`,
+                  "day_ago": "אתמול",
+                  "days_ago": "לפני X ימים",
                   "show_more_cmt": "הצג תגובות נוספות",
-                  "footer_text": "זירת תגובות משותפת לאיחוד האמרויות וישראל, הקול שלכם במזרח התיכון החדש טקסט נוסף...",
-                  "register_desc": "על מנת להגיב יש להרשם",
+                  "footer_text": "Where are you using this in the page ? it comes from the back office",
+                  "register_desc": "Where are you using this in the page ? it comes from the back office",
                   "name": "שם",
                   "email": "מייל",
                   "password": "סיסמה",
                   "new_password": "סיסמה חדשה",
-                  "confirm_password": "אשר סיסמה",
+                  "confirm_password": "אימות סיסמה",
                   "create_account": "צור חשבון",
                   "other_options": "אפשר להרשם גם ע”י",
-                  "register_model_footer": "ע”י הרשמה אתה מסכים",
-                  "terms_condition": "לתנאים ולמדיניות הפרטיות",
-                  "do_account": "? כבר יש לך חשבון",
-                  "login_desc": "על מנת להגיב יש להרשם",
+                  "register_model_footer": "ע”י הרשמה אתה מסכים לתנאים ולמדיניות הפרטיות שלנו",
+                  "terms_condition": "ע”י הרשמה אתה מסכים לתנאים ול",
+                  "do_account": "כבר יש לך חשבון ? ",
+                  "login_desc": "יש להתחבר כדי לשלוח תגובות",
                   "forgot_password": "שכחת את הסיסמה?",
-                  "login_model_footer": "אין לך חשבון? להרשמה",
+                  "login_model_footer": "אין לך חשבון? ",
                   "reset_password": "איפוס סיסמה",
                   "forgot_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה",
+                  "back_to_login": "חזרה להתחברות",
                   "submit": "שלח",
-                  "otp_desc": "הזן OTP לאימות",
-                  "login_form": "טופס התחברות",
-                  "reset_desc": "הזן OTP וסיסמה חדשה",
-                  "otp_header": "אימות OTP",
-                  "otp_desc": "הזן OTP לאימות",
-                  "otp_placeholder": "הזן OTP",
-                  "submit_otp": "שלח OTP"
+                  "login_form": "הרשמה",
+                  "reset_desc": "הזן את קוד האימות שקיבלת למייל וסיסמה",
+                  "otp_header": "אימות כתובת מייל",
+                  "otp_desc": "הזן את קוד האימות שקיבלת למייל",
+                  "otp_placeholder": "קוד אימות",
+                  "submit_otp": "שלח"
                 }
-                var JsonData = englishJson
+                var JsonData = hebrewJson
                 const reenterapicall = async (apiFlag) => {
                   if (showmorcomment == 10) {
                     var $spinnerdiv = $("<div>");
@@ -405,19 +404,33 @@ document.addEventListener("DOMContentLoaded", function () {
                   const commentTime = new Date(isoDateString);
                   const timeDifference = now - commentTime;
                   const minutes = Math.floor(timeDifference / (1000 * 60));
+                  function minAgo(time) {
+                    let a = minutes;
+                    let originalString = JsonData?.min_ago
+                    let replacedString = originalString.replace("X", a);
 
+                    return replacedString
+                  }
                   if (minutes < 1) {
                     return JsonData?.just_now;
                   } else if (minutes === 1) {
-                    return `1 ${JsonData?.min_ago}`;
+
+                    return minAgo(minutes);
                   } else if (minutes < 60) {
-                    return minutes + ` ${JsonData?.min_ago}`;
+                    return minAgo(minutes);
                   } else if (minutes < 1440) {
                     const hours = Math.floor(minutes / 60);
-                    return hours + (hours === 1 ? ` ${JsonData?.hour_ago}` : ` ${JsonData?.hours_ago}`);
+                    let a = hours;
+                    let originalString = JsonData?.hours_ago
+                    let replacedString = originalString.replace("X", a);
+                   
+                    return hours === 1 ? `${JsonData?.hour_ago}` : replacedString;
                   } else {
                     const days = Math.floor(minutes / 1440);
-                    return days + (days === 1 ? ` ${JsonData?.day_ago}` : ` ${JsonData?.days_ago}`);
+                    let a = days;
+                    let originalString = JsonData?.days_ago
+                    let replacedString = originalString.replace("X", a);
+                    return days === 1 ? `${JsonData?.day_ago}` : replacedString;
                   }
                 }
                 function processData(xyz, apiFlag) {
@@ -478,7 +491,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Append the h1 tag to the flex container
                   $flexContainer.append($h1Element);
-
                   displayResponsiveImage(
                     $flexContainer,
                     `${FILE_URL}/${commentlistingdata.data.pageData.logo_image_2}`,
@@ -489,10 +501,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
                       containerClass
                     );
-  
-
-                  
-
 
                   // Append the flex container to the main app container
                   if (apiFlags) {
@@ -549,13 +557,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     .text("Logout | ")
                     .addClass("logout-text")
                     .click(function () {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("userData");
+                      // localStorage.removeItem("token");
+                      // localStorage.removeItem("userData");
+                      let ip = localStorage.getItem('ip')
+                      localStorage.clear()
+                      localStorage.setItem("ip",ip)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
                       $Logout.css({ display: "none" });
                       commentlistapi(true);
-                      commenrreplayinputFields=[]
                       $("#ignismyModal").css("display", "block");
                       $("#ignismyModal").addClass("modal fade show");
                       $("#msgtag").html("Logout successfully!!");
@@ -1075,10 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // $mainDivForCommentSection.append($containerCommentpart)
 
                   //comment listing part
-  
-                
-
-                  commentlistingdata.data.allCommentsData.forEach(
+                  commentlistingdata?.data?.allCommentsData?.forEach(
                     (dataItem,index) => {
                       const $maincommentlistingcontainer =
                         $("<div>").addClass("comments-group");
@@ -1165,11 +1172,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         ? dataItem?.originalComment
                         : dataItem?.updatedComment;
 
-                      const lines = text.split("\n");
+                      const lines = text?.split("\n");
 
                       const $paragraph = $("<div>").addClass("user-comments");
 
-                      lines.forEach((line) => {
+                      lines?.forEach((line) => {
                         $paragraph.append($("<div>").text(line));
                       });
 
@@ -1640,20 +1647,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         })
                         .text(JsonData?.send);
                         $(document).ready(function () {
-                          $(`#${dataItem?._id}`).on("input", function () {
-                            console.log("ghghghS")
+                          $(`#${dataItem._id}`).on("input", function () {
                             this.style.height = "auto";
                             this.style.height = this.scrollHeight + 10 + "px";
                           });
                         });
-                        commenrreplayinputFields.push({ id:dataItem?.row_id , input:'',height:'58px'});
-                      const $commentreplayInput = $("<textarea>").attr('id',dataItem.row_id)
+                      const $commentreplayInput = $("<textarea>").attr('id',dataItem._id)
                         .addClass("form-control-input")
                         .attr({
                           type: "text",
                           placeholder: JsonData?.add_your_comment,
                         });
-                    
                       const $errorMessagecomment = $("<div>")
                         .css({ display: "flex", color: "red" })
                         .hide();
@@ -1725,18 +1729,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         $rightcommenntinputsection,
                         $leftcommenntinputsection
                       );
-
                       $commentreplayInput.on("input", function () {
-                        var textareaId = $(this).attr("id");
-                        commenrreplayinputFields.find((item)=>{
-                          console.log(item.id,textareaId)
-                            if(item.id==textareaId){
-                              console.log(item,textareaId)
-                               item.input=$commentreplayInput.val()
-                               item.height= $commentreplayInput[0].offsetHeight
-                            }
-                            })
-                            console.log('replay input',commenrreplayinputFields)
+                        const element= document.getElementById(dataItem._id)
+                       if (element) {
+                        const elementValue = element.value;
+localStorage.setItem(dataItem._id,elementValue)
+                      } 
+
                         const originalComment = $commentreplayInput
                           .val()
                           .trim();
@@ -1771,7 +1770,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                       });
 
-
                       // $commentreplayInput.on("keyup", function (event) {
                       //   // Check if the Enter key (key code 13) was pressed
                       //   if (event.keyCode === 13) {
@@ -1782,7 +1780,11 @@ document.addEventListener("DOMContentLoaded", function () {
                       //     submitReplyComment();
                       //   }
                       // });
-
+                      const replyValue = localStorage.getItem(dataItem._id)
+                      if(replyValue!==''){
+                        $commentreplayInput.val(replyValue);
+                        // $commentreplayInput.css({height:`${inputHeight}px`})
+                      }
                       $replaycommentButton.on("click", function () {
                         if (userData?.emailVerified === true) {
                           submitReplyComment();
@@ -1796,7 +1798,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             .show();
                         }
                       });
-                     
 
                       const submitReplyComment = async () => {
                         //const ipAddress = await getIp();
@@ -1898,6 +1899,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $spinner.remove()
                                   //commentlistapi(false);
                                   $commentreplayInput.val('')
+                       localStorage.removeItem(dataItem._id)
+
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
                                     "modal fade show"
@@ -2014,6 +2017,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
                                   $commentreplayInput.val('')
+                       localStorage.removeItem(dataItem._id)
+
                                 //commentlistapi(false);
                                 $("#ignismyModal").css("display", "block");
                                 $("#ignismyModal").addClass(
@@ -2141,17 +2146,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                   );
 
-              
-                 
-                  console.log(commenrreplayinputFields,'commenrreplayinputFields')
-                   commenrreplayinputFields?.map((item)=>{
-                    console.log('map',item)
-                     $(`#${item.id}`).val(item.input);
-                   })
-                  
-
-             
-
                   //show more comment button div
 
                   const $showmorecommentdiv = $("<div>").css({}).attr('id', "showmorecomment");
@@ -2205,6 +2199,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   var tempElement = document.createElement("div");
                   tempElement.innerHTML =
                     commentlistingdata?.data?.pageData?.footer_text;
+
                   // Find the <p> element and extract its text
                   var text = tempElement.querySelector("p").textContent;
                   const $footerConatiner = $("<div>").text(text).css({
