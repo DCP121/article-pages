@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9121bc8ee40c08c7af1a3bde75883f8e4418c200/index.css")
-   //loadCSS("./index.css");
+  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@a138fcdc0ecdadcef78e6e1aab47fb97fdb6db0e/index.css")
+  //loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -185,7 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   "account_pending": "Account is still pending confirmation",
                   "send_confirmation": "Send confirmation email again",
                   "you_r_not_verified": "you are not verified please verified your account",
-                  "logout": "Logout"
+                  "logout": "Logout",
+                  "Logout_msg": "Logout successfully !!",
+                  "comment_max_length": "Comment exceeds the maximum length"
                 }
 
                 var arabicJson = {
@@ -237,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "invalid_content": "",
                   "comment_not_empty": "",
                   "invalid_email": "",
-                  
+
                 }
                 var hebrewJson = {
                   "login": "התחברות",
@@ -248,10 +250,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   "add_your_comment": "הוסף את תגובתך",
                   "see_org_comment": "הצג בשפת המקור",
                   "see_upt_comment": "הצג תרגום",
-                  "min_ago": `לפני X דקות`,
+                  "min_ago": "לפני X דקות",
                   "just_now": "הרגע",
                   "hour_ago": "לפני שעה",
-                  "hours_ago": `לפני X שעות`,
+                  "hours_ago": "לפני X שעות",
                   "day_ago": "אתמול",
                   "days_ago": "לפני X ימים",
                   "show_more_cmt": "הצג תגובות נוספות",
@@ -267,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "terms_condition": "ע”י הרשמה אתה מסכים לתנאים ול",
                   "do_account": "כבר יש לך חשבון ? ",
                   "login_desc": "יש להתחבר כדי לשלוח תגובות",
-                  "forgot_password": "שכחת את הסיסמה?",
+                  "forgot_password": "? שכחת את הסיסמא",
                   "login_model_footer": "אין לך חשבון? ",
                   "reset_password": "איפוס סיסמה",
                   "forgot_desc": "הכנס את כתובת המייל שלך ואנו נשלח לך הודעה לאיפוס סיסמה",
@@ -284,20 +286,22 @@ document.addEventListener("DOMContentLoaded", function () {
                   "comment_not_empty": "התגובה לא יכולה להיות ריקה",
                   "invalid_email": "כתובת אימייל לא חוקית",
                   "valid_pass": "הססימה צריכה להיות לפחות בת 8 תווים ולכלול לפחות אות אחת גדולה באנגלית ואות אחת קטנה באנגלית מספר אחד וסימן מיוחד אחד",
-                  "email_required": `יש לשלוח דוא"ל`,
-                  "otp_required": "OTP נדרש",
-                  "valid_otp": "הזן OTP חוקי",
-                  "new_pass_req": "נדרשת סיסמה חדשה",
-                  "repeat_pass_req": "נדרשת סיסמה חוזרת",
-                  "name_req": "שם נדרש",
-                  "name_max": "אורך מקסימלי הוא 60",
-                  "pass_req": "נדרשת סיסמה",
-                  "account_pending": "החשבון עדיין ממתין לאישור",
-                  "send_confirmation": `שלח שוב דוא"ל אישור`,
+                  "email_required": "יש להזין כתובת המייל",
+                  "otp_required": "יש להזין את הקוד שקיבלת",
+                  "valid_otp": "הקוד שהוזן אינו תקין",
+                  "new_pass_req": "יש להזין סיסמה חדשה",
+                  "repeat_pass_req": "יש להזין שוב את הסיסמה",
+                  "name_req": "יש להזין שם",
+                  "name_max": "אורך מקסימלי של השם הוא 60",
+                  "pass_req": "יש להזין סיסמה",
+                  "account_pending": "החשבון עדיין ממתין לאימות",
+                  "send_confirmation": "שלח שוב מייל אימות",
                   "you_r_not_verified": "אינך מאומת אנא אמת את חשבונך",
-                  "logout": "להתנתק"
+                  "logout": "התנתק",
+                  "Logout_msg": "!! התנתק בהצלחה",
+                  "comment_max_length": "הערה חורגת מהאורך המרבי"
                 }
-                var JsonData = site ==="israel" ? hebrewJson : englishJson
+                var JsonData = site === "israel" ? hebrewJson : englishJson
                 const reenterapicall = async (apiFlag) => {
                   if (showmorcomment == 10) {
                     var $spinnerdiv = $("<div>");
@@ -615,7 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistapi(true);
                       $("#ignismyModal").css("display", "block");
                       $("#ignismyModal").addClass("modal fade show");
-                      $("#msgtag").html("Logout successfully!!");
+                      $("#msgtag").html(JsonData?.Logout_msg);
 
                       setTimeout(() => {
                         $("#ignismyModal").css("display", "none");
@@ -631,7 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .text(
                       `${commentlistingdata?.data?.totalComment} ${JsonData?.comment}`
                     );
-                    
+
                   const isLogin = localStorage.getItem("token");
                   if (!isLogin) {
                     $Logout.css({ display: "none" });
@@ -787,7 +791,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .show();
                     } else if (originalComment.length > maxCommentLength) {
                       $errorMessagecomment
-                        .text("Comment exceeds the maximum length")
+                        .text(JsonData?.comment_max_length)
                         .show();
                     } else if (
                       cssPattern.test(originalComment) ||
@@ -1604,17 +1608,17 @@ document.addEventListener("DOMContentLoaded", function () {
                               const originalCommentWithLineBreaks = item?.comment?.originalComment?.replace(/\n/g, '<br>');
                               $commentreplayparagraph.html(originalCommentWithLineBreaks);
                               // $commentreplayparagraph.text(
-                                
+
                               // );
                               $seeOriginalCommentButton.text(
                                 JsonData.see_upt_comment
                               );
                             } else {
                               // Show the updated comment
-                              const originalCommentWithLineBreaks =  item?.comment?.comment?.replace(/\n/g, '<br>');
+                              const originalCommentWithLineBreaks = item?.comment?.comment?.replace(/\n/g, '<br>');
                               $commentreplayparagraph.html(originalCommentWithLineBreaks);
                               // $commentreplayparagraph.text(
-                               
+
                               // );
                               $seeOriginalCommentButton.text(
                                 JsonData?.see_org_comment
@@ -2452,7 +2456,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                   };
 
-                  const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
+                  const $modalContentSuccess = `<div class="modal fade rtl"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
                       <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
                         <div class="modal-content thank-you-pop-modal text-center">
                           <div class="modal-body">
@@ -3162,7 +3166,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (password.trim() === "") {
                         $errorElementPass.css("display", "none");
                         $emptyFieldErrorRegisterPass.css("display", "block");
-                      }else{
+                      } else {
                         $emptyFieldErrorRegisterPass.css("display", "none");
 
                       }
@@ -3353,7 +3357,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $emptyFieldErrorOtp.css("display", "none");
                     $emptyFieldErrorResetPass.css("display", "none");
                     $emptyFieldErrorResetNewPass.css("display", "none");
-                    $errorElementPassReset.css("display","none")
+                    $errorElementPassReset.css("display", "none")
                     $emptyFieldErrorResetConfirmPass.css("display", "none");
                     $errorElementPassResetConfirm.css("display", "none");
                     $errorElementPass.css("display", "none");
@@ -3793,7 +3797,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (password.trim() === "") {
                         $errorElementPassReset.css("display", "none");
                         $emptyFieldErrorResetNewPass.css("display", "block");
-                      }else{
+                      } else {
                         $emptyFieldErrorResetNewPass.css("display", "none");
                       }
                     });
@@ -3864,7 +3868,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           "display",
                           "block"
                         );
-                      }else{
+                      } else {
                         $emptyFieldErrorResetConfirmPass.css(
                           "display",
                           "none"
