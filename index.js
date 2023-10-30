@@ -15,9 +15,9 @@ function loadScript(url, callback) {
 }
 function clearLocalStorageExcept(keysToKeep) {
   for (let key in localStorage) {
-      if (!keysToKeep.includes(key)) {
-          localStorage.removeItem(key);
-      }
+    if (!keysToKeep.includes(key)) {
+      localStorage.removeItem(key);
+    }
   }
 }
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
- loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9121bc8ee40c08c7af1a3bde75883f8e4418c200/index.css")
+  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9121bc8ee40c08c7af1a3bde75883f8e4418c200/index.css")
   // loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 let cliendId = null;
                 // Create a script element
                 const script = document.createElement("script");
-                var commentData=''
-                var inputHeight=''
+                var commentData = ''
+                var inputHeight = ''
                 // var API_URL = "http://172.16.0.220:3001/api/v1"
                 var API_URL = "https://israel-ittihad-api.devhostserver.com/api/v1"
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "sha512-C10IteuUJLMBoevZKRdXaNtOzd98KOO+Id471TSREver+ByaLm8IyQekKjIMYzn6j1bt07CBazpOFEWGaNhowQ==";
                 script.crossOrigin = "anonymous";
                 script.referrerPolicy = "no-referrer";
-               
+
                 const article_page_id = document.getElementsByName("article_page_id")[0].attributes.for.value
                 var parts = article_page_id.split("-");
                 var site = parts[0];
@@ -173,7 +173,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "Enter OTP for verification",
                   "otp_placeholder": "Enter OTP",
                   "submit_otp": "Submit OTP",
-                  "success": ""
+                  "success": "Success!!",
+                  "invalid_content": "Invalid content in the comment",
+                  "comment_not_empty": "Comment cannot be empty",
+                  "invalid_email": "Invalid email address"
+
                 }
 
                 var arabicJson = {
@@ -221,7 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
                   "otp_placeholder": "أدخل كلمة المرور لمرة واحدة",
                   "submit_otp": "إرسال كلمة المرور لمرة واحدة",
-                  "success": ""
+                  "success": "",
+                  "invalid_content": "",
+                  "comment_not_empty": "",
+                  "invalid_email": ""
+
                 }
                 var hebrewJson = {
                   "title": "Where are you using this in the page? it comes from the back office",
@@ -267,7 +275,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "הזן את קוד האימות שקיבלת למייל",
                   "otp_placeholder": "קוד אימות",
                   "submit_otp": "שלח",
-                  "success": "הַצלָחָה"
+                  "success": "!!הַצלָחָה",
+                  "invalid_content": "תוכן התגובה אינו תקין",
+                  "comment_not_empty": "התגובה לא יכולה להיות ריקה",
+                  "invalid_email": "כתובת אימייל לא חוקית"
                 }
                 var JsonData = hebrewJson
                 const reenterapicall = async (apiFlag) => {
@@ -352,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .append($spinnerapilist)
                       .addClass("main-loader")
                       .appendTo($app);
-                      loaderShown = true;
+                    loaderShown = true;
                   }
                   if (apiFlag === false) {
                     $spinnerapilist?.remove();
@@ -438,7 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let a = hours;
                     let originalString = JsonData?.hours_ago
                     let replacedString = originalString.replace("X", a);
-                   
+
                     return hours === 1 ? `${JsonData?.hour_ago}` : replacedString;
                   } else {
                     const days = Math.floor(minutes / 1440);
@@ -506,19 +517,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Append the h1 tag to the flex container
                   $flexContainer.append($h1Element);
-                  const $logoImage=$('<div>')
+                  const $logoImage = $('<div>')
                   $flexContainer.append($h1Element);
                   displayResponsiveImage(
                     $logoImage,
                     `${FILE_URL}/${commentlistingdata.data.pageData.logo_image_2}`,
                     containerClass
                   );
-                    displayResponsiveImage(
-                      $logoImage,
-                      `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
-                      containerClass
-                    );
-                    $flexContainer.append($logoImage)
+                  displayResponsiveImage(
+                    $logoImage,
+                    `${FILE_URL}/${commentlistingdata.data.pageData.logo_image}`,
+                    containerClass
+                  );
+                  $flexContainer.append($logoImage)
 
 
                   // Append the flex container to the main app container
@@ -580,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // localStorage.removeItem("userData");
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
-                      localStorage.setItem("ip",ip)
+                      localStorage.setItem("ip", ip)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
                       $Logout.css({ display: "none" });
@@ -621,12 +632,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (typeof fullName !== "string" || fullName.length === 0) {
                       return "";
                     }
-                    
+
                     const spaceIndex = fullName.indexOf(' ');
                     if (spaceIndex === -1) {
                       return fullName.charAt(0).toUpperCase() + fullName.slice(1);
                     }
-                    
+
                     const firstName = fullName.slice(0, spaceIndex);
                     return firstName.charAt(0).toUpperCase() + firstName.slice(1);
                   };
@@ -715,14 +726,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       direction: "ltr",
                     })
                     .text(JsonData?.send);
-                    // $(document).ready(function () {
-                    //   $("#commentTextarea").on("input", function () {
-                    //     this.style.height = "auto";
-                    //     this.style.height = this.scrollHeight + 10 + "px";
-                    //   });
-                    // });
+                  // $(document).ready(function () {
+                  //   $("#commentTextarea").on("input", function () {
+                  //     this.style.height = "auto";
+                  //     this.style.height = this.scrollHeight + 10 + "px";
+                  //   });
+                  // });
 
-                  const $commentInput = $("<textarea>").attr('id','commentTextarea')
+                  const $commentInput = $("<textarea>").attr('id', 'commentTextarea')
                     .addClass("form-control-input")
                     .attr({
                       type: "text",
@@ -741,9 +752,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     $buttonandinputdiv,
                     $errorMessagecomment
                   );
-                    $commentInput.on("input", function () {
-                      this.style.height = "auto";
-                        this.style.height = this.scrollHeight + 10 + "px";
+                  $commentInput.on("input", function () {
+                    this.style.height = "auto";
+                    this.style.height = this.scrollHeight + 10 + "px";
                     const originalComment = $commentInput.val().trim();
                     const maxCommentLength = 200; // Change this to your desired maximum length
                     //rejex
@@ -755,7 +766,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (originalComment === "") {
                       $errorMessagecomment
-                        .text("Comment cannot be empty")
+                        .text(JsonData?.comment_not_empty)
                         .show();
                     } else if (originalComment.length > maxCommentLength) {
                       $errorMessagecomment
@@ -768,19 +779,19 @@ document.addEventListener("DOMContentLoaded", function () {
                       emailPattern.test(originalComment)
                     ) {
                       $errorMessagecomment
-                        .text("Invalid content in the comment")
+                        .text(JsonData?.invalid_content)
                         .show();
                     } else {
                       $errorMessagecomment.hide();
                     }
                   });
-                  if(commentData!==''){
+                  if (commentData !== '') {
                     $commentInput.val(commentData);
-                    $commentInput.css({height:`${inputHeight}px`})
+                    $commentInput.css({ height: `${inputHeight}px` })
                   }
                   $commentButton.on("click", function () {
-                    commentData=$commentInput.val();
-                    inputHeight= $commentInput[0].offsetHeight
+                    commentData = $commentInput.val();
+                    inputHeight = $commentInput[0].offsetHeight
                     if (userData?.emailVerified === true) {
 
                       submitComment();
@@ -817,7 +828,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty")
+                            .text(JsonData?.comment_not_empty)
                             .show();
                         } else if (
                           originalComment.length > maxCommentLength
@@ -832,7 +843,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           emailPattern.test(originalComment)
                         ) {
                           $errorMessagecomment
-                            .text("Invalid content in the comment")
+                            .text(JsonData?.invalid_content)
                             .show();
                         } else {
                           // Disable the comment button during the API call
@@ -872,16 +883,16 @@ document.addEventListener("DOMContentLoaded", function () {
                               if (!response.ok) {
                                 response.text().then(errorMessage => {
                                   const errorData = JSON.parse(errorMessage);
-                                  if(response.status==401){
+                                  if (response.status == 401) {
                                     $errorMessagecomment
-                                    .text('')
-                                    .hide()
+                                      .text('')
+                                      .hide()
                                     $registerModal.css("display", "block");
                                     $loginForm.css("display", "block")
-                                  }else{
-                                  $errorMessagecomment
-                                    .text(errorData.message)
-                                    .show();
+                                  } else {
+                                    $errorMessagecomment
+                                      .text(errorData.message)
+                                      .show();
                                   }
                                   throw new Error(`HTTP error! Status: ${response.status}`)
                                 });
@@ -897,7 +908,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               // commentlistapi(false);
                               $commentInput.val('')
                               $("#commentTextarea").css("height", "");
-                              commentData=''
+                              commentData = ''
                               $("#ignismyModal").css("display", "block");
                               $("#ignismyModal").addClass("modal fade show");
                               $("#msgtag").html(
@@ -931,7 +942,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       if (originalComment === "") {
                         $errorMessagecomment
-                          .text("Comment cannot be empty")
+                          .text(JsonData?.comment_not_empty)
                           .show();
                       } else if (originalComment.length > maxCommentLength) {
                         $errorMessagecomment
@@ -944,7 +955,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         emailPattern.test(originalComment)
                       ) {
                         $errorMessagecomment
-                          .text("Invalid content in the comment")
+                          .text(JsonData?.invalid_content)
                           .show();
                       } else {
                         $commentButton.prop("disabled", true);
@@ -983,16 +994,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (!response.ok) {
                               response.text().then(errorMessage => {
                                 const errorData = JSON.parse(errorMessage);
-                                if(response.status==401){
+                                if (response.status == 401) {
                                   $errorMessagecomment
-                                  .text(errorData.message)
-                                  .hide();
+                                    .text(errorData.message)
+                                    .hide();
                                   $registerModal.css("display", "block");
                                   $loginForm.css("display", "block")
-                                }else{
-                                $errorMessagecomment
-                                  .text(errorData.message)
-                                  .show();}
+                                } else {
+                                  $errorMessagecomment
+                                    .text(errorData.message)
+                                    .show();
+                                }
                                 throw new Error(`HTTP error! Status: ${response.status}`)
                               });
                             }
@@ -1006,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             //commentlistapi(false);
                             $commentInput.val('')
                             $("#commentTextarea").css("height", "");
-                            commentData=''
+                            commentData = ''
                             $("#ignismyModal").css("display", "block");
                             $("#ignismyModal").addClass("modal fade show")
                             $("#msgtag").html(
@@ -1021,7 +1033,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $commentButton.prop("disabled", false);
                           })
                           .catch((error) => {
-                            console.log(error,'error')
+                            console.log(error, 'error')
                             // Re-enable the comment button in case of an error
                             $commentButton.prop("disabled", false);
                             $spinner.remove();
@@ -1113,7 +1125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   //comment listing part
                   commentlistingdata?.data?.allCommentsData?.forEach(
-                    (dataItem,index) => {
+                    (dataItem, index) => {
                       const $maincommentlistingcontainer =
                         $("<div>").addClass("comments-group");
                       const $container = $("<div>")
@@ -1189,13 +1201,13 @@ document.addEventListener("DOMContentLoaded", function () {
                       //     ? dataItem.originalComment : dataItem.ip === localStorage.getItem('ip')?
                       //      dataItem.updatedComment : dataItem.originalComment
                       // );
-                      
+
                       const text = dataItem?.comment?.comment
-                        
-                       
-                        console.log(
-                         dataItem?.comment?.originalComment
-                        ,"||", dataItem?.comment?.comment,"||", text,"text missing")
+
+
+                      console.log(
+                        dataItem?.comment?.originalComment
+                        , "||", dataItem?.comment?.comment, "||", text, "text missing")
                       const lines = text?.split("\n");
 
                       const $paragraph = $("<div>").addClass("user-comments");
@@ -1353,7 +1365,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       //     $socialicon.append($seeOriginalCommentButton); // Append the button
                       //   }
                       // }
-                      if(dataItem.comment.originalComment){
+                      if (dataItem.comment.originalComment) {
                         $socialicon.append($seeOriginalCommentButton); // Append the button
                       }
                       $righdiv.append(
@@ -1449,7 +1461,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           //       : item?.updatedComment
                           //   );
                           const text = item.comment.comment
-                            
+
 
                           const lines = text.split("\n");
 
@@ -1566,14 +1578,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           $seeOriginalCommentButton.on("click", function () {
                             // Replace the original comment text with the updated comment text
-                            
+
                             if (isOriginalComment) {
                               // Show the original comment
                               $commentreplayparagraph.text(
                                 item?.comment?.originalComment
                               );
                               $seeOriginalCommentButton.text(
-                               JsonData.see_upt_comment
+                                JsonData.see_upt_comment
                               );
                             } else {
                               // Show the updated comment
@@ -1607,9 +1619,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           $socialiconcommentreplay.append($likeicondivreplay);
 
                           if (
-                           item.comment.originalComment
+                            item.comment.originalComment
                           ) {
-                              $socialiconcommentreplay.append($seeOriginalCommentButton);
+                            $socialiconcommentreplay.append($seeOriginalCommentButton);
                           }
 
                           $leftsidecommentreplaydiv.append(
@@ -1659,13 +1671,13 @@ document.addEventListener("DOMContentLoaded", function () {
                           direction: "ltr",
                         })
                         .text(JsonData?.send);
-                        $(document).ready(function () {
-                          $(`#${dataItem._id}`).on("input", function () {
-                            this.style.height = "auto";
-                            this.style.height = this.scrollHeight + 10 + "px";
-                          });
+                      $(document).ready(function () {
+                        $(`#${dataItem._id}`).on("input", function () {
+                          this.style.height = "auto";
+                          this.style.height = this.scrollHeight + 10 + "px";
                         });
-                      const $commentreplayInput = $("<textarea>").attr('id',dataItem._id)
+                      });
+                      const $commentreplayInput = $("<textarea>").attr('id', dataItem._id)
                         .addClass("form-control-input")
                         .attr({
                           type: "text",
@@ -1743,16 +1755,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         $leftcommenntinputsection
                       );
                       $commentreplayInput.on("input", function () {
-                        const element= document.getElementById(dataItem._id)
-                       if (element) {
-                        console.log(element.offsetHeight)
-                        const elementValue = element.value;
-                        const dataToStore = {
-                          value: elementValue,
-                          height: element.offsetHeight
-                      };
-                      localStorage.setItem(dataItem._id, JSON.stringify(dataToStore));
-                      } 
+                        const element = document.getElementById(dataItem._id)
+                        if (element) {
+                          console.log(element.offsetHeight)
+                          const elementValue = element.value;
+                          const dataToStore = {
+                            value: elementValue,
+                            height: element.offsetHeight
+                          };
+                          localStorage.setItem(dataItem._id, JSON.stringify(dataToStore));
+                        }
 
                         const originalComment = $commentreplayInput
                           .val()
@@ -1766,7 +1778,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (originalComment === "") {
                           $errorMessagecomment
-                            .text("Comment cannot be empty")
+                            .text(JsonData?.comment_not_empty)
                             .show();
                         } else if (
                           originalComment.length > maxCommentLength
@@ -1781,7 +1793,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           emailPattern.test(originalComment)
                         ) {
                           $errorMessagecomment
-                            .text("Invalid content in the comment")
+                            .text(JsonData?.invalid_content)
                             .show();
                         } else {
                           $errorMessagecomment.hide();
@@ -1800,9 +1812,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       // });
                       const replyValue = localStorage.getItem(dataItem._id)
                       const parsedData = JSON.parse(replyValue);
-                      if(parsedData && parsedData.value!==''){
+                      if (parsedData && parsedData.value !== '') {
                         $commentreplayInput.val(parsedData.value);
-                         $commentreplayInput.css({height:`${parsedData.height}px`})
+                        $commentreplayInput.css({ height: `${parsedData.height}px` })
                       }
                       $replaycommentButton.on("click", function () {
                         if (userData?.emailVerified === true) {
@@ -1841,7 +1853,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             if (commentReplay === "") {
                               $errorMessagecomment
-                                .text("Comment cannot be empty")
+                                .text(JsonData?.comment_not_empty)
                                 .show();
                             } else if (
                               commentReplay.length > maxCommentLength
@@ -1856,7 +1868,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               emailPattern.test(commentReplay)
                             ) {
                               $errorMessagecomment
-                                .text("Invalid content in the comment")
+                                .text(JsonData?.invalid_content)
                                 .show();
                             } else {
                               $errorMessagecomment.hide();
@@ -1895,21 +1907,21 @@ document.addEventListener("DOMContentLoaded", function () {
                                   // Check if the response status is OK (201 Created)
                                   if (!response.ok) {
                                     response.text().then(errorMessage => {
-                                      if(response.status==401){
+                                      if (response.status == 401) {
                                         $errorMessagecomment
-                                        .text('')
-                                        .hide()
+                                          .text('')
+                                          .hide()
                                         $registerModal.css("display", "block");
                                         $loginForm.css("display", "block")
                                       }
-                                      else{
-                                      const errorData = JSON.parse(errorMessage);
-                                      $errorMessagecomment
-                                        .text(errorData.message)
-                                        .show();
+                                      else {
+                                        const errorData = JSON.parse(errorMessage);
+                                        $errorMessagecomment
+                                          .text(errorData.message)
+                                          .show();
                                       }
                                     })
-                                  
+
                                   }
 
                                   // Parse the response body as JSON
@@ -1921,8 +1933,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $spinner.remove()
                                   //commentlistapi(false);
                                   $commentreplayInput.val('')
-                       localStorage.removeItem(dataItem._id)
-                       $(`#${dataItem._id}`).css("height", "");
+                                  localStorage.removeItem(dataItem._id)
+                                  $(`#${dataItem._id}`).css("height", "");
 
                                   $("#ignismyModal").css("display", "block");
                                   $("#ignismyModal").addClass(
@@ -1964,7 +1976,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           if (commentReplay === "") {
                             $errorMessagecomment
-                              .text("Comment cannot be empty")
+                              .text(JsonData?.comment_not_empty)
                               .show();
                           } else if (
                             commentReplay.length > maxCommentLength
@@ -1979,7 +1991,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             emailPattern.test(commentReplay)
                           ) {
                             $errorMessagecomment
-                              .text("Invalid content in the comment")
+                              .text(JsonData?.invalid_content)
                               .show();
                           } else {
                             $errorMessagecomment.hide();
@@ -2018,21 +2030,21 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Check if the response status is OK (201 Created)
                                 if (!response.ok) {
                                   response.text().then(errorMessage => {
-                                    if(response.status==401){
+                                    if (response.status == 401) {
                                       $errorMessagecomment
-                                      .text(errorData.message)
-                                      .hide('')
+                                        .text(errorData.message)
+                                        .hide('')
                                       $registerModal.css("display", "block");
                                       $loginForm.css("display", "block")
                                     }
-                                    else{
-                                    const errorData = JSON.parse(errorMessage);
-                                    $errorMessagecomment
-                                      .text(errorData.message)
-                                      .show();
+                                    else {
+                                      const errorData = JSON.parse(errorMessage);
+                                      $errorMessagecomment
+                                        .text(errorData.message)
+                                        .show();
                                     }
                                   })
-                              
+
                                 }
 
                                 // Parse the response body as JSON
@@ -2042,9 +2054,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Handle the response data
                                 $replaycommentButton.prop("disabled", false);
                                 $spinner.remove()
-                                 $commentreplayInput.val('')
-                              localStorage.removeItem(dataItem._id)
-                               $(`#${dataItem._id}`).css("height", "");
+                                $commentreplayInput.val('')
+                                localStorage.removeItem(dataItem._id)
+                                $(`#${dataItem._id}`).css("height", "");
 
                                 //commentlistapi(false);
                                 $("#ignismyModal").css("display", "block");
@@ -2417,19 +2429,18 @@ document.addEventListener("DOMContentLoaded", function () {
                   };
 
                   const $modalContentSuccess = `<div class="modal fade"  id="ignismyModal" role="dialog" style="background-color: rgba(0, 0, 0, 0.4);">
-      <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
-        <div class="modal-content thank-you-pop-modal text-center">
-          <div class="modal-body">
-            <div class="thank-you-pop">
-            <img src="https://img.icons8.com/color/144/ok--v1.png" alt=""/>
-              <h1>${JsonData?.success}!</h1>
-              <p id="msgtag"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+                      <div class="modal-dialog modal-sm thank-you-pop-modal-dialog">
+                        <div class="modal-content thank-you-pop-modal text-center">
+                          <div class="modal-body">
+                            <div class="thank-you-pop">
+                                <img src="https://img.icons8.com/color/144/ok--v1.png" alt=""/>
+                                <h1>${JsonData?.success}</h1>
+                                 <p id="msgtag"></p>
+                            </div>
+                          </div>
+                       </div>
+                     </div>
+                   </div>`;
                   $(`body`).append($modalContentSuccess);
                   // Create the child div for the login form
                   const $loginForm = $("<div>")
@@ -2554,12 +2565,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Toggle the password field between text and password type
                   $showPasswordToggle.click(function () {
-                   // const $passwordField = $("#passwordField");
+                    // const $passwordField = $("#passwordField");
                     const fieldType = $passwordInput.attr("type");
                     if (fieldType === "password") {
                       $passwordInput.attr("type", "text");
-                     // $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-                     $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                      // $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
                       $passwordInput.attr("type", "password");
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye");
@@ -2585,7 +2596,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $("<div>").addClass("other-options");
                   const $otherOptionsTextSpan =
                     $("<span>").text(JsonData?.other_options);
-                  const errorTextEmailLogin = "Invalid email address";
+                  const errorTextEmailLogin = JsonData?.invalid_email;
                   const $errorElementLogin = $("<div>")
                     .css({
                       color: "red",
@@ -2710,6 +2721,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       password: password,
                       ip: "127.0.0.1",
                       device: "web",
+                      site: siteName
                     };
                     const $spinner = $("<div>")
                       .addClass(
@@ -2811,7 +2823,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "margin-top": "5px",
                   });
 
-                  const errorTextEmailForgot = "Invalid email address";
+                  const errorTextEmailForgot = JsonData?.invalid_email;
                   const $errorElementForgot = $("<div>")
                     .css({
                       color: "red",
@@ -2878,6 +2890,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const ForgotPassPayload = {
                       email: emailValue,
+                      site: siteName
                     };
                     const $spinner = $("<div>")
                       .addClass(
@@ -3216,7 +3229,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       FormCleaner();
                       ErrorCleaner();
                     });
-                  const errorTextEmailReg = "Invalid email address";
+                  const errorTextEmailReg = JsonData?.invalid_email;
                   const $errorElementReg = $("<div>")
                     .css({
                       color: "red",
@@ -3528,6 +3541,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           ? userData.email
                           : email,
                       otp: parseInt(enteredOTP),
+                      site: siteName
                       // Include any other necessary data for OTP confirmation
                     };
                     const $spinner = $("<div>")
@@ -3767,8 +3781,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const fieldType = $ResetPassInput.attr("type");
                     if (fieldType === "password") {
                       $ResetPassInput.attr("type", "text");
-                     // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
-                     $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                      // $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change the icon to hide
+                      $(this).removeClass("fa-eye").addClass("fa-eye-slash");
                     } else {
                       $ResetPassInput.attr("type", "password");
                       $(this).removeClass("fa-eye-slash").addClass("fa-eye");
@@ -3984,6 +3998,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       email: emailValue,
                       otp: parseInt(enteredOTP),
                       password: newPass,
+                      site: siteName
                       // Include any other necessary data for OTP confirmation
                     };
                     const $spinner = $("<div>")
