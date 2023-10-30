@@ -130,8 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 var showmorcomment = 10;
                 let apiFlags = true;
                 var englishJson = {
-                  "title": "Title",
-                  "subtitle_text": "Subtitle text",
                   "login": "Login",
                   "register": "Register",
                   "comment": "Comments",
@@ -140,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   "add_your_comment": "Add your comment",
                   "see_org_comment": "See original comment",
                   "see_upt_comment": "See updated comment",
-                  "posted": "Posted",
                   "min_ago": "min ago",
                   "just_now": "Just now",
                   "hour_ago": "hour ago",
@@ -148,7 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   "day_ago": "day ago",
                   "days_ago": "days ago",
                   "show_more_cmt": "Show more comments",
-                  "footer_text": "Footer text",
                   "register_desc": "To comment you need to register",
                   "name": "Name",
                   "email": "Email",
@@ -176,8 +172,20 @@ document.addEventListener("DOMContentLoaded", function () {
                   "success": "Success!!",
                   "invalid_content": "Invalid content in the comment",
                   "comment_not_empty": "Comment cannot be empty",
-                  "invalid_email": "Invalid email address"
-
+                  "invalid_email": "Invalid email address",
+                  "valid_pass": "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
+                  "email_required": "Email is required",
+                  "otp_required": "OTP is required",
+                  "valid_otp": "Enter a valid OTP",
+                  "new_pass_req": "New password is required",
+                  "repeat_pass_req": "Repeat password is required",
+                  "name_req": "Name is required",
+                  "name_max": "maximum length is 60",
+                  "pass_req": "Password is required",
+                  "account_pending": "Account is still pending confirmation",
+                  "send_confirmation": "Send confirmation email again",
+                  "you_r_not_verified": "you are not verified please verified your account",
+                  "logout": "Logout"
                 }
 
                 var arabicJson = {
@@ -228,12 +236,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   "success": "",
                   "invalid_content": "",
                   "comment_not_empty": "",
-                  "invalid_email": ""
-
+                  "invalid_email": "",
+                  
                 }
                 var hebrewJson = {
-                  "title": "Where are you using this in the page? it comes from the back office",
-                  "subtitle_text": "Where are you using this in the page ? it comes from the back office",
                   "login": "התחברות",
                   "register": "הרשמה",
                   "comment": "תגובות",
@@ -242,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   "add_your_comment": "הוסף את תגובתך",
                   "see_org_comment": "הצג בשפת המקור",
                   "see_upt_comment": "הצג תרגום",
-                  "posted": "Where are you using this in the page ?",
                   "min_ago": `לפני X דקות`,
                   "just_now": "הרגע",
                   "hour_ago": "לפני שעה",
@@ -250,7 +255,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   "day_ago": "אתמול",
                   "days_ago": "לפני X ימים",
                   "show_more_cmt": "הצג תגובות נוספות",
-                  "footer_text": "Where are you using this in the page ? it comes from the back office",
                   "register_desc": "על מנת להגיב יש להרשם",
                   "name": "שם",
                   "email": "מייל",
@@ -275,12 +279,25 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "הזן את קוד האימות שקיבלת למייל",
                   "otp_placeholder": "קוד אימות",
                   "submit_otp": "שלח",
-                  "success": "!!הַצלָחָה",
+                  "success": "!הַצלָחָה",
                   "invalid_content": "תוכן התגובה אינו תקין",
                   "comment_not_empty": "התגובה לא יכולה להיות ריקה",
-                  "invalid_email": "כתובת אימייל לא חוקית"
+                  "invalid_email": "כתובת אימייל לא חוקית",
+                  "valid_pass": "הססימה צריכה להיות לפחות בת 8 תווים ולכלול לפחות אות אחת גדולה באנגלית ואות אחת קטנה באנגלית מספר אחד וסימן מיוחד אחד",
+                  "email_required": `יש לשלוח דוא"ל`,
+                  "otp_required": "OTP נדרש",
+                  "valid_otp": "הזן OTP חוקי",
+                  "new_pass_req": "נדרשת סיסמה חדשה",
+                  "repeat_pass_req": "נדרשת סיסמה חוזרת",
+                  "name_req": "שם נדרש",
+                  "name_max": "אורך מקסימלי הוא 60",
+                  "pass_req": "נדרשת סיסמה",
+                  "account_pending": "החשבון עדיין ממתין לאישור",
+                  "send_confirmation": `שלח שוב דוא"ל אישור`,
+                  "you_r_not_verified": "אינך מאומת אנא אמת את חשבונך",
+                  "logout": "להתנתק"
                 }
-                var JsonData = hebrewJson
+                var JsonData = site ==="israel" ? hebrewJson : englishJson
                 const reenterapicall = async (apiFlag) => {
                   if (showmorcomment == 10) {
                     var $spinnerdiv = $("<div>");
@@ -584,7 +601,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .addClass("blue-button")
                     .text(JsonData?.register);
                   const $Logout = $("<p>")
-                    .text("Logout | ")
+                    .text(JsonData?.logout + " | ")
                     .addClass("logout-text")
                     .click(function () {
                       // localStorage.removeItem("token");
@@ -678,13 +695,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   //account is still pending
 
                   const $Accountpending = $("<div>").css({ direction: 'ltr' }).append(
-                    $("<span>").text("Account is still pending confirmation"),
+                    $("<span>").text(JsonData?.account_pending),
                     " ",
                     $("<span>")
                       .addClass("pending-useraccount")
                       // .html("Send confirmation email again <img src='./assets/alert-icon-svg.svg' alt='Send Email Icon style='width: 20px;' />")
 
-                      .text("Send confirmation email again")
+                      .text(JsonData?.send_confirmation)
                       .click(function () {
                         $registerModal.css("display", "block");
                         $otpForm.css("display", "block");
@@ -802,7 +819,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     else {
                       $errorMessagecomment
-                        .text("you are not verified pleace verified your account")
+                        .text(JsonData?.you_r_not_verified)
                         .show();
                     }
                   });
@@ -1832,7 +1849,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                         else {
                           $errorMessagecomment
-                            .text("you are not verified pleace verified your account")
+                            .text(JsonData?.you_r_not_verified)
                             .show();
                         }
                       });
@@ -2474,7 +2491,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Email is required");
+                    .text(JsonData?.email_required);
                   const $emptyFieldErrorLoginPass = $("<div>")
                     .css({
                       color: "red",
@@ -2482,7 +2499,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Password is required");
+                    .text(JsonData?.pass_req);
                   // Create the email input field
                   const $emailInput = $("<input>")
                     .attr("type", "email") // Set the input type to email
@@ -2520,7 +2537,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a container div for the password input and show/hide toggle button
                   const $passwordContainer = $("<div>").addClass("custom-password");
                   var errorTextPass =
-                    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character";
+                    JsonData?.valid_pass
                   var $errorElementPass = $("<div>")
                     .css({
                       color: "red",
@@ -2846,7 +2863,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Email is required");
+                    .text(JsonData?.email_required);
                   // Create the email input field
                   const $ForgotPassEmailInputDiv = $("<div>");
                   const $ForgotPassEmailInput = $("<input>")
@@ -3022,7 +3039,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Email is required");
+                    .text(JsonData?.email_required);
                   const $emptyFieldErrorRegisterPass = $("<div>")
                     .css({
                       color: "red",
@@ -3030,7 +3047,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Password is required");
+                    .text(JsonData?.pass_req);
                   const $emptyFieldErrorRegisterName = $("<div>")
                     .css({
                       color: "red",
@@ -3038,7 +3055,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Name is required");
+                    .text(JsonData?.name_req);
                   const $nameDiv = $("<div>");
                   const $registerNameInput = $("<input>")
                     .attr("type", "text")
@@ -3062,18 +3079,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         // $emptyFieldErrorRegisterName.css("display", "none");
                         if (name.trim().length > maxCommentLength) {
                           $emptyFieldErrorRegisterName
-                            .text("maximum length is 60")
+                            .text(JsonData?.name_max)
                             .css("display", "block");
                         } else {
                           $emptyFieldErrorRegisterName.css("display", "none");
                           $emptyFieldErrorRegisterName.empty();
                           $emptyFieldErrorRegisterName.text(
-                            "Name is required"
+                            JsonData?.name_req
                           );
                         }
                       } else {
                         $emptyFieldErrorRegisterName.empty();
-                        $emptyFieldErrorRegisterName.text("Name is required");
+                        $emptyFieldErrorRegisterName.text(JsonData?.name_req);
                         $emptyFieldErrorRegisterName.css("display", "block");
                       }
                     });
@@ -3145,6 +3162,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (password.trim() === "") {
                         $errorElementPass.css("display", "none");
                         $emptyFieldErrorRegisterPass.css("display", "block");
+                      }else{
+                        $emptyFieldErrorRegisterPass.css("display", "none");
+
                       }
                     });
                   const $showregisterpasswordtoggele = $("<i>")
@@ -3333,7 +3353,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     $emptyFieldErrorOtp.css("display", "none");
                     $emptyFieldErrorResetPass.css("display", "none");
                     $emptyFieldErrorResetNewPass.css("display", "none");
+                    $errorElementPassReset.css("display","none")
                     $emptyFieldErrorResetConfirmPass.css("display", "none");
+                    $errorElementPassResetConfirm.css("display", "none");
                     $errorElementPass.css("display", "none");
                     $ApierrorforgotPass.css("display", "none");
                     $ApierrorLogin.css("display", "none");
@@ -3426,8 +3448,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("OTP is required");
-                  const errorTextOtp = "Enter a valid OTP";
+                    .text(JsonData?.otp_required);
+                  const errorTextOtp = JsonData?.valid_otp;
                   const $errorElementOtp = $("<div>")
                     .css({
                       color: "red",
@@ -3648,7 +3670,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("OTP is required");
+                    .text(JsonData?.otp_required);
                   const $emptyFieldErrorResetNewPass = $("<div>")
                     .css({
                       color: "red",
@@ -3656,7 +3678,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("New password is required");
+                    .text(JsonData?.new_pass_req);
                   const $emptyFieldErrorResetConfirmPass = $("<div>")
                     .css({
                       color: "red",
@@ -3664,8 +3686,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       display: "none",
                       "font-size": "14px",
                     })
-                    .text("Repeat password is required");
-                  const errorTextResetPass = "Enter a valid OTP";
+                    .text(JsonData?.repeat_pass_req);
+                  const errorTextResetPass = JsonData?.valid_otp;
                   const $errorElementResetPass = $("<div>")
                     .css({
                       color: "red",
@@ -3675,7 +3697,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .text(errorTextResetPass);
 
                   const errorTextPassReset =
-                    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character";
+                    JsonData?.valid_pass
                   const $errorElementPassReset = $("<div>")
                     .css({
                       color: "red",
@@ -3685,7 +3707,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     })
                     .text(errorTextPassReset);
                   const errorTextPassResetConfirm =
-                    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character";
+                    JsonData?.valid_pass
                   const $errorElementPassResetConfirm = $("<div>")
                     .css({
                       color: "red",
@@ -3771,6 +3793,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (password.trim() === "") {
                         $errorElementPassReset.css("display", "none");
                         $emptyFieldErrorResetNewPass.css("display", "block");
+                      }else{
+                        $emptyFieldErrorResetNewPass.css("display", "none");
                       }
                     });
                   const $Showmoretotalresertpassword = $("<i>")
@@ -3839,6 +3863,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         $emptyFieldErrorResetConfirmPass.css(
                           "display",
                           "block"
+                        );
+                      }else{
+                        $emptyFieldErrorResetConfirmPass.css(
+                          "display",
+                          "none"
                         );
                       }
                     });
