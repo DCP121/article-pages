@@ -160,7 +160,7 @@ body {
     font-weight: bold !important;
     font-size: 20px !important;
     line-height: normal !important;
-    direction: initial !important;
+    /* direction: initial !important; */
 }
 /* add-comments */
 #comment-section {
@@ -223,13 +223,15 @@ body {
     padding: 0 0 0 0;
     cursor: pointer;
 }
+.send-confirmation{
+    background: url(./assets/alert-icon-svg.svg) no-repeat right top;
+    padding-right: 35px;
+}
 .pending-useraccount{
     color:red;
     cursor: pointer;
     direction: ltr;
-    background: url(./assets/alert-icon-svg.svg) no-repeat right top;
     min-height: 30px;
-    padding-right: 35px;
     text-decoration: underline;
 }
 .alerticon-size {

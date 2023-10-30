@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@9121bc8ee40c08c7af1a3bde75883f8e4418c200/index.css")
-  // loadCSS("./index.css");
+   //loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .text(
                       `${commentlistingdata?.data?.totalComment} ${JsonData?.comment}`
                     );
-
+                    
                   const isLogin = localStorage.getItem("token");
                   if (!isLogin) {
                     $Logout.css({ display: "none" });
@@ -695,7 +695,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   //account is still pending
 
                   const $Accountpending = $("<div>").css({ direction: 'ltr' }).append(
-                    $("<span>").text(JsonData?.account_pending),
+                    $("<span>").text(JsonData?.account_pending).addClass("send-confirmation"),
                     " ",
                     $("<span>")
                       .addClass("pending-useraccount")
