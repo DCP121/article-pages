@@ -1309,13 +1309,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Replace the original comment text with the updated comment text
                         if (isOriginalComment) {
                           // Show the original comment
-                          $paragraph.text(dataItem?.comment.originalComment);
+                          const originalCommentWithLineBreaks = dataItem?.comment?.originalComment?.replace(/\n/g, '<br>');
+                          $paragraph.html(originalCommentWithLineBreaks);
                           $seeOriginalCommentButton.text(
                             JsonData.see_upt_comment
                           );
                         } else {
                           // Show the updated comment
-                          $paragraph.text(dataItem?.comment.comment);
+                          const updatedCommentWithLineBreaks = dataItem?.comment?.comment?.replace(/\n/g, '<br>');
+                          $paragraph.html(updatedCommentWithLineBreaks);
                           $seeOriginalCommentButton.text(
                             JsonData?.see_org_comment
                           );
@@ -1569,17 +1571,22 @@ document.addEventListener("DOMContentLoaded", function () {
                             
                             if (isOriginalComment) {
                               // Show the original comment
-                              $commentreplayparagraph.text(
-                                item?.comment?.originalComment
-                              );
+
+                              const originalCommentWithLineBreaks = item?.comment?.originalComment?.replace(/\n/g, '<br>');
+                              $commentreplayparagraph.html(originalCommentWithLineBreaks);
+                              // $commentreplayparagraph.text(
+                                
+                              // );
                               $seeOriginalCommentButton.text(
                                JsonData.see_upt_comment
                               );
                             } else {
                               // Show the updated comment
-                              $commentreplayparagraph.text(
-                                item?.comment?.comment
-                              );
+                              const originalCommentWithLineBreaks =  item?.comment?.comment?.replace(/\n/g, '<br>');
+                              $commentreplayparagraph.html(originalCommentWithLineBreaks);
+                              // $commentreplayparagraph.text(
+                               
+                              // );
                               $seeOriginalCommentButton.text(
                                 JsonData?.see_org_comment
                               );
