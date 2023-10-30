@@ -2303,7 +2303,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Create a script element for loading the Google Sign-In API
                   var scriptElement = document.createElement("script");
                   scriptElement.src =
-                    "https://accounts.google.com/gsi/client";
+                    `https://accounts.google.com/gsi/client?hl=${site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en'}`;
                   scriptElement.async = true;
                   $("head").append(scriptElement);
                   scriptElement.onload = function () {
@@ -2332,6 +2332,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   gIdSigninDiv.setAttribute("data-text", "signin_with");
                   gIdSigninDiv.setAttribute("data-size", "medium");
                   gIdSigninDiv.setAttribute("data-logo_alignment", "left");
+                  gIdSigninDiv.setAttribute("data-locale",site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en');
 
                   // Create a div element for g_id_onload configuration
                   var gIdOnloadDiv1 = document.createElement("div");
@@ -2354,6 +2355,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   gIdSigninDiv1.setAttribute("data-text", "signin_with");
                   gIdSigninDiv1.setAttribute("data-size", "medium");
                   gIdSigninDiv1.setAttribute("data-logo_alignment", "left");
+                  gIdSigninDiv1.setAttribute("data-locale",site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en');
 
                   // Define the handleCredentialResponse function using jQuery
                   window.handleCredentialResponse = async (response) => {
