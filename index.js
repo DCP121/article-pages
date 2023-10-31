@@ -875,6 +875,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       } else {
                         // reCAPTCHA failed; you can handle failure logic here
                         console.log('reCAPTCHA failed. Please verify you are not a robot.');
+                        reRecaptchFlag = false
                        
 
                         // You can perform actions like displaying an error message or
