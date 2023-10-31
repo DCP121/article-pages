@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "הזן את קוד האימות שקיבלת למייל",
                   "otp_placeholder": "קוד אימות",
                   "submit_otp": "שלח",
-                  "success": "!הַצלָחָה",
+                  "success": "!הצלחה",
                   "invalid_content": "תוכן התגובה אינו תקין",
                   "comment_not_empty": "התגובה לא יכולה להיות ריקה",
                   "invalid_email": "כתובת אימייל לא חוקית",
