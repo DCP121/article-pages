@@ -865,6 +865,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (response) {
                         // reCAPTCHA was successful; you can proceed with your success logic here
                         reRecaptchFlag = true
+                        $errorMessagecomment
+                          .text('')
+                          .hide();
                         console.log('reCAPTCHA successful. Response:', response);
                        
                         // You can now perform actions, such as enabling a submit button
