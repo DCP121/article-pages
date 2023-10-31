@@ -1028,6 +1028,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "none");
                                 $("#msgtag").html("");
                               }, 2000);
+                              grecaptcha.reset();
 
                               // Re-enable the comment button after successful API call
                               $commentButton.prop("disabled", false);
@@ -1141,6 +1142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Re-enable the comment button after successful API call
                             $commentButton.prop("disabled", false);
+                            grecaptcha.reset();
                           })
                           .catch((error) => {
                             console.log(error, 'error')
