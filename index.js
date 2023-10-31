@@ -783,16 +783,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                   // Show the recaptcha verification box
-                  $(document).ready(function () {
-                    // Create a div element with the specified id and append it to the body
-                    var divElement = $('<div></div>');
-                    divElement.attr('id', 'recaptcha-container');
-                    $('body').append(divElement);
-                  });
-
+                  // $(document).ready(function () {
+                  //   // Create a div element with the specified id and append it to the body
+                  //   var divElement = $('<div></div>');
+                  //   divElement.attr('id', 'recaptcha-container');
+                  //   $('body').append(divElement);
+                  // });
+                  var divElement = $('<div></div>');
+                  divElement.attr('id', 'recaptcha-container');
                   // const $captchainput = $('div').attr('id', 'recaptcha-container')
 
-                  $buttonandinputdiv.append($commentInput, $commentButton);
+                  $buttonandinputdiv.append($commentInput, $commentButton, divElement);
                   $commentbuttonandinputdiv.append(
                     userData && userData.emailVerified == false
                       ? $Accountpending
@@ -862,12 +863,30 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (response) {
                         // reCAPTCHA was successful; you can proceed with your success logic here
                         console.log('reCAPTCHA successful. Response:', response);
+                        $commentButton.on("click", function () {
+                          commentData = $commentInput.val();
+                          inputHeight = $commentInput[0].offsetHeight
+                          if (userData?.emailVerified === true) {
+
+                            submitComment();
+                          }
+                          else if (userData === null) {
+
+                            submitComment();
+                          }
+                          else {
+                            $errorMessagecomment
+                              .text(JsonData?.you_r_not_verified)
+                              .show();
+                          }
+                        });
 
                         // You can now perform actions, such as enabling a submit button
                         // or displaying a success message to the user.
                       } else {
                         // reCAPTCHA failed; you can handle failure logic here
                         console.log('reCAPTCHA failed. Please verify you are not a robot.');
+                       
 
                         // You can perform actions like displaying an error message or
                         // disabling the submit button.
@@ -878,23 +897,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   //end recaptcha code
 
-                  $commentButton.on("click", function () {
-                    commentData = $commentInput.val();
-                    inputHeight = $commentInput[0].offsetHeight
-                    if (userData?.emailVerified === true) {
-
-                      submitComment();
-                    }
-                    else if (userData === null) {
-
-                      submitComment();
-                    }
-                    else {
-                      $errorMessagecomment
-                        .text(JsonData?.you_r_not_verified)
-                        .show();
-                    }
-                  });
+              
 
                   const submitComment = async () => {
                     //const ipAddress = await getIp();
