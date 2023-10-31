@@ -848,7 +848,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   //Re-Captcha Function 
                   $(document).ready(function () {
                     // Replace 'your_site_key' with your actual reCAPTCHA site key
-                    var siteKey = 'your_site_key';
+                    var siteKey = '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ';
 
                     // Load and display reCAPTCHA
                     grecaptcha.ready(function () {
