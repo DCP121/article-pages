@@ -204,7 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "you_r_not_verified": "you are not verified please verified your account",
                   "logout": "Logout",
                   "Logout_msg": "Logout successfully !!",
-                  "comment_max_length": "Comment exceeds the maximum length"
+                  "comment_max_length": "Comment exceeds the maximum length",
+                  "captch_err_msg":"please verify reCAPTCH"
                 }
 
                 var arabicJson = {
@@ -844,9 +845,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     $commentInput.css({ height: `${inputHeight}px` })
                   }
 
-
+                 
                   //Start recaptcha code 
                   //Re-Captcha Function 
+                  var reRecaptchFlag = false
                   $(document).ready(function () {
                     // Replace 'your_site_key' with your actual reCAPTCHA site key
                     var siteKey = '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ';
@@ -862,25 +864,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     function recaptchaCallback(response) {
                       if (response) {
                         // reCAPTCHA was successful; you can proceed with your success logic here
+                        reRecaptchFlag = true
                         console.log('reCAPTCHA successful. Response:', response);
-                        $commentButton.on("click", function () {
-                          commentData = $commentInput.val();
-                          inputHeight = $commentInput[0].offsetHeight
-                          if (userData?.emailVerified === true) {
-
-                            submitComment();
-                          }
-                          else if (userData === null) {
-
-                            submitComment();
-                          }
-                          else {
-                            $errorMessagecomment
-                              .text(JsonData?.you_r_not_verified)
-                              .show();
-                          }
-                        });
-
+                       
                         // You can now perform actions, such as enabling a submit button
                         // or displaying a success message to the user.
                       } else {
@@ -896,6 +882,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                   //end recaptcha code
+
+                  $commentButton.on("click", function () {
+                    if (reRecaptchFlag){
+
+                    
+                    commentData = $commentInput.val();
+                    inputHeight = $commentInput[0].offsetHeight
+
+                    if (userData?.emailVerified === true) {
+
+                      submitComment();
+                    }
+                    else if (userData === null) {
+
+                      submitComment();
+                    }
+                    else {
+                      $errorMessagecomment
+                        .text(JsonData?.you_r_not_verified)
+                        .show();
+                    }
+                  }else{
+                      $errorMessagecomment
+                        .text('please verify reCAPTCH')
+                        .show();
+                  }
+                  });
+                
 
               
 
