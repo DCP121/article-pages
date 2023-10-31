@@ -63,6 +63,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 var FILE_URL = "https://israel-ittihad-api.devhostserver.com"
 
+
+                //script for recaptcha
+                var recaptcha = document.createElement("script");
+                recaptcha.src =
+                  `https://www.google.com/recaptcha/api.js`;
+                recaptcha.async = true;
+                recaptcha.defer = true;
+
+                $("head").append(recaptcha);
+
+                // $(document).ready(function () {
+                //   // Create a div element with the specified id and append it to the body
+                //   var divElement = $('<div></div>');
+                //   divElement.attr('id', 'recaptcha-container');
+                //   $('body').append(divElement);
+                // });
+
                 // Set the source and other attributes for the script
                 script.src =
                   "https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.1.0/mqtt.min.js";
@@ -764,6 +781,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     .css({ display: "flex", color: "red" })
                     .hide();
 
+
+                  // Show the recaptcha verification box
+                  $(document).ready(function () {
+                    // Create a div element with the specified id and append it to the body
+                    var divElement = $('<div></div>');
+                    divElement.attr('id', 'recaptcha-container');
+                    $('body').append(divElement);
+                  });
+
+                  // const $captchainput = $('div').attr('id', 'recaptcha-container')
+
                   $buttonandinputdiv.append($commentInput, $commentButton);
                   $commentbuttonandinputdiv.append(
                     userData && userData.emailVerified == false
@@ -806,10 +834,50 @@ document.addEventListener("DOMContentLoaded", function () {
                       $errorMessagecomment.hide();
                     }
                   });
+
+
+                
+
                   if (commentData !== '') {
                     $commentInput.val(commentData);
                     $commentInput.css({ height: `${inputHeight}px` })
                   }
+
+
+                  //Start recaptcha code 
+                  //Re-Captcha Function 
+                  $(document).ready(function () {
+                    // Replace 'your_site_key' with your actual reCAPTCHA site key
+                    var siteKey = 'your_site_key';
+
+                    // Load and display reCAPTCHA
+                    grecaptcha.ready(function () {
+                      grecaptcha.render('recaptcha-container', {
+                        'sitekey': siteKey,
+                        'callback': recaptchaCallback
+                      });
+                    });
+
+                    function recaptchaCallback(response) {
+                      if (response) {
+                        // reCAPTCHA was successful; you can proceed with your success logic here
+                        console.log('reCAPTCHA successful. Response:', response);
+
+                        // You can now perform actions, such as enabling a submit button
+                        // or displaying a success message to the user.
+                      } else {
+                        // reCAPTCHA failed; you can handle failure logic here
+                        console.log('reCAPTCHA failed. Please verify you are not a robot.');
+
+                        // You can perform actions like displaying an error message or
+                        // disabling the submit button.
+                      }
+                    }
+                  });
+
+
+                  //end recaptcha code
+
                   $commentButton.on("click", function () {
                     commentData = $commentInput.val();
                     inputHeight = $commentInput[0].offsetHeight
