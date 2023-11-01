@@ -920,12 +920,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             } else {
                               isVersion3 = false
+                              var recaptcha = document.createElement("script");
+                              recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
+                              recaptcha.async = true;
+                              recaptcha.defer = true;
+
+                              $("head").append(recaptcha);
                               $errorMessagecomment
                                 .text('Please verify reCAPTCH')
                                 .show();
                               grecaptcha.ready(function () {
                                 grecaptcha.render('recaptcha-container', {
-                                  'sitekey': siteKey,
+                                  'sitekey': '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK',
                                   'callback': recaptchaCallback
                                 });
                               });
@@ -938,13 +944,19 @@ document.addEventListener("DOMContentLoaded", function () {
                           .catch(error => {
 
                             isVersion3 = false
+                            var recaptcha = document.createElement("script");
+                            recaptcha.src = `https://www.google.com/recaptcha/api.js`;
+                            recaptcha.async = true;
+                            recaptcha.defer = true;
+
+                            $("head").append(recaptcha);
                             $errorMessagecomment
                               .text('Please verify reCAPTCH')
                               .show();
 
                             grecaptcha.ready(function () {
                               grecaptcha.render('recaptcha-container', {
-                                'sitekey': siteKey,
+                                'sitekey': '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK',
                                 'callback': recaptchaCallback
                               });
                             });
