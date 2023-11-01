@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 //script for recaptcha
 
-                var isVersion3 = true
+                var isVersion3 = false
 
                 var recaptcha = document.createElement("script");
                 recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
