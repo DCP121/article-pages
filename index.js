@@ -920,13 +920,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             } else {
                               isVersion3 = false
-                              var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK';
-                              var recaptcha = document.createElement("script");
-                              recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
-                              recaptcha.async = true;
-                              recaptcha.defer = true;
-
-                              $("head").append(recaptcha);
                               $errorMessagecomment
                                 .text('Please verify reCAPTCH')
                                 .show();
@@ -945,16 +938,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           .catch(error => {
 
                             isVersion3 = false
-                            var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK';
                             $errorMessagecomment
                               .text('Please verify reCAPTCH')
                               .show();
-                            var recaptcha = document.createElement("script");
-                            recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
-                            recaptcha.async = true;
-                            recaptcha.defer = true;
-
-                            $("head").append(recaptcha);
 
                             grecaptcha.ready(function () {
                               grecaptcha.render('recaptcha-container', {
