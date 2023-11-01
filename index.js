@@ -920,6 +920,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             } else {
                               isVersion3 = false
+                              var recaptcha = document.createElement("script");
+                              recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
+                              recaptcha.async = true;
+                              recaptcha.defer = true;
+
+                              $("head").append(recaptcha);
                               $errorMessagecomment
                                 .text('Please verify reCAPTCH')
                                 .show();
@@ -941,6 +947,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             $errorMessagecomment
                               .text('Please verify reCAPTCH')
                               .show();
+                            var recaptcha = document.createElement("script");
+                            recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
+                            recaptcha.async = true;
+                            recaptcha.defer = true;
+
+                            $("head").append(recaptcha);
 
                             grecaptcha.ready(function () {
                               grecaptcha.render('recaptcha-container', {
