@@ -83,6 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // $("head").append(recaptchav2);
 
+                
+
                 // $(document).ready(function () {
                 //   // Create a div element with the specified id and append it to the body
                 //   var divElement = $('<div></div>');
