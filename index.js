@@ -895,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           },
                           method: 'post',
                           body: JSON.stringify({
-                            token: token
+                            token: null
                           })
                         })
                           .then(response => response.json())
