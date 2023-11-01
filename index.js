@@ -860,6 +860,33 @@ document.addEventListener("DOMContentLoaded", function () {
                   //Re-Captcha Function 
                   var reRecaptchFlag = false
                   //end recaptcha code
+                  // re-captch callback function
+                  function recaptchaCallback(response) {
+                    if (response) {
+                      // reCAPTCHA was successful; you can proceed with your success logic here
+                      reRecaptchFlag = true
+                      $errorMessagecomment
+                        .text('')
+                        .hide();
+
+                      console.log(reRecaptchFlag, 'reRecaptchFlag', 878)
+                      console.log('reCAPTCHA successful. Response:', response, 879);
+
+
+                      // You can now perform actions, such as enabling a submit button
+                      // or displaying a success message to the user.
+                    } else {
+                      // reCAPTCHA failed; you can handle failure logic here
+                      console.log('reCAPTCHA failed. Please verify you are not a robot.');
+                      reRecaptchFlag = false
+                      $errorMessagecomment
+                        .text('Please verify reCAPTCH')
+                        .show();
+
+                      // You can perform actions like displaying an error message or
+                      // disabling the submit button.
+                    }
+                  }
 
 
                   $commentButton.on("click", function () {
