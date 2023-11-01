@@ -65,9 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 //script for recaptcha
+
+                var isVersion3 = true
+
                 var recaptcha = document.createElement("script");
-                recaptcha.src =
-                  `https://www.google.com/recaptcha/api.js`;
+                recaptcha.src = isVersion3 ? `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG` : `https://www.google.com/recaptcha/api.js`;
                 recaptcha.async = true;
                 recaptcha.defer = true;
 
@@ -186,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "otp_desc": "Enter OTP for verification",
                   "otp_placeholder": "Enter OTP",
                   "submit_otp": "Submit OTP",
-                  "success": "Success!!",
+                  "success": "Success!",
                   "invalid_content": "Invalid content in the comment",
                   "comment_not_empty": "Comment cannot be empty",
                   "invalid_email": "Invalid email address",
@@ -203,9 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   "send_confirmation": "Send confirmation email again",
                   "you_r_not_verified": "you are not verified please verified your account",
                   "logout": "Logout",
-                  "Logout_msg": "Logout successfully !!",
+                  "Logout_msg": "Logout successfully !",
                   "comment_max_length": "Comment exceeds the maximum length",
-                  "captch_err_msg":"please verify reCAPTCH"
+                  "captch_err_msg": "Please verify reCAPTCH"
                 }
 
                 var arabicJson = {
@@ -316,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "send_confirmation": "שלח שוב מייל אימות",
                   "you_r_not_verified": "אינך מאומת אנא אמת את חשבונך",
                   "logout": "התנתק",
-                  "Logout_msg": "!! התנתק בהצלחה",
+                  "Logout_msg": "! התנתק בהצלחה",
                   "comment_max_length": "הערה חורגת מהאורך המרבי"
                 }
                 var JsonData = site === "israel" ? hebrewJson : englishJson
@@ -838,29 +840,25 @@ document.addEventListener("DOMContentLoaded", function () {
                   });
 
 
-                
+
 
                   if (commentData !== '') {
                     $commentInput.val(commentData);
                     $commentInput.css({ height: `${inputHeight}px` })
                   }
 
-                 
+
                   //Start recaptcha code 
                   //Re-Captcha Function 
                   var reRecaptchFlag = false
-                  $(document).ready(function () {
-                    // Replace 'your_site_key' with your actual reCAPTCHA site key
-                    var siteKey = '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ';
+                  //end recaptcha code
 
-                    // Load and display reCAPTCHA
-                    grecaptcha.ready(function () {
-                      grecaptcha.render('recaptcha-container', {
-                        'sitekey': siteKey,
-                        'callback': recaptchaCallback
-                      });
-                    });
 
+                  $commentButton.on("click", function () {
+                    var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
+
+
+                    // re-captch callback function
                     function recaptchaCallback(response) {
                       if (response) {
                         // reCAPTCHA was successful; you can proceed with your success logic here
@@ -868,54 +866,128 @@ document.addEventListener("DOMContentLoaded", function () {
                         $errorMessagecomment
                           .text('')
                           .hide();
-                        console.log('reCAPTCHA successful. Response:', response);
-                       
+                        // console.log('reCAPTCHA successful. Response:', response);
+
                         // You can now perform actions, such as enabling a submit button
                         // or displaying a success message to the user.
                       } else {
                         // reCAPTCHA failed; you can handle failure logic here
                         console.log('reCAPTCHA failed. Please verify you are not a robot.');
                         reRecaptchFlag = false
-                       
+                        $errorMessagecomment
+                          .text('Please verify reCAPTCH')
+                          .show();
 
                         // You can perform actions like displaying an error message or
                         // disabling the submit button.
                       }
                     }
+
+                    // console.log(grecaptcha, 'grecaptcha')
+                    grecaptcha.execute(siteKey, { action: 'demo' })
+                      .then(function (token) {
+                        // console.log(token, 'token')
+                        // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                        fetch(`${API_URL}/user/captcha-verification`, {
+                          headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                          },
+                          method: 'post',
+                          body: JSON.stringify({
+                            token: token
+                          })
+                        })
+                          .then(response => response.json())
+                          .then(data => {
+                            if (data?.data?.success && data?.success) {
+                              commentData = $commentInput.val();
+                              inputHeight = $commentInput[0].offsetHeight
+
+                              if (userData?.emailVerified === true) {
+
+                                submitComment();
+                              }
+                              else if (userData === null) {
+
+                                submitComment();
+                              }
+                              else {
+                                $errorMessagecomment
+                                  .text(JsonData?.you_r_not_verified)
+                                  .show();
+                              }
+
+                            } else {
+                              isVersion3 = false
+                              $errorMessagecomment
+                                .text('Please verify reCAPTCH')
+                                .show();
+                              grecaptcha.ready(function () {
+                                grecaptcha.render('recaptcha-container', {
+                                  'sitekey': siteKey,
+                                  'callback': recaptchaCallback
+                                });
+                              });
+
+                            }
+
+
+
+                          })
+                          .catch(error => {
+
+                            isVersion3 = false
+                            $errorMessagecomment
+                              .text('Please verify reCAPTCH')
+                              .show();
+
+                            grecaptcha.ready(function () {
+                              grecaptcha.render('recaptcha-container', {
+                                'sitekey': siteKey,
+                                'callback': recaptchaCallback
+                              });
+                            });
+
+                          });
+
+
+
+
+                      });
+
+
+
+                    if (reRecaptchFlag) {
+
+
+                      commentData = $commentInput.val();
+                      inputHeight = $commentInput[0].offsetHeight
+
+                      if (userData?.emailVerified === true) {
+
+                        submitComment();
+                      }
+                      else if (userData === null) {
+
+                        submitComment();
+                      }
+                      else {
+                        $errorMessagecomment
+                          .text(JsonData?.you_r_not_verified)
+                          .show();
+                      }
+                    } else {
+                      if (!isVersion3) {
+                        $errorMessagecomment
+                          .text('Please verify reCAPTCH')
+                          .show();
+                      }
+                    }
                   });
 
 
-                  //end recaptcha code
 
-                  $commentButton.on("click", function () {
-                    if (reRecaptchFlag){
-
-                    
-                    commentData = $commentInput.val();
-                    inputHeight = $commentInput[0].offsetHeight
-
-                    if (userData?.emailVerified === true) {
-
-                      submitComment();
-                    }
-                    else if (userData === null) {
-
-                      submitComment();
-                    }
-                    else {
-                      $errorMessagecomment
-                        .text(JsonData?.you_r_not_verified)
-                        .show();
-                    }
-                  }else{
-                      $errorMessagecomment
-                        .text('please verify reCAPTCH')
-                        .show();
-                  }
-                  });
-                
-
-              
 
                   const submitComment = async () => {
                     //const ipAddress = await getIp();
@@ -1012,7 +1084,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               return response.json();
                             })
                             .then((data) => {
-                              console.log('data', data)
+                              // console.log('data', data)
                               // Handle the response data
                               $spinner.remove();
                               // commentlistapi(false);
@@ -1029,6 +1101,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#msgtag").html("");
                               }, 2000);
                               grecaptcha.reset();
+                              isVersion3 = true
 
                               // Re-enable the comment button after successful API call
                               $commentButton.prop("disabled", false);
@@ -1143,9 +1216,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Re-enable the comment button after successful API call
                             $commentButton.prop("disabled", false);
                             grecaptcha.reset();
+                            isVersion3 = true
                           })
                           .catch((error) => {
-                            console.log(error, 'error')
+                            // console.log(error, 'error')
                             // Re-enable the comment button in case of an error
                             $commentButton.prop("disabled", false);
                             $spinner.remove();
@@ -2395,7 +2469,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   var scriptElement = document.createElement("script");
                   scriptElement.src =
                     `https://accounts.google.com/gsi/client?hl=${site == 'israel' ? 'he' : 'en'}`;
-                    // `https://accounts.google.com/gsi/client?hl=${site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en'}`;
+                  // `https://accounts.google.com/gsi/client?hl=${site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en'}`;
                   scriptElement.async = true;
                   $("head").append(scriptElement);
                   scriptElement.onload = function () {
@@ -2424,7 +2498,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   gIdSigninDiv.setAttribute("data-text", "signin_with");
                   gIdSigninDiv.setAttribute("data-size", "medium");
                   gIdSigninDiv.setAttribute("data-logo_alignment", "left");
-                  gIdSigninDiv.setAttribute("data-locale",site == 'israel' ? 'he' : 'en');
+                  gIdSigninDiv.setAttribute("data-locale", site == 'israel' ? 'he' : 'en');
                   // gIdSigninDiv.setAttribute("data-locale",site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en');
 
                   // Create a div element for g_id_onload configuration
@@ -2448,7 +2522,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   gIdSigninDiv1.setAttribute("data-text", "signin_with");
                   gIdSigninDiv1.setAttribute("data-size", "medium");
                   gIdSigninDiv1.setAttribute("data-logo_alignment", "left");
-                  gIdSigninDiv1.setAttribute("data-locale",site == 'israel' ? 'he' : 'en');
+                  gIdSigninDiv1.setAttribute("data-locale", site == 'israel' ? 'he' : 'en');
                   // gIdSigninDiv1.setAttribute("data-locale",site == 'israel' ? 'he' : site == 'ittihad' ? 'ar' : 'en');
 
                   // Define the handleCredentialResponse function using jQuery
