@@ -874,7 +874,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         $errorMessagecomment
                           .text('')
                           .hide();
-                        // console.log('reCAPTCHA successful. Response:', response);
+
+                        console.log(reRecaptchFlag,'reRecaptchFlag',878)
+                        console.log('reCAPTCHA successful. Response:', response,879);
+                       
 
                         // You can now perform actions, such as enabling a submit button
                         // or displaying a success message to the user.
@@ -928,7 +931,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             } else {
                               isVersion3 = false
-                              recaptchav3.remove()
+                              // recaptchav3.remove()
                               // var recaptcha = document.createElement("script");
                               // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
                               // recaptcha.async = true;
@@ -954,7 +957,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .catch(error => {
 
                             isVersion3 = false
-                            recaptchav3.remove()
+                            // recaptchav3.remove()
                             // var recaptcha = document.createElement("script");
                             // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
                             // recaptcha.async = true;
