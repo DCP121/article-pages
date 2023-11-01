@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 recaptchav3.src = `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG`;
                 recaptchav3.async = true;
                 recaptchav3.defer = true;
-                
+
 
                 $("head").append(recaptchav3);
 
@@ -864,84 +864,81 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   $commentButton.on("click", function () {
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
-
-
-                    // re-captch callback function
-                    function recaptchaCallback(response) {
-                      if (response) {
-                        // reCAPTCHA was successful; you can proceed with your success logic here
-                        reRecaptchFlag = true
-                        $errorMessagecomment
-                          .text('')
-                          .hide();
-
-                        console.log(reRecaptchFlag,'reRecaptchFlag',878)
-                        console.log('reCAPTCHA successful. Response:', response,879);
-                       
-
-                        // You can now perform actions, such as enabling a submit button
-                        // or displaying a success message to the user.
-                      } else {
-                        // reCAPTCHA failed; you can handle failure logic here
-                        console.log('reCAPTCHA failed. Please verify you are not a robot.');
-                        reRecaptchFlag = false
-                        $errorMessagecomment
-                          .text('Please verify reCAPTCH')
-                          .show();
-
-                        // You can perform actions like displaying an error message or
-                        // disabling the submit button.
-                      }
-                    }
-
-                    // console.log(grecaptcha, 'grecaptcha')
-                    grecaptcha.execute(siteKey, { action: 'demo' })
-                      .then(function (token) {
-                        // console.log(token, 'token')
-                        // document.querySelector('#send_button').addEventListener('click', handleClick(token));
-                        fetch(`${API_URL}/user/captcha-verification`, {
-                          headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                          },
-                          method: 'post',
-                          body: JSON.stringify({
-                            token: null
+                    if (isVersion3) {
+                      // console.log(grecaptcha, 'grecaptcha')
+                      grecaptcha.execute(siteKey, { action: 'demo' })
+                        .then(function (token) {
+                          // console.log(token, 'token')
+                          // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                          fetch(`${API_URL}/user/captcha-verification`, {
+                            headers: {
+                              'Accept': 'application/json',
+                              'Content-Type': 'application/json'
+                            },
+                            method: 'post',
+                            body: JSON.stringify({
+                              token: null
+                            })
                           })
-                        })
-                          .then(response => response.json())
-                          .then(data => {
-                            if (data?.data?.success && data?.success) {
-                              commentData = $commentInput.val();
-                              inputHeight = $commentInput[0].offsetHeight
+                            .then(response => response.json())
+                            .then(data => {
+                              if (data?.data?.success && data?.success) {
+                                commentData = $commentInput.val();
+                                inputHeight = $commentInput[0].offsetHeight
 
-                              if (userData?.emailVerified === true) {
+                                if (userData?.emailVerified === true) {
 
-                                submitComment();
-                              }
-                              else if (userData === null) {
+                                  submitComment();
+                                }
+                                else if (userData === null) {
 
-                                submitComment();
-                              }
-                              else {
+                                  submitComment();
+                                }
+                                else {
+                                  $errorMessagecomment
+                                    .text(JsonData?.you_r_not_verified)
+                                    .show();
+                                }
+
+                              } else {
+                                isVersion3 = false
+                                // recaptchav3.remove()
+                                // var recaptcha = document.createElement("script");
+                                // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
+                                // recaptcha.async = true;
+                                // recaptcha.defer = true;
+                                // console.log(grecaptcha,'grecaptcha')
+
+                                // $("head").append(recaptcha);
                                 $errorMessagecomment
-                                  .text(JsonData?.you_r_not_verified)
+                                  .text('Please verify reCAPTCH')
                                   .show();
+                                grecaptcha.ready(function () {
+                                  grecaptcha.render('recaptcha-container', {
+                                    'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                    'callback': recaptchaCallback
+                                  });
+                                });
+
                               }
 
-                            } else {
+
+
+                            })
+                            .catch(error => {
+
                               isVersion3 = false
                               // recaptchav3.remove()
                               // var recaptcha = document.createElement("script");
-                              // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
+                              // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
                               // recaptcha.async = true;
                               // recaptcha.defer = true;
-                              // console.log(grecaptcha,'grecaptcha')
 
                               // $("head").append(recaptcha);
                               $errorMessagecomment
                                 .text('Please verify reCAPTCH')
                                 .show();
+
                               grecaptcha.ready(function () {
                                 grecaptcha.render('recaptcha-container', {
                                   'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
@@ -949,67 +946,47 @@ document.addEventListener("DOMContentLoaded", function () {
                                 });
                               });
 
-                            }
-
-
-
-                          })
-                          .catch(error => {
-
-                            isVersion3 = false
-                            // recaptchav3.remove()
-                            // var recaptcha = document.createElement("script");
-                            // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
-                            // recaptcha.async = true;
-                            // recaptcha.defer = true;
-
-                            // $("head").append(recaptcha);
-                            $errorMessagecomment
-                              .text('Please verify reCAPTCH')
-                              .show();
-
-                            grecaptcha.ready(function () {
-                              grecaptcha.render('recaptcha-container', {
-                                'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                'callback': recaptchaCallback
-                              });
                             });
 
-                          });
 
 
 
+                        });
 
-                      });
-
-
-
-                    if (reRecaptchFlag) {
-
-
-                      commentData = $commentInput.val();
-                      inputHeight = $commentInput[0].offsetHeight
-
-                      if (userData?.emailVerified === true) {
-
-                        submitComment();
-                      }
-                      else if (userData === null) {
-
-                        submitComment();
-                      }
-                      else {
-                        $errorMessagecomment
-                          .text(JsonData?.you_r_not_verified)
-                          .show();
-                      }
                     } else {
-                      if (!isVersion3) {
-                        $errorMessagecomment
-                          .text('Please verify reCAPTCH')
-                          .show();
+                      if (reRecaptchFlag) {
+
+
+                        commentData = $commentInput.val();
+                        inputHeight = $commentInput[0].offsetHeight
+
+                        if (userData?.emailVerified === true) {
+
+                          submitComment();
+                        }
+                        else if (userData === null) {
+
+                          submitComment();
+                        }
+                        else {
+                          $errorMessagecomment
+                            .text(JsonData?.you_r_not_verified)
+                            .show();
+                        }
+                      } else {
+                        if (!isVersion3) {
+                          $errorMessagecomment
+                            .text('Please verify reCAPTCH')
+                            .show();
+                        }
                       }
+
                     }
+
+
+
+
+
                   });
 
 
