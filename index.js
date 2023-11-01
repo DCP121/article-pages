@@ -855,7 +855,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                   $commentButton.on("click", function () {
-                    var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK';
+                    var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ';
 
 
                     // re-captch callback function
@@ -931,7 +931,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 .show();
                               grecaptcha.ready(function () {
                                 grecaptcha.render('recaptcha-container', {
-                                  'sitekey': '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK',
+                                  'sitekey': '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ',
                                   'callback': recaptchaCallback
                                 });
                               });
@@ -956,7 +956,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             grecaptcha.ready(function () {
                               grecaptcha.render('recaptcha-container', {
-                                'sitekey': '6Lcz5OMoAAAAAG0-yaB-1nx2T57eu4mkM3aO63IK',
+                                'sitekey': '6Lf9B1EnAAAAAMhK6mOBK3p3TA_f17-q4eZN-7YZ',
                                 'callback': recaptchaCallback
                               });
                             });
