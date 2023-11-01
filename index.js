@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // $("head").append(recaptchav2);
 
-                
+
 
                 // $(document).ready(function () {
                 //   // Create a div element with the specified id and append it to the body
@@ -1148,8 +1148,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $("#ignismyModal").css("display", "none");
                                 $("#msgtag").html("");
                               }, 2000);
-                              grecaptcha.reset();
-                              isVersion3 = true
+                              // grecaptcha.reset();
+                              // isVersion3 = true
 
                               // Re-enable the comment button after successful API call
                               $commentButton.prop("disabled", false);
@@ -1263,8 +1263,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Re-enable the comment button after successful API call
                             $commentButton.prop("disabled", false);
-                            grecaptcha.reset();
-                            isVersion3 = true
+                            // grecaptcha.reset();
+                            // isVersion3 = true
                           })
                           .catch((error) => {
                             // console.log(error, 'error')
