@@ -67,9 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 //script for recaptcha
 
                 var isVersion3 = true
-                var captcha = localStorage.getItem('captcha')
-                var iscaptchaVerified = !!captcha
-                console.log(iscaptchaVerified, 'iscaptchaVerified')
+                var captcha ;
 
                 var recaptchav3 = document.createElement("script");
                 recaptchav3.src = `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG`;
@@ -514,6 +512,15 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 }
                 function processData(xyz, apiFlag) {
+                 var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
+                    
+                  captcha = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
+
+                  console.log(MustLogin, captcha,519)
+                  var iscaptchaVerified = !!captcha
+                  MustLogin ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                  console.log(iscaptchaVerified, 'iscaptchaVerified')
+
                   if (apiFlag) {
                     $app.empty();
                   } else {
@@ -866,7 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       reRecaptchFlag = true
                       iscaptchaVerified = true
 
-                      localStorage.setItem('captcha', !!iscaptchaVerified)
+                      MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       $errorMessagecomment
                         .text('')
                         .hide();
@@ -893,8 +900,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   $commentButton.on("click", function () {
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
+ 
+                    var verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha') 
+                    // console.log(verifyed,'9055555')
+                    // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
 
-                    if (iscaptchaVerified) {
+                    if (verifyed == "true") {
                       commentData = $commentInput.val();
                       inputHeight = $commentInput[0].offsetHeight
 
@@ -932,9 +943,10 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then(response => response.json())
                               .then(data => {
                                 if (data?.data?.success && data?.success) {
+                                  console.log("then api call")
                                   iscaptchaVerified = true
 
-                                  localStorage.setItem('captcha', !!iscaptchaVerified)
+                                  MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
 
                                   commentData = $commentInput.val();
                                   inputHeight = $commentInput[0].offsetHeight
