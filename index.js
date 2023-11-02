@@ -945,7 +945,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // console.log(grecaptcha,'grecaptcha')
                                 
                                 // $("head").append(recaptcha);
-                                if (token) {
+                                if (token || !commentlistingdata?.data?.pageData?.mustLogin) {
                                   isVersion3 = false
 
                                   $errorMessagecomment
@@ -968,7 +968,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                               const token = localStorage.getItem("token");
                               
-                              if (token) {
+                              if (token || !commentlistingdata?.data?.pageData?.mustLogin) {
                                 isVersion3 = false
 
                                 $errorMessagecomment
