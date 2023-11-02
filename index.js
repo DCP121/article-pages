@@ -67,6 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 //script for recaptcha
 
                 var isVersion3 = true
+                var captcha = localStorage.getItem('captcha')
+                var iscaptchaVerified = !!captcha
+                console.log(iscaptchaVerified, 'iscaptchaVerified')
 
                 var recaptchav3 = document.createElement("script");
                 recaptchav3.src = `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG`;
@@ -849,10 +852,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       $errorMessagecomment.hide();
                     }
                   });
-                  if (commentData !== '') {
-                    $commentInput.val(commentData);
-                    $commentInput.css({ height: `${inputHeight}px` })
-                  }
 
 
 
@@ -865,6 +864,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (response) {
                       // reCAPTCHA was successful; you can proceed with your success logic here
                       reRecaptchFlag = true
+                      iscaptchaVerified = true
+
+                      localStorage.setItem('captcha', !!iscaptchaVerified)
                       $errorMessagecomment
                         .text('')
                         .hide();
@@ -892,62 +894,75 @@ document.addEventListener("DOMContentLoaded", function () {
                   $commentButton.on("click", function () {
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
-                    const token = localStorage.getItem("token");
-                    if (token || !commentlistingdata?.data?.pageData?.mustLogin){
+                    if (iscaptchaVerified) {
+                      commentData = $commentInput.val();
+                      inputHeight = $commentInput[0].offsetHeight
 
-                    
-                     
-                    if (isVersion3) {
-                      // console.log(grecaptcha, 'grecaptcha')
-                      grecaptcha.execute(siteKey, { action: 'demo' })
-                        .then(function (token) {
-                          // console.log(token, 'token')
-                          // document.querySelector('#send_button').addEventListener('click', handleClick(token));
-                          fetch(`${API_URL}/user/captcha-verification`, {
-                            headers: {
-                              'Accept': 'application/json',
-                              'Content-Type': 'application/json'
-                            },
-                            method: 'post',
-                            body: JSON.stringify({
-                              token: null
+                      if (userData?.emailVerified === true) {
+
+                        submitComment();
+                      }
+                      else if (userData === null) {
+
+                        submitComment();
+                      }
+                      else {
+                        $errorMessagecomment
+                          .text(JsonData?.you_r_not_verified)
+                          .show();
+                      }
+                    } else {
+
+                      if (isVersion3) {
+                        // console.log(grecaptcha, 'grecaptcha')
+                        grecaptcha.execute(siteKey, { action: 'demo' })
+                          .then(function (token) {
+                            // console.log(token, 'token')
+                            // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                            fetch(`${API_URL}/user/captcha-verification`, {
+                              headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                              },
+                              method: 'post',
+                              body: JSON.stringify({
+                                token: null
+                              })
                             })
-                          })
-                            .then(response => response.json())
-                            .then(data => {
-                              if (data?.data?.success && data?.success) {
-                                commentData = $commentInput.val();
-                                inputHeight = $commentInput[0].offsetHeight
+                              .then(response => response.json())
+                              .then(data => {
+                                if (data?.data?.success && data?.success) {
+                                  iscaptchaVerified = true
 
-                                if (userData?.emailVerified === true) {
+                                  localStorage.setItem('captcha', !!iscaptchaVerified)
 
-                                  submitComment();
-                                }
-                                else if (userData === null) {
+                                  commentData = $commentInput.val();
+                                  inputHeight = $commentInput[0].offsetHeight
 
-                                  submitComment();
-                                }
-                                else {
-                                  $errorMessagecomment
-                                    .text(JsonData?.you_r_not_verified)
-                                    .show();
-                                }
+                                  if (userData?.emailVerified === true) {
 
-                              } else {
+                                    submitComment();
+                                  }
+                                  else if (userData === null) {
 
+                                    submitComment();
+                                  }
+                                  else {
+                                    $errorMessagecomment
+                                      .text(JsonData?.you_r_not_verified)
+                                      .show();
+                                  }
 
-                                const token = localStorage.getItem("token");
-                                // recaptchav3.remove()
-                                // var recaptcha = document.createElement("script");
-                                // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
-                                // recaptcha.async = true;
-                                // recaptcha.defer = true;
-                                // console.log(grecaptcha,'grecaptcha')
-                                
-                                // $("head").append(recaptcha);
-                                if (token || !commentlistingdata?.data?.pageData?.mustLogin) {
+                                } else {
                                   isVersion3 = false
+                                  // recaptchav3.remove()
+                                  // var recaptcha = document.createElement("script");
+                                  // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
+                                  // recaptcha.async = true;
+                                  // recaptcha.defer = true;
+                                  // console.log(grecaptcha,'grecaptcha')
 
+                                  // $("head").append(recaptcha);
                                   $errorMessagecomment
                                     .text('Please verify reCAPTCH')
                                     .show();
@@ -957,20 +972,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                       'callback': recaptchaCallback
                                     });
                                   });
+
                                 }
 
-                              }
 
 
+                              })
+                              .catch(error => {
 
-                            })
-                            .catch(error => {
-
-                              const token = localStorage.getItem("token");
-                              
-                              if (token || !commentlistingdata?.data?.pageData?.mustLogin) {
                                 isVersion3 = false
+                                // recaptchav3.remove()
+                                // var recaptcha = document.createElement("script");
+                                // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
+                                // recaptcha.async = true;
+                                // recaptcha.defer = true;
 
+                                // $("head").append(recaptcha);
                                 $errorMessagecomment
                                   .text('Please verify reCAPTCH')
                                   .show();
@@ -981,50 +998,49 @@ document.addEventListener("DOMContentLoaded", function () {
                                     'callback': recaptchaCallback
                                   });
                                 });
-                              }
 
-                            });
-
+                              });
 
 
 
-                        });
 
-                    } else {
-                      if (reRecaptchFlag) {
+                          });
 
-
-                        commentData = $commentInput.val();
-                        inputHeight = $commentInput[0].offsetHeight
-
-                        if (userData?.emailVerified === true) {
-
-                          submitComment();
-                        }
-                        else if (userData === null) {
-
-                          submitComment();
-                        }
-                        else {
-                          $errorMessagecomment
-                            .text(JsonData?.you_r_not_verified)
-                            .show();
-                        }
                       } else {
-                        if (!isVersion3) {
-                          $errorMessagecomment
-                            .text('Please verify reCAPTCH')
-                            .show();
+                        if (iscaptchaVerified) {
+
+
+                          commentData = $commentInput.val();
+                          inputHeight = $commentInput[0].offsetHeight
+
+                          if (userData?.emailVerified === true) {
+
+                            submitComment();
+                          }
+                          else if (userData === null) {
+
+                            submitComment();
+                          }
+                          else {
+                            $errorMessagecomment
+                              .text(JsonData?.you_r_not_verified)
+                              .show();
+                          }
+                        } else {
+                          if (!isVersion3) {
+                            $errorMessagecomment
+                              .text('Please verify reCAPTCH')
+                              .show();
+                          }
                         }
+
                       }
 
+
+
                     }
-                  }else{
-                      commentData = $commentInput.val();
-                      inputHeight = $commentInput[0].offsetHeight
-                      $registerModal.css("display", "block");
-                      $loginForm.css("display", "block");
-                  }
+
+
 
                   });
                   // end recaptcha code 
