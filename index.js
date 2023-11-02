@@ -859,7 +859,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       $errorMessagecomment.hide();
                     }
                   });
-
+                  if (commentData !== '') {
+                    $commentInput.val(commentData);
+                    $commentInput.css({ height: `${inputHeight}px` })
+                  }
 
 
 
