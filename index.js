@@ -2125,6 +2125,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       const parsedData = JSON.parse(replyValue);
                       if (parsedData && parsedData.value !== '') {
                         $commentreplayInput.val(parsedData.value);
+                        $replycommentinputsection.show();
                         $commentreplayInput.css({ height: `${parsedData.height}px` })
                       }
                       $replaycommentButton.on("click", function () {
