@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@a138fcdc0ecdadcef78e6e1aab47fb97fdb6db0e/index.css")
-  //loadCSS("./index.css");
+  // loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@a138fcdc0ecdadcef78e6e1aab47fb97fdb6db0e/index.css")
+  loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
   loadScript("https://code.jquery.com/jquery-3.6.0.min.js", function () {
@@ -1585,6 +1585,20 @@ document.addEventListener("DOMContentLoaded", function () {
                           "src",
                           "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
                         );
+                      // for replay comment div toggele
+                        const $replaycommentbuttondiv =
+                        $("<div>").css({cursor:'pointer'});
+                      const $Replaycommenttext = $("<span>").text(
+                           'replay'
+                      );
+                      const $replaycommentIcon = $("<img>")
+                        .addClass("comment-logo")
+                        .attr(
+                          "src",
+                          "./assets/Replaycommenticon.svg"
+                        );
+
+                      $replaycommentbuttondiv.append($Replaycommenttext,$replaycommentIcon) 
 
                       $likeicondiv.append($likeicontext, $likeIcon);
                       $commenticondiv.append($commenticontext, $commentIcon);
@@ -1618,6 +1632,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       // Append the icons and button to the $socialicon
                       $socialicon.append(
+                        $replaycommentbuttondiv,
                         $likeicondiv,
                         $commenticondiv,
                         // dataItem.updatedComment &&
@@ -1936,6 +1951,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       const $replycommentinputsection = $("<div>").addClass(
                         "comments-wrap sub-comment-wrap"
                       );
+                      //for replay comment toggele input button
+                      $replycommentinputsection.hide();
+                      $replaycommentbuttondiv.on("click", function () {
+                  
+                       // Toggle the visibility of the comment section
+                        $replycommentinputsection.toggle();
+                      });
+
                       const $replaycommentinputandbuttondiv =
                         $("<div>").addClass("add-comment");
                       const $comenttitlereplay = $("<div>")
