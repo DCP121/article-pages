@@ -65,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 //script for recaptcha
-
                 var isVersion3 = true
                 var captcha;
                 var iscaptchaVerified;
