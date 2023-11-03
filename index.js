@@ -523,7 +523,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   captcha = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                   console.log(typeof !!captcha, 'captcha', captcha == true, !!captcha ,524)
 
-
                   iscaptchaVerified = !!captcha == true || captcha == "true" ? true : false
                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
