@@ -516,9 +516,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
 
                   captcha = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
+                  // console.log(captcha, 'captcha', !!captcha)
 
                   // console.log(MustLogin, captcha, 519)
-                  iscaptchaVerified = !!captcha
+                  iscaptchaVerified = captcha == "true" ? true : false
                   MustLogin ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
                   // console.log(iscaptchaVerified, 'iscaptchaVerified')
 
