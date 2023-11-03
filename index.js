@@ -24,7 +24,7 @@ function clearLocalStorageExcept(keysToKeep) {
 // Check if the page is being refreshed
 window.addEventListener('beforeunload', function (event) {
   // Clear localStorage except for "token" and "userData"
-  clearLocalStorageExcept(["token", "userData"]);
+  clearLocalStorageExcept(["token", "userData", 'captcha']);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -652,6 +652,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // localStorage.removeItem("userData");
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
+                      localStorage.setItem('captcha', false)
                       localStorage.setItem("ip", ip)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
@@ -919,7 +920,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // console.log(verifyed,'verifyed','919')
 
                     if (verifyed == "true") {
-                      $('#recaptcha-container').hide() 
+                      $('#recaptcha-container').hide()
                       commentData = $commentInput.val();
                       inputHeight = $commentInput[0].offsetHeight
 
