@@ -971,7 +971,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             })
                               .then(response => response.json())
                               .then(data => {
-                                if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
+                                if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
                                   // console.log("then api call")
                                   iscaptchaVerified = true
 
