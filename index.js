@@ -909,8 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
                     var verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                    // console.log(verifyed,'9055555')
-                    // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
+                   
 
                     verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
                       grecaptcha.render('recaptcha-container', {
@@ -919,7 +918,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                     });
 
-                    // console.log(verifyed,'verifyed','919')
+                   
 
                     if (verifyed == "true") {
                       // $('#recaptcha-container').hide()
@@ -2137,20 +2136,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
-                           verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                          // console.log(verifyed,'9055555')
-                          // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
+                         var  replyverifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
+                         
 
-                        verifyed == "true" ? $(`#recaptcha-container-${index}`).hide() : grecaptcha.ready(function () {
+                        replyverifyed == "true" ? $(`#recaptcha-container-${index}`).hide() : grecaptcha.ready(function () {
                           grecaptcha.render(`recaptcha-container-${index}`, {
                               'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                               'callback': recaptchaCallback
                             });
                           });
 
-                          // console.log(verifyed,'verifyed','919')
+                        
 
-                          if (verifyed == "true") {
+                        if (replyverifyed == "true") {
                             // $('#recaptcha-container').hide()
 
 
