@@ -271,6 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "invalid_content": "",
                   "comment_not_empty": "",
                   "invalid_email": "",
+                  "captch_err_msg": "Please verify reCAPTCH"
 
                 }
                 var hebrewJson = {
@@ -331,7 +332,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "you_r_not_verified": "אינך מאומת אנא אמת את חשבונך",
                   "logout": "התנתק",
                   "Logout_msg": "! התנתק בהצלחה",
-                  "comment_max_length": "הערה חורגת מהאורך המרבי"
+                  "comment_max_length": "הערה חורגת מהאורך המרבי",
+                  "captch_err_msg": "אנא אמת שאתה לא רובוט"
                 }
                 var JsonData = site === "israel" ? hebrewJson : englishJson
                 const reenterapicall = async (apiFlag) => {
@@ -896,7 +898,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // console.log('reCAPTCHA failed. Please verify you are not a robot.');
                       reRecaptchFlag = false
                       $errorMessagecomment
-                        .text('Please verify reCAPTCH')
+                        .text(JsonData?.captch_err_msg)
                         .show();
 
                       // You can perform actions like displaying an error message or
@@ -994,7 +996,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                   // $("head").append(recaptcha);
                                   $errorMessagecomment
-                                    .text('Please verify reCAPTCH')
+                                    .text(JsonData?.captch_err_msg)
                                     .show();
 
 
@@ -1021,7 +1023,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 // $("head").append(recaptcha);
                                 $errorMessagecomment
-                                  .text('Please verify reCAPTCH')
+                                  .text(JsonData?.captch_err_msg)
                                   .show();
 
                                 grecaptcha.ready(function () {
@@ -1061,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else {
                           if (!isVersion3) {
                             $errorMessagecomment
-                              .text('Please verify reCAPTCH')
+                              .text(JsonData?.captch_err_msg)
                               .show();
                           }
                         }
@@ -1596,7 +1598,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("comment-logo")
                         .attr(
                           "src",
-                          "./assets/Replaycommenticon.svg"
+                          "https://github.com/DCP121/article-pages/blob/dev/assets/reply_toggele_icon.png?raw=true"
                         );
 
                       $replaycommentbuttondiv.append($Replaycommenttext,$replaycommentIcon) 
