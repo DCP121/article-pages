@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 recaptchav3.async = true;
                 recaptchav3.defer = true;
 
-
                 $("head").append(recaptchav3);
 
                 var recaptchav2 = document.createElement("script");
