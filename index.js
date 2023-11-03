@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var site = parts[0];
                 var saparetId = parts[1];
                 var page_url = window.location.href;
-                console.log(site, saparetId, "article_page_id")
+                // console.log(site, saparetId, "article_page_id")
                 var siteName =
                   site == "israel" ? "israel-today" : "ittihad-today";
                 // An mqtt variable will be initialized globally
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const client = mqtt.connect(url, options);
 
                   client.on("connect", function () {
-                    console.log("Connected", saparetId, site, client);
+                    // console.log("Connected", saparetId, site, client);
                   });
                   client.subscribe(`${saparetId}:${site}`);
                   client.on("message", function (topic, message, packet) {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 (async () => {
                   try {
                     ipAddress = await getIp();
-                    console.log('ip', ipAddress);
+                    // console.log('ip', ipAddress);
                   } catch (error) {
                     console.error('Error:', error);
                   }
@@ -385,13 +385,13 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistingdata = data;
                       // apiFlags = apiFlag;
                       cliendId = data?.data?.pageData?.google_client_id;
-                      console.log("111111111111.....", cliendId);
+                      // console.log("111111111111.....", cliendId);
 
                       // You can use the data in subsequent operations or functions
                       processData(commentlistingdata, apiFlag);
                     },
                     error: function (xhr, status, error) {
-                      console.log(status, xhr?.status, "sta", error, "err");
+                      // console.log(status, xhr?.status, "sta", error, "err");
                       if (xhr?.status === 401) {
                         $spinnerapilist.remove();
                         localStorage.removeItem("token");
@@ -457,13 +457,13 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistingdata = data;
                       apiFlags = apiFlag;
                       cliendId = data?.data?.pageData?.google_client_id;
-                      console.log("111111111111.....", cliendId);
+                      // console.log("111111111111.....", cliendId);
 
                       // You can use the data in subsequent operations or functions
                       processData(commentlistingdata, apiFlag);
                     },
                     error: function (xhr, status, error) {
-                      console.log(xhr, status, xhr?.status, "sta", error, "err");
+                      // console.log(xhr, status, xhr?.status, "sta", error, "err");
                       if (xhr?.status === 401) {
                         reenterapicall(true);
                         $spinnerapilist.remove();
@@ -516,10 +516,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   captcha = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
 
-                  console.log(MustLogin, captcha, 519)
+                  // console.log(MustLogin, captcha, 519)
                   var iscaptchaVerified = !!captcha
                   MustLogin ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
-                  console.log(iscaptchaVerified, 'iscaptchaVerified')
+                  // console.log(iscaptchaVerified, 'iscaptchaVerified')
 
                   if (apiFlag) {
                     $app.empty();
@@ -553,7 +553,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // Create a div for the first image and add it to the main app container
                   const $firstImageContainer = $("<div>");
-                  console.log(commentlistingdata.data.pageData, "data");
+                  // console.log(commentlistingdata.data.pageData, "data");
                   displayResponsiveImage(
                     $firstImageContainer,
                     // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
@@ -774,7 +774,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             return response.json();
                           })
                           .then((data) => {
-                            console.log(data);
+                            // console.log(data);
                           });
                       })
                   );
@@ -881,15 +881,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         .text('')
                         .hide();
 
-                      console.log(reRecaptchFlag, 'reRecaptchFlag', 878)
-                      console.log('reCAPTCHA successful. Response:', response, 879);
+                      // console.log(reRecaptchFlag, 'reRecaptchFlag', 878)
+                      // console.log('reCAPTCHA successful. Response:', response, 879);
 
 
                       // You can now perform actions, such as enabling a submit button
                       // or displaying a success message to the user.
                     } else {
                       // reCAPTCHA failed; you can handle failure logic here
-                      console.log('reCAPTCHA failed. Please verify you are not a robot.');
+                      // console.log('reCAPTCHA failed. Please verify you are not a robot.');
                       reRecaptchFlag = false
                       $errorMessagecomment
                         .text('Please verify reCAPTCH')
@@ -916,7 +916,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                     });
 
-                    console.log(verifyed,'verifyed','919')
+                    // console.log(verifyed,'verifyed','919')
 
                     if (verifyed == "true") {
                       commentData = $commentInput.val();
@@ -950,13 +950,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               },
                               method: 'post',
                               body: JSON.stringify({
-                                token: null
+                                token: token
                               })
                             })
                               .then(response => response.json())
                               .then(data => {
                                 if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
-                                  console.log("then api call")
+                                  // console.log("then api call")
                                   iscaptchaVerified = true
 
                                   MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
@@ -1478,9 +1478,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       const text = dataItem?.comment?.comment
 
 
-                      console.log(
-                        dataItem?.comment?.originalComment
-                        , "||", dataItem?.comment?.comment, "||", text, "text missing")
+                      // console.log(
+                      //   dataItem?.comment?.originalComment
+                      //   , "||", dataItem?.comment?.comment, "||", text, "text missing")
                       const lines = text?.split("\n");
 
                       const $paragraph = $("<div>").addClass("user-comments");
@@ -2037,7 +2037,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $commentreplayInput.on("input", function () {
                         const element = document.getElementById(dataItem._id)
                         if (element) {
-                          console.log(element.offsetHeight)
+                          // console.log(element.offsetHeight)
                           const elementValue = element.value;
                           const dataToStore = {
                             value: elementValue,
@@ -2510,7 +2510,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       .attr("role", "status")
                       .appendTo($showmorecommentbutton);
                     commentlistapi(true);
-                    console.log("counter");
+                    // console.log("counter");
                   });
                   // if (apiFlag) {
                   $app.append($showmorecommentdiv);
@@ -2634,7 +2634,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                           }
                         );
-                        console.log(response)
+                        // console.log(response)
                         if (response.status === 200) {
                           localStorage.setItem("token", response?.data?.data?.token);
                           localStorage.setItem(
@@ -3029,7 +3029,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       );
 
                       if (response.status === 200) {
-                        console.log('res', response.data.message)
+                        // console.log('res', response.data.message)
                         // Close the modal if login is successful
                         localStorage.setItem(
                           "token",
@@ -4423,7 +4423,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       );
 
                       if (response.status === 200) {
-                        console.log(response);
+                        // console.log(response);
                         localStorage.setItem(
                           "token",
                           response?.data?.data?.token
