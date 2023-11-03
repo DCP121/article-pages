@@ -521,12 +521,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   console.log(!!token, 'token')
 
                   captcha = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                  console.log(captcha, 'captcha', !!captcha)
+                  console.log(captcha, 'captcha', captcha == true ,524)
 
 
                   iscaptchaVerified = captcha == true ? true : false
                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
-                  // console.log(iscaptchaVerified, 'iscaptchaVerified')
 
                   if (apiFlag) {
                     $app.empty();
