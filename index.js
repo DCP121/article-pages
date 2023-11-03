@@ -913,17 +913,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     // console.log(verifyed,'9055555')
                     // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
 
-                    // verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
-                    //   grecaptcha.render('recaptcha-container', {
-                    //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                    //     'callback': recaptchaCallback
-                    //   });
-                    // });
+                    verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                      grecaptcha.render('recaptcha-container', {
+                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                        'callback': recaptchaCallback
+                      });
+                    });
 
                     // console.log(verifyed,'verifyed','919')
 
                     if (verifyed == "true") {
-                      $('#recaptcha-container').hide()
+                      // $('#recaptcha-container').hide()
                       commentData = $commentInput.val();
                       inputHeight = $commentInput[0].offsetHeight
 
