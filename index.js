@@ -870,13 +870,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-                 
+
 
                   // re-captch callback function
                   function recaptchaCallback(response) {
                     if (response) {
                       // reCAPTCHA was successful; you can proceed with your success logic here
-                    
+
                       iscaptchaVerified = true
 
                       MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
@@ -884,7 +884,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .text('')
                         .hide();
 
-                     
+
                       // console.log('reCAPTCHA successful. Response:', response, 879);
 
 
@@ -893,7 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                       // reCAPTCHA failed; you can handle failure logic here
                       // console.log('reCAPTCHA failed. Please verify you are not a robot.');
-                  
+
                       $errorMessagecomment
                         .text(JsonData?.captch_err_msg)
                         .show();
@@ -909,7 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
                     var verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                   
+
 
                     verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
                       grecaptcha.render('recaptcha-container', {
@@ -918,7 +918,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                     });
 
-                   
+
 
                     if (verifyed == "true") {
                       // $('#recaptcha-container').hide()
@@ -1585,10 +1585,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
                         );
                       // for replay comment div toggele
-                        const $replaycommentbuttondiv =
-                        $("<div>").css({cursor:'pointer'});
+                      const $replaycommentbuttondiv =
+                        $("<div>").css({ cursor: 'pointer' });
                       const $Replaycommenttext = $("<span>").text(
-                           'replay'
+                        'replay'
                       );
                       const $replaycommentIcon = $("<img>")
                         .addClass("comment-logo")
@@ -1597,7 +1597,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           "https://github.com/DCP121/article-pages/blob/dev/assets/reply_toggele_icon.png?raw=true"
                         );
 
-                      $replaycommentbuttondiv.append($Replaycommenttext,$replaycommentIcon) 
+                      $replaycommentbuttondiv.append($Replaycommenttext, $replaycommentIcon)
 
                       $likeicondiv.append($likeicontext, $likeIcon);
                       $commenticondiv.append($commenticontext, $commentIcon);
@@ -1953,8 +1953,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       //for replay comment toggele input button
                       $replycommentinputsection.hide();
                       $replaycommentbuttondiv.on("click", function () {
-                  
-                       // Toggle the visibility of the comment section
+
+                        // Toggle the visibility of the comment section
                         $replycommentinputsection.toggle();
                       });
 
@@ -2012,7 +2012,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                       var replydivElement = $('<div></div>');
-                      replydivElement.attr('id',`recaptcha-container-${index}`);
+                      replydivElement.attr('id', `recaptcha-container-${index}`);
 
                       $replaycommentinputandbuttondiv.append(
                         $commentreplayInput,
@@ -2133,136 +2133,118 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-                        
 
-                          var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
-                         var  replyverifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                        console.log(replyverifyed,'replyverifyed',2140)
+                        var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
-                        replyverifyed == "true" ? $(`#recaptcha-container-${index}`).hide() : grecaptcha.ready(function () {
+                        var replyverifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
+                        console.log(replyverifyed, 'replyverifyed', 2140)
+
+                        replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                          $(`#recaptcha-container-${index}`).hide();
+                        }) : grecaptcha.ready(function () {
                           grecaptcha.render(`recaptcha-container-${index}`, {
-                              'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                              'callback': recaptchaCallback
-                            });
+                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                            'callback': recaptchaCallback
                           });
+                        });
 
 
                         if (replyverifyed == "true") {
-                            // $('#recaptcha-container').hide()
+                          // $('#recaptcha-container').hide()
 
 
-                            if (userData?.emailVerified === true) {
-                              submitReplyComment();
-                            }
-                            else if (userData === null) {
-                              submitReplyComment();
-                            }
-                            else {
-                              $errorMessagecomment
-                                .text(JsonData?.you_r_not_verified)
-                                .show();
-                            }
+                          if (userData?.emailVerified === true) {
+                            submitReplyComment();
+                          }
+                          else if (userData === null) {
+                            submitReplyComment();
+                          }
+                          else {
+                            $errorMessagecomment
+                              .text(JsonData?.you_r_not_verified)
+                              .show();
+                          }
 
-                            // commentData = $commentInput.val();
-                            // inputHeight = $commentInput[0].offsetHeight
+                          // commentData = $commentInput.val();
+                          // inputHeight = $commentInput[0].offsetHeight
 
-                            // if (userData?.emailVerified === true) {
+                          // if (userData?.emailVerified === true) {
 
-                            //   submitComment();
-                            // }
-                            // else if (userData === null) {
+                          //   submitComment();
+                          // }
+                          // else if (userData === null) {
 
-                            //   submitComment();
-                            // }
-                            // else {
-                            //   $errorMessagecomment
-                            //     .text(JsonData?.you_r_not_verified)
-                            //     .show();
-                            // }
+                          //   submitComment();
+                          // }
+                          // else {
+                          //   $errorMessagecomment
+                          //     .text(JsonData?.you_r_not_verified)
+                          //     .show();
+                          // }
 
-                          } else {
+                        } else {
 
-                            if (isVersion3) {
-                              // console.log(grecaptcha, 'grecaptcha')
-                              grecaptcha.execute(replysiteKey, { action: 'demo' })
-                                .then(function (token) {
-                                  // console.log(token, 'token')
-                                  // document.querySelector('#send_button').addEventListener('click', handleClick(token));
-                                  fetch(`${API_URL}/user/captcha-verification`, {
-                                    headers: {
-                                      'Accept': 'application/json',
-                                      'Content-Type': 'application/json'
-                                    },
-                                    method: 'post',
-                                    body: JSON.stringify({
-                                      token: null
-                                    })
+                          if (isVersion3) {
+                            // console.log(grecaptcha, 'grecaptcha')
+                            grecaptcha.execute(replysiteKey, { action: 'demo' })
+                              .then(function (token) {
+                                // console.log(token, 'token')
+                                // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                                fetch(`${API_URL}/user/captcha-verification`, {
+                                  headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                  },
+                                  method: 'post',
+                                  body: JSON.stringify({
+                                    token: null
                                   })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                      if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
-                                        // console.log("then api call")
-                                        iscaptchaVerified = true
+                                })
+                                  .then(response => response.json())
+                                  .then(data => {
+                                    if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
+                                      // console.log("then api call")
+                                      iscaptchaVerified = true
 
-                                        MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
+                                      MustLogin ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
 
-                                        if (userData?.emailVerified === true) {
-                                          submitReplyComment();
-                                        }
-                                        else if (userData === null) {
-                                          submitReplyComment();
-                                        }
-                                        else {
-                                          $errorMessagecomment
-                                            .text(JsonData?.you_r_not_verified)
-                                            .show();
-                                        }
-
-                                        // commentData = $commentInput.val();
-                                        // inputHeight = $commentInput[0].offsetHeight
-
-                                        // if (userData?.emailVerified === true) {
-
-                                        //   submitComment();
-                                        // }
-                                        // else if (userData === null) {
-
-                                        //   submitComment();
-                                        // }
-                                        // else {
-                                        //   $errorMessagecomment
-                                        //     .text(JsonData?.you_r_not_verified)
-                                        //     .show();
-                                        // }
-
-                                      } else {
-                                        isVersion3 = false
-                                    
+                                      if (userData?.emailVerified === true) {
+                                        submitReplyComment();
+                                      }
+                                      else if (userData === null) {
+                                        submitReplyComment();
+                                      }
+                                      else {
                                         $errorMessagecomment
-                                          .text(JsonData?.captch_err_msg)
+                                          .text(JsonData?.you_r_not_verified)
                                           .show();
-
-
-                                        grecaptcha.ready(function () {
-                                          grecaptcha.render(`recaptcha-container-${index}`, {
-                                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                            'callback': recaptchaCallback
-                                          });
-                                        });
-
                                       }
 
+                                      // commentData = $commentInput.val();
+                                      // inputHeight = $commentInput[0].offsetHeight
 
+                                      // if (userData?.emailVerified === true) {
 
-                                    })
-                                    .catch(error => {
+                                      //   submitComment();
+                                      // }
+                                      // else if (userData === null) {
 
+                                      //   submitComment();
+                                      // }
+                                      // else {
+                                      //   $errorMessagecomment
+                                      //     .text(JsonData?.you_r_not_verified)
+                                      //     .show();
+                                      // }
+
+                                    } else {
                                       isVersion3 = false
-                                     
+
                                       $errorMessagecomment
                                         .text(JsonData?.captch_err_msg)
                                         .show();
+
 
                                       grecaptcha.ready(function () {
                                         grecaptcha.render(`recaptcha-container-${index}`, {
@@ -2271,63 +2253,83 @@ document.addEventListener("DOMContentLoaded", function () {
                                         });
                                       });
 
+                                    }
+
+
+
+                                  })
+                                  .catch(error => {
+
+                                    isVersion3 = false
+
+                                    $errorMessagecomment
+                                      .text(JsonData?.captch_err_msg)
+                                      .show();
+
+                                    grecaptcha.ready(function () {
+                                      grecaptcha.render(`recaptcha-container-${index}`, {
+                                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                        'callback': recaptchaCallback
+                                      });
                                     });
 
+                                  });
 
 
 
-                                });
 
-                            } else {
-                              if (iscaptchaVerified) {
-                                if (userData?.emailVerified === true) {
-                                  submitReplyComment();
-                                }
-                                else if (userData === null) {
-                                  submitReplyComment();
-                                }
-                                else {
-                                  $errorMessagecomment
-                                    .text(JsonData?.you_r_not_verified)
-                                    .show();
-                                }
+                              });
 
-
-                                // commentData = $commentInput.val();
-                                // inputHeight = $commentInput[0].offsetHeight
-
-                                // if (userData?.emailVerified === true) {
-
-                                //   submitComment();
-                                // }
-                                // else if (userData === null) {
-
-                                //   submitComment();
-                                // }
-                                // else {
-                                //   $errorMessagecomment
-                                //     .text(JsonData?.you_r_not_verified)
-                                //     .show();
-                                // }
-                              } else {
-                                if (!isVersion3) {
-                                  $errorMessagecomment
-                                    .text(JsonData?.captch_err_msg)
-                                    .show();
-                                }
+                          } else {
+                            if (iscaptchaVerified) {
+                              if (userData?.emailVerified === true) {
+                                submitReplyComment();
+                              }
+                              else if (userData === null) {
+                                submitReplyComment();
+                              }
+                              else {
+                                $errorMessagecomment
+                                  .text(JsonData?.you_r_not_verified)
+                                  .show();
                               }
 
+
+                              // commentData = $commentInput.val();
+                              // inputHeight = $commentInput[0].offsetHeight
+
+                              // if (userData?.emailVerified === true) {
+
+                              //   submitComment();
+                              // }
+                              // else if (userData === null) {
+
+                              //   submitComment();
+                              // }
+                              // else {
+                              //   $errorMessagecomment
+                              //     .text(JsonData?.you_r_not_verified)
+                              //     .show();
+                              // }
+                            } else {
+                              if (!isVersion3) {
+                                $errorMessagecomment
+                                  .text(JsonData?.captch_err_msg)
+                                  .show();
+                              }
                             }
-
-
 
                           }
 
 
 
-                        
+                        }
 
-                        
+
+
+
+
+
                       });
 
                       const submitReplyComment = async () => {
