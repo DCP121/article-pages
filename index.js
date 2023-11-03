@@ -515,16 +515,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 }
                 function processData(xyz, apiFlag) {
-                  var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
                   var token = localStorage.getItem('token')
-                  console.log(!!token, 'token', token)
+                  console.log(!!token, 'token' ,typeof token , token)
 
-                  captcha = !!token ? sessionStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                  console.log(typeof !!captcha, 'captcha', captcha == true, !!captcha ,524)
+                  captcha = token && token != null ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
+                  // console.log(typeof captcha, 'captcha', captcha == true, captcha ,524)
 
-                  iscaptchaVerified = !!captcha == true || captcha == "true" ? true : false
-                  console.log(iscaptchaVerified,'iscaptchaVerified',526)
-
+                  iscaptchaVerified = captcha || captcha == "true" ? true : false
+                  // console.log(iscaptchaVerified, 'iscaptchaVerified', typeof iscaptchaVerified)
                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                   if (apiFlag) {
@@ -658,11 +656,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       // localStorage.removeItem("userData");
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
-                      sessionStorage.clear()
                       localStorage.setItem("ip", ip)
-                      sessionStorage.setItem('captcha', false)
                       iscaptchaVerified = false
-
+                      sessionStorage.setItem('captcha', iscaptchaVerified)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
                       $Logout.css({ display: "none" });
@@ -884,9 +880,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       // reCAPTCHA was successful; you can proceed with your success logic here
 
                       iscaptchaVerified = true
-                      console.log(iscaptchaVerified, !!iscaptchaVerified,'iscaptchaVerified',token,!!token)
 
-                      !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                      !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       $errorMessagecomment
                         .text('')
                         .hide();
@@ -925,9 +920,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   $commentButton.on("click", function () {
 
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
+                    // console.log(isVersion3,'isVersion3',!!token)
 
                     var verifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                    console.log(verifyed,926, "verifyed", typeof verifyed)
+                    console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
 
 
                     // verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
@@ -937,9 +933,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     //   });
                     // });
 
+                    // console.log(verifyed , verifyed === "true","verifyyyyy")
 
-
-                    if (verifyed == "true" || verifyed) {
+                    if (verifyed || verifyed === "true") {
+                      console.log("innnnnnnnnn")
                       // $('#recaptcha-container').hide()
                       commentData = $commentInput.val();
                       inputHeight = $commentInput[0].offsetHeight
@@ -960,7 +957,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
 
                       if (isVersion3) {
-                        // console.log(grecaptcha, 'grecaptcha')
+                        // console.log(isVersion3, 'isVersion3', typeof isVersion3)
                         grecaptcha.execute(siteKey, { action: 'demo' })
                           .then(function (token) {
                             // console.log(token, 'token')
@@ -977,11 +974,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             })
                               .then(response => response.json())
                               .then(data => {
-                                console.log(data?.data?.success , data?.success , data?.data?.score >= 0.7)
                                 if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
+                                  console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7,977)
                                   // console.log("then api call")
                                   iscaptchaVerified = true
-                                  console.log(iscaptchaVerified, 'iscaptchaVerified', !!iscaptchaVerified,984)
+                                  console.log(token,'token',!!token , typeof token)
 
                                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
@@ -1004,7 +1001,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 } else {
                                   isVersion3 = false
-                                 
+                                  // recaptchav3.remove()
+                                  // var recaptcha = document.createElement("script");
+                                  // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
+                                  // recaptcha.async = true;
+                                  // recaptcha.defer = true;
+                                  // console.log(grecaptcha,'grecaptcha')
+
+                                  // $("head").append(recaptcha);
                                   $errorMessagecomment
                                     .text(JsonData?.captch_err_msg)
                                     .show();
@@ -1025,7 +1029,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               .catch(error => {
 
                                 isVersion3 = false
-                          
+                                // recaptchav3.remove()
+                                // var recaptcha = document.createElement("script");
+                                // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
+                                // recaptcha.async = true;
+                                // recaptcha.defer = true;
+
+                                // $("head").append(recaptcha);
                                 $errorMessagecomment
                                   .text(JsonData?.captch_err_msg)
                                   .show();
@@ -1045,7 +1055,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           });
 
                       } else {
-                        console.log(iscaptchaVerified, typeof iscaptchaVerified,"iscaptchaVerified")
                         if (iscaptchaVerified) {
 
 
@@ -2138,15 +2147,11 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                       $replaycommentButton.on("click", function () {
 
-
-
-
-
-
                         var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
+                        console.log(isVersion3, 'isVersion3', !!token)
 
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                        console.log(replyverifyed, typeof replyverifyed , 'replyverifyed', 2140)
+                        console.log(replyverifyed, 'replyverifyed', 2140, typeof replyverifyed)
 
                         // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                         //   $(`#recaptcha-container-${index}`).hide();
@@ -2160,6 +2165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         if (replyverifyed == "true" || replyverifyed) {
                           // $('#recaptcha-container').hide()
+                          console.log('innnnnnnnnnnnnnnnnnnreply')
 
 
                           if (userData?.emailVerified === true) {
@@ -2174,22 +2180,6 @@ document.addEventListener("DOMContentLoaded", function () {
                               .show();
                           }
 
-                          // commentData = $commentInput.val();
-                          // inputHeight = $commentInput[0].offsetHeight
-
-                          // if (userData?.emailVerified === true) {
-
-                          //   submitComment();
-                          // }
-                          // else if (userData === null) {
-
-                          //   submitComment();
-                          // }
-                          // else {
-                          //   $errorMessagecomment
-                          //     .text(JsonData?.you_r_not_verified)
-                          //     .show();
-                          // }
 
                         } else {
 
@@ -2214,7 +2204,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
                                       // console.log("then api call")
                                       iscaptchaVerified = true
-                                      console.log(iscaptchaVerified, "iscaptchaVerified", typeof iscaptchaVerified ,token ,!!token ,2217)
 
                                       !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
@@ -2303,23 +2292,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .show();
                               }
 
-
-                              // commentData = $commentInput.val();
-                              // inputHeight = $commentInput[0].offsetHeight
-
-                              // if (userData?.emailVerified === true) {
-
-                              //   submitComment();
-                              // }
-                              // else if (userData === null) {
-
-                              //   submitComment();
-                              // }
-                              // else {
-                              //   $errorMessagecomment
-                              //     .text(JsonData?.you_r_not_verified)
-                              //     .show();
-                              // }
                             } else {
                               if (!isVersion3) {
                                 $errorMessagecomment
