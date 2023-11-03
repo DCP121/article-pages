@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 //script for recaptcha
 
                 var isVersion3 = true
-                var captcha ;
+                var captcha;
 
                 var recaptchav3 = document.createElement("script");
                 recaptchav3.src = `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG`;
@@ -512,11 +512,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 }
                 function processData(xyz, apiFlag) {
-                 var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
-                    
+                  var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
+
                   captcha = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
 
-                  console.log(MustLogin, captcha,519)
+                  console.log(MustLogin, captcha, 519)
                   var iscaptchaVerified = !!captcha
                   MustLogin ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
                   console.log(iscaptchaVerified, 'iscaptchaVerified')
@@ -902,11 +902,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                   $commentButton.on("click", function () {
+
                     var siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
- 
-                    var verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha') 
+
+                    var verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                     // console.log(verifyed,'9055555')
                     // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
+
+                    verifyed == "true" && $('#recaptcha-container').hide();
 
                     if (verifyed == "true") {
                       commentData = $commentInput.val();
@@ -981,6 +984,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                   $errorMessagecomment
                                     .text('Please verify reCAPTCH')
                                     .show();
+
+
                                   grecaptcha.ready(function () {
                                     grecaptcha.render('recaptcha-container', {
                                       'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
@@ -1103,6 +1108,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .show();
                         } else {
                           // Disable the comment button during the API call
+                          $commentButton.prop("disabled", true);
 
                           const $spinner = $("<div>")
                             .addClass(
