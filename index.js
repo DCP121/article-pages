@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 var isVersion3 = true
                 var captcha;
+                var iscaptchaVerified;
 
                 var recaptchav3 = document.createElement("script");
                 recaptchav3.src = `https://www.google.com/recaptcha/api.js?render=6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG`;
@@ -517,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   captcha = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
 
                   // console.log(MustLogin, captcha, 519)
-                  var iscaptchaVerified = !!captcha
+                  iscaptchaVerified = !!captcha
                   MustLogin ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
                   // console.log(iscaptchaVerified, 'iscaptchaVerified')
 
@@ -652,8 +653,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       // localStorage.removeItem("userData");
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
-                      localStorage.setItem('captcha', false)
                       localStorage.setItem("ip", ip)
+                      localStorage.setItem('captcha', false)
+                      iscaptchaVerified = false
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
                       $Logout.css({ display: "none" });
