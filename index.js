@@ -2137,7 +2137,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
                          var  replyverifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                         
+                        console.log(replyverifyed,'replyverifyed',2140)
 
                         replyverifyed == "true" ? $(`#recaptcha-container-${index}`).hide() : grecaptcha.ready(function () {
                           grecaptcha.render(`recaptcha-container-${index}`, {
