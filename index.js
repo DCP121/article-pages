@@ -656,6 +656,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       // localStorage.removeItem("userData");
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
+                      sessionStorage.clear()
                       localStorage.setItem("ip", ip)
                       sessionStorage.setItem('captcha', false)
                       iscaptchaVerified = false
