@@ -217,7 +217,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "logout": "Logout",
                   "Logout_msg": "Logout successfully !",
                   "comment_max_length": "Comment exceeds the maximum length",
-                  "captch_err_msg": "Please verify reCAPTCH"
+                  "captch_err_msg": "Please verify reCAPTCH",
+                  "reply_lable": "Reply"
                 }
 
                 var arabicJson = {
@@ -269,7 +270,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "invalid_content": "",
                   "comment_not_empty": "",
                   "invalid_email": "",
-                  "captch_err_msg": "Please verify reCAPTCH"
+                  "captch_err_msg": "Please verify reCAPTCH",
+                  "reply_lable":"Reply"
 
                 }
                 var hebrewJson = {
@@ -331,7 +333,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "logout": "התנתק",
                   "Logout_msg": "! התנתק בהצלחה",
                   "comment_max_length": "הערה חורגת מהאורך המרבי",
-                  "captch_err_msg": "אנא אמת שאתה לא רובוט"
+                  "captch_err_msg": "אנא אמת שאתה לא רובוט",
+                  "reply_lable": "הגב"
                 }
                 var JsonData = site === "israel" ? hebrewJson : englishJson
                 const reenterapicall = async (apiFlag) => {
@@ -657,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       let ip = localStorage.getItem('ip')
                       localStorage.clear()
                       localStorage.setItem("ip", ip)
-                      localStorage.setItem('captcha', false)
+                      sessionStorage.setItem('captcha', false)
                       iscaptchaVerified = false
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
@@ -1598,7 +1601,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       const $replaycommentbuttondiv =
                         $("<div>").css({ cursor: 'pointer' });
                       const $Replaycommenttext = $("<span>").text(
-                        'reply'
+                        JsonData?.reply_lable
                       );
                       const $replaycommentIcon = $("<img>")
                         .addClass("comment-logo")
