@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-   loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@a138fcdc0ecdadcef78e6e1aab47fb97fdb6db0e/index.css")
+  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@31e6415ba0af351694e4016e1820d7f7d0333dbe/index.css")
   //loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
@@ -955,7 +955,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               },
                               method: 'post',
                               body: JSON.stringify({
-                                token: null
+                                token: token
                               })
                             })
                               .then(response => response.json())
