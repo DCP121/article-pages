@@ -2135,7 +2135,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         
 
-                           siteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
+                           sitekey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
                            verifyed = MustLogin ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                           // console.log(verifyed,'9055555')
