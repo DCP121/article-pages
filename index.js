@@ -924,16 +924,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     var verifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
 
 
-                    verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
-                      grecaptcha.render('recaptcha-container', {
-                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                        'callback': recaptchaCallback
-                      });
-                    });
+                    // verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                    //   grecaptcha.render('recaptcha-container', {
+                    //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                    //     'callback': recaptchaCallback
+                    //   });
+                    // });
 
 
 
-                    if (verifyed == "true") {
+                    if (verifyed == "true" || verifyed) {
                       // $('#recaptcha-container').hide()
                       commentData = $commentInput.val();
                       inputHeight = $commentInput[0].offsetHeight
@@ -997,14 +997,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 } else {
                                   isVersion3 = false
-                                  // recaptchav3.remove()
-                                  // var recaptcha = document.createElement("script");
-                                  // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
-                                  // recaptcha.async = true;
-                                  // recaptcha.defer = true;
-                                  // console.log(grecaptcha,'grecaptcha')
-
-                                  // $("head").append(recaptcha);
+                                 
                                   $errorMessagecomment
                                     .text(JsonData?.captch_err_msg)
                                     .show();
@@ -1025,13 +1018,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .catch(error => {
 
                                 isVersion3 = false
-                                // recaptchav3.remove()
-                                // var recaptcha = document.createElement("script");
-                                // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
-                                // recaptcha.async = true;
-                                // recaptcha.defer = true;
-
-                                // $("head").append(recaptcha);
+                          
                                 $errorMessagecomment
                                   .text(JsonData?.captch_err_msg)
                                   .show();
@@ -2153,14 +2140,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                         // console.log(replyverifyed, 'replyverifyed', 2140)
 
-                        replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
-                          $(`#recaptcha-container-${index}`).hide();
-                        }) : grecaptcha.ready(function () {
-                          grecaptcha.render(`recaptcha-container-${index}`, {
-                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                            'callback': recaptchaCallback
-                          });
-                        });
+                        // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                        //   $(`#recaptcha-container-${index}`).hide();
+                        // }) : grecaptcha.ready(function () {
+                        //   grecaptcha.render(`recaptcha-container-${index}`, {
+                        //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                        //     'callback': recaptchaCallback
+                        //   });
+                        // });
 
 
                         if (replyverifyed == "true") {
