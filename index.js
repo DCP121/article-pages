@@ -2146,7 +2146,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
                           });
 
-                        
 
                         if (replyverifyed == "true") {
                             // $('#recaptcha-container').hide()
