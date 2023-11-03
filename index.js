@@ -1493,7 +1493,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       const text = dataItem?.comment?.comment
 
-
                       // console.log(
                       //   dataItem?.comment?.originalComment
                       //   , "||", dataItem?.comment?.comment, "||", text, "text missing")
