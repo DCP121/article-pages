@@ -909,7 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // console.log(verifyed,'9055555')
                     // console.log(typeof !!verifyed, 'verifyed', !!verifyed ,905)
 
-                    verifyed == "true" && $('#recaptcha-container').hide();
+                    verifyed == "true" ? $('#recaptcha-container').hide() : $('#recaptcha-container').show()
 
                     if (verifyed == "true") {
                       commentData = $commentInput.val();
