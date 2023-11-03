@@ -461,8 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistingdata = data;
                       apiFlags = apiFlag;
                       cliendId = data?.data?.pageData?.google_client_id;
-                      // console.log("111111111111.....", cliendId);
-
+              
                       // You can use the data in subsequent operations or functions
                       processData(commentlistingdata, apiFlag);
                     },
