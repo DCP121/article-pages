@@ -916,7 +916,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                     });
 
-                    console.log(verifyed,'verifyed')
+                    console.log(verifyed,'verifyed','919')
 
                     if (verifyed == "true") {
                       commentData = $commentInput.val();
