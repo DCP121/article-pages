@@ -517,10 +517,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 function processData(xyz, apiFlag) {
                   var MustLogin = commentlistingdata?.data?.pageData?.mustLogin
                   var token = localStorage.getItem('token')
-                  console.log(!!token, 'token')
+                  // console.log(!!token, 'token')
 
                   captcha = !!token ? sessionStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                  console.log(typeof !!captcha, 'captcha', captcha == true, !!captcha ,524)
+                  // console.log(typeof !!captcha, 'captcha', captcha == true, !!captcha ,524)
 
                   iscaptchaVerified = !!captcha == true || captcha == "true" ? true : false
                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
@@ -2150,7 +2150,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
 
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                        console.log(replyverifyed, 'replyverifyed', 2140)
+                        // console.log(replyverifyed, 'replyverifyed', 2140)
 
                         replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
