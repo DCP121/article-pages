@@ -2147,47 +2147,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $commentreplayInput.css({ height: `${parsedData.height}px` })
                       }
 
-                      // re-captch callback function
-                      function replyrecaptchaCallback(response) {
-                        if (response) {
-                          // reCAPTCHA was successful; you can proceed with your success logic here
-
-                          iscaptchaVerified = true
-
-                          !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
-                          $errorMessagecomment
-                            .text('')
-                            .hide();
-                          setTimeout(() => {
-
-                            $('#recaptcha-container').hide()
-                            commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
-                              $(`#recaptcha-container-${index}`).hide();
-                              $errorMessagecomment
-                                .text('')
-                                .hide();
-                            })
-
-
-                          }, 3000);
-
-                          // console.log('reCAPTCHA successful. Response:', response, 879);
-
-
-                          // You can now perform actions, such as enabling a submit button
-                          // or displaying a success message to the user.
-                        } else {
-                          // reCAPTCHA failed; you can handle failure logic here
-                          // console.log('reCAPTCHA failed. Please verify you are not a robot.');
-
-                          $errorMessagecomment
-                            .text(JsonData?.captch_err_msg)
-                            .show();
-
-                          // You can perform actions like displaying an error message or
-                          // disabling the submit button.
-                        }
-                      }
+                     
 
                       $replaycommentButton.on("click", function () {
 
@@ -2233,7 +2193,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   },
                                   method: 'post',
                                   body: JSON.stringify({
-                                    token: token
+                                    token: null
                                   })
                                 })
                                   .then(response => response.json())
