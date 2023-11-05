@@ -3240,7 +3240,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                          captchaValue = sessionStorage.getItem('captcha')
-                        console.log(captchaValue, iscaptchaVerified, 2840)
+                        console.log(captchaValue, iscaptchaVerified, 3243)
 
                         localStorage.setItem('captcha', captchaValue)
                         commentlistapi(true);
