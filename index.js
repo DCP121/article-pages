@@ -2147,7 +2147,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $commentreplayInput.css({ height: `${parsedData.height}px` })
                       }
 
-                     
+
 
                       $replaycommentButton.on("click", function () {
 
@@ -2173,7 +2173,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           // $('#recaptcha-container').hide()
                           console.log('innnnnnnnnnnnnnnnnnnreply')
 
-                          
+
                           if (userData?.emailVerified === true) {
                             submitReplyComment();
                           }
@@ -2835,6 +2835,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             "userData",
                             JSON.stringify(response?.data?.data?.user)
                           );
+                          localStorage.setItem('captcha', iscaptchaVerified)
                           commentlistapi(true);
                           $Login.css({ display: "none" });
                           $Register.css({ display: "none" });
