@@ -661,6 +661,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       localStorage.setItem("ip", ip)
                       iscaptchaVerified = false
                       firstcheckforV3 = false
+                      isVersion3 = true
+
                       sessionStorage.setItem('captcha', iscaptchaVerified)
                       $Login.css({ display: "block" });
                       $Register.css({ display: "block" });
