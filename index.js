@@ -883,14 +883,18 @@ document.addEventListener("DOMContentLoaded", function () {
                       iscaptchaVerified = true
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
-                      $errorMessagecomment.text('').hide();
+                      $errorMessagecomment
+                          .text(JsonData?.you_r_not_verified)
+                          .hide();
                       $errorMessagecomment.hide();
                       setTimeout(() => {
 
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
-                          $errorMessagecomment.text('').hide();
+                          $errorMessagecomment
+                          .text(JsonData?.you_r_not_verified)
+                          .hide();
                           $errorMessagecomment.hide();
                         })
 
@@ -925,12 +929,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
 
 
-                    // verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
-                    //   grecaptcha.render('recaptcha-container', {
-                    //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                    //     'callback': recaptchaCallback
-                    //   });
-                    // });
+                    verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                      grecaptcha.render('recaptcha-container', {
+                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                        'callback': recaptchaCallback
+                      });
+                    });
 
                     // console.log(verifyed , verifyed === "true","verifyyyyy")
 
