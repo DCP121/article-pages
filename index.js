@@ -928,6 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var verifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
+                    console.log(!firstcheckforV3,'!firstcheckforV3')
 
 
                     verifyed == "true" && !firstcheckforV3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
@@ -1025,12 +1026,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     .show();
 
 
-                                  grecaptcha.ready(function () {
-                                    grecaptcha.render('recaptcha-container', {
-                                      'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                      'callback': recaptchaCallback
-                                    });
-                                  });
+                                  // grecaptcha.ready(function () {
+                                  //   grecaptcha.render('recaptcha-container', {
+                                  //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                  //     'callback': recaptchaCallback
+                                  //   });
+                                  // });
 
                                 }
 
