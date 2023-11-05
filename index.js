@@ -2835,7 +2835,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             "userData",
                             JSON.stringify(response?.data?.data?.user)
                           );
-                          localStorage.setItem('captcha', iscaptchaVerified)
+                         
+                          var captchaValue = sessionStorage.getItem('captcha')
+                          console.log(captchaValue , iscaptchaVerified ,2840)
+
+                          localStorage.setItem('captcha', captchaValue)
                           commentlistapi(true);
                           $Login.css({ display: "none" });
                           $Register.css({ display: "none" });
