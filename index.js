@@ -960,10 +960,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
 
                       if (isVersion3) {
-                        // console.log(isVersion3, 'isVersion3', typeof isVersion3)
+                        console.log(isVersion3, 'isVersion3', typeof isVersion3)
                         grecaptcha.execute(siteKey, { action: 'demo' })
                           .then(function (token) {
-                            // console.log(token, 'token')
+                            console.log( 'check v333333333333333333')
                             // document.querySelector('#send_button').addEventListener('click', handleClick(token));
                             fetch(`${API_URL}/user/captcha-verification`, {
                               headers: {
