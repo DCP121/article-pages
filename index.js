@@ -936,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                     });
 
-                    // console.log(verifyed , verifyed === "true","verifyyyyy")
+                    console.log(verifyed, verifyed === "true", "verifyyyyy", isVersion3, typeof isVersion3)
 
                     if (verifyed === true || verifyed == 'true') {
                       console.log("innnnnnnnnn")
@@ -959,7 +959,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     } else {
 
-                      if (isVersion3) {
+                      if (isVersion3 === true || isVersion3 == "true" ) {
                         console.log(isVersion3, 'isVersion3', typeof isVersion3)
                         grecaptcha.execute(siteKey, { action: 'demo' })
                           .then(function (token) {
