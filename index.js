@@ -961,6 +961,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $errorMessagecomment
                           .text(JsonData?.you_r_not_verified)
                           .show();
+
                       }
                     } else {
 
@@ -1080,6 +1081,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             $errorMessagecomment
                               .text(JsonData?.captch_err_msg)
                               .show();
+                              grecaptcha.render('recaptcha-container', {
+                                'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                'callback': recaptchaCallback
+                              });
                           }
                         }
 
