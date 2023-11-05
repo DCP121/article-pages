@@ -929,12 +929,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
 
 
-                    verifyed == "true" && isVersion3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
-                      grecaptcha.render('recaptcha-container', {
-                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                        'callback': recaptchaCallback
-                      });
-                    });
+                    // verifyed == "true" && isVersion3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                    //   grecaptcha.render('recaptcha-container', {
+                    //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                    //     'callback': recaptchaCallback
+                    //   });
+                    // });
 
                     console.log(verifyed, verifyed === "true", "verifyyyyy", isVersion3, typeof isVersion3)
 
@@ -1000,6 +1000,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     $errorMessagecomment
                                       .text(JsonData?.you_r_not_verified)
                                       .show();
+                                    grecaptcha.ready(function () {
+                                      grecaptcha.render('recaptcha-container', {
+                                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                        'callback': recaptchaCallback
+                                      });
+                                    });
                                   }
 
                                 } else {
