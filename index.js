@@ -1077,7 +1077,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .show();
                           }
                         } else {
-                          console.log(1080)
+                          console.log(1080,'fail v3',isVersion3)
                           if (!isVersion3) {
                             $errorMessagecomment
                               .text(JsonData?.captch_err_msg)
