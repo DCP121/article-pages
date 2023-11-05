@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "comment_not_empty": "",
                   "invalid_email": "",
                   "captch_err_msg": "Please verify reCAPTCH",
-                  "reply_lable":"Reply"
+                  "reply_lable": "Reply"
 
                 }
                 var hebrewJson = {
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       commentlistingdata = data;
                       apiFlags = apiFlag;
                       cliendId = data?.data?.pageData?.google_client_id;
-              
+
                       // You can use the data in subsequent operations or functions
                       processData(commentlistingdata, apiFlag);
                     },
@@ -516,13 +516,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 function processData(xyz, apiFlag) {
                   var token = localStorage.getItem('token')
-                  console.log(!!token, 'token' ,typeof token , token)
+                  console.log(!!token, 'token', typeof token, token)
 
                   captcha = token && token != null ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
-                  // console.log(typeof captcha, 'captcha', captcha == true, captcha ,524)
+                  console.log(typeof captcha, 'captcha', captcha == true, captcha, 524)
+                  console.log(523, captcha || captcha == "true", captcha, captcha == "true")
 
-                  iscaptchaVerified = captcha || captcha == "true" ? true : false
-                  // console.log(iscaptchaVerified, 'iscaptchaVerified', typeof iscaptchaVerified)
+                  iscaptchaVerified = captcha === true || captcha == "true" ? true : false
+                  console.log(iscaptchaVerified, 'iscaptchaVerified', typeof iscaptchaVerified)
                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                   if (apiFlag) {
@@ -894,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .text('')
                             .hide();
                         })
-                      
+
 
                       }, 3000);
 
@@ -935,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // console.log(verifyed , verifyed === "true","verifyyyyy")
 
-                    if (verifyed || verifyed === "true") {
+                    if (verifyed === true || verifyed == 'true') {
                       console.log("innnnnnnnnn")
                       // $('#recaptcha-container').hide()
                       commentData = $commentInput.val();
@@ -975,10 +976,10 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then(response => response.json())
                               .then(data => {
                                 if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
-                                  console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7,977)
+                                  console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7, 977)
                                   // console.log("then api call")
                                   iscaptchaVerified = true
-                                  console.log(token,'token',!!token , typeof token)
+                                  console.log(token, 'token', !!token, typeof token)
 
                                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
@@ -2145,6 +2146,49 @@ document.addEventListener("DOMContentLoaded", function () {
                         $replycommentinputsection.show();
                         $commentreplayInput.css({ height: `${parsedData.height}px` })
                       }
+
+                      // re-captch callback function
+                      function replyrecaptchaCallback(response) {
+                        if (response) {
+                          // reCAPTCHA was successful; you can proceed with your success logic here
+
+                          iscaptchaVerified = true
+
+                          !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
+                          $errorMessagecomment
+                            .text('')
+                            .hide();
+                          setTimeout(() => {
+
+                            $('#recaptcha-container').hide()
+                            commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                              $(`#recaptcha-container-${index}`).hide();
+                              $errorMessagecomment
+                                .text('')
+                                .hide();
+                            })
+
+
+                          }, 3000);
+
+                          // console.log('reCAPTCHA successful. Response:', response, 879);
+
+
+                          // You can now perform actions, such as enabling a submit button
+                          // or displaying a success message to the user.
+                        } else {
+                          // reCAPTCHA failed; you can handle failure logic here
+                          // console.log('reCAPTCHA failed. Please verify you are not a robot.');
+
+                          $errorMessagecomment
+                            .text(JsonData?.captch_err_msg)
+                            .show();
+
+                          // You can perform actions like displaying an error message or
+                          // disabling the submit button.
+                        }
+                      }
+
                       $replaycommentButton.on("click", function () {
 
                         var replysiteKey = isVersion3 ? '6LcSIecoAAAAAAG690bAPem2DHN6oNq4UsBcOuqG' : '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I';
@@ -2153,17 +2197,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                         console.log(replyverifyed, 'replyverifyed', 2140, typeof replyverifyed)
 
-                        // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
-                        //   $(`#recaptcha-container-${index}`).hide();
-                        // }) : grecaptcha.ready(function () {
-                        //   grecaptcha.render(`recaptcha-container-${index}`, {
-                        //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                        //     'callback': recaptchaCallback
-                        //   });
-                        // });
 
 
-                        if (replyverifyed == "true" || replyverifyed) {
+
+                        if (replyverifyed === true || replyverifyed == "true") {
                           // $('#recaptcha-container').hide()
                           console.log('innnnnnnnnnnnnnnnnnnreply')
 
@@ -2219,22 +2256,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                           .show();
                                       }
 
-                                      // commentData = $commentInput.val();
-                                      // inputHeight = $commentInput[0].offsetHeight
 
-                                      // if (userData?.emailVerified === true) {
-
-                                      //   submitComment();
-                                      // }
-                                      // else if (userData === null) {
-
-                                      //   submitComment();
-                                      // }
-                                      // else {
-                                      //   $errorMessagecomment
-                                      //     .text(JsonData?.you_r_not_verified)
-                                      //     .show();
-                                      // }
 
                                     } else {
                                       isVersion3 = false
