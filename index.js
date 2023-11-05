@@ -2157,6 +2157,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                         console.log(replyverifyed, 'replyverifyed', 2140, typeof replyverifyed)
 
+                        replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                          $(`#recaptcha-container-${index}`).hide();
+                        }) : grecaptcha.ready(function () {
+                          grecaptcha.render(`recaptcha-container-${index}`, {
+                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                            'callback': recaptchaCallback
+                          });
+                        });
+
 
 
 
@@ -2164,7 +2173,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           // $('#recaptcha-container').hide()
                           console.log('innnnnnnnnnnnnnnnnnnreply')
 
-
+                          
                           if (userData?.emailVerified === true) {
                             submitReplyComment();
                           }
