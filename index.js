@@ -931,17 +931,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var verifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
-                    console.log(!firstcheckforV3,'!firstcheckforV3')
+                    console.log(firstcheckforV3,'firstcheckforV3')
 
 
-                    verifyed == "true" && !firstcheckforV3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
-                      grecaptcha.render('recaptcha-container', {
-                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                        'callback': recaptchaCallback
-                      });
-                    });
+                    // verifyed == "true" && !firstcheckforV3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                    //   grecaptcha.render('recaptcha-container', {
+                    //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                    //     'callback': recaptchaCallback
+                    //   });
+                    // });
 
-                    console.log(verifyed, verifyed === "true", "verifyyyyy", isVersion3, typeof isVersion3)
+                    // console.log(verifyed, verifyed === "true", "verifyyyyy", isVersion3, typeof isVersion3)
 
                     if (verifyed === true || verifyed == 'true') {
                       console.log("innnnnnnnnn")
@@ -965,7 +965,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
 
                       if (isVersion3 === true || isVersion3 == "true" ) {
-                        console.log(isVersion3, 'isVersion3', typeof isVersion3)
+                        console.log('in for API call')
+                        // console.log(isVersion3, 'isVersion3', typeof isVersion3)
                         grecaptcha.execute(siteKey, { action: 'demo' })
                           .then(function (token) {
                             console.log( 'check v333333333333333333')
@@ -984,7 +985,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then(data => {
                                 if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
                                   console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7, 977)
-                                  // console.log("then api call")
+                                  console.log("in for api call")
                                   iscaptchaVerified = true
                                   firstcheckforV3 = true
                                   console.log(token, 'token', !!token, typeof token)
@@ -1016,25 +1017,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 } else {
                                   isVersion3 = false
-                                  // recaptchav3.remove()
-                                  // var recaptcha = document.createElement("script");
-                                  // recaptcha.src =  `https://www.google.com/recaptcha/api.js`;
-                                  // recaptcha.async = true;
-                                  // recaptcha.defer = true;
-                                  // console.log(grecaptcha,'grecaptcha')
-
-                                  // $("head").append(recaptcha);
+                                  console.log('APi Call else')
+                        
                                   $errorMessagecomment
                                     .text(JsonData?.captch_err_msg)
                                     .show();
 
 
-                                  // grecaptcha.ready(function () {
-                                  //   grecaptcha.render('recaptcha-container', {
-                                  //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                  //     'callback': recaptchaCallback
-                                  //   });
-                                  // });
+                                  grecaptcha.ready(function () {
+                                    grecaptcha.render('recaptcha-container', {
+                                      'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                      'callback': recaptchaCallback
+                                    });
+                                  });
 
                                 }
 
@@ -1044,13 +1039,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               .catch(error => {
 
                                 isVersion3 = false
-                                // recaptchav3.remove()
-                                // var recaptcha = document.createElement("script");
-                                // recaptcha.src = `https://www.google.com/recaptcha/api.js`;
-                                // recaptcha.async = true;
-                                // recaptcha.defer = true;
+                                console.log(error, 'API call error')
 
-                                // $("head").append(recaptcha);
                                 $errorMessagecomment
                                   .text(JsonData?.captch_err_msg)
                                   .show();
@@ -1063,10 +1053,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 });
 
                               });
-
-
-
-
                           });
 
                       } else {
@@ -1098,12 +1084,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
                       }
-
-
-
                     }
-
-
 
                   });
                   // end recaptcha code 
@@ -2170,16 +2151,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         var replyverifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                         console.log(replyverifyed, 'replyverifyed', 2140, typeof replyverifyed)
-                        console.log(firstcheckforV3,'firstcheckforV3')
+                        console.log(firstcheckforV3, 'firstcheckforV3')
 
-                        replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
-                          $(`#recaptcha-container-${index}`).hide();
-                        }) : grecaptcha.ready(function () {
-                          grecaptcha.render(`recaptcha-container-${index}`, {
-                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                            'callback': recaptchaCallback
-                          });
-                        });
+                        // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                        //   $(`#recaptcha-container-${index}`).hide();
+                        // }) : grecaptcha.ready(function () {
+                        //   grecaptcha.render(`recaptcha-container-${1}`, {
+                        //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                        //     'callback': recaptchaCallback
+                        //   });
+                        // });
 
 
 
@@ -2203,9 +2184,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         } else {
+                          console.log(isVersion3,'isVersion3isVersion3')
 
-                          if (isVersion3) {
-                            // console.log(grecaptcha, 'grecaptcha')
+                          if (isVersion3 === true || isVersion3 == "true") {
+                            console.log('in for API call')
                             grecaptcha.execute(replysiteKey, { action: 'demo' })
                               .then(function (token) {
                                 // console.log(token, 'token')
@@ -2239,20 +2221,24 @@ document.addEventListener("DOMContentLoaded", function () {
                                         $errorMessagecomment
                                           .text(JsonData?.you_r_not_verified)
                                           .show();
+                                        // grecaptcha.ready(function () {
+                                        //   grecaptcha.render(`recaptcha-container-${0}`, {
+                                        //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                        //     'callback': recaptchaCallback
+                                        //   });
+                                        // });
                                       }
-
-
 
                                     } else {
                                       isVersion3 = false
 
+                                      console.log('APi Call else')
                                       $errorMessagecomment
                                         .text(JsonData?.captch_err_msg)
                                         .show();
-
-
+                                      
                                       grecaptcha.ready(function () {
-                                        grecaptcha.render(`recaptcha-container-${index}`, {
+                                        grecaptcha.render(`recaptcha-container-${0}`, {
                                           'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                           'callback': recaptchaCallback
                                         });
@@ -2264,6 +2250,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                   })
                                   .catch(error => {
+                                    console.log(error,'API call error')
 
                                     isVersion3 = false
 
@@ -2272,7 +2259,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       .show();
 
                                     grecaptcha.ready(function () {
-                                      grecaptcha.render(`recaptcha-container-${index}`, {
+                                      grecaptcha.render(`recaptcha-container-${0}`, {
                                         'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                         'callback': recaptchaCallback
                                       });
@@ -2308,16 +2295,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                           }
-
-
-
                         }
-
-
-
-
-
-
                       });
 
                       const submitReplyComment = async () => {
