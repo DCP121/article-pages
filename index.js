@@ -3239,10 +3239,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           JSON.stringify(response?.data?.data?.user)
                         );
 
-                         captchaValue = sessionStorage.getItem('captcha')
-                        console.log(captchaValue, iscaptchaVerified, 3243)
+                        var captchaValueonlogin = sessionStorage.getItem('captcha')
+                        console.log(captchaValueonlogin, iscaptchaVerified, 3243)
 
-                        localStorage.setItem('captcha', captchaValue)
+                        localStorage.setItem('captcha', captchaValueonlogin)
                         commentlistapi(true);
                         $Login.css({ display: "none" });
                         $Register.css({ display: "none" });
