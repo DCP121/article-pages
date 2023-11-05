@@ -883,17 +883,15 @@ document.addEventListener("DOMContentLoaded", function () {
                       iscaptchaVerified = true
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
-                      $errorMessagecomment
-                        .text('')
-                        .hide();
+                      $errorMessagecomment.text('').hide();
+                      $errorMessagecomment.hide();
                       setTimeout(() => {
 
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
-                          $errorMessagecomment
-                            .text('')
-                            .hide();
+                          $errorMessagecomment.text('').hide();
+                          $errorMessagecomment.hide();
                         })
 
 
