@@ -929,7 +929,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
 
 
-                    verifyed == "true" ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
+                    verifyed == "true" && isVersion3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
                       grecaptcha.render('recaptcha-container', {
                         'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                         'callback': recaptchaCallback
