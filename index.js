@@ -2859,10 +2859,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             JSON.stringify(response?.data?.data?.user)
                           );
 
-                          response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                          var captchaValue = sessionStorage.getItem('captcha')
+                          console.log(captchaValue , iscaptchaVerified ,2840)
+
+                          response?.data?.data?.token ? localStorage.setItem('captcha', captchaValue) : sessionStorage.setItem('captcha', captchaValue)
                          
-                          // var captchaValue = sessionStorage.getItem('captcha')
-                          // console.log(captchaValue , iscaptchaVerified ,2840)
+                          
 
                           // localStorage.setItem('captcha', captchaValue)
                           commentlistapi(true);
@@ -3268,7 +3270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(captchaValueonlogin, iscaptchaVerified, 3243)
                           
 
-                        response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                        response?.data?.data?.token ? localStorage.setItem('captcha', captchaValueonlogin) : sessionStorage.setItem('captcha', captchaValueonlogin)
                         
 
 
@@ -4666,8 +4668,12 @@ document.addEventListener("DOMContentLoaded", function () {
                           "userData",
                           JSON.stringify(response?.data?.data?.user)
                         );
+                        var registertimecaptchaValue = sessionStorage.getItem('captcha')
+                        console.log(captchaValue, iscaptchaVerified, 2840)
 
-                        response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                        response?.data?.data?.token ? localStorage.setItem('captcha', registertimecaptchaValue) : sessionStorage.setItem('captcha', registertimecaptchaValue)
+                        
+
                         commentlistapi(true);
                         // Handle the API response here
 
