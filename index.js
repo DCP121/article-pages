@@ -908,7 +908,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       // console.log('reCAPTCHA successful. Response:', response, 879);
 
-                      // console.log('reCAPTCHA successful. Response:', response, 879);
 
 
                       // You can now perform actions, such as enabling a submit button
