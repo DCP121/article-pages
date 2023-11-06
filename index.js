@@ -992,6 +992,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   console.log("in for api call")
                                   iscaptchaVerified = true
                                   firstcheckforV3 = true
+                                  isVersion3 = false
                                   console.log(token, 'token', !!token, typeof token)
 
                                   !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
@@ -2222,6 +2223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       console.log("then api call")
                                       iscaptchaVerified = true
                                       firstcheckforV3 = true
+                                      isVersion3 = false
 
                                       !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
