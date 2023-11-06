@@ -893,6 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       
                       $errorMessagecomment.hide();
+                      $(`[id^="err-msg"]`).hide();
                       // $errorMessagecommentreply.hide();
                       setTimeout(() => {
                         console.log(896)
@@ -902,7 +903,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $(`#recaptcha-container-${index}`).hide();
                          
                           $errorMessagecomment.hide();
-                          $(`[id^="${index}"]`).hide();
+                          $(`[id^="err-msg"]`).hide();
                           // $errorMessagecommentreply.hide();
                         })
                       }, 3000);
@@ -2014,7 +2015,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                       var $errorMessagecommentreply = $("<div>")
                         .css({ display: "flex", color: "red" })
-                        .attr('id',index)
+                        .attr('id',`err-msg`)
                         .hide();
                       const $commentreplayuserImage = $("<img>")
                         .attr(
