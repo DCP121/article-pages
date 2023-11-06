@@ -2223,13 +2223,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                   .then(response => response.json())
                                   .then(data => {
                                     if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
-                                      console.log("then api call")
+                                      // console.log("then api call")
                                       iscaptchaVerified = true
                                       firstcheckforV3 = true
                                       // isVersion3 = false
 
                                       var Token = localStorage.getItem('token')
-                                      console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token === true, Token == "true")
+                                      // console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token === true, Token == "true")
 
                                       Token === true || Token == "true" ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
@@ -2254,7 +2254,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     } else {
                                       isVersion3 = false
 
-                                      console.log('APi Call else')
+                                      // console.log('APi Call else')
                                       $errorMessagecommentreply
                                         .text(JsonData?.captch_err_msg)
                                         .show();
@@ -2271,7 +2271,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                   })
                                   .catch(error => {
-                                    console.log(error,'API call error')
+                                    // console.log(error,'API call error')
 
                                     isVersion3 = false
 
@@ -2294,7 +2294,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               });
 
                           } else {
-                            console.log(2286)
+                            // console.log(2286)
                             if (iscaptchaVerified) {
                               if (userData?.emailVerified === true) {
                                 submitReplyComment();
@@ -2309,7 +2309,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               }
 
                             } else {
-                              console.log(2301)
+                              // console.log(2301)
                               if (!isVersion3) {
                                 $errorMessagecommentreply
                                   .text(JsonData?.captch_err_msg)
@@ -3263,7 +3263,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         var captchaValueonlogin = sessionStorage.getItem('captcha')
-                        console.log(captchaValueonlogin, iscaptchaVerified, 3243)
+                        // console.log(captchaValueonlogin, iscaptchaVerified, 3243)
 
                         localStorage.setItem('captcha', captchaValueonlogin)
                         commentlistapi(true);
