@@ -896,12 +896,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
-                          $errorMessagecomment
-                          .text()
-                          .hide();
+                          console.log(899,'verify')
                           $errorMessagecomment.hide();
                         })
-
 
                       }, 3000);
 
