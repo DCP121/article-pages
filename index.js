@@ -881,8 +881,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // re-captch callback function
                   function recaptchaCallback(response) {
+                    console.log('first',884)
                     if (response) {
                       // reCAPTCHA was successful; you can proceed with your success logic here
+
+                      console.log('callback',887)
 
                       iscaptchaVerified = true
 
