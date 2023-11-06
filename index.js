@@ -2233,7 +2233,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                       Token === true || Token == "true" ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
-
                                       if (userData?.emailVerified === true) {
                                         submitReplyComment();
                                       }
