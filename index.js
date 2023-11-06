@@ -897,7 +897,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       // $errorMessagecommentreply.hide();
                       setTimeout(() => {
                         console.log(896)
-
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
