@@ -883,27 +883,31 @@ document.addEventListener("DOMContentLoaded", function () {
                   function recaptchaCallback(response) {
                     console.log('first',884)
                     if (response) {
+                      console.log(886)
                       // reCAPTCHA was successful; you can proceed with your success logic here
-
-                      console.log('callback',887)
-
                       iscaptchaVerified = true
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       $errorMessagecomment
-                          .text()
-                          .hide();
+                        .text(JsonData?.you_r_not_verified)
+                        .hide();
                       $errorMessagecomment.hide();
                       setTimeout(() => {
+                        console.log(896)
 
                         $('#recaptcha-container').hide()
-                        commentlistingdata?.data?.allCommentsData.forEach((data, indexdata) => {
-                          $(`#recaptcha-container-${indexdata}`).hide();
-                          console.log(899,'verify')
+                        commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
+                          $(`#recaptcha-container-${index}`).hide();
+                          $errorMessagecomment
+                            .text(JsonData?.you_r_not_verified)
+                            .hide();
                           $errorMessagecomment.hide();
                         })
 
+
                       }, 3000);
+
+                      // console.log('reCAPTCHA successful. Response:', response, 879);
 
                       // console.log('reCAPTCHA successful. Response:', response, 879);
 
