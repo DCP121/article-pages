@@ -893,7 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       
                       $errorMessagecomment.hide();
-                      $errorMessagecommentreply.hide();
+                      // $errorMessagecommentreply.hide();
                       setTimeout(() => {
                         console.log(896)
 
@@ -902,7 +902,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $(`#recaptcha-container-${index}`).hide();
                          
                           $errorMessagecomment.hide();
-                          $errorMessagecommentreply.hide();
+                          // $errorMessagecommentreply.hide();
                         })
                       }, 3000);
 
