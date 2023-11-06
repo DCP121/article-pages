@@ -900,7 +900,6 @@ document.addEventListener("DOMContentLoaded", function () {
                           $errorMessagecomment.hide();
                         })
 
-
                       }, 3000);
 
                       // console.log('reCAPTCHA successful. Response:', response, 879);
