@@ -2269,7 +2269,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     }
 
 
-
                                   })
                                   .catch(error => {
                                     console.log(error,'API call error')
