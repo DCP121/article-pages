@@ -814,6 +814,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $errorMessagecomment = $("<div>")
                     .css({ display: "flex", color: "red" })
                     .hide();
+                  var $errorMessagecommentreply = $("<div>")
+                    .css({ display: "flex", color: "red" })
+                    .hide();
 
 
                   // Show the recaptcha verification box
@@ -890,6 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       
                       $errorMessagecomment.hide();
+                      $errorMessagecommentreply.hide();
                       setTimeout(() => {
                         console.log(896)
 
@@ -898,6 +902,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           $(`#recaptcha-container-${index}`).hide();
                          
                           $errorMessagecomment.hide();
+                          $errorMessagecommentreply.hide();
                         })
                       }, 3000);
 
@@ -2007,9 +2012,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           type: "text",
                           placeholder: JsonData?.add_your_comment,
                         });
-                      const $errorMessagecomment = $("<div>")
-                        .css({ display: "flex", color: "red" })
-                        .hide();
+                      // const $errorMessagecommentreply = $("<div>")
+                      //   .css({ display: "flex", color: "red" })
+                      //   .hide();
                       const $commentreplayuserImage = $("<img>")
                         .attr(
                           "src",
@@ -2067,7 +2072,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       $leftcommenntinputsection.append(
                         $comenttitlereplay,
                         $replaycommentinputandbuttondiv,
-                        $errorMessagecomment
+                        $errorMessagecommentreply
                       );
                       $rightcommenntinputsection.append(
                         userData && userData !== ""
@@ -2106,13 +2111,13 @@ document.addEventListener("DOMContentLoaded", function () {
                           /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                         if (originalComment === "") {
-                          $errorMessagecomment
+                          $errorMessagecommentreply
                             .text(JsonData?.comment_not_empty)
                             .show();
                         } else if (
                           originalComment.length > maxCommentLength
                         ) {
-                          $errorMessagecomment
+                          $errorMessagecommentreply
                             .text("Comment exceeds the maximum length")
                             .show();
                         } else if (
@@ -2121,11 +2126,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           linkPattern.test(originalComment) ||
                           emailPattern.test(originalComment)
                         ) {
-                          $errorMessagecomment
+                          $errorMessagecommentreply
                             .text(JsonData?.invalid_content)
                             .show();
                         } else {
-                          $errorMessagecomment.hide();
+                          $errorMessagecommentreply.hide();
                         }
                       });
 
@@ -2185,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             submitReplyComment();
                           }
                           else {
-                            $errorMessagecomment
+                            $errorMessagecommentreply
                               .text(JsonData?.you_r_not_verified)
                               .show();
                           }
@@ -2226,7 +2231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         submitReplyComment();
                                       }
                                       else {
-                                        $errorMessagecomment
+                                        $errorMessagecommentreply
                                           .text(JsonData?.you_r_not_verified)
                                           .show();
                                         // grecaptcha.ready(function () {
@@ -2241,7 +2246,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       isVersion3 = false
 
                                       console.log('APi Call else')
-                                      $errorMessagecomment
+                                      $errorMessagecommentreply
                                         .text(JsonData?.captch_err_msg)
                                         .show();
                                       
@@ -2262,7 +2267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     isVersion3 = false
 
-                                    $errorMessagecomment
+                                    $errorMessagecommentreply
                                       .text(JsonData?.captch_err_msg)
                                       .show();
 
@@ -2290,7 +2295,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 submitReplyComment();
                               }
                               else {
-                                $errorMessagecomment
+                                $errorMessagecommentreply
                                   .text(JsonData?.you_r_not_verified)
                                   .show();
                               }
@@ -2298,7 +2303,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             } else {
                               console.log(2301)
                               if (!isVersion3) {
-                                $errorMessagecomment
+                                $errorMessagecommentreply
                                   .text(JsonData?.captch_err_msg)
                                   .show();
                                 grecaptcha.ready(function () {
@@ -2336,13 +2341,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                             if (commentReplay === "") {
-                              $errorMessagecomment
+                              $errorMessagecommentreply
                                 .text(JsonData?.comment_not_empty)
                                 .show();
                             } else if (
                               commentReplay.length > maxCommentLength
                             ) {
-                              $errorMessagecomment
+                              $errorMessagecommentreply
                                 .text("Comment exceeds the maximum length")
                                 .show();
                             } else if (
@@ -2351,11 +2356,11 @@ document.addEventListener("DOMContentLoaded", function () {
                               linkPattern.test(commentReplay) ||
                               emailPattern.test(commentReplay)
                             ) {
-                              $errorMessagecomment
+                              $errorMessagecommentreply
                                 .text(JsonData?.invalid_content)
                                 .show();
                             } else {
-                              $errorMessagecomment.hide();
+                              $errorMessagecommentreply.hide();
                               // Rest of your reply comment submission logic here
                               const token = localStorage.getItem("token");
                               const headers = {
@@ -2392,7 +2397,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   if (!response.ok) {
                                     response.text().then(errorMessage => {
                                       if (response.status == 401) {
-                                        $errorMessagecomment
+                                        $errorMessagecommentreply
                                           .text('')
                                           .hide()
                                         $registerModal.css("display", "block");
@@ -2400,7 +2405,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       }
                                       else {
                                         const errorData = JSON.parse(errorMessage);
-                                        $errorMessagecomment
+                                        $errorMessagecommentreply
                                           .text(errorData.message)
                                           .show();
                                       }
@@ -2459,13 +2464,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
                           if (commentReplay === "") {
-                            $errorMessagecomment
+                            $errorMessagecommentreply
                               .text(JsonData?.comment_not_empty)
                               .show();
                           } else if (
                             commentReplay.length > maxCommentLength
                           ) {
-                            $errorMessagecomment
+                            $errorMessagecommentreply
                               .text("Comment exceeds the maximum length")
                               .show();
                           } else if (
@@ -2474,11 +2479,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             linkPattern.test(commentReplay) ||
                             emailPattern.test(commentReplay)
                           ) {
-                            $errorMessagecomment
+                            $errorMessagecommentreply
                               .text(JsonData?.invalid_content)
                               .show();
                           } else {
-                            $errorMessagecomment.hide();
+                            $errorMessagecommentreply.hide();
                             // Rest of your reply comment submission logic here
                             const token = localStorage.getItem("token");
                             const headers = {
@@ -2515,7 +2520,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (!response.ok) {
                                   response.text().then(errorMessage => {
                                     if (response.status == 401) {
-                                      $errorMessagecomment
+                                      $errorMessagecommentreply
                                         .text(errorData.message)
                                         .hide('')
                                       $registerModal.css("display", "block");
@@ -2523,7 +2528,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     }
                                     else {
                                       const errorData = JSON.parse(errorMessage);
-                                      $errorMessagecomment
+                                      $errorMessagecommentreply
                                         .text(errorData.message)
                                         .show();
                                     }
