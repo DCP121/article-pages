@@ -1131,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           originalComment.length > maxCommentLength
                         ) {
                           $errorMessagecomment
-                            .text("Comment exceeds the maximum length")
+                            .text(JsonData?.comment_max_length)
                             .show();
                         } else if (
                           htmlPattern.test(originalComment) ||
@@ -1246,7 +1246,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .show();
                       } else if (originalComment.length > maxCommentLength) {
                         $errorMessagecomment
-                          .text("Comment exceeds the maximum length")
+                          .text(JsonData?.comment_max_length)
                           .show();
                       } else if (
                         htmlPattern.test(originalComment) ||
@@ -2123,7 +2123,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           originalComment.length > maxCommentLength
                         ) {
                           $errorMessagecommentreply
-                            .text("Comment exceeds the maximum length")
+                            .text(JsonData?.comment_max_length)
                             .show();
                         } else if (
                           htmlPattern.test(originalComment) ||
@@ -2356,7 +2356,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               commentReplay.length > maxCommentLength
                             ) {
                               $errorMessagecommentreply
-                                .text("Comment exceeds the maximum length")
+                                .text(JsonData?.comment_max_length)
                                 .show();
                             } else if (
                               htmlPattern.test(commentReplay) ||
@@ -2479,7 +2479,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             commentReplay.length > maxCommentLength
                           ) {
                             $errorMessagecommentreply
-                              .text("Comment exceeds the maximum length")
+                              .text(JsonData?.comment_max_length)
                               .show();
                           } else if (
                             htmlPattern.test(commentReplay) ||
