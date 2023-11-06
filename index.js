@@ -2178,7 +2178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // });
 
 
-
+                        console.log(replyverifyed, 'replyverifyed', typeof replyverifyed)
 
                         if (replyverifyed === true || replyverifyed == "true") {
                           // $('#recaptcha-container').hide()
