@@ -888,9 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       iscaptchaVerified = true
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
-                      $errorMessagecomment
-                        .text(JsonData?.you_r_not_verified)
-                        .hide();
+                      
                       $errorMessagecomment.hide();
                       setTimeout(() => {
                         console.log(896)
@@ -898,9 +896,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
-                          $errorMessagecomment
-                            .text(JsonData?.you_r_not_verified)
-                            .hide();
+                         
                           $errorMessagecomment.hide();
                         })
 
