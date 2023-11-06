@@ -2858,11 +2858,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             "userData",
                             JSON.stringify(response?.data?.data?.user)
                           );
-                         
-                          var captchaValue = sessionStorage.getItem('captcha')
-                          console.log(captchaValue , iscaptchaVerified ,2840)
 
-                          localStorage.setItem('captcha', captchaValue)
+                          response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                         
+                          // var captchaValue = sessionStorage.getItem('captcha')
+                          // console.log(captchaValue , iscaptchaVerified ,2840)
+
+                          // localStorage.setItem('captcha', captchaValue)
                           commentlistapi(true);
                           $Login.css({ display: "none" });
                           $Register.css({ display: "none" });
@@ -3263,9 +3265,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         var captchaValueonlogin = sessionStorage.getItem('captcha')
-                        // console.log(captchaValueonlogin, iscaptchaVerified, 3243)
+                        console.log(captchaValueonlogin, iscaptchaVerified, 3243)
+                          
 
-                        localStorage.setItem('captcha', captchaValueonlogin)
+                        response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                        
+
+
+                        // localStorage.setItem('captcha', captchaValueonlogin)
                         commentlistapi(true);
                         $Login.css({ display: "none" });
                         $Register.css({ display: "none" });
@@ -4659,6 +4666,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           "userData",
                           JSON.stringify(response?.data?.data?.user)
                         );
+
+                        response?.data?.data?.token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
                         commentlistapi(true);
                         // Handle the API response here
 
