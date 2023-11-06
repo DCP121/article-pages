@@ -888,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       $errorMessagecomment
-                          .text(JsonData?.you_r_not_verified)
+                          .text()
                           .hide();
                       $errorMessagecomment.hide();
                       setTimeout(() => {
@@ -897,7 +897,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
                           $errorMessagecomment
-                          .text(JsonData?.you_r_not_verified)
+                          .text()
                           .hide();
                           $errorMessagecomment.hide();
                         })
@@ -1995,7 +1995,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         .css({
                           direction: "ltr",
                         })
-                        .text(JsonData?.send);
+                        .text(JsonData?.send)
+                        .attr("id", index);
                       $(document).ready(function () {
                         $(`#${dataItem._id}`).on("input", function () {
                           this.style.height = "auto";
@@ -2159,6 +2160,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(replyverifyed, 'replyverifyed', 2140, typeof replyverifyed)
                         console.log(firstcheckforV3, 'firstcheckforV3')
 
+                        var buttonId = $(this).attr("id");
+                        console.log(buttonId,'buttonId')
+
                         // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                         //   $(`#recaptcha-container-${index}`).hide();
                         // }) : grecaptcha.ready(function () {
@@ -2210,8 +2214,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 })
                                   .then(response => response.json())
                                   .then(data => {
-                                    if (data?.data?.success && data?.success && data?.data?.score > 0.7) {
-                                      // console.log("then api call")
+                                    if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
+                                      console.log("then api call")
                                       iscaptchaVerified = true
                                       firstcheckforV3 = true
 
@@ -2244,7 +2248,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         .show();
                                       
                                       grecaptcha.ready(function () {
-                                        grecaptcha.render(`recaptcha-container-${0}`, {
+                                        grecaptcha.render(`recaptcha-container-${buttonId}`, {
                                           'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                           'callback': recaptchaCallback
                                         });
@@ -2265,7 +2269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       .show();
 
                                     grecaptcha.ready(function () {
-                                      grecaptcha.render(`recaptcha-container-${0}`, {
+                                      grecaptcha.render(`recaptcha-container-${buttonId}`, {
                                         'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                         'callback': recaptchaCallback
                                       });
@@ -2279,6 +2283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               });
 
                           } else {
+                            console.log(2286)
                             if (iscaptchaVerified) {
                               if (userData?.emailVerified === true) {
                                 submitReplyComment();
@@ -2293,10 +2298,17 @@ document.addEventListener("DOMContentLoaded", function () {
                               }
 
                             } else {
+                              console.log(2301)
                               if (!isVersion3) {
                                 $errorMessagecomment
                                   .text(JsonData?.captch_err_msg)
                                   .show();
+                                grecaptcha.ready(function () {
+                                  grecaptcha.render(`recaptcha-container-${buttonId}`, {
+                                    'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                    'callback': recaptchaCallback
+                                  });
+                                });
                               }
                             }
 
