@@ -902,6 +902,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           $(`#recaptcha-container-${index}`).hide();
                          
                           $errorMessagecomment.hide();
+                          $(`[id^="${index}"]`).hide();
+
                           // $errorMessagecommentreply.hide();
                         })
                       }, 3000);
@@ -2013,6 +2015,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                       var $errorMessagecommentreply = $("<div>")
                         .css({ display: "flex", color: "red" })
+                        .attr('id',index)
                         .hide();
                       const $commentreplayuserImage = $("<img>")
                         .attr(
