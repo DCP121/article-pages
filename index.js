@@ -814,9 +814,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $errorMessagecomment = $("<div>")
                     .css({ display: "flex", color: "red" })
                     .hide();
-                  var $errorMessagecommentreply = $("<div>")
-                    .css({ display: "flex", color: "red" })
-                    .hide();
+                  // var $errorMessagecommentreply = $("<div>")
+                  //   .css({ display: "flex", color: "red" })
+                  //   .hide();
 
 
                   // Show the recaptcha verification box
@@ -2012,9 +2012,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           type: "text",
                           placeholder: JsonData?.add_your_comment,
                         });
-                      // const $errorMessagecommentreply = $("<div>")
-                      //   .css({ display: "flex", color: "red" })
-                      //   .hide();
+                      var $errorMessagecommentreply = $("<div>")
+                        .css({ display: "flex", color: "red" })
+                        .hide();
                       const $commentreplayuserImage = $("<img>")
                         .attr(
                           "src",
