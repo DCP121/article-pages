@@ -989,13 +989,13 @@ document.addEventListener("DOMContentLoaded", function () {
                               .then(data => {
                                 if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
                                   console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7, 977)
-                                  console.log("in for api call")
+                                  console.log("in for api call", 996)
                                   iscaptchaVerified = true
                                   firstcheckforV3 = true
-                                  isVersion3 = false
-                                  console.log(token, 'token', !!token, typeof token)
+                                  // isVersion3 = false
+                                  console.log(token, 'token', !!token, typeof token, token != null ,996)
 
-                                  !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                  !!token || token != null ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                                   commentData = $commentInput.val();
                                   inputHeight = $commentInput[0].offsetHeight
@@ -1595,6 +1595,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
                         }
                       });
+                      console.log(localStorage.getItem("token"),'1598')
 
                       const $commenticondiv =
                         $("<div>").addClass("comment-counter");
@@ -2223,7 +2224,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       console.log("then api call")
                                       iscaptchaVerified = true
                                       firstcheckforV3 = true
-                                      isVersion3 = false
+                                      // isVersion3 = false
 
                                       !!token ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
