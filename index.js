@@ -903,7 +903,6 @@ document.addEventListener("DOMContentLoaded", function () {
                          
                           $errorMessagecomment.hide();
                           $(`[id^="${index}"]`).hide();
-
                           // $errorMessagecommentreply.hide();
                         })
                       }, 3000);
