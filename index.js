@@ -4669,7 +4669,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           JSON.stringify(response?.data?.data?.user)
                         );
                         var registertimecaptchaValue = sessionStorage.getItem('captcha')
-                        console.log(captchaValue, iscaptchaVerified, 2840)
+                        console.log(registertimecaptchaValue, iscaptchaVerified, 2840)
 
                         response?.data?.data?.token ? localStorage.setItem('captcha', registertimecaptchaValue) : sessionStorage.setItem('captcha', registertimecaptchaValue)
                         
