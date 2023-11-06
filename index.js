@@ -995,9 +995,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                   // isVersion3 = false
                                   
                                   var Token = localStorage.getItem('token')
-                                  console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token === true , Token == "true")
+                                  console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token != '')
 
-                                  Token === true || Token != null || Token != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                   Token != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                                   commentData = $commentInput.val();
                                   inputHeight = $commentInput[0].offsetHeight
@@ -2229,9 +2229,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                       // isVersion3 = false
 
                                       var replyToken = localStorage.getItem('token')
-                                      console.log(replyToken, 'replyToken', !!replyToken, typeof replyToken, replyToken != null, 996, replyToken === true, replyToken == "true")
+                                      console.log(replyToken, 'replyToken', !!replyToken, typeof replyToken, replyToken != null, 996, replyToken != '')
 
-                                      replyToken === true || replyToken != null || replyToken != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                      replyToken != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                                       if (userData?.emailVerified === true) {
                                         submitReplyComment();
