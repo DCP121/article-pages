@@ -893,7 +893,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
                       
                       $errorMessagecomment.hide();
-                      $(`[id^="err-msg"]`).hide();
+                      // $(`[id^="err-msg"]`).hide();
                       // $errorMessagecommentreply.hide();
                       setTimeout(() => {
                         console.log(896)
@@ -2213,7 +2213,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   },
                                   method: 'post',
                                   body: JSON.stringify({
-                                    token: null
+                                    token: token
                                   })
                                 })
                                   .then(response => response.json())
