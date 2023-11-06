@@ -982,7 +982,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               },
                               method: 'post',
                               body: JSON.stringify({
-                                token: null
+                                token: token
                               })
                             })
                               .then(response => response.json())
@@ -2217,7 +2217,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   },
                                   method: 'post',
                                   body: JSON.stringify({
-                                    token: null
+                                    token: token
                                   })
                                 })
                                   .then(response => response.json())
