@@ -997,7 +997,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                   var Token = localStorage.getItem('token')
                                   console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token === true , Token == "true")
 
-                                  Token === true || Token == "true" ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                  Token === true || Token != null || Token != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                                   commentData = $commentInput.val();
                                   inputHeight = $commentInput[0].offsetHeight
@@ -2231,7 +2231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                       var replyToken = localStorage.getItem('token')
                                       console.log(replyToken, 'replyToken', !!replyToken, typeof replyToken, replyToken != null, 996, replyToken === true, replyToken == "true")
 
-                                      replyToken === true || replyToken == "true" ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                      replyToken === true || replyToken != null || replyToken != '' ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
                                       if (userData?.emailVerified === true) {
                                         submitReplyComment();
