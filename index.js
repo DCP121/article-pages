@@ -223,57 +223,66 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 var arabicJson = {
-                  "title": "اهلا وسهلا",
-                  "subtitle_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد",
-                  "login": "تسجيل",
-                  "register": "اتصال",
-                  "comment": "الردود",
-                  "send": "يرسل",
+                  "login": "الاتصال",
+                  "register": "التسجيل",
+                  "comment": "تعليقات",
+                  "send": "ارسال",
                   "anonymous_user": "مستخدم مجهول",
                   "add_your_comment": "أضف تعليقك",
-                  "see_org_comment": "أظهر المزيد من التعليقات",
-                  "see_upt_comment": "انظر التعليق المحدث",
-                  "posted": "دقائق",
-                  "min_ago": "منذ",
-                  "just_now": "الآن فقط",
-                  "hour_ago": "منذ ساعة",
-                  "hours_ago": "منذ ساعات",
-                  "day_ago": "منذ يوم",
-                  "days_ago": "منذ أيام",
-                  "show_more_cmt": "أظهر المزيد من التعليقات",
-                  "footer_text": "حلبة رد مشترك لاتحاد الأمروى وإسرائيل صوتك فى الشرق الأوسط الجديد المزيد من النص ...",
-                  "register_desc": "للرد عليك التسجيل",
+                  "see_org_comment": "عرض باللغة الأصلية",
+                  "see_upt_comment": "عرض الترجمة",
+                  "min_ago": "قبل X دقيقة",
+                  "just_now": "إهدئ",
+                  "hour_ago": "قبل ساعة",
+                  "hours_ago": "منذ X ساعات",
+                  "day_ago": "أمس",
+                  "days_ago": "منذ X أيام",
+                  "show_more_cmt": "عرض المزيد من التعليقات",
+                  "register_desc": "للرد يجب عليك التسجيل",
                   "name": "اسم",
-                  "email": "بريد إلكتروني",
+                  "email": "البريد الإلكتروني",
                   "password": "كلمة المرور",
-                  "new_password": "كلمة مرور جديدة",
+                  "new_password": "كلمة المرور الجديدة",
                   "confirm_password": "تأكيد كلمة المرور",
                   "create_account": "إنشاء حساب",
-                  "other_options": "يمكنك أيضا التسجيل عن طريق",
-                  "register_model_footer": "بالتسجيل فإنك توافق على",
-                  "terms_condition": "الشروط وسياسة الخصوصية",
-                  "do_account": "الخاصة بنا هل لديك حساب؟ ",
-                  "login_desc": "للرد عليك التسجيل",
-                  "forgot_password": "نسيت كلمة السر؟",
-                  "login_model_footer": "ليس لديك حساب؟ ",
+                  "other_options": "يمكنك أيضًا التسجيل عن طريق",
+                  "register_model_footer": "من خلال التسجيل فإنك توافق على الشروط وسياسة الخصوصية الخاصة بنا",
+                  "terms_condition": "من خلال التسجيل فإنك توافق على الشروط والأحكام",
+                  "do_account": "هل لديك حساب؟",
+                  "login_desc": "يجب عليك تسجيل الدخول لإضافة التعليقات",
+                  "forgot_password": "نسيت كلمة المرور؟",
+                  "login_model_footer": "لا تملك حساب؟",
                   "reset_password": "إعادة تعيين كلمة المرور",
-                  "forgot_desc": "أدخل عنوان بريدك الالكتروني وسنرسل لك رسالة إعادة تعيين كلمة المرور",
-                  "back_to_login": "العودة إلى تسجيل الدخول",
-                  "submit": "إرسال",
-                  "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
-                  "login_form": "نموذج تسجيل الدخول",
-                  "reset_desc": "أدخل كلمة المرور لمرة واحدة وكلمة المرور الجديدة",
-                  "otp_header": "التحقق من كلمة المرور لمرة واحدة",
-                  "otp_desc": "أدخل كلمة المرور لمرة واحدة للتحقق",
-                  "otp_placeholder": "أدخل كلمة المرور لمرة واحدة",
-                  "submit_otp": "إرسال كلمة المرور لمرة واحدة",
-                  "success": "",
-                  "invalid_content": "",
-                  "comment_not_empty": "",
-                  "invalid_email": "",
-                  "captch_err_msg": "Please verify reCAPTCH",
-                  "reply_lable": "Reply"
-
+                  "forgot_desc": "أدخل عنوان بريدك الإلكتروني وسنرسل لك رسالة لإعادة تعيين كلمة المرور الخاصة بك",
+                  "back_to_login": "العودة للاتصال",
+                  "submit": "ارسال",
+                  "login_form": "التسجيل",
+                  "reset_desc": "أدخل رمز التحقق الذي تلقيته للبريد الإلكتروني وكلمة المرور",
+                  "otp_header": "التحقق من العنوان البريد الإلكتروني",
+                  "otp_desc": "أدخل رمز التحقق الذي تلقيته عبر البريد الإلكتروني",
+                  "otp_placeholder": "رمز التحقق",
+                  "submit_otp": "ارسال",
+                  "success": "!نجاح",
+                  "invalid_content": "محتوى الرد غير صحيح",
+                  "comment_not_empty": "لا يمكن أن يكون الرد فارغاً",
+                  "invalid_email": "عنوان البريد الإلكتروني غير صالح",
+                  "valid_pass": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتتضمن حرفًا كبيرًا واحدًا على الأقل باللغة الإنجليزية وحرفًا صغيرًا باللغة الإنجليزية ورقمًا واحدًا وحرفًا خاصًا واحدًا",
+                  "email_required": "يجب إدخال عنوان البريد الإلكتروني",
+                  "otp_required": "أدخل الرمز الذي تلقيته",
+                  "valid_otp": "الرمز الذي تم إدخاله غير صحيح",
+                  "new_pass_req": "يجب إدخال كلمة مرور جديدة",
+                  "repeat_pass_req": "يجب إدخال كلمة المرور مرة أخرى",
+                  "name_req": "يجب إدخال اسم",
+                  "name_max": "الحد الأقصى لطول الاسم هو 60",
+                  "pass_req": "يجب إدخال كلمة المرور",
+                  "account_pending": "الحساب لا يزال في انتظار التحقق",
+                  "send_confirmation": "إعادة ارسال بريد التحقق",
+                  "you_r_not_verified": "لم يتم التحقق منك، يرجى التحقق من حسابك",
+                  "logout": "انقطع الاتصال",
+                  "Logout_msg": "تم تسجيل الخروج بنجاح!",
+                  "comment_max_length": "التعليق يتجاوز الحد الأقصى للطول",
+                  "captch_err_msg": "يرجى التحقق من reCAPTCHA",
+                  "reply_lable": "الرد"
                 }
                 var hebrewJson = {
                   "login": "התחברות",
@@ -337,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   "captch_err_msg": "אנא אמת שאתה לא רובוט",
                   "reply_lable": "הגב"
                 }
-                var JsonData = site === "israel" ? hebrewJson : englishJson
+                var JsonData = site === "israel" ? hebrewJson : arabicJson
                 const reenterapicall = async (apiFlag) => {
                   if (showmorcomment == 10) {
                     var $spinnerdiv = $("<div>");
@@ -884,14 +893,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // re-captch callback function
                   function recaptchaCallback(response) {
-                    console.log('first',884)
+                    console.log('first', 884)
                     if (response) {
                       console.log(886)
                       // reCAPTCHA was successful; you can proceed with your success logic here
                       iscaptchaVerified = true
 
                       !!token ? localStorage.setItem('captcha', !!iscaptchaVerified) : sessionStorage.setItem('captcha', !!iscaptchaVerified)
-                      
+
                       $errorMessagecomment.hide();
                       // $(`[id^="err-msg"]`).hide();
                       // $errorMessagecommentreply.hide();
@@ -900,7 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $('#recaptcha-container').hide()
                         commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                           $(`#recaptcha-container-${index}`).hide();
-                         
+
                           $errorMessagecomment.hide();
                           $(`[id^="err-msg"]`).hide();
                           // $errorMessagecommentreply.hide();
@@ -934,7 +943,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var verifyed = !!token ? localStorage.getItem('captcha') : sessionStorage.getItem('captcha')
                     console.log(verifyed, 'verifyed', typeof !!verifyed, !!token, verifyed === "true")
-                    console.log(firstcheckforV3,'firstcheckforV3')
+                    console.log(firstcheckforV3, 'firstcheckforV3')
 
 
                     // verifyed == "true" && !firstcheckforV3 ? $('#recaptcha-container').hide() : grecaptcha.ready(function () {
@@ -969,12 +978,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
 
                       const originalComment = $commentInput.val().trim();
-                      console.log(originalComment,'originalComment')
+                      console.log(originalComment, 'originalComment')
                       if (originalComment === "") {
                         $errorMessagecomment
                           .text(JsonData?.comment_not_empty)
                           .show();
-                      }else{
+                      } else {
 
                         if (isVersion3 === true || isVersion3 == "true") {
                           console.log('in for API call')
@@ -1107,7 +1116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       }
 
-                    
+
                     }
 
                   });
@@ -1609,7 +1618,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
                         }
                       });
-                      console.log(localStorage.getItem("token"),'1598')
+                      console.log(localStorage.getItem("token"), '1598')
 
                       const $commenticondiv =
                         $("<div>").addClass("comment-counter");
@@ -2030,7 +2039,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                       var $errorMessagecommentreply = $("<div>")
                         .css({ display: "flex", color: "red" })
-                        .attr('id',`err-msg`)
+                        .attr('id', `err-msg`)
                         .hide();
                       const $commentreplayuserImage = $("<img>")
                         .attr(
@@ -2181,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(firstcheckforV3, 'firstcheckforV3')
 
                         var buttonId = $(this).attr("id");
-                        console.log(buttonId,'buttonId')
+                        console.log(buttonId, 'buttonId')
 
                         // replyverifyed == "true" ? commentlistingdata?.data?.allCommentsData.forEach((data, index) => {
                         //   $(`#recaptcha-container-${index}`).hide();
@@ -2223,7 +2232,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             $errorMessagecommentreply
                               .text(JsonData?.comment_not_empty)
                               .show();
-                          }else{
+                          } else {
                             if (isVersion3 === true || isVersion3 == "true") {
                               console.log('in for API call')
                               grecaptcha.execute(replysiteKey, { action: 'demo' })
@@ -2347,7 +2356,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                           }
 
-                         
+
                         }
                       });
 
@@ -2884,11 +2893,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           );
 
                           var captchaValue = sessionStorage.getItem('captcha')
-                          console.log(captchaValue , iscaptchaVerified ,2840)
+                          console.log(captchaValue, iscaptchaVerified, 2840)
 
                           response?.data?.data?.token ? localStorage.setItem('captcha', captchaValue) : sessionStorage.setItem('captcha', captchaValue)
-                         
-                          
+
+
 
                           // localStorage.setItem('captcha', captchaValue)
                           commentlistapi(true);
@@ -3292,10 +3301,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         var captchaValueonlogin = sessionStorage.getItem('captcha')
                         console.log(captchaValueonlogin, iscaptchaVerified, 3243)
-                          
+
 
                         response?.data?.data?.token ? localStorage.setItem('captcha', captchaValueonlogin) : sessionStorage.setItem('captcha', captchaValueonlogin)
-                        
+
 
 
                         // localStorage.setItem('captcha', captchaValueonlogin)
@@ -4696,7 +4705,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(registertimecaptchaValue, iscaptchaVerified, 2840)
 
                         response?.data?.data?.token ? localStorage.setItem('captcha', registertimecaptchaValue) : sessionStorage.setItem('captcha', registertimecaptchaValue)
-                        
+
 
                         commentlistapi(true);
                         // Handle the API response here
