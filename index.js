@@ -2214,7 +2214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                         } else {
-                          console.log(isVersion3,'isVersion3isVersion3')
+                          // console.log(isVersion3,'isVersion3isVersion3')
 
                           const commentReplay = $commentreplayInput
                             .val()
