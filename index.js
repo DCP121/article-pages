@@ -968,68 +968,97 @@ document.addEventListener("DOMContentLoaded", function () {
                       }
                     } else {
 
-                      if (isVersion3 === true || isVersion3 == "true" ) {
-                        console.log('in for API call')
-                        // console.log(isVersion3, 'isVersion3', typeof isVersion3)
-                        grecaptcha.execute(siteKey, { action: 'demo' })
-                          .then(function (token) {
-                            console.log( 'check v333333333333333333')
-                            // document.querySelector('#send_button').addEventListener('click', handleClick(token));
-                            fetch(`${API_URL}/user/captcha-verification`, {
-                              headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                              },
-                              method: 'post',
-                              body: JSON.stringify({
-                                token: token
+                      const originalComment = $commentInput.val().trim();
+                      console.log(originalComment,'originalComment')
+                      if (originalComment === "") {
+                        $errorMessagecomment
+                          .text(JsonData?.comment_not_empty)
+                          .show();
+                      }else{
+
+                        if (isVersion3 === true || isVersion3 == "true") {
+                          console.log('in for API call')
+                          // console.log(isVersion3, 'isVersion3', typeof isVersion3)
+                          grecaptcha.execute(siteKey, { action: 'demo' })
+                            .then(function (token) {
+                              console.log('check v333333333333333333')
+                              // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                              fetch(`${API_URL}/user/captcha-verification`, {
+                                headers: {
+                                  'Accept': 'application/json',
+                                  'Content-Type': 'application/json'
+                                },
+                                method: 'post',
+                                body: JSON.stringify({
+                                  token: token
+                                })
                               })
-                            })
-                              .then(response => response.json())
-                              .then(data => {
-                                if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
-                                  console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7, 977)
-                                  console.log("in for api call", 996)
-                                  iscaptchaVerified = true
-                                  firstcheckforV3 = true
-                                  // isVersion3 = false
-                                  
-                                  var Token = localStorage.getItem('token')
-                                  console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token != '', Token != null)
+                                .then(response => response.json())
+                                .then(data => {
+                                  if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
+                                    console.log(data?.data?.success && data?.success && data?.data?.score >= 0.7, 977)
+                                    console.log("in for api call", 996)
+                                    iscaptchaVerified = true
+                                    firstcheckforV3 = true
+                                    // isVersion3 = false
 
-                                   Token != '' && Token != null ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                    var Token = localStorage.getItem('token')
+                                    console.log(Token, 'Token', !!Token, typeof Token, Token != null, 996, Token != '', Token != null)
 
-                                  commentData = $commentInput.val();
-                                  inputHeight = $commentInput[0].offsetHeight
+                                    Token != '' && Token != null ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
-                                  if (userData?.emailVerified === true) {
+                                    commentData = $commentInput.val();
+                                    inputHeight = $commentInput[0].offsetHeight
 
-                                    submitComment();
-                                  }
-                                  else if (userData === null) {
+                                    if (userData?.emailVerified === true) {
 
-                                    submitComment();
-                                  }
-                                  else {
+                                      submitComment();
+                                    }
+                                    else if (userData === null) {
+
+                                      submitComment();
+                                    }
+                                    else {
+                                      $errorMessagecomment
+                                        .text(JsonData?.you_r_not_verified)
+                                        .show();
+                                      grecaptcha.ready(function () {
+                                        grecaptcha.render('recaptcha-container', {
+                                          'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                          'callback': recaptchaCallback
+                                        });
+                                      });
+                                    }
+
+                                  } else {
+                                    isVersion3 = false
+                                    console.log('APi Call else')
+
                                     $errorMessagecomment
-                                      .text(JsonData?.you_r_not_verified)
+                                      .text(JsonData?.captch_err_msg)
                                       .show();
+
+
                                     grecaptcha.ready(function () {
                                       grecaptcha.render('recaptcha-container', {
                                         'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                         'callback': recaptchaCallback
                                       });
                                     });
+
                                   }
 
-                                } else {
+
+
+                                })
+                                .catch(error => {
+
                                   isVersion3 = false
-                                  console.log('APi Call else')
-                        
+                                  console.log(error, 'API call error')
+
                                   $errorMessagecomment
                                     .text(JsonData?.captch_err_msg)
                                     .show();
-
 
                                   grecaptcha.ready(function () {
                                     grecaptcha.render('recaptcha-container', {
@@ -1038,64 +1067,47 @@ document.addEventListener("DOMContentLoaded", function () {
                                     });
                                   });
 
-                                }
-
-
-
-                              })
-                              .catch(error => {
-
-                                isVersion3 = false
-                                console.log(error, 'API call error')
-
-                                $errorMessagecomment
-                                  .text(JsonData?.captch_err_msg)
-                                  .show();
-
-                                grecaptcha.ready(function () {
-                                  grecaptcha.render('recaptcha-container', {
-                                    'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                    'callback': recaptchaCallback
-                                  });
                                 });
+                            });
 
-                              });
-                          });
-
-                      } else {
-                        if (iscaptchaVerified) {
-
-
-                          commentData = $commentInput.val();
-                          inputHeight = $commentInput[0].offsetHeight
-
-                          if (userData?.emailVerified === true) {
-
-                            submitComment();
-                          }
-                          else if (userData === null) {
-
-                            submitComment();
-                          }
-                          else {
-                            $errorMessagecomment
-                              .text(JsonData?.you_r_not_verified)
-                              .show();
-                          }
                         } else {
-                          console.log(1080,'fail v3',isVersion3)
-                          if (!isVersion3) {
-                            $errorMessagecomment
-                              .text(JsonData?.captch_err_msg)
-                              .show();
+                          if (iscaptchaVerified) {
+
+
+                            commentData = $commentInput.val();
+                            inputHeight = $commentInput[0].offsetHeight
+
+                            if (userData?.emailVerified === true) {
+
+                              submitComment();
+                            }
+                            else if (userData === null) {
+
+                              submitComment();
+                            }
+                            else {
+                              $errorMessagecomment
+                                .text(JsonData?.you_r_not_verified)
+                                .show();
+                            }
+                          } else {
+                            console.log(1080, 'fail v3', isVersion3)
+                            if (!isVersion3) {
+                              $errorMessagecomment
+                                .text(JsonData?.captch_err_msg)
+                                .show();
                               grecaptcha.render('recaptcha-container', {
                                 'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
                                 'callback': recaptchaCallback
                               });
+                            }
                           }
+
                         }
 
                       }
+
+                    
                     }
 
                   });
@@ -2204,61 +2216,89 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else {
                           console.log(isVersion3,'isVersion3isVersion3')
 
-                          if (isVersion3 === true || isVersion3 == "true") {
-                            console.log('in for API call')
-                            grecaptcha.execute(replysiteKey, { action: 'demo' })
-                              .then(function (token) {
-                                // console.log(token, 'token')
-                                // document.querySelector('#send_button').addEventListener('click', handleClick(token));
-                                fetch(`${API_URL}/user/captcha-verification`, {
-                                  headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                  },
-                                  method: 'post',
-                                  body: JSON.stringify({
-                                    token: token
+                          const commentReplay = $commentreplayInput
+                            .val()
+                            .trim();
+                          if (commentReplay === "") {
+                            $errorMessagecommentreply
+                              .text(JsonData?.comment_not_empty)
+                              .show();
+                          }else{
+                            if (isVersion3 === true || isVersion3 == "true") {
+                              console.log('in for API call')
+                              grecaptcha.execute(replysiteKey, { action: 'demo' })
+                                .then(function (token) {
+                                  // console.log(token, 'token')
+                                  // document.querySelector('#send_button').addEventListener('click', handleClick(token));
+                                  fetch(`${API_URL}/user/captcha-verification`, {
+                                    headers: {
+                                      'Accept': 'application/json',
+                                      'Content-Type': 'application/json'
+                                    },
+                                    method: 'post',
+                                    body: JSON.stringify({
+                                      token: token
+                                    })
                                   })
-                                })
-                                  .then(response => response.json())
-                                  .then(data => {
-                                    if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
-                                      // console.log("then api call")
-                                      iscaptchaVerified = true
-                                      firstcheckforV3 = true
-                                      // isVersion3 = false
+                                    .then(response => response.json())
+                                    .then(data => {
+                                      if (data?.data?.success && data?.success && data?.data?.score >= 0.7) {
+                                        // console.log("then api call")
+                                        iscaptchaVerified = true
+                                        firstcheckforV3 = true
+                                        // isVersion3 = false
 
-                                      var replyToken = localStorage.getItem('token')
-                                      console.log(replyToken, 'replyToken', !!replyToken, typeof replyToken, replyToken != null, 996, replyToken != '', replyToken != null)
+                                        var replyToken = localStorage.getItem('token')
+                                        console.log(replyToken, 'replyToken', !!replyToken, typeof replyToken, replyToken != null, 996, replyToken != '', replyToken != null)
 
-                                      replyToken != '' && replyToken != null ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
+                                        replyToken != '' && replyToken != null ? localStorage.setItem('captcha', iscaptchaVerified) : sessionStorage.setItem('captcha', iscaptchaVerified)
 
-                                      if (userData?.emailVerified === true) {
-                                        submitReplyComment();
-                                      }
-                                      else if (userData === null) {
-                                        submitReplyComment();
-                                      }
-                                      else {
+                                        if (userData?.emailVerified === true) {
+                                          submitReplyComment();
+                                        }
+                                        else if (userData === null) {
+                                          submitReplyComment();
+                                        }
+                                        else {
+                                          $errorMessagecommentreply
+                                            .text(JsonData?.you_r_not_verified)
+                                            .show();
+                                          // grecaptcha.ready(function () {
+                                          //   grecaptcha.render(`recaptcha-container-${0}`, {
+                                          //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                          //     'callback': recaptchaCallback
+                                          //   });
+                                          // });
+                                        }
+
+                                      } else {
+                                        isVersion3 = false
+
+                                        // console.log('APi Call else')
                                         $errorMessagecommentreply
-                                          .text(JsonData?.you_r_not_verified)
+                                          .text(JsonData?.captch_err_msg)
                                           .show();
-                                        // grecaptcha.ready(function () {
-                                        //   grecaptcha.render(`recaptcha-container-${0}`, {
-                                        //     'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                        //     'callback': recaptchaCallback
-                                        //   });
-                                        // });
+
+                                        grecaptcha.ready(function () {
+                                          grecaptcha.render(`recaptcha-container-${buttonId}`, {
+                                            'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                            'callback': recaptchaCallback
+                                          });
+                                        });
+
                                       }
 
-                                    } else {
+
+                                    })
+                                    .catch(error => {
+                                      // console.log(error,'API call error')
+
                                       isVersion3 = false
 
-                                      // console.log('APi Call else')
                                       $errorMessagecommentreply
                                         .text(JsonData?.captch_err_msg)
                                         .show();
-                                      
+
                                       grecaptcha.ready(function () {
                                         grecaptcha.render(`recaptcha-container-${buttonId}`, {
                                           'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
@@ -2266,64 +2306,48 @@ document.addEventListener("DOMContentLoaded", function () {
                                         });
                                       });
 
-                                    }
-
-
-                                  })
-                                  .catch(error => {
-                                    // console.log(error,'API call error')
-
-                                    isVersion3 = false
-
-                                    $errorMessagecommentreply
-                                      .text(JsonData?.captch_err_msg)
-                                      .show();
-
-                                    grecaptcha.ready(function () {
-                                      grecaptcha.render(`recaptcha-container-${buttonId}`, {
-                                        'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                        'callback': recaptchaCallback
-                                      });
                                     });
 
-                                  });
 
 
 
-
-                              });
-
-                          } else {
-                            // console.log(2286)
-                            if (iscaptchaVerified) {
-                              if (userData?.emailVerified === true) {
-                                submitReplyComment();
-                              }
-                              else if (userData === null) {
-                                submitReplyComment();
-                              }
-                              else {
-                                $errorMessagecommentreply
-                                  .text(JsonData?.you_r_not_verified)
-                                  .show();
-                              }
+                                });
 
                             } else {
-                              // console.log(2301)
-                              if (!isVersion3) {
-                                $errorMessagecommentreply
-                                  .text(JsonData?.captch_err_msg)
-                                  .show();
-                                grecaptcha.ready(function () {
-                                  grecaptcha.render(`recaptcha-container-${buttonId}`, {
-                                    'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
-                                    'callback': recaptchaCallback
+                              // console.log(2286)
+                              if (iscaptchaVerified) {
+                                if (userData?.emailVerified === true) {
+                                  submitReplyComment();
+                                }
+                                else if (userData === null) {
+                                  submitReplyComment();
+                                }
+                                else {
+                                  $errorMessagecommentreply
+                                    .text(JsonData?.you_r_not_verified)
+                                    .show();
+                                }
+
+                              } else {
+                                // console.log(2301)
+                                if (!isVersion3) {
+                                  $errorMessagecommentreply
+                                    .text(JsonData?.captch_err_msg)
+                                    .show();
+                                  grecaptcha.ready(function () {
+                                    grecaptcha.render(`recaptcha-container-${buttonId}`, {
+                                      'sitekey': '6LerJOcoAAAAAKzALyR0AYnqzRN3GqeF5UNlBM1I',
+                                      'callback': recaptchaCallback
+                                    });
                                   });
-                                });
+                                }
                               }
+
                             }
 
                           }
+
+                         
                         }
                       });
 
