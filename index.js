@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
-  loadCSS("https://cdn.jsdelivr.net/gh/DCP121/article-pages@31e6415ba0af351694e4016e1820d7f7d0333dbe/index.css")
+  loadCSS("./index.css")
   //loadCSS("./index.css");
   loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   // Load JavaScript libraries
@@ -571,7 +571,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   // console.log(commentlistingdata.data.pageData, "data");
                   displayResponsiveImage(
                     $firstImageContainer,
-                    // `https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment-topbanner.jpg`,
+                    // `./assets/comment-topbanner.jpg`,
                     `${FILE_URL}/${commentlistingdata.data.pageData.top_banner_image}`,
                     bannerClass
                   );
@@ -1383,8 +1383,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         userData &&
                           userData !== "" &&
                           userData.site == "israel-today"
-                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                          ? "./assets/logo-two.png"
+                          : "./assets/logo-one.png"
                       );
                   } else {
                     const site = "israelBackOffice";
@@ -1393,14 +1393,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       .attr(
                         "src",
                         siteName == "israel-today"
-                          ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                          : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                          ? "./assets/logo-two.png"
+                          : "./assets/logo-one.png"
                       );
                   }
                   const $userImage = $("<img>")
                     .attr(
                       "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                      "./assets/ei_user.png"
                     )
                     .attr("alt", "User Image");
 
@@ -1485,7 +1485,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("ml-3")
                         .attr(
                           "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                          "./assets/ei_user.png"
                         )
                         .attr("alt", "User Image");
 
@@ -1513,9 +1513,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           dataItem &&
                             dataItem !== "" &&
                             dataItem.site == "israel-today"
-                            ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                            : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
-                          //"https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                            ? "./assets/logo-two.png"
+                            : "./assets/logo-one.png"
+                          //"./assets/logo-two.png"
                         );
                       // const $paragraph = $("<div>")
                       // .addClass("user-comments")
@@ -1558,8 +1558,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         .attr(
                           "src",
                           dataItem?.like
-                            ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                            : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                            ? "./assets/like-select.svg" // Change to select SVG when isLiked is true
+                            : "./assets/like.svg"
                         )
                         .css("cursor", "pointer");
                       const $likeicontext = $("<span>").text(
@@ -1577,8 +1577,8 @@ document.addEventListener("DOMContentLoaded", function () {
                           $(this).attr(
                             "src",
                             isLiked
-                              ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                              : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                              ? "./assets/like-select.svg" // Change to select SVG when isLiked is true
+                              : "./assets/like.svg"
                           );
                           const token = localStorage.getItem("token");
 
@@ -1629,7 +1629,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("comment-logo")
                         .attr(
                           "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                          "./assets/comment.svg"
                         );
                       // for replay comment div toggele
                       const $replaycommentbuttondiv =
@@ -1641,7 +1641,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .addClass("comment-logo")
                         .attr(
                           "src",
-                          "https://github.com/DCP121/article-pages/blob/dev/assets/reply_toggele_icon.png?raw=true"
+                          "./assets/reply_toggele_icon.png"
                         );
 
                       $replaycommentbuttondiv.append($Replaycommenttext, $replaycommentIcon)
@@ -1763,7 +1763,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .addClass("ml-3")
                             .attr(
                               "src",
-                              "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                              "./assets/ei_user.png"
                             )
                             .attr("alt", "User Image");
 
@@ -1789,8 +1789,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               item &&
                                 item !== "" &&
                                 item.site == "israel-today"
-                                ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                                : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                                ? "./assets/logo-two.png"
+                                : "./assets/logo-one.png"
                             );
 
                           // const $commentreplayparagraph = $("<div>")
@@ -1824,8 +1824,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             .attr(
                               "src",
                               item?.like
-                                ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                                ? "./assets/like-select.svg" // Change to select SVG when isLiked is true
+                                : "./assets/like.svg"
                             )
                             .css("cursor", "pointer");
                           const $likeicontextreplay = $("<span>").text(
@@ -1842,8 +1842,8 @@ document.addEventListener("DOMContentLoaded", function () {
                               $(this).attr(
                                 "src",
                                 isLiked
-                                  ? "https://cdn.jsdelivr.net/gh/DCP121/article-pages@95b7f19f5147cae84a11c102b71edf2598dde09f/assets/like-select.svg" // Change to select SVG when isLiked is true
-                                  : "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/like.svg"
+                                  ? "./assets/like-select.svg" // Change to select SVG when isLiked is true
+                                  : "./assets/like.svg"
                               );
                               // Change the fill color based on the state
                               const token = localStorage.getItem("token");
@@ -1899,7 +1899,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             .addClass("comment-logo")
                             .attr(
                               "src",
-                              "https://raw.githubusercontent.com/DCP121/article-pages/13a7e50ce2b6889484f23815a3755d6be4fdc9a1/assets/comment.svg"
+                              "./assets/comment.svg"
                             );
 
                           $likeicondivreplay.append(
@@ -2044,7 +2044,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       const $commentreplayuserImage = $("<img>")
                         .attr(
                           "src",
-                          "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/ei_user.png"
+                          "./assets/ei_user.png"
                         )
                         .attr("alt", "User Image");
                       const $userImages = $("<img>")
@@ -2076,8 +2076,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             userData &&
                               userData !== "" &&
                               userData.site == "israel-today"
-                              ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                              : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                              ? "./assets/logo-two.png"
+                              : "./assets/logo-one.png"
                           );
                       } else {
                         var $commentuserreplyimagelogo = $("<img>")
@@ -2085,15 +2085,15 @@ document.addEventListener("DOMContentLoaded", function () {
                           .attr(
                             "src",
                             siteName == "israel-today"
-                              ? "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
-                              : "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-one.png"
+                              ? "./assets/logo-two.png"
+                              : "./assets/logo-one.png"
                           );
                       }
                       // const $commentuserreplyimagelogo = $("<img>")
                       //   .addClass("comment-logo")
                       //   .attr(
                       //     "src",
-                      //     "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/logo-two.png"
+                      //     "./assets/logo-two.png"
                       //   );
                       $leftcommenntinputsection.append(
                         $comenttitlereplay,
@@ -2741,7 +2741,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $footerImage = $("<img>")
                     .attr(
                       "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                      "./assets/comment-logo.png"
                     )
                     .css({
                       width: "155.07px",
@@ -3207,7 +3207,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   $loginForm.append($registerLinkDiv);
                   $registerLinkDiv.append($registerLink);
                   $registerLinkDiv.append(
-                    '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
+                    '<img src="./assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                   );
                   $registerLinkDiv.append($footerImage);
 
@@ -3222,7 +3222,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $image = $("<img>")
                     .attr(
                       "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/authentication-image.jpg"
+                      "./authentication-image.jpg"
                     )
                     .css({
                       width: "100%",
@@ -3545,7 +3545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   $ForgotPassForm.append($registerLinkForgotDiv);
                   $registerLinkForgotDiv.append($registerLinkForgot);
                   $registerLinkForgotDiv.append(
-                    '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
+                    '<img src="./comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                   );
                   // Create the child div for the registration form
                   const $registrationForm = $("<div>")
@@ -4057,7 +4057,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $footerImageOtp = $("<img>")
                     .attr(
                       "src",
-                      "https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png"
+                      "./comment-logo.png"
                     )
                     .css({
                       width: "155.07px",
@@ -4459,7 +4459,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const $ResetPassBottpmImg =
                     $("<div>").addClass("bottom-wrap");
                   $ResetPassBottpmImg.append(
-                    '<img src="https://raw.githubusercontent.com/DCP121/article-pages/dev/assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
+                    '<img src="./assets/comment-logo.png" style="width: 155.07px; height: 20px; margin-top: 20px;">'
                   );
 
                   // Append OTP form elements to the OTP form container
